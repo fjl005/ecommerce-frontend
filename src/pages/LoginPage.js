@@ -1,9 +1,9 @@
 import LoginForm from '../components/LoginForm';
 
-const LoginPage = () => {
+const LoginPage = ({ username, setUsername }) => {
     return (
         <>
-            <LoginForm />
+            <LoginForm username={username} setUsername={setUsername} />
         </>
     )
 }

@@ -1,9 +1,9 @@
 import { Container, Row, Col, Form, FormGroup, Label, Input, Button } from 'reactstrap';
 import { useState } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
-const LoginForm = () => {
-    const [username, setUsername] = useState('');
+const LoginForm = ({ username, setUsername }) => {
     const [password, setPassword] = useState('');
     const [isLoggedIn, setIsLoggedIn] = useState(null);
     const [loginErrorMsg, setLoginErrorMsg] = useState('');
@@ -73,6 +73,9 @@ const LoginForm = () => {
                             <>
                                 <h4>Nice, you are logged in now! </h4>
                                 <p>Username: {username}</p>
+                                <Link to='/'>
+                                    Click here to go back to the Home Page
+                                </Link>
                             </>
                         ) : (
                             <p>{loginErrorMsg}</p>
