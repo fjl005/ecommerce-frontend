@@ -20,6 +20,9 @@ const LoginForm = ({ username, setUsername }) => {
             });
 
             console.log('Backend response: ', response.data);
+            const { accessToken } = response.data
+            // Store the token in local storage
+            localStorage.setItem('accessToken', accessToken);
             setIsLoggedIn(true);
         } catch (error) {
             setIsLoggedIn(false);
@@ -69,7 +72,9 @@ const LoginForm = ({ username, setUsername }) => {
             <Container style={{ marginTop: '20px' }}>
                 <Row>
                     <Col>
-                        {isLoggedIn ? (
+                        {isLoggedIn === null ? (
+                            <h3>Checking if you are logged in...</h3>
+                        ) : isLoggedIn ? (
                             <>
                                 <h4>Nice, you are logged in now! </h4>
                                 <p>Username: {username}</p>
@@ -80,6 +85,21 @@ const LoginForm = ({ username, setUsername }) => {
                         ) : (
                             <p>{loginErrorMsg}</p>
                         )}
+                    </Col>
+                </Row>
+                <Row>
+                    <Col>
+                        {/* {isLoggedIn ? (
+                            <>
+                                <h4>Nice, you are logged in now! </h4>
+                                <p>Username: {username}</p>
+                                <Link to='/'>
+                                    Click here to go back to the Home Page
+                                </Link>
+                            </>
+                        ) : (
+                            <p>{loginErrorMsg}</p>
+                        )} */}
                     </Col>
                 </Row>
             </Container>

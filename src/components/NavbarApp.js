@@ -6,7 +6,7 @@ const NavbarApp = () => {
         <Navbar color="light" light expand="md">
             <Container>
                 <div className='d-flex flex-row'>
-                    <NavbarBrand href="/">
+                    <NavbarBrand tag={Link} to="/">
                         Home Page
                     </NavbarBrand>
                     <Nav className="d-flex flex-row" navbar>
