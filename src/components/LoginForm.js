@@ -17,12 +17,22 @@ const LoginForm = ({ username, setUsername }) => {
             const response = await axios.post(endpoint, {
                 username,
                 password
-            });
+            }, {
+                withCredentials: true,
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                }
+            }
+            );
 
             console.log('Backend response: ', response.data);
-            const { accessToken } = response.data
+            const { accessToken, sessionId } = response.data
             // Store the token in local storage
             localStorage.setItem('accessToken', accessToken);
+
+            // Store the session id in the cookie
+            document.cookie = `connect.sid=${sessionId}`
             setIsLoggedIn(true);
         } catch (error) {
             setIsLoggedIn(false);
@@ -72,9 +82,7 @@ const LoginForm = ({ username, setUsername }) => {
             <Container style={{ marginTop: '20px' }}>
                 <Row>
                     <Col>
-                        {isLoggedIn === null ? (
-                            <h3>Checking if you are logged in...</h3>
-                        ) : isLoggedIn ? (
+                        {isLoggedIn ? (
                             <>
                                 <h4>Nice, you are logged in now! </h4>
                                 <p>Username: {username}</p>
@@ -85,21 +93,6 @@ const LoginForm = ({ username, setUsername }) => {
                         ) : (
                             <p>{loginErrorMsg}</p>
                         )}
-                    </Col>
-                </Row>
-                <Row>
-                    <Col>
-                        {/* {isLoggedIn ? (
-                            <>
-                                <h4>Nice, you are logged in now! </h4>
-                                <p>Username: {username}</p>
-                                <Link to='/'>
-                                    Click here to go back to the Home Page
-                                </Link>
-                            </>
-                        ) : (
-                            <p>{loginErrorMsg}</p>
-                        )} */}
                     </Col>
                 </Row>
             </Container>

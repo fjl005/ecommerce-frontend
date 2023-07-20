@@ -23,6 +23,7 @@ const HomePage = ({ username }) => {
                     // Retrieve the token from local storage
                     Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
                 },
+                withCredentials: true, // Include credentials (cookies) in requests
             });
 
             try {
@@ -31,6 +32,7 @@ const HomePage = ({ username }) => {
                 console.log('Backend response: ', response.data);
                 setIsLoggedIn(true);
             } catch (error) {
+                console.log('document cookie:', document.cookie)
                 setIsLoggedIn(false);
                 setLoginErrorMsg(`It looks like you're not logged in. Please log in to access this page.`);
                 console.error(error);
