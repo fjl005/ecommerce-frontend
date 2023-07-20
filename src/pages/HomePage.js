@@ -1,8 +1,8 @@
-import { Container, Row, Col } from "reactstrap";
-import { Link } from "react-router-dom";
+import { Container, Row, Col, Button } from "reactstrap";
 import NavbarApp from '../components/NavbarApp';
 import { useState, useEffect } from "react";
 import axios from 'axios';
+import SpinningIcon from "../components/SpinningIcon";
 
 const HomePage = ({ username }) => {
     /* Remember that for object destructuring, the ({username}) for the props is essentially:
@@ -14,18 +14,17 @@ const HomePage = ({ username }) => {
     const [isLoggedIn, setIsLoggedIn] = useState(null);
     const [loginErrorMsg, setLoginErrorMsg] = useState('');
 
+    const axiosWithAuth = axios.create({
+        baseURL: 'http://localhost:5000/', // Update this with your API base URL
+        headers: {
+            // Retrieve the token from local storage
+            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+        },
+        withCredentials: true, // Must include credentials in order to send cookies with Get Request
+    });
+
     useEffect(() => {
         const fetchData = async () => {
-            // Create an instance of axios with a default Authorization header
-            const axiosWithAuth = axios.create({
-                baseURL: 'http://localhost:5000/', // Update this with your API base URL
-                headers: {
-                    // Retrieve the token from local storage
-                    Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-                },
-                withCredentials: true, // Include credentials (cookies) in requests
-            });
-
             try {
                 const response = await axiosWithAuth.get('/users');
                 console.log('local storage: ', localStorage.getItem('accessToken'));
@@ -41,7 +40,28 @@ const HomePage = ({ username }) => {
             }
         }
         fetchData();
-    }, [])
+    }, []);
+
+    const triggerLogout = () => {
+        console.log('logging out...');
+        const logoutPost = async () => {
+            try {
+                const response = await axiosWithAuth.post('/users/logout');
+                console.log('local storage: ', localStorage.getItem('accessToken'));
+                console.log('Backend response: ', response.data);
+                setIsLoggedIn(false);
+                setLoginErrorMsg(`You have successfully logged out. Thank you for visiting!`);
+            } catch (error) {
+                console.log('document cookie:', document.cookie)
+                setLoginErrorMsg(`It looks like you're not logged in. Please log in to access this page.`);
+                console.error(error);
+                localStorage.removeItem('accessToken');
+                console.log('local storage: ', localStorage.getItem('accessToken'));
+            }
+        }
+
+        logoutPost();
+    }
 
 
     return (
@@ -50,14 +70,17 @@ const HomePage = ({ username }) => {
             <Container>
                 <Row>
                     <Col>
-                        <h1>Home Page</h1>
+                        <div className='d-flex justify-content-between align-items-center'>
+                            <h1>Home Page</h1>
+                            {isLoggedIn && (<Button className='bg-primary' onClick={triggerLogout}>Logout</Button>)}
+                        </div>
                     </Col>
                 </Row>
 
                 <Row>
                     <Col>
                         {isLoggedIn === null ? (
-                            <h3>Checking if you are logged in...</h3>
+                            <SpinningIcon />
                         ) : isLoggedIn ? (
                             <h4>Nice, you are logged in now! </h4>
                         ) : (
