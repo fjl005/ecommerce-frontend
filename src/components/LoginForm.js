@@ -49,22 +49,29 @@ const LoginForm = ({ username, setUsername }) => {
             );
 
             console.log('Backend response: ', response.data);
-            const { accessToken, sessionId } = response.data
+            const { accessToken, sessionId } = response.data;
+            const userId = response.data.user._id;
             // Store the token in local storage
-            localStorage.setItem('accessToken', accessToken);
+            // localStorage.setItem('accessToken', accessToken);
 
             // Store the session id in the cookie
             const currentDate = new Date();
             // const expirationDate = new Date(currentDate.getTime() + (1000 * 60 * 60 * 24)); // Add one day in milliseconds
             const expirationDate = new Date(currentDate.getTime() + (1000 * 15)); // Add 15 seconds in milliseconds
             const expires = `expires=${expirationDate.toUTCString()}`;
-            document.cookie = `connect.sid=${sessionId}; ${expires}`;
+
+            document.cookie = `connect.sid=${sessionId}; ${expires}; userId=${userId}`;
+            document.cookie = `userId=${userId}`;
             setIsLoggedIn(true);
         } catch (error) {
             setIsLoggedIn(false);
-            console.error(error);
+            console.log(error);
+            if (error.code === 'ERR_NETWORK') {
+                console.log('waddup');
+                return setLoginErrorMsg('Sorry, there is a problem with our server.');
+            }
             if (error.response.status === 401) {
-                setLoginErrorMsg('Your username or password is incorrect');
+                return setLoginErrorMsg('Your username or password is incorrect');
             }
         }
     };
