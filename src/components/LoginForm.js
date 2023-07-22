@@ -4,70 +4,34 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import SpinningIcon from './SpinningIcon';
 
-const LoginForm = ({ username, setUsername }) => {
+const LoginForm = ({ username, setUsername, loggedIn, setLoggedIn, setAdmin, pageLoading }) => {
+    // Login states
     const [password, setPassword] = useState('');
-    const [isLoggedIn, setIsLoggedIn] = useState(null);
     const [loginErrorMsg, setLoginErrorMsg] = useState('');
 
+    // Axios configuration. Need credentials to send cookies.
     const axiosWithAuth = axios.create({
-        baseURL: 'http://localhost:5000/', // Update this with your API base URL
-        headers: {
-            // Retrieve the token from local storage
-            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-        },
-        withCredentials: true, // Must include credentials in order to send cookies with Get Request
+        baseURL: 'http://localhost:5000/',
+        withCredentials: true,
     });
-
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await axiosWithAuth.get('/users');
-                console.log('Backend response: ', response.data);
-                setIsLoggedIn(true);
-            } catch (error) {
-                setIsLoggedIn(false);
-                console.error(error);
-                localStorage.removeItem('accessToken');
-                console.log('local storage: ', localStorage.getItem('accessToken'));
-            }
-        }
-        fetchData();
-    }, []);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-
         const endpoint = 'http://localhost:5000/users/login';
-
         try {
-            const response = await axios.post(endpoint, {
+            const response = await axiosWithAuth.post(endpoint, {
                 username,
                 password
-            }, {
-                credentials: 'include',
-            }
-            );
+            });
+            console.log('response: ', response);
 
-            console.log('Backend response: ', response.data);
-            const { accessToken, sessionId } = response.data;
-            const userId = response.data.user._id;
-            // Store the token in local storage
-            // localStorage.setItem('accessToken', accessToken);
-
-            // Store the session id in the cookie
-            const currentDate = new Date();
-            // const expirationDate = new Date(currentDate.getTime() + (1000 * 60 * 60 * 24)); // Add one day in milliseconds
-            const expirationDate = new Date(currentDate.getTime() + (1000 * 15)); // Add 15 seconds in milliseconds
-            const expires = `expires=${expirationDate.toUTCString()}`;
-
-            document.cookie = `connect.sid=${sessionId}; ${expires}; userId=${userId}`;
-            document.cookie = `userId=${userId}`;
-            setIsLoggedIn(true);
+            setLoggedIn(true);
+            setAdmin(response.data.user.admin);
+            setUsername(response.data.user.username);
         } catch (error) {
-            setIsLoggedIn(false);
+            setLoggedIn(false);
             console.log(error);
             if (error.code === 'ERR_NETWORK') {
-                console.log('waddup');
                 return setLoginErrorMsg('Sorry, there is a problem with our server.');
             }
             if (error.response.status === 401) {
@@ -77,24 +41,18 @@ const LoginForm = ({ username, setUsername }) => {
     };
 
     const triggerLogout = () => {
-        console.log('logging out...');
         const logoutPost = async () => {
             try {
-                const response = await axiosWithAuth.post('/users/logout');
-                console.log('local storage: ', localStorage.getItem('accessToken'));
-                console.log('Backend response: ', response.data);
-                setIsLoggedIn(false);
+                await axiosWithAuth.post('/users/logout');
+                setLoggedIn(false);
                 setLoginErrorMsg(`You have successfully logged out. Thank you for visiting!`);
             } catch (error) {
-                console.log('document cookie:', document.cookie)
                 setLoginErrorMsg(`It looks like you're not logged in. Please log in to access this page.`);
-                console.error(error);
-                localStorage.removeItem('accessToken');
-                console.log('local storage: ', localStorage.getItem('accessToken'));
             }
         }
         logoutPost();
     };
+
 
     return (
         <>
@@ -104,16 +62,17 @@ const LoginForm = ({ username, setUsername }) => {
                         <Col>
                             <div className='d-flex justify-content-between align-items-center'>
                                 <h1>Login Page</h1>
-                                {isLoggedIn && (<Button className='bg-primary' onClick={triggerLogout}>Logout</Button>)}
+                                {loggedIn && (<Button className='bg-primary' onClick={triggerLogout}>Logout</Button>)}
                             </div>
                         </Col>
                     </Col>
                 </Row>
+
                 <Row>
                     <Col>
-                        {isLoggedIn === null ? (
+                        {pageLoading ? (
                             <SpinningIcon />
-                        ) : isLoggedIn ? (
+                        ) : loggedIn ? (
                             <>
                                 <h4>Nice, you are logged in now! </h4>
                                 <p>Username: {username}</p>
@@ -121,7 +80,6 @@ const LoginForm = ({ username, setUsername }) => {
                                     Click here to go back to the Home Page
                                 </Link>
                             </>
-
                         ) : (
                             <>
                                 <Form onSubmit={handleSubmit}>
@@ -134,7 +92,6 @@ const LoginForm = ({ username, setUsername }) => {
                                             onChange={(event) => setUsername(event.target.value)}
                                         />
                                     </FormGroup>
-
                                     <FormGroup>
                                         <Label for='password'>Password:</Label>
                                         <Input
@@ -149,24 +106,6 @@ const LoginForm = ({ username, setUsername }) => {
                                 <p>{loginErrorMsg}</p>
                             </>
                         )}
-                    </Col>
-                </Row>
-            </Container>
-
-            <Container style={{ marginTop: '20px' }}>
-                <Row>
-                    <Col>
-                        {/* {isLoggedIn ? (
-                            <>
-                                <h4>Nice, you are logged in now! </h4>
-                                <p>Username: {username}</p>
-                                <Link to='/'>
-                                    Click here to go back to the Home Page
-                                </Link>
-                            </>
-                        ) : (
-                            <p>{loginErrorMsg}</p>
-                        )} */}
                     </Col>
                 </Row>
             </Container>

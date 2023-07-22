@@ -1,88 +1,80 @@
 import { Container, Row, Col, Button } from "reactstrap";
 import NavbarApp from '../components/NavbarApp';
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import axios from 'axios';
 import SpinningIcon from "../components/SpinningIcon";
 
-const HomePage = ({ username }) => {
+const HomePage = ({ username, admin, setAdmin, loggedIn, setLoggedIn, pageLoading }) => {
     /* Remember that for object destructuring, the ({username}) for the props is essentially:
     function(props) {
         const username = props.username
     }
      */
 
-    const [isLoggedIn, setIsLoggedIn] = useState(null);
-    const [isAdmin, setIsAdmin] = useState(false);
+    // User States
     const [loginErrorMsg, setLoginErrorMsg] = useState('');
 
-    // Buttons
+    // Button States
     const [btnLoginMsg, setBtnLoginMsg] = useState('Press Me');
     const [btnLoginBackgroundColor, setBtnLoginBackgroundColor] = useState('btn-secondary');
     const [btnAdminMsg, setBtnAdminMsg] = useState('Press Me');
     const [btnAdminBackgroundColor, setBtnAdminBackgroundColor] = useState('btn-secondary');
 
+    // Axios Configuration. Need Credentials to send cookies.
     const axiosWithAuth = axios.create({
-        baseURL: 'http://localhost:5000/', // Update this with your API base URL
-        headers: {
-            // Retrieve the token from local storage
-            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-        },
-        withCredentials: true, // Must include credentials in order to send cookies with Get Request
+        baseURL: 'http://localhost:5000/',
+        withCredentials: true,
     });
 
+    // Async Functions (check login, check admin).
     const checkLogin = async () => {
         try {
             await axiosWithAuth.get('/users');
-            setIsLoggedIn(true);
+            setLoggedIn(true);
         } catch (error) {
-            setIsLoggedIn(false);
-            setLoginErrorMsg(`It looks like you're not logged in. Please log in to access this page.`);
             console.error(error);
+            setLoggedIn(false);
+            setLoginErrorMsg(`It looks like you're not logged in. Please log in to access this page.`);
         }
     };
 
     const checkAdmin = async () => {
         try {
             const response = await axiosWithAuth.post('/users/admin');
-            setIsAdmin(true);
+            setAdmin(true);
         } catch (error) {
-            setIsAdmin(false);
-            console.log('error: ', error);
+            console.error(error);
+            setAdmin(false);
         }
     };
 
-    // Initiate checkLogin annd checkAdmin at initial page render.
-    useEffect(() => {
-        checkLogin();
-        checkAdmin();
-    }, []);
-
     const triggerLogout = () => {
-        console.log('logging out...');
         const logoutPost = async () => {
             try {
                 const response = await axiosWithAuth.post('/users/logout');
-                console.log('local storage: ', localStorage.getItem('accessToken'));
-                console.log('Backend response: ', response.data);
-                setIsLoggedIn(false);
+                setLoggedIn(false);
+                setAdmin(false);
                 setLoginErrorMsg(`You have successfully logged out. Thank you for visiting!`);
-
             } catch (error) {
-                console.log('document cookie:', document.cookie)
-                setLoginErrorMsg(`It looks like you're not logged in. Please log in to access this page.`);
                 console.error(error);
-                localStorage.removeItem('accessToken');
-                console.log('local storage: ', localStorage.getItem('accessToken'));
+                setLoggedIn(false);
+                setAdmin(false);
+                setLoginErrorMsg(`It looks like you're not logged in. Please log in to access this page.`);
             }
         }
         logoutPost();
     };
 
 
+    // Ref to keep track of the timers for buttons (to handle multiple button clicks).
+    const loginBtnTimerRef = useRef(null);
+    const adminBtnTimerRef = useRef(null);
+
+    // Login Button Press
     const buttonLoginPress = async () => {
         try {
             await checkLogin();
-            if (isLoggedIn) {
+            if (loggedIn) {
                 welcomeUserBtn();
             } else {
                 notUserBtn();
@@ -95,18 +87,21 @@ const HomePage = ({ username }) => {
     function welcomeUserBtn() {
         setBtnLoginMsg('Logged in');
         setBtnLoginBackgroundColor('bg-primary');
+        clearTimeout(loginBtnTimerRef.current);
+        loginBtnTimerRef.current = setTimeout(resetLoginBtnMsg, 1000);
     }
 
     function notUserBtn() {
         setBtnLoginMsg('Not logged in');
         setBtnLoginBackgroundColor('btn-danger');
+        clearTimeout(loginBtnTimerRef.current);
+        loginBtnTimerRef.current = setTimeout(resetLoginBtnMsg, 1000);
     }
-
 
     const buttonAdminPress = async () => {
         try {
             await checkAdmin();
-            if (isAdmin) {
+            if (admin) {
                 welcomeAdminBtn();
             } else {
                 notAdminBtn();
@@ -116,17 +111,33 @@ const HomePage = ({ username }) => {
         }
     };
 
+
+    // Admin Button Press
     function welcomeAdminBtn() {
         setBtnAdminMsg('Welcome, admin!');
         setBtnAdminBackgroundColor('bg-primary');
+        clearTimeout(adminBtnTimerRef.current);
+        adminBtnTimerRef.current = setTimeout(resetAdminBtnMsg, 1000);
     }
 
     function notAdminBtn() {
         setBtnAdminMsg('Not admin');
         setBtnAdminBackgroundColor('btn-danger');
+        clearTimeout(adminBtnTimerRef.current);
+        adminBtnTimerRef.current = setTimeout(resetAdminBtnMsg, 1000);
     }
 
 
+    // Reset Functions 
+    const resetLoginBtnMsg = () => {
+        setBtnLoginMsg('Press Me');
+        setBtnLoginBackgroundColor('btn-secondary');
+    };
+
+    const resetAdminBtnMsg = () => {
+        setBtnAdminMsg('Press Me');
+        setBtnAdminBackgroundColor('btn-secondary');
+    };
 
     return (
         <>
@@ -136,17 +147,25 @@ const HomePage = ({ username }) => {
                     <Col>
                         <div className='d-flex justify-content-between align-items-center'>
                             <h1>Home Page</h1>
-                            {isLoggedIn && (<Button className='bg-primary' onClick={triggerLogout}>Logout</Button>)}
+                            {loggedIn && (<Button className='bg-primary' onClick={triggerLogout}>Logout</Button>)}
                         </div>
                     </Col>
                 </Row>
 
                 <Row>
                     <Col>
-                        {isLoggedIn === null ? (
+                        {pageLoading ? (
                             <SpinningIcon />
-                        ) : isLoggedIn ? (
-                            <h4>Nice, you are logged in now! </h4>
+                        ) : loggedIn ? (
+                            <>
+                                <h4>Welcome, {username}</h4>
+                                {admin && (
+                                    <>
+                                        <h1>Special Admin Privilege. Here is your special button: </h1>
+                                        <Button>Special Admin Button that does nothing</Button>
+                                    </>
+                                )}
+                            </>
                         ) : (
                             <p>{loginErrorMsg}</p>
                         )}
@@ -170,13 +189,11 @@ const HomePage = ({ username }) => {
                             onClick={buttonAdminPress}
                             className={btnAdminBackgroundColor}
                         >{btnAdminMsg}</Button>
-                        {/* <p>Are you the admin? {isAdmin}</p> */}
                     </Col>
                 </Row>
             </Container>
         </>
-
     )
 }
 
-export default HomePage
+export default HomePage;
