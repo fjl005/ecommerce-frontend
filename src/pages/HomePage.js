@@ -3,6 +3,7 @@ import NavbarApp from '../components/NavbarApp';
 import { useState, useEffect, useRef } from "react";
 import axios from 'axios';
 import SpinningIcon from "../components/SpinningIcon";
+import Products from "../components/products/Products";
 
 const HomePage = ({ username, admin, setAdmin, loggedIn, setLoggedIn, pageLoading }) => {
     /* Remember that for object destructuring, the ({username}) for the props is essentially:
@@ -192,6 +193,8 @@ const HomePage = ({ username, admin, setAdmin, loggedIn, setLoggedIn, pageLoadin
                     </Col>
                 </Row>
             </Container>
+
+            <Products />
         </>
     )
 }
