@@ -2,6 +2,7 @@ import NavbarApp from "../NavbarApp";
 import { Container, Row, Col, Button } from "reactstrap";
 import { useParams } from "react-router-dom";
 import { productsArray } from "./productsArray";
+import ProductImgCarousel from "./ProductImgCarousel";
 
 
 const SingleProduct = () => {
@@ -15,21 +16,15 @@ const SingleProduct = () => {
             <Container>
                 <Row>
                     <Col md='7'>
-                        <img
-                            src={selectedProduct.img}
-                            alt={`image of ${selectedProduct.name}`}
-                            style={{
-                                width: '100%',
-                                maxHeight: '800px',
-                                objectFit: 'cover',
-                            }}
-                        />
+
+                        <ProductImgCarousel selectedProduct={selectedProduct} />
+
                         {/* d-none makes the display none on all viewport sizes, but d-md-block applies the display: block to md+ viewport sizes. This makes it visible at these viewport sizes. */}
+
                         <div className="d-none d-md-block">
-                            <Col>
-                                <p>Reviews at medium+ viewport sizes.</p>
-                            </Col>
+                            <p>Reviews at medium+ viewport sizes.</p>
                         </div>
+
                     </Col>
 
                     <Col sm='12' md='5'>
@@ -50,9 +45,7 @@ const SingleProduct = () => {
                     </Col>
 
                     <div className="d-md-none">
-                        <Col>
-                            <p>Reviews at smaller viewport sizes</p>
-                        </Col>
+                        <p>Reviews at smaller viewport sizes</p>
                     </div>
                 </Row>
                 <Row>
@@ -76,4 +69,4 @@ const SingleProduct = () => {
     )
 }
 
-export default SingleProduct
+export default SingleProduct;

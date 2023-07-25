@@ -23,7 +23,7 @@ const Products = () => {
                                 padding: '10px 5px'
                             }}>
                                 <img
-                                    src={product.img}
+                                    src={product.img[0]}
                                     alt='image of product'
                                     style={{
                                         width: '100%',
