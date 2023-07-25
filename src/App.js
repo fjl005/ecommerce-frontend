@@ -1,6 +1,7 @@
 import './App.css';
 import LoginPage from './pages/LoginPage';
 import HomePage from './pages/HomePage';
+import SingleProduct from './components/products/SingleProduct';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
@@ -68,8 +69,8 @@ function App() {
                             loggedIn={loggedIn}
                             setLoggedIn={setLoggedIn}
                             pageLoading={pageLoading}
-                        />}
-                    />
+                        />
+                    } />
 
                     <Route path='/login' element={
                         <LoginPage
@@ -79,8 +80,11 @@ function App() {
                             setLoggedIn={setLoggedIn}
                             setAdmin={setAdmin}
                             pageLoading={pageLoading}
-                        />}
-                    />
+                        />
+                    } />
+                    <Route path='/products/:productId' element={
+                        <SingleProduct />
+                    } />
                 </Routes>
             </BrowserRouter>
         </>
