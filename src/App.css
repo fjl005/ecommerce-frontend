@@ -7,3 +7,82 @@
     /* Add rounded corners */
     transition: box-shadow 0.3s ease;
 }
+
+.product-page-container {
+    /* !important is used to override the default bootstrap css styling */
+    margin-top: 25px;
+    width: 80% !important;
+    min-width: 800px !important;
+    max-width: 2000px !important;
+}
+
+.product-img-array-image-thumbnail {
+    margin-bottom: 10px;
+    width: 100%;
+    border-radius: 8px;
+}
+
+.product-img-array-image-thumbnail:hover {
+    opacity: 1 !important;
+    cursor: pointer;
+}
+
+.product-img-array::-webkit-scrollbar {
+    width: 0;
+    background: transparent;
+}
+
+.product-page-add-to-cart {
+    margin: 5px auto;
+    width: 99%;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 25px;
+    background-color: black;
+    color: white;
+    border: 1px solid black;
+    /* Add the transition effect on the width property */
+}
+
+.product-page-add-to-cart:hover {
+    background-color: gray;
+    width: 100%;
+    cursor: pointer;
+}
+
+.product-page-add-to-collection {
+    margin: 5px auto;
+    width: 99%;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 25px;
+    background-color: white;
+    color: black;
+    border: 1px solid black;
+}
+
+.product-page-add-to-collection:hover {
+    background-color: lightgray;
+    width: 100%;
+    cursor: pointer;
+}
+
+.circle-product-carousel-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: white;
+    cursor: pointer;
+    margin: 0 10px;
+    /* Add some spacing between the icons */
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    /* Add the shadow */
+
+}
