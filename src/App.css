@@ -86,3 +86,10 @@
     /* Add the shadow */
 
 }
+
+.line-between-reviews {
+    height: 1px;
+    width: 95%;
+    background-color: lightgray;
+    margin: 8px 0;
+}

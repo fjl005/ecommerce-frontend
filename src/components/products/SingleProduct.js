@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { productsArray } from "./productsArray";
 import ProductImgCarousel from "./ProductImgCarousel";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Reviews from "../reviews/Reviews";
 
 
 const SingleProduct = () => {
@@ -18,14 +19,15 @@ const SingleProduct = () => {
             <Container className='product-page-container'>
 
                 <Row>
-                    <Col sm='12' xl='8'>
+                    <Col sm='12' xl='8' style={{ marginBottom: '20px' }}>
                         <ProductImgCarousel selectedProduct={selectedProduct} />
 
 
                         {/* d-none makes the display none on all viewport sizes, but d-md-block applies the display: block to md+ viewport sizes. This makes it visible at these viewport sizes. */}
 
-                        <div className="d-none d-md-block">
-                            <p>Reviews at medium+ viewport sizes.</p>
+                        <div className="d-none d-xl-block" style={{ marginTop: '20px' }}>
+                            <h2>Reviews at lg+ viewport sizes</h2>
+                            <Reviews />
                         </div>
 
                     </Col>
@@ -61,8 +63,9 @@ const SingleProduct = () => {
                         </div>
                     </Col>
 
-                    <div className="d-md-none">
-                        <p>Reviews at smaller viewport sizes</p>
+                    <div className="d-xl-none">
+                        <h2>Reviews at smaller viewport sizes</h2>
+                        <Reviews />
                     </div>
                 </Row>
                 <Row>
@@ -79,22 +82,6 @@ const SingleProduct = () => {
                 <Row>
                     <Col>
                         <p>Breadcrumbs</p>
-                    </Col>
-                </Row>
-
-                <Row>
-                    <Col>
-                        <div style={{ overflowY: 'scroll' }}>
-                            <p>fdasjofidsjfdosaijfdsofdasjofidsjfdosaijfdsofdasjofidsjfdosaijfdsofdasjofidsjfdosaijfdsofdasjofidsjfdosaijfdsofdasjofidsjfdosaijfdsofdasjofidsjfdosaijfdsofdasjofidsjfdosaijfdsofdasjofidsjfdosaijfdsofdasjofidsjfdosaijfdsofdasjofidsjfdosaijfdsofdasjofidsjfdosaijfdsofdasjofidsjfdosaijfdsofdasjofidsjfdosaijfdsofdasjofidsjfdosaijfdsofdasjofidsjfdosaijfdsofdasjofidsjfdosaijfdsofdasjofidsjfdosaijfdsofdasjofidsjfdosaijfdsofdasjofidsjfdosaijfdsofdasjofidsjfdosaijfdsofdasjofidsjfdosaijfdsofdasjofidsjfdosaijfdsofdasjofidsjfdosaijfdsofdasjofidsjfdosaijfdso
-
-                                dasfsdadsa
-                                sdafsdaf
-
-
-                                asdfsdafsad
-                                sadfsad
-                            </p>
-                        </div>
                     </Col>
                 </Row>
             </Container>
