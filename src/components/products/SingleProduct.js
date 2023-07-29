@@ -1,16 +1,40 @@
 import NavbarApp from "../NavbarApp";
-import { Container, Row, Col, Button } from "reactstrap";
+import { Container, Row, Col, Button, UncontrolledAccordion, Accordion, AccordionItem, AccordionHeader, AccordionBody } from "reactstrap";
 import { useParams } from "react-router-dom";
 import { productsArray } from "./productsArray";
 import ProductImgCarousel from "./ProductImgCarousel";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Reviews from "../reviews/Reviews";
+import ProductDescription from "./ProductDescription";
+import { useState } from "react";
+import RightColToggle from "./RightColToggle";
 
 
 const SingleProduct = () => {
     const { productId } = useParams();
     const productIdNum = parseInt(productId);
     const selectedProduct = productsArray.filter((product) => product.productId === productIdNum)[0];
+
+    const [highlight, setHighlight] = useState(true);
+    const [description, setDescription] = useState(true);
+    const [delivery, setDelivery] = useState(true);
+    const [seller, setSeller] = useState(true);
+
+    const toggleHighlight = () => {
+        setHighlight(!highlight);
+    }
+
+    const toggleDescription = () => {
+        setDescription(!description);
+    }
+
+    const toggleDelivery = () => {
+        setDelivery(!delivery);
+    }
+
+    const toggleSeller = () => {
+        setSeller(!seller);
+    }
 
     return (
         <>
@@ -26,7 +50,6 @@ const SingleProduct = () => {
                         {/* d-none makes the display none on all viewport sizes, but d-md-block applies the display: block to md+ viewport sizes. This makes it visible at these viewport sizes. */}
 
                         <div className="d-none d-xl-block" style={{ marginTop: '20px' }}>
-                            <h2>Reviews at lg+ viewport sizes</h2>
                             <Reviews />
                         </div>
 
@@ -42,29 +65,78 @@ const SingleProduct = () => {
                                 Add to Collection
                             </div>
 
-                            <h3 style={{ marginTop: '20px' }}>Highlights</h3>
-                            <p style={{ marginBottom: '10px' }}>
-                                <div style={{ width: '35px', display: 'inline-block' }}>
-                                    <i class="fa-solid fa-cloud-arrow-down" style={{ width: '100%' }}></i>
-                                </div>
-                                Digital Download
-                            </p>
-                            <p>
-                                <div style={{ width: '35px', display: 'inline-block' }}>
-                                    <i class="fa-solid fa-paperclip" style={{ marginRight: 'px' }}></i>
-                                </div>
-                                Digital File Type(s): 1 PDF
-                            </p>
-                            <h3>Description</h3>
-                            <p>I am making the description long on purpose to create a really long column. I noticed on Etsy that this right column extends to the height of the image and reviews (on the left column). However, when brought to smaller viewport sizes, the order goes (1) image, (2) right column, (3) reviews. So, I created some viewport conditional rendering</p>
-                            <p>Enter description here</p>
-                            <p>Enter description here</p>
-                            <p>Enter description here</p><p>Enter description here</p><p>Enter description here</p><p>Enter description here</p><p>Enter description here</p><p>Enter description here</p><p>Enter description here</p><p>Enter description here</p><p>Enter description here</p><p>Enter description here</p><p>Enter description here</p><p>Enter description here</p><p>Enter description here</p><p>Enter description here</p><p>Enter description here</p><p>Enter description here</p><p>Enter description here</p><p>Enter description here</p><p>Enter description here</p><p>Enter description here</p><p>Enter description here</p><p>Enter description here</p><p>Enter description here</p><p>Enter description here</p><p>Enter description here</p><p>Enter description here</p><p>Enter description here</p><p>Enter description here</p><p>Enter description here</p><p>Enter description here</p><p>Enter description here</p><p>Enter description here</p><p>Enter description here</p><p>Enter description here</p><p>Enter description here</p><p>Enter description here</p><p>Enter description here</p><p>Enter description here</p>
+                            <div>
+                                <RightColToggle
+                                    section='Highlights'
+                                    toggleState={highlight}
+                                    toggleStateFxn={toggleHighlight}
+                                />
+
+                                {highlight && (
+                                    <>
+                                        <p style={{ marginBottom: '10px' }}>
+                                            <div style={{ width: '35px', display: 'inline-block' }}>
+                                                <i class="fa-solid fa-cloud-arrow-down" style={{ width: '100%' }}></i>
+                                            </div>
+                                            Digital Download
+                                        </p>
+                                        <p>
+                                            <div style={{ width: '35px', display: 'inline-block' }}>
+                                                <i class="fa-solid fa-paperclip" style={{ marginRight: 'px' }}></i>
+                                            </div>
+                                            Digital File Type(s): 1 PDF
+                                        </p>
+                                    </>
+                                )}
+
+                            </div>
+
+                            <div>
+                                <RightColToggle
+                                    section='Description'
+                                    toggleState={description}
+                                    toggleStateFxn={toggleDescription}
+                                />
+                                {description && (
+                                    <ProductDescription />
+                                )}
+                            </div>
+
+                            <div>
+                                <RightColToggle
+                                    section='Delivery'
+                                    toggleState={delivery}
+                                    toggleStateFxn={toggleDelivery}
+                                />
+
+                                {delivery && (
+                                    <>
+                                        <h5>Instand Download</h5>
+                                        <p> Your files will be available to download once payment is confirmed. Instant download items don't accept returns, exchanges, or cancellations. Please contact the seller about any problems with your order.</p>
+                                    </>
+                                )}
+
+                            </div>
+
+
+                            <div>
+                                <RightColToggle
+                                    section='Meet Your Seller'
+                                    toggleState={seller}
+                                    toggleStateFxn={toggleSeller}
+                                />
+
+                                {seller && (
+                                    <>
+                                        <h5>Frank Lee</h5>
+                                        <p>Owner of Fetsy</p>
+                                    </>
+                                )}
+                            </div>
                         </div>
                     </Col>
 
                     <div className="d-xl-none">
-                        <h2>Reviews at smaller viewport sizes</h2>
                         <Reviews />
                     </div>
                 </Row>

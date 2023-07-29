@@ -8,15 +8,132 @@ export const reviewsData = [
     },
     {
         name: 'angela',
+        rating: 5,
+        product: 'airbnb template',
+        description: 'good product',
+        date: 'March 15 2023',
+    },
+    {
+        name: 'angela',
+        rating: 5,
+        product: 'airbnb template',
+        description: 'good product',
+        date: 'March 15 2023',
+    },
+    {
+        name: 'angela',
         rating: 4,
         product: 'airbnb template',
         description: 'good product',
         date: 'March 15 2023',
-
-    }
+    },
+    {
+        name: 'angela',
+        rating: 5,
+        product: 'airbnb template',
+        description: 'good product',
+        date: 'March 15 2023',
+    },
+    {
+        name: 'angela',
+        rating: 4,
+        product: 'airbnb template',
+        description: 'good product',
+        date: 'March 15 2023',
+    },
+    {
+        name: 'angela',
+        rating: 5,
+        product: 'airbnb template',
+        description: 'good product',
+        date: 'March 15 2023',
+    },
+    {
+        name: 'angela',
+        rating: 5,
+        product: 'airbnb template',
+        description: 'good product',
+        date: 'March 15 2023',
+    },
+    {
+        name: 'angela',
+        rating: 5,
+        product: 'airbnb template',
+        description: 'good product',
+        date: 'March 15 2023',
+    },
+    {
+        name: 'angela',
+        rating: 4,
+        product: 'airbnb template',
+        description: 'good product',
+        date: 'March 15 2023',
+    },
+    {
+        name: 'angela',
+        rating: 5,
+        product: 'airbnb template',
+        description: 'good product',
+        date: 'March 15 2023',
+    },
+    {
+        name: 'angela',
+        rating: 4,
+        product: 'airbnb template',
+        description: 'good product',
+        date: 'March 15 2023',
+    },
+    {
+        name: 'angela',
+        rating: 5,
+        product: 'airbnb template',
+        description: 'good product',
+        date: 'March 15 2023',
+    },
+    {
+        name: 'angela',
+        rating: 5,
+        product: 'airbnb template',
+        description: 'good product',
+        date: 'March 15 2023',
+    },
+    {
+        name: 'angela',
+        rating: 5,
+        product: 'airbnb template',
+        description: 'good product',
+        date: 'March 15 2023',
+    },
+    {
+        name: '16',
+        rating: 4,
+        product: 'airbnb template',
+        description: 'good product',
+        date: 'March 15 2023',
+    },
+    {
+        name: '17',
+        rating: 5,
+        product: 'airbnb template',
+        description: 'good product',
+        date: 'March 15 2023',
+    },
+    {
+        name: '18',
+        rating: 4,
+        product: 'airbnb template',
+        description: 'good product',
+        date: 'March 15 2023',
+    },
+    {
+        name: '19',
+        rating: 5,
+        product: 'airbnb template',
+        description: 'good product',
+        date: 'March 15 2023',
+    },
 ];
 
 const totalRatingSum = reviewsData.reduce((sum, review) => sum + review.rating, 0);
 
-
-export const averageRating = totalRatingSum / reviewsData.length;
+export const averageRating = Math.round((totalRatingSum / reviewsData.length) * 10) / 10;
