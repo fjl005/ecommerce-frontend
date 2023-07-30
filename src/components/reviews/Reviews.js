@@ -58,7 +58,6 @@ const Reviews = () => {
 
             {reviewsData.slice(startReviewIdx, endReviewIdx).map((review, idx) => (
                 <div key={idx}>
-                    <h5>index: {idx + currentPage * 5 - 5}</h5>
                     <h3>Rating: {review.rating}</h3>
                     <StarReviews rating={review.rating} />
                     <p>{review.description}</p>
