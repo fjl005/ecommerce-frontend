@@ -2,6 +2,7 @@ import './App.css';
 import LoginPage from './pages/LoginPage';
 import HomePage from './pages/HomePage';
 import SingleProduct from './components/products/SingleProduct';
+import Cart from './pages/Cart';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
@@ -84,6 +85,9 @@ function App() {
                     } />
                     <Route path='/products/:productId' element={
                         <SingleProduct />
+                    } />
+                    <Route path='/cart/' element={
+                        <Cart />
                     } />
                 </Routes>
             </BrowserRouter>
