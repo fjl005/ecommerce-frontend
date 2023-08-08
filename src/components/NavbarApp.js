@@ -22,11 +22,11 @@ const NavbarApp = ({ cartNumber }) => {
                             top: 0,
                             right: 0
                         }}>
-                            <NavLink tag={Link} to="/cart" style={{ marginTop: '1px' }}>
+                            <NavLink tag={Link} to="/cart">
                                 <i
                                     class="fa-solid fa-cart-shopping"
                                     style={{
-                                        fontSize: '30px',
+                                        fontSize: '35px',
                                         position: 'relative',
                                         padding: '5px'
                                     }}
@@ -40,17 +40,22 @@ const NavbarApp = ({ cartNumber }) => {
                                                 justifyContent: 'center',
                                                 top: 0,
                                                 right: 0,
-                                                width: '20px',
-                                                height: '20px',
-                                                backgroundColor: 'orange',
+                                                width: '25px',
+                                                height: '25px',
+                                                backgroundColor: 'red',
                                                 borderRadius: '50%',
                                                 fontSize: '10px'
                                             }}
                                         >
                                             <span
                                                 style={{
-                                                    display: 'inline-block',
-                                                    fontSize: '12px',
+                                                    display: 'flex', // Set display to flex
+                                                    alignItems: 'center', // Center vertically
+                                                    justifyContent: 'center', // Center horizontally
+                                                    fontSize: '14px',
+                                                    color: 'white',
+                                                    width: '100%', // Ensure the span takes up full width
+                                                    height: '100%', // Ensure the span takes up full height
                                                 }}
                                             >
                                                 {cartNumber}
