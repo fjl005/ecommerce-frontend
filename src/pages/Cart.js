@@ -1,10 +1,18 @@
 import NavbarApp from "../components/NavbarApp";
 import { Container, Row, Col, Button } from "reactstrap";
-import { useState } from "react";
-import twoPageAirbnb from '../img/twoPageAirbnb.png';
+import { useState, useEffect } from "react";
+import CartItem from "../components/cart/CartItem";
 
 const Cart = () => {
     const [numItems, setNumItems] = useState(0);
+    const [numItemsArray, setNumItemsArray] = useState([]);
+
+    useEffect(() => {
+        // Create an array of length 'numItems'. The first argument is an object with a length property. The second argument is a mapping function; the first argument of that is a placeholder for the value of each element, which technically doesn't exist yet so it's really undefined. The second parameter is the index. Then, the mapping function will generate the numbers for each index of the array. We don't really care about these values; we just need the length of this array to match numItems so we can map over it in JSX.
+        const newArray = Array.from({ length: numItems }, (_, index) => index);
+        setNumItemsArray(newArray);
+        console.log(newArray);
+    }, [numItems]);
 
     return (
         <>
@@ -27,51 +35,14 @@ const Cart = () => {
                 </Row>
             </Container>
 
-            <Container className='cart-container'>
-                <Row>
-                    <Col>
-                        <div className='d-flex justify-content-between align-items-center'>
-                            <h3>Fetsy</h3>
-                            <h5>Contact Seller</h5>
-                        </div>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col lg='3'>
-                        <img
-                            src={twoPageAirbnb}
-                            alt='alt text'
-                            style={{
-                                width: '100%',
-                                marginBottom: '20px'
-                            }}
-                        />
-                    </Col>
-                    <Col lg='6'>
-                        <div className='d-flex flex-column'>
-                            <h3>Two Page Airbnb Template</h3>
-                            <div style={{ backgroundColor: 'lightgray', width: '75%' }}>
-                                <p>Instant Download</p>
-                                <p>1 PDF Included</p>
-                            </div>
-                        </div>
-                    </Col>
-                    <Col lg='3' style={{ textAlign: 'right' }}>
-                        <h3>$4.50</h3>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col style={{ marginBottom: '10px' }}>
-                        <span className='cart-remove-save-btn'>Remove</span>
-                        <span className='cart-remove-save-btn' style={{ marginLeft: '10px' }}>Save for later</span>
-                    </Col>
-                </Row>
-            </Container>
+            {numItems && numItemsArray.map((arr, idx) => (
+                <CartItem key={idx} />
+            ))}
 
-            <Container>
+            <Container style={{ marginTop: '30px' }}>
                 <Row>
                     <Col>
-                        <h3>Items saved for later</h3>
+                        <h1>Items saved for later</h1>
                     </Col>
                 </Row>
             </Container>

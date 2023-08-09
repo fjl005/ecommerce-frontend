@@ -41,12 +41,9 @@ const SingleProduct = () => {
             <NavbarApp />
             {/* <Container style={{ width: '70%', maxWidth: '70000px', backgroundColor: 'gray' }}> */}
             <Container className='product-page-container'>
-
                 <Row>
                     <Col sm='12' xl='8' style={{ marginBottom: '20px' }}>
                         <ProductImgCarousel selectedProduct={selectedProduct} />
-
-
                         {/* d-none makes the display none on all viewport sizes, but d-md-block applies the display: block to md+ viewport sizes. This makes it visible at these viewport sizes. */}
 
                         <div className="d-none d-xl-block" style={{ marginTop: '20px' }}>
@@ -75,14 +72,15 @@ const SingleProduct = () => {
                                 {highlight && (
                                     <>
                                         <p style={{ marginBottom: '10px' }}>
-                                            <div style={{ width: '35px', display: 'inline-block' }}>
-                                                <i class="fa-solid fa-cloud-arrow-down" style={{ width: '100%' }}></i>
+                                            {/* We create these div's of width 35px to make the text align the same, since the font awesome icons have slightly different widths. */}
+                                            <div className='icon-margin-align'>
+                                                <i class="fa-solid fa-cloud-arrow-down"></i>
                                             </div>
                                             Digital Download
                                         </p>
                                         <p>
-                                            <div style={{ width: '35px', display: 'inline-block' }}>
-                                                <i class="fa-solid fa-paperclip" style={{ marginRight: 'px' }}></i>
+                                            <div className='icon-margin-align'>
+                                                <i class="fa-solid fa-paperclip"></i>
                                             </div>
                                             Digital File Type(s): 1 PDF
                                         </p>
