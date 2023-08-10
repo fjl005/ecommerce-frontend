@@ -55,7 +55,7 @@ const SingleProduct = () => {
                     <Col sm='12' xl='4'>
                         <div className='d-flex flex-column'>
                             <h1 style={{ fontWeight: 'bold' }}>${selectedProduct.price.toFixed(2)}</h1>
-                            <h5>{selectedProduct.name}</h5>
+                            <h5 className='product-title'>{selectedProduct.name}</h5>
                             <div className='product-page-add-to-cart'>Add to cart</div>
                             <div className='product-page-add-to-collection'>
                                 <i class="fa-solid fa-heart" style={{ color: '#8B0000', marginRight: '5px' }}></i>

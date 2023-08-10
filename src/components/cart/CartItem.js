@@ -2,7 +2,8 @@ import { Container, Row, Col } from "reactstrap";
 import twoPageAirbnb from '../../img/twoPageAirbnb.png';
 
 
-const CartItem = () => {
+const CartItem = ({ position, removeCartItem, saveLaterCartItem, isSaved, removeSavedItem, moveBackToCart }) => {
+
     return (
         <Container className='cart-container'>
             <Row>
@@ -13,8 +14,8 @@ const CartItem = () => {
                     </div>
                 </Col>
             </Row>
-            <Row>
-                <Col lg='3'>
+            <Row style={{ marginBottom: '10px' }}>
+                <Col xs='3'>
                     <img
                         src={twoPageAirbnb}
                         alt='alt text'
@@ -24,21 +25,20 @@ const CartItem = () => {
                         }}
                     />
                 </Col>
-                <Col lg='6'>
+                <Col xs='6'>
                     <div className='d-flex flex-column'>
-                        <h3>Two Page Airbnb Template</h3>
+                        <h3 className='product-title'>Two Page Airbnb Template</h3>
                         <div style={{
                             backgroundColor: 'rgb(240, 240, 240)',
-                            width: '75%',
+                            width: '80%',
                             borderRadius: '10px',
-                            padding: '20px 10px',
+                            padding: '10px 5px 0px 5px',
                         }}>
                             <p>
                                 <div className='icon-margin-align'>
                                     <i class="fa-solid fa-cloud-arrow-down"></i>
                                 </div>
                                 Instant Download
-
                             </p>
                             <p>
                                 <div className='icon-margin-align'>
@@ -49,17 +49,50 @@ const CartItem = () => {
                         </div>
                     </div>
                 </Col>
-                <Col lg='3' style={{ textAlign: 'right' }}>
+                <Col xs='3' style={{ textAlign: 'right' }}>
                     <h3>$4.50</h3>
                 </Col>
             </Row>
             <Row>
                 <Col style={{ marginBottom: '10px' }}>
-                    <span className='cart-remove-save-btn'>
-                        <i class="fa-solid fa-x" style={{ marginRight: '10px' }}></i>
-                        Remove
-                    </span>
-                    <span className='cart-remove-save-btn' style={{ marginLeft: '10px' }}>Save for later</span>
+                    {isSaved ? (
+                        <>
+                            <p>saved</p>
+                            <span
+                                className='cart-remove-save-btn'
+                                onClick={() => removeSavedItem(position)}
+                            >
+                                <i class="fa-solid fa-x" style={{ marginRight: '10px' }}></i>
+                                Remove
+                            </span>
+                            <span
+                                className='cart-remove-save-btn'
+                                style={{ marginLeft: '10px' }}
+                                onClick={() => moveBackToCart(position)}
+                            >
+                                <i class="fa-solid fa-cart-plus" style={{ marginRight: '10px' }}></i>
+                                Move to Cart
+                            </span>
+                        </>
+                    ) : (
+                        <>
+                            <p>not saved</p>
+                            <span
+                                className='cart-remove-save-btn'
+                                onClick={() => removeCartItem(position)}
+                            >
+                                <i class="fa-solid fa-x" style={{ marginRight: '10px' }}></i>
+                                Remove
+                            </span>
+                            <span
+                                className='cart-remove-save-btn'
+                                style={{ marginLeft: '10px' }}
+                                onClick={() => saveLaterCartItem(position)}
+                            >
+                                Save for later
+                            </span>
+                        </>
+                    )}
                 </Col>
             </Row>
         </Container>
