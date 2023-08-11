@@ -16,32 +16,33 @@ const Cart = () => {
     }, [numItems]);
 
     const removeCartItem = (idx) => {
-        // const updatedArray = itemsArray.filter((_, index) => index !== idx);
-        const [removedItem, updatedArray] = updateArray(itemsArray, idx);
+        const updatedArray = updateArray(itemsArray, idx)[1];
         setItemsArray(updatedArray);
         setNumItems(numItems - 1);
-    }
+    };
+
+    const removeSavedItem = (idx) => {
+        const updatedArray = updateArray(saveItemsArray, idx)[1];
+        setSaveItemsArray(updatedArray);
+        setNumSaveItems(numSaveItems - 1);
+    };
+
+    // I was going to generalize the two remove item functions above, but it seems like it'd be more code. lmao
+
+    // const removeItem = (sectionArray, idx, setArrayFxn, setNumFxn) => {
+    //     const updatedArray = updateArray(sectionArray, idx)[1];
+    //     setArrayFxn(updatedArray);
+    //     setNumFxn(numItems - 1);
+    // };
 
     const saveLaterCartItem = (idx) => {
         const [savedItem, updatedArray] = updateArray(itemsArray, idx);
-        // const savedItem = itemsArray.find((_, index) => index === idx);
-        // const updatedArray = itemsArray.filter((_, index) => index !== idx);
-
         setSaveItemsArray([...saveItemsArray, savedItem]);
         setNumSaveItems(numSaveItems + 1);
 
         setItemsArray(updatedArray);
         setNumItems(numItems - 1);
-    }
-
-    const removeSavedItem = (idx) => {
-        const [removeSaved, updatedArray] = updateArray(saveItemsArray, idx);
-        // const itemToRemove = saveItemsArray.find((_, index) => index === idx);
-        // const updatedArray = saveItemsArray.filter((_, index) => index !== idx);
-
-        setSaveItemsArray(updatedArray);
-        setNumSaveItems(numSaveItems - 1);
-    }
+    };
 
     const moveBackToCart = (idx) => {
         const [itemToMove, updatedArray] = updateArray(saveItemsArray, idx);
@@ -50,13 +51,13 @@ const Cart = () => {
 
         setItemsArray([...itemsArray, itemToMove]);
         setNumItems(numItems + 1);
-    }
+    };
 
     const updateArray = (array, idx) => {
         const selectedItem = array.find((_, index) => index === idx);
         const updatedArray = array.filter((_, index) => index !== idx);
         return [selectedItem, updatedArray];
-    }
+    };
 
 
     return (

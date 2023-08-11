@@ -2,6 +2,7 @@ import './App.css';
 import LoginPage from './pages/LoginPage';
 import HomePage from './pages/HomePage';
 import SingleProduct from './components/products/SingleProduct';
+import SingleProductMDB from './components/products/SingleProductMDB';
 import Cart from './pages/Cart';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { useState, useEffect } from 'react';
@@ -84,7 +85,8 @@ function App() {
                         />
                     } />
                     <Route path='/products/:productId' element={
-                        <SingleProduct />
+                        // <SingleProduct />
+                        <SingleProductMDB />
                     } />
                     <Route path='/cart/' element={
                         <Cart />

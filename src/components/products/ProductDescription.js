@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { Button } from 'reactstrap';
 
-const ProductDescription = () => {
+const ProductDescription = ({ description }) => {
     /* STATES AND REFS */
     const [expanded, setExpanded] = useState(false);
     const [showSeeMoreButton, setShowSeeMoreButton] = useState(false);
@@ -42,6 +42,7 @@ const ProductDescription = () => {
         setShowSeeMoreButton(doesTextOverflow());
     }, [viewportWidth]);
 
+
     return (
         <>
             <div
@@ -55,7 +56,7 @@ const ProductDescription = () => {
                 <p
                     ref={descriptionRef}
                 >
-                    hello hello hello hello hello helloadsfjoidsadsahelloadsfjoidsadsafadsfdsafsadfdsjfioadshellofadsfdsafsadfdsjfioadshello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello dsafadsfasdfadsds sd dsfdsfdsafsdf sdfsdfds sdf sdfsdfsd sdfsddsafds
+                    {description}
                 </p>
             </div>
 

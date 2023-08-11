@@ -2,7 +2,7 @@ import { Container, Row, Col } from "reactstrap";
 import twoPageAirbnb from '../../img/twoPageAirbnb.png';
 
 
-const CartItem = ({ position, removeCartItem, saveLaterCartItem, isSaved, removeSavedItem, moveBackToCart }) => {
+const CartItem = ({ position, removeCartItem, saveLaterCartItem, isSaved, removeSavedItem, moveBackToCart, removeItem }) => {
 
     return (
         <Container className='cart-container'>
@@ -57,7 +57,6 @@ const CartItem = ({ position, removeCartItem, saveLaterCartItem, isSaved, remove
                 <Col style={{ marginBottom: '10px' }}>
                     {isSaved ? (
                         <>
-                            <p>saved</p>
                             <span
                                 className='cart-remove-save-btn'
                                 onClick={() => removeSavedItem(position)}
@@ -76,7 +75,6 @@ const CartItem = ({ position, removeCartItem, saveLaterCartItem, isSaved, remove
                         </>
                     ) : (
                         <>
-                            <p>not saved</p>
                             <span
                                 className='cart-remove-save-btn'
                                 onClick={() => removeCartItem(position)}
