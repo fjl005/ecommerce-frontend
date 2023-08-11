@@ -12,20 +12,34 @@ import axios from 'axios';
 
 
 const SingleProduct = () => {
+    const axiosWithAuth = axios.create({
+        baseURL: 'http://localhost:5000/',
+        withCredentials: true,
+    });
+
     const { productId } = useParams();
     const productIdNum = parseInt(productId);
     const [fetchDone, setFetchDone] = useState(false);
     const [selectedProduct, setSelectedProduct] = useState({});
 
     useEffect(() => {
-        axios.get(`http://localhost:5000/products/${productId}`)
+        axiosWithAuth.get(`/products/${productId}`)
             .then(response => {
                 setSelectedProduct(response.data);
                 setFetchDone(true);
             }).catch(error => console.log('error: ', error))
     }, []);
 
-    // const selectedProduct = productsArray.filter((product) => product.productId === productIdNum)[0];
+    const addItemToCart = async () => {
+        console.log('product id: ', productId);
+        try {
+            await axiosWithAuth.post(`/users/cart/add/${productId}`);
+            console.log('it worked hooray');
+        } catch (error) {
+            console.log('error: ', error);
+            console.log('response: ', error.response.data);
+        }
+    };
 
     const [highlight, setHighlight] = useState(true);
     const [description, setDescription] = useState(true);
@@ -72,7 +86,10 @@ const SingleProduct = () => {
                             <div className='d-flex flex-column'>
                                 <h1 style={{ fontWeight: 'bold' }}>${selectedProduct.price.toFixed(2)}</h1>
                                 <h5 className='product-title'>{selectedProduct.name}</h5>
-                                <div className='product-page-add-to-cart'>Add to cart</div>
+                                <div
+                                    className='product-page-add-to-cart'
+                                    onClick={() => addItemToCart()}
+                                >Add to cart</div>
                                 <div className='product-page-add-to-collection'>
                                     <i class="fa-solid fa-heart" style={{ color: '#8B0000', marginRight: '5px' }}></i>
                                     Add to Collection
