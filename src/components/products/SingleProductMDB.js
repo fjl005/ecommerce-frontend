@@ -1,5 +1,5 @@
 import NavbarApp from "../NavbarApp";
-import { Container, Row, Col, Button, UncontrolledAccordion, Accordion, AccordionItem, AccordionHeader, AccordionBody } from "reactstrap";
+import { Container, Row, Col, Button, Tooltip, UncontrolledAccordion, Accordion, AccordionItem, AccordionHeader, AccordionBody } from "reactstrap";
 import { useParams } from "react-router-dom";
 import { productsArray } from "./productsArray";
 import ProductImgCarousel from "./ProductImgCarousel";
@@ -18,9 +18,12 @@ const SingleProduct = () => {
     });
 
     const { productId } = useParams();
-    const productIdNum = parseInt(productId);
     const [fetchDone, setFetchDone] = useState(false);
     const [selectedProduct, setSelectedProduct] = useState({});
+
+    const [tooltipAddCartSignin, setTooltipAddCartSignin] = useState(false);
+    const [tooltipAddCartSuccess, setTooltipAddCartSuccess] = useState(false);
+
 
     useEffect(() => {
         axiosWithAuth.get(`/products/${productId}`)
@@ -33,11 +36,20 @@ const SingleProduct = () => {
     const addItemToCart = async () => {
         console.log('product id: ', productId);
         try {
-            await axiosWithAuth.post(`/users/cart/add/${productId}`);
-            console.log('it worked hooray');
+            await axiosWithAuth.post(`/cart/${productId}`);
+            setTooltipAddCartSuccess(true);
+            setTimeout(() => {
+                setTooltipAddCartSuccess(false);
+            }, 3000);
         } catch (error) {
             console.log('error: ', error);
             console.log('response: ', error.response.data);
+            if (error.response.data === 'You must log in before accessing this page') {
+                setTooltipAddCartSignin(true);
+                setTimeout(() => {
+                    setTooltipAddCartSignin(false);
+                }, 3000);
+            }
         }
     };
 
@@ -87,9 +99,26 @@ const SingleProduct = () => {
                                 <h1 style={{ fontWeight: 'bold' }}>${selectedProduct.price.toFixed(2)}</h1>
                                 <h5 className='product-title'>{selectedProduct.name}</h5>
                                 <div
+                                    id='addToCart'
                                     className='product-page-add-to-cart'
                                     onClick={() => addItemToCart()}
                                 >Add to cart</div>
+                                <Tooltip
+                                    isOpen={tooltipAddCartSignin}
+                                    target='addToCart'
+                                >
+                                    You must sign in to add items to your cart.
+                                </Tooltip>
+
+                                <Tooltip
+                                    isOpen={tooltipAddCartSuccess}
+                                    target='addToCart'
+                                >
+                                    Item added to cart!
+                                </Tooltip>
+
+
+
                                 <div className='product-page-add-to-collection'>
                                     <i class="fa-solid fa-heart" style={{ color: '#8B0000', marginRight: '5px' }}></i>
                                     Add to Collection
