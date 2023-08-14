@@ -1,11 +1,11 @@
 import { Container, Row, Col, Button } from "reactstrap";
-import NavbarApp from '../components/NavbarApp';
+import NavbarApp from '../components/miscellaneous/NavbarApp';
 import { useState, useEffect, useRef } from "react";
 import axios from 'axios';
-import SpinningIcon from "../components/SpinningIcon";
+import SpinningIcon from "../components/miscellaneous/SpinningIcon";
 import Products from "../components/products/Products";
 
-const HomePage = ({ username, admin, setAdmin, loggedIn, setLoggedIn, pageLoading }) => {
+const HomePage = ({ username, admin, setAdmin, loggedIn, setLoggedIn, pageLoading, cartLength }) => {
     /* Remember that for object destructuring, the ({username}) for the props is essentially:
     function(props) {
         const username = props.username
@@ -142,7 +142,7 @@ const HomePage = ({ username, admin, setAdmin, loggedIn, setLoggedIn, pageLoadin
 
     return (
         <>
-            <NavbarApp />
+            <NavbarApp cartLength={cartLength} />
             <Container>
                 <Row>
                     <Col>

@@ -1,8 +1,8 @@
 import './App.css';
 import LoginPage from './pages/LoginPage';
 import HomePage from './pages/HomePage';
-import SingleProduct from './components/products/SingleProduct';
-import SingleProductMDB from './components/products/SingleProductMDB';
+import SingleProduct from './pages/SingleProduct';
+import SingleProductMDB from './pages/SingleProductMDB';
 import Cart from './pages/Cart';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { useState, useEffect } from 'react';
@@ -13,13 +13,13 @@ function App() {
     const [admin, setAdmin] = useState(false);
     const [loggedIn, setLoggedIn] = useState(false);
     const [pageLoading, setPageLoading] = useState(true);
+    const [cartLength, setCartLength] = useState(0);
 
     const axiosWithAuth = axios.create({
         baseURL: 'http://localhost:5000/',
         withCredentials: true,
     });
 
-    // Async Functions (check login, check admin).
     const checkUser = async () => {
         try {
             const response = await axiosWithAuth.get('/users');
@@ -35,18 +35,32 @@ function App() {
         }
     };
 
+    const fetchData = async () => {
+        try {
+            await checkUser();
+            setPageLoading(false);
+        } catch (error) {
+            setPageLoading(false);
+        }
+    };
+
+    const checkCartLength = async () => {
+        try {
+            const response = await axiosWithAuth.get('/cart');
+            const cartData = response.data.cart;
+            console.log('this is from app.js. the cart data is: ', cartData);
+            setCartLength(cartData.length);
+            console.log('this is from app.js. the cart length is now: ', cartLength)
+        } catch (error) {
+            console.log('There was an error checking the cart length from App.js: ', error);
+        }
+    }
+
     // Initiate checkLogin annd checkAdmin at initial page render. Once completed, setPageLoading to false to make the Spinner disappear.
     useEffect(() => {
 
-        const fetchData = async () => {
-            try {
-                await checkUser();
-                setPageLoading(false);
-            } catch (error) {
-                setPageLoading(false);
-            }
-        };
         fetchData();
+        checkCartLength();
 
         // Create a setTimeout to rerun fetchData after 1 Hour, the duration of the cookie.
         const timerId = setTimeout(() => {
@@ -58,6 +72,10 @@ function App() {
             clearTimeout(timerId);
         };
     }, []);
+
+    useEffect(() => {
+        checkCartLength();
+    }, [cartLength])
 
     return (
         <>
@@ -71,6 +89,7 @@ function App() {
                             loggedIn={loggedIn}
                             setLoggedIn={setLoggedIn}
                             pageLoading={pageLoading}
+                            cartLength={cartLength}
                         />
                     } />
 
@@ -82,14 +101,21 @@ function App() {
                             setLoggedIn={setLoggedIn}
                             setAdmin={setAdmin}
                             pageLoading={pageLoading}
+                            cartLength={cartLength}
                         />
                     } />
                     <Route path='/products/:productId' element={
                         // <SingleProduct />
-                        <SingleProductMDB />
+                        <SingleProductMDB
+                            cartLength={cartLength}
+                            setCartLength={setCartLength}
+                        />
                     } />
-                    <Route path='/cart/' element={
-                        <Cart />
+                    <Route path='/cart' element={
+                        <Cart
+                            cartLength={cartLength}
+                            setCartLength={setCartLength}
+                        />
                     } />
                 </Routes>
             </BrowserRouter>

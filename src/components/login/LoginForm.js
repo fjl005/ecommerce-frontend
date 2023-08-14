@@ -2,7 +2,7 @@ import { Container, Row, Col, Form, FormGroup, Label, Input, Button } from 'reac
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import SpinningIcon from './SpinningIcon';
+import SpinningIcon from '../miscellaneous/SpinningIcon';
 
 const LoginForm = ({ username, setUsername, loggedIn, setLoggedIn, setAdmin, pageLoading }) => {
     // Login states

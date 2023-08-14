@@ -1,10 +1,10 @@
-import LoginForm from '../components/LoginForm';
-import NavbarApp from '../components/NavbarApp';
+import LoginForm from '../components/login/LoginForm';
+import NavbarApp from '../components/miscellaneous/NavbarApp';
 
-const LoginPage = ({ username, setUsername, loggedIn, setLoggedIn, setAdmin, pageLoading }) => {
+const LoginPage = ({ username, setUsername, loggedIn, setLoggedIn, setAdmin, pageLoading, cartLength }) => {
     return (
         <>
-            <NavbarApp />
+            <NavbarApp cartLength={cartLength} />
             <LoginForm
                 username={username}
                 setUsername={setUsername}

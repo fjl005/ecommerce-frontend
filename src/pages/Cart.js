@@ -1,25 +1,21 @@
-import NavbarApp from "../components/NavbarApp";
+import NavbarApp from "../components/miscellaneous/NavbarApp";
 import { Container, Row, Col, Button } from "reactstrap";
 import { useState, useEffect } from "react";
 import CartItem from "../components/cart/CartItem";
 import CartItemMDB from "../components/cart/CartItemMDB";
 import axios from 'axios';
 
-const Cart = () => {
+const Cart = ({ cartLength, setCartLength }) => {
     const axiosWithAuth = axios.create({
         baseURL: 'http://localhost:5000/',
         withCredentials: true,
     });
 
-    const [numItems, setNumItems] = useState(0);
+    // const [numItems, setNumItems] = useState(0);
     const [itemsArrayId, setItemsArrayId] = useState([]);
 
     const [numSaveItems, setNumSaveItems] = useState(0);
     const [saveItemsArrayId, setSaveItemsArrayId] = useState([]);
-
-    // Soon to be obsolete
-    const [itemsArray, setItemsArray] = useState([]);
-    const [saveItemsArray, setSaveItemsArray] = useState([]);
 
     useEffect(() => {
         fetchCart();
@@ -31,7 +27,7 @@ const Cart = () => {
             const response = await axiosWithAuth.get('/cart');
             const cartData = response.data.cart;
             setItemsArrayId(cartData);
-            setNumItems(cartData.length);
+            setCartLength(cartData.length);
         } catch (error) {
             console.log('error: ', error);
         }
@@ -43,11 +39,11 @@ const Cart = () => {
             const savedItems = response.data.saved;
             setSaveItemsArrayId(savedItems);
             setNumSaveItems(savedItems.length);
-            console.log('save items array: ', savedItems);
         } catch (error) {
             console.log('error: ', error);
         }
     }
+
 
     const removeCartItem = async (productId) => {
         try {
@@ -70,8 +66,8 @@ const Cart = () => {
     const saveLaterCartItem = async (productId) => {
         try {
             await axiosWithAuth.post(`/cart/saved/${productId}`);
-            await fetchCart();
             await fetchSaved();
+            await fetchCart();
         } catch (error) {
             console.log('error: ', error);
         }
@@ -90,26 +86,26 @@ const Cart = () => {
 
     return (
         <>
-            <NavbarApp cartNumber={numItems} />
+            <NavbarApp cartLength={cartLength} />
             <Container>
                 <Row>
                     <Col>
-                        {numItems === 0 ? (
+                        {cartLength === 0 ? (
                             <h1>Your cart is empty</h1>
                         ) : (
-                            <h1>{numItems} items in your cart.</h1>
+                            <h1>{cartLength} items in your cart.</h1>
                         )}
 
-                        <Button onClick={() => setNumItems(numItems + 1)}>+1</Button>
+                        <Button onClick={() => setCartLength(cartLength + 1)}>+1</Button>
 
-                        {numItems > 0 && (
-                            <Button onClick={() => setNumItems(numItems - 1)}>-1</Button>
+                        {cartLength > 0 && (
+                            <Button onClick={() => setCartLength(cartLength - 1)}>-1</Button>
                         )}
                     </Col>
                 </Row>
             </Container>
 
-            {numItems > 0 && itemsArrayId.map((arr, idx) => (
+            {cartLength > 0 && itemsArrayId.map((arr, idx) => (
                 <CartItemMDB
                     key={idx}
                     position={idx}

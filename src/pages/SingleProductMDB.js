@@ -1,17 +1,17 @@
-import NavbarApp from "../NavbarApp";
+import NavbarApp from "../components/miscellaneous/NavbarApp";
 import { Container, Row, Col, Button, Tooltip, UncontrolledAccordion, Accordion, AccordionItem, AccordionHeader, AccordionBody } from "reactstrap";
 import { useParams } from "react-router-dom";
-import { productsArray } from "./productsArray";
-import ProductImgCarousel from "./ProductImgCarousel";
+import { productsArray } from "../components/products/productsArray";
+import ProductImgCarousel from "../components/products/ProductImgCarousel";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Reviews from "../reviews/Reviews";
-import ProductDescription from "./ProductDescription";
+import Reviews from "../components/reviews/Reviews";
+import ProductDescription from "../components/products/ProductDescription";
 import { useState, useEffect } from "react";
-import RightColToggle from "./RightColToggle";
+import RightColToggle from "../components/products/RightColToggle";
 import axios from 'axios';
 
 
-const SingleProduct = () => {
+const SingleProductMDB = ({ cartLength, setCartLength }) => {
     const axiosWithAuth = axios.create({
         baseURL: 'http://localhost:5000/',
         withCredentials: true,
@@ -34,13 +34,13 @@ const SingleProduct = () => {
     }, []);
 
     const addItemToCart = async () => {
-        console.log('product id: ', productId);
         try {
             await axiosWithAuth.post(`/cart/${productId}`);
             setTooltipAddCartSuccess(true);
             setTimeout(() => {
                 setTooltipAddCartSuccess(false);
             }, 3000);
+            setCartLength(cartLength + 1);
         } catch (error) {
             console.log('error: ', error);
             console.log('response: ', error.response.data);
@@ -76,7 +76,7 @@ const SingleProduct = () => {
 
     return (
         <>
-            <NavbarApp />
+            <NavbarApp cartLength={cartLength} />
             {/* <Container style={{ width: '70%', maxWidth: '70000px', backgroundColor: 'gray' }}> */}
             {fetchDone && (
 
@@ -224,4 +224,4 @@ const SingleProduct = () => {
     )
 }
 
-export default SingleProduct;
+export default SingleProductMDB;

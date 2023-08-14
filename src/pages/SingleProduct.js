@@ -1,16 +1,16 @@
-import NavbarApp from "../NavbarApp";
+import NavbarApp from "../components/miscellaneous/NavbarApp";
 import { Container, Row, Col, Button, UncontrolledAccordion, Accordion, AccordionItem, AccordionHeader, AccordionBody } from "reactstrap";
 import { useParams } from "react-router-dom";
-import { productsArray } from "./productsArray";
-import ProductImgCarousel from "./ProductImgCarousel";
+import { productsArray } from "../components/products/productsArray";
+import ProductImgCarousel from "../components/products/ProductImgCarousel";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Reviews from "../reviews/Reviews";
-import ProductDescription from "./ProductDescription";
+import Reviews from "../components/reviews/Reviews";
+import ProductDescription from "../components/products/ProductDescription";
 import { useState } from "react";
-import RightColToggle from "./RightColToggle";
+import RightColToggle from "../components/products/RightColToggle";
 
 
-const SingleProduct = () => {
+const SingleProduct = ({ cartLength }) => {
     const { productId } = useParams();
     const productIdNum = parseInt(productId);
     const selectedProduct = productsArray.filter((product) => product.productId === productIdNum)[0];
@@ -38,7 +38,7 @@ const SingleProduct = () => {
 
     return (
         <>
-            <NavbarApp />
+            <NavbarApp cartLength={cartLength} />
             {/* <Container style={{ width: '70%', maxWidth: '70000px', backgroundColor: 'gray' }}> */}
             <Container className='product-page-container'>
                 <Row>

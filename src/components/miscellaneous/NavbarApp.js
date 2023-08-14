@@ -1,7 +1,7 @@
 import { Navbar, NavbarBrand, Nav, NavItem, NavLink, Container } from 'reactstrap';
 import { Link } from 'react-router-dom';
 
-const NavbarApp = ({ cartNumber }) => {
+const NavbarApp = ({ cartNumber, cartLength }) => {
     return (
         <Navbar color="light" light expand="md">
             <Container className='d-flex flex-row align-items-center' style={{ height: '60px', position: 'relative' }}>
@@ -31,7 +31,7 @@ const NavbarApp = ({ cartNumber }) => {
                                         padding: '5px'
                                     }}
                                 >
-                                    {cartNumber > 0 && (
+                                    {cartLength > 0 && (
                                         <div
                                             style={{
                                                 position: 'absolute',
@@ -49,16 +49,17 @@ const NavbarApp = ({ cartNumber }) => {
                                         >
                                             <span
                                                 style={{
-                                                    display: 'flex', // Set display to flex
-                                                    alignItems: 'center', // Center vertically
-                                                    justifyContent: 'center', // Center horizontally
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    justifyContent: 'center',
                                                     fontSize: '14px',
                                                     color: 'white',
-                                                    width: '100%', // Ensure the span takes up full width
-                                                    height: '100%', // Ensure the span takes up full height
+                                                    width: '100%',
+                                                    height: '100%',
                                                 }}
                                             >
-                                                {cartNumber}
+                                                {cartLength}
+                                                {console.log('length of cart: ', cartLength)}
                                             </span>
                                         </div>
                                     )}
