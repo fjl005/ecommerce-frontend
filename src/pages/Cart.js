@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import CartItem from "../components/cart/CartItem";
 import CartItemMDB from "../components/cart/CartItemMDB";
 import axios from 'axios';
+import { Link } from "react-router-dom";
 
 const Cart = ({ cartLength, setCartLength }) => {
     const axiosWithAuth = axios.create({
@@ -93,13 +94,19 @@ const Cart = ({ cartLength, setCartLength }) => {
                         {cartLength === 0 ? (
                             <h1>Your cart is empty</h1>
                         ) : (
-                            <h1>{cartLength} items in your cart.</h1>
-                        )}
-
-                        <Button onClick={() => setCartLength(cartLength + 1)}>+1</Button>
-
-                        {cartLength > 0 && (
-                            <Button onClick={() => setCartLength(cartLength - 1)}>-1</Button>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                <h1>{cartLength} items in your cart.</h1>
+                                <Link
+                                    to={`/cart/checkout`}
+                                    // target='_blank' 
+                                    style={{
+                                        textDecoration: 'none',
+                                        color: 'black'
+                                    }}
+                                >
+                                    <Button>Checkout</Button>
+                                </Link>
+                            </div>
                         )}
                     </Col>
                 </Row>

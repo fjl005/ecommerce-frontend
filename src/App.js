@@ -3,6 +3,7 @@ import LoginPage from './pages/LoginPage';
 import HomePage from './pages/HomePage';
 import SingleProduct from './pages/SingleProduct';
 import SingleProductMDB from './pages/SingleProductMDB';
+import Checkout from './pages/Checkout';
 import Cart from './pages/Cart';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { useState, useEffect } from 'react';
@@ -115,6 +116,12 @@ function App() {
                         <Cart
                             cartLength={cartLength}
                             setCartLength={setCartLength}
+                        />
+                    } />
+
+                    <Route path='/cart/checkout' element={
+                        <Checkout
+                            cartLength={cartLength}
                         />
                     } />
                 </Routes>
