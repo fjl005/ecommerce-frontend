@@ -10,7 +10,7 @@ const Checkout = () => {
         payment: '',
     });
 
-    const { email, payment } = formData;
+    const { email, cardNumber, cardExpires, cardCVC, firstName, lastName, streetAddress, aptNumOptional, city, state, zipCode } = formData;
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -25,6 +25,22 @@ const Checkout = () => {
         e.preventDefault();
         console.log('Form data submitted:', formData);
     };
+
+    const autofill = (e) => {
+        e.preventDefault();
+        setFormData({
+            email: 'frank@frank.com',
+            cardExpires: '3/25',
+            cardNumber: 123456789101234,
+            cardCVC: 123,
+            firstName: 'Jenny',
+            lastName: 'Smith',
+            streetAddress: '1234 SomeStreet Ave',
+            city: 'San Francisco',
+            state: 'CA',
+            zipCode: 98765
+        })
+    }
 
 
 
@@ -47,7 +63,7 @@ const Checkout = () => {
                             <Col>
 
                                 <h3>
-                                    Choose an email address.
+                                    Enter email address.
                                 </h3>
                                 <Label for="email">Email:</Label>
                                 <Input
@@ -59,7 +75,7 @@ const Checkout = () => {
                                     onChange={handleInputChange}
                                 />
                                 <h5>
-                                    We will email you the template and receipt here.
+                                    Please do NOT put in your actual email. This is just a fictional site. Otherwise, the email is used for sending the receipt and the template (though the template should also be available in the Orders section after purchase).
                                 </h5>
                             </Col>
                         </Row>
@@ -69,23 +85,147 @@ const Checkout = () => {
 
                         <Row>
                             <Col>
-
                                 <h3>
-                                    Choose a payment method.
+                                    Enter Payment Information.
                                 </h3>
-                                <Label for="payment">Payment:</Label>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col xs='12'>
+                                <Label for="cardNumber">Card Number:</Label>
                                 <Input
                                     type="text"
-                                    id="payment"
-                                    name="payment"
-                                    value={payment}
+                                    id="cardNumber"
+                                    name="cardNumber"
+                                    value={cardNumber}
+                                    placeholder='1234-5678-9101-2345'
                                     required
                                     onChange={handleInputChange}
                                 />
+                            </Col>
+                            <Col md='2'>
+                                <Label for="cardNumber">Expires</Label>
+                                <Input
+                                    type="text"
+                                    id="cardExpires"
+                                    name="cardExpires"
+                                    value={cardExpires}
+                                    placeholder='3/25'
+                                    required
+                                    onChange={handleInputChange}
+                                />
+                            </Col>
+                            <Col md='2'>
+                                <Label for="cardCVC">CVC</Label>
+                                <Input
+                                    type="text"
+                                    id="cardCVC"
+                                    name="cardCVC"
+                                    value={cardCVC}
+                                    placeholder='123'
+                                    required
+                                    onChange={handleInputChange}
+                                />
+                            </Col>
+                        </Row>
+
+                        <Row>
+                            <Col>
+                                <h4>Billing Address</h4>
+                            </Col>
+                        </Row>
+
+                        <Row>
+                            <Col md='6'>
+                                <Label for="firstName">First Name</Label>
+                                <Input
+                                    type="text"
+                                    id="firstName"
+                                    name="firstName"
+                                    value={firstName}
+                                    placeholder='Jenny'
+                                    required
+                                    onChange={handleInputChange}
+                                />
+                            </Col>
+                            <Col md='6'>
+                                <Label for="lastName">Last Name</Label>
+                                <Input
+                                    type="text"
+                                    id="lastName"
+                                    name="lastName"
+                                    value={lastName}
+                                    placeholder='Smith'
+                                    required
+                                    onChange={handleInputChange}
+                                />
+                            </Col>
+                            <Col xs='12'>
+                                <Label for="streetAddress">Street Address</Label>
+                                <Input
+                                    type="text"
+                                    id="streetAddress"
+                                    name="streetAddress"
+                                    value={streetAddress}
+                                    placeholder='1234 SomeStreet Ave'
+                                    required
+                                    onChange={handleInputChange}
+                                />
+                            </Col>
+                            <Col md='3'>
+                                <Label for="aptNumOptional">Apt., Ste., Bldg (Optional)</Label>
+                                <Input
+                                    type="text"
+                                    id="aptNumOptional"
+                                    name="aptNumOptional"
+                                    value={aptNumOptional}
+                                    placeholder='Apt 106'
+                                    onChange={handleInputChange}
+                                />
+                            </Col>
+                            <Col md='5'>
+                                <Label for="city">City</Label>
+                                <Input
+                                    type="text"
+                                    id="city"
+                                    name="city"
+                                    value={city}
+                                    placeholder='San Francisco'
+                                    required
+                                    onChange={handleInputChange}
+                                />
+                            </Col>
+                            <Col md='2'>
+                                <Label for="state">State</Label>
+                                <Input
+                                    type="text"
+                                    id="state"
+                                    name="state"
+                                    value={state}
+                                    placeholder='CA'
+                                    required
+                                    onChange={handleInputChange}
+                                />
+                            </Col>
+                            <Col md='2'>
+                                <Label for="zipCode">Zip Code</Label>
+                                <Input
+                                    type="text"
+                                    id="stazipCodete"
+                                    name="zipCode"
+                                    value={zipCode}
+                                    placeholder='98765'
+                                    required
+                                    onChange={handleInputChange}
+                                />
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col>
                                 <h5>
-                                    Please do NOT put in actual card information. This is just a fictional site. For the checkout to work, please click this button to auto-populate the info that will allow payment.
+                                    Please do NOT put in actual card information. This is just a fictional site. For the checkout to work, please click the 'autofill' button below to auto-populate the info that will allow payment.
                                 </h5>
-                                <Button>Auto-fill</Button>
+                                <Button onClick={autofill}>Auto-fill</Button>
                             </Col>
                         </Row>
                     </FormGroup>
