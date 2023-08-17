@@ -2,9 +2,20 @@ import { useState } from 'react'
 import NavbarApp from '../components/miscellaneous/NavbarApp';
 import { Container, Row, Col } from 'reactstrap';
 import { Form, FormGroup, Label, Input, Button } from 'reactstrap';
-
+import { useLocation } from 'react-router-dom';
+import CartItemMDB from '../components/cart/CartItemMDB';
+import CartItemCheckout from '../components/cart/CartItemCheckout';
 
 const Checkout = () => {
+    // First, grab the location object of the URL, which contains data passed by Cart.js of the item ID's in the cart.
+    const location = useLocation();
+    console.log('location: ', location);
+    // To parse the query parameters, we need to use URLSearchParams (since we stored the items in the 'search' property)
+    const queryParams = new URLSearchParams(location.search);
+    const itemsArrayId = queryParams.get("items").split(',');
+    const totalCost = queryParams.get("totalCost");
+    console.log('total cost from cehckout: ', totalCost);
+
     const [formData, setFormData] = useState({
         email: '',
         payment: '',
@@ -235,6 +246,23 @@ const Checkout = () => {
                             <h3>
                                 Final Review of products.
                             </h3>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col>
+                            {itemsArrayId.length > 0 &&
+                                itemsArrayId.map((arr, idx) => (
+                                    <CartItemCheckout
+                                        key={idx}
+                                        productId={arr}
+                                    />
+                                ))
+                            }
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col>
+                            <h1>Total Cost: ${Number(totalCost).toFixed(2)}</h1>
                         </Col>
                     </Row>
                     <Button color="primary" type="submit">

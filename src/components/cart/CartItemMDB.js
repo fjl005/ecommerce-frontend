@@ -4,7 +4,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 
 
-const CartItemMDB = ({ position, removeCartItem, productId, saveLaterCartItem, isSaved, removeSavedItem, moveBackToCart, removeItem }) => {
+const CartItemMDB = ({ removeCartItem, productId, saveLaterCartItem, isSaved, removeSavedItem, moveBackToCart, removeItem }) => {
     const axiosWithAuth = axios.create({
         baseURL: 'http://localhost:5000/',
         withCredentials: true,
@@ -19,7 +19,6 @@ const CartItemMDB = ({ position, removeCartItem, productId, saveLaterCartItem, i
     const fetchProduct = async () => {
         try {
             const response = await axiosWithAuth(`/products/${productId}`);
-            console.log('response: ', response);
             const data = response.data;
             setProductData(data);
         } catch (error) {
