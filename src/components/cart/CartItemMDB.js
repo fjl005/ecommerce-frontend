@@ -72,7 +72,9 @@ const CartItemMDB = ({ removeCartItem, productId, saveLaterCartItem, isSaved, re
                     </div>
                 </Col>
                 <Col xs='3' style={{ textAlign: 'right' }}>
-                    <h3>{productData.price && productData.price.toFixed(2)}</h3>
+                    {productData.price && (
+                        <h3>${productData.price.toFixed(2)}</h3>
+                    )}
                 </Col>
             </Row>
             <Row>

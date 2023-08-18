@@ -5,6 +5,8 @@ import CartItem from "../components/cart/CartItem";
 import CartItemMDB from "../components/cart/CartItemMDB";
 import axios from 'axios';
 import { Link } from "react-router-dom";
+import LoadingOverlay from "./LoadingOverlay";
+import SpinningIcon from "../components/miscellaneous/SpinningIcon";
 
 const Cart = ({ cartLength, setCartLength }) => {
     const axiosWithAuth = axios.create({
@@ -12,9 +14,10 @@ const Cart = ({ cartLength, setCartLength }) => {
         withCredentials: true,
     });
 
-    // const [numItems, setNumItems] = useState(0);
     const [itemsArrayId, setItemsArrayId] = useState([]);
     const [totalCost, setTotalCost] = useState(0);
+    const [loadingCartAndSaved, setLoadingCartAndSaved] = useState(false);
+    const [loadingCost, setLoadingCost] = useState(true);
 
 
     const [numSaveItems, setNumSaveItems] = useState(0);
@@ -33,10 +36,8 @@ const Cart = ({ cartLength, setCartLength }) => {
         try {
             const response = await axiosWithAuth.get('/cart');
             const cartData = response.data.cart;
-            console.log('cart data: ', cartData);
             setItemsArrayId(cartData);
             setCartLength(cartData.length);
-            await determineTotalCost();
         } catch (error) {
             console.log('error: ', error);
         }
@@ -55,7 +56,9 @@ const Cart = ({ cartLength, setCartLength }) => {
 
     const determineTotalCost = async () => {
         try {
-            let total = 0; // Initialize the total
+            setLoadingCost(true);
+            let total = 0;
+            console.log('items array: ', itemsArrayId);
             for (let item of itemsArrayId) {
                 const response = await axiosWithAuth.get(`/products/${item}`);
                 const itemPrice = response.data.price;
@@ -65,14 +68,19 @@ const Cart = ({ cartLength, setCartLength }) => {
             console.log('total cost: ', totalCost);
         } catch (error) {
             console.log('error: ', error);
+        } finally {
+            setLoadingCost(false);
+            setLoadingCartAndSaved(false);
         }
     }
 
 
     const removeCartItem = async (productId) => {
         try {
+            setLoadingCartAndSaved(true);
             await axiosWithAuth.delete(`/cart/${productId}`);
             await fetchCart();
+            // setLoadingCartAndSaved(false);
         } catch (error) {
             console.log('error: ', error);
         }
@@ -80,8 +88,10 @@ const Cart = ({ cartLength, setCartLength }) => {
 
     const removeSavedItem = async (productId) => {
         try {
+            setLoadingCartAndSaved(true);
             await axiosWithAuth.delete(`/cart/saved/${productId}`);
             await fetchSaved();
+            setLoadingCartAndSaved(false);
         } catch (error) {
             console.log('error: ', error);
         }
@@ -89,9 +99,11 @@ const Cart = ({ cartLength, setCartLength }) => {
 
     const saveLaterCartItem = async (productId) => {
         try {
+            setLoadingCartAndSaved(true);
             await axiosWithAuth.post(`/cart/saved/${productId}`);
             await fetchSaved();
             await fetchCart();
+            // setLoadingCartAndSaved(false);
         } catch (error) {
             console.log('error: ', error);
         }
@@ -99,10 +111,12 @@ const Cart = ({ cartLength, setCartLength }) => {
 
     const moveBackToCart = async (productId) => {
         try {
+            setLoadingCartAndSaved(true);
             await axiosWithAuth.post(`/cart/${productId}`);
             await fetchCart();
             await axiosWithAuth.delete(`/cart/saved/${productId}`);
             await fetchSaved();
+            // setLoadingCartAndSaved(false);
         } catch (error) {
             console.log('error: ', error);
         }
@@ -110,6 +124,7 @@ const Cart = ({ cartLength, setCartLength }) => {
 
     return (
         <>
+            {loadingCartAndSaved && <LoadingOverlay />}
             <NavbarApp cartLength={cartLength} />
             <Container>
                 <Row>
@@ -151,7 +166,18 @@ const Cart = ({ cartLength, setCartLength }) => {
             <Container>
                 <Row>
                     <Col>
-                        <h1>Total Cost: ${totalCost.toFixed(2)}</h1>
+                        {cartLength > 0 && (
+                            <h1>
+                                Total Cost:
+                                {loadingCost ? (
+                                    <div style={{ marginLeft: '10px', display: 'inline-block' }}>
+                                        <SpinningIcon size='1x' />
+                                    </div>
+                                ) : (
+                                    <span> ${totalCost.toFixed(2)}</span>
+                                )}
+                            </h1>
+                        )}
                     </Col>
                 </Row>
             </Container>
@@ -159,18 +185,21 @@ const Cart = ({ cartLength, setCartLength }) => {
             <Container style={{ marginTop: '150px' }}>
                 <Row>
                     <Col>
-                        <h1>Items saved for later</h1>
                         {numSaveItems > 0 ?
                             saveItemsArrayId.map((arr, idx) => (
-                                <CartItemMDB
-                                    key={idx}
-                                    productId={arr}
-                                    isSaved={true}
-                                    removeSavedItem={removeSavedItem}
-                                    moveBackToCart={moveBackToCart}
-                                />
+                                <>
+                                    <h1>Items saved for later</h1>
+                                    <CartItemMDB
+                                        key={idx}
+                                        productId={arr}
+                                        isSaved={true}
+                                        removeSavedItem={removeSavedItem}
+                                        moveBackToCart={moveBackToCart}
+                                    />
+                                </>
+
                             )) : (
-                                <h3>None</h3>
+                                <h1>No Items saved for later</h1>
                             )
                         }
                     </Col>

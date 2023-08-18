@@ -95,7 +95,7 @@ const Checkout = () => {
                     <FormGroup>
 
                         <Row>
-                            <Col>
+                            <Col style={{ marginTop: '50px' }}>
                                 <h3>
                                     Enter Payment Information.
                                 </h3>
@@ -141,7 +141,7 @@ const Checkout = () => {
                         </Row>
 
                         <Row>
-                            <Col>
+                            <Col style={{ marginTop: '25px' }}>
                                 <h4>Billing Address</h4>
                             </Col>
                         </Row>
@@ -242,9 +242,9 @@ const Checkout = () => {
                     </FormGroup>
 
                     <Row>
-                        <Col>
+                        <Col style={{ marginTop: '50px' }}>
                             <h3>
-                                Final Review of products.
+                                Final Review of Products.
                             </h3>
                         </Col>
                     </Row>
