@@ -5,8 +5,15 @@ import { Form, FormGroup, Label, Input, Button } from 'reactstrap';
 import { useLocation } from 'react-router-dom';
 import CartItemMDB from '../components/cart/CartItemMDB';
 import CartItemCheckout from '../components/cart/CartItemCheckout';
+import axios from 'axios';
 
 const Checkout = () => {
+    const axiosWithAuth = axios.create({
+        baseURL: 'http://localhost:5000/',
+        withCredentials: true,
+    });
+
+
     // First, grab the location object of the URL, which contains data passed by Cart.js of the item ID's in the cart.
     const location = useLocation();
     console.log('location: ', location);
@@ -14,7 +21,7 @@ const Checkout = () => {
     const queryParams = new URLSearchParams(location.search);
     const itemsArrayId = queryParams.get("items").split(',');
     const totalCost = queryParams.get("totalCost");
-    console.log('total cost from cehckout: ', totalCost);
+    console.log('total cost from checkout: ', totalCost);
 
     const [formData, setFormData] = useState({
         email: '',
@@ -32,9 +39,29 @@ const Checkout = () => {
         }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log('Form data submitted:', formData);
+        console.log('form data: ', formData)
+
+        try {
+            const response = await axiosWithAuth.post('/products/verifyCard', formData, {
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            });
+            if (response.data == 'All card information matched') {
+                alert('Payment was successful! Please find your order in the "Orders" page.');
+            }
+
+        } catch (error) {
+            console.log('error when submitting: ', error);
+            if (error.response.data == "Some card information incorrect") {
+                alert('There is something incorrect with your payment / billing information. Please fix and try again.');
+            }
+
+        }
+
+
     };
 
     const autofill = (e) => {
@@ -71,12 +98,15 @@ const Checkout = () => {
 
                     <FormGroup>
                         <Row>
-                            <Col>
-
+                            <Col xs='12'>
                                 <h3>
+                                    <span style={{ marginRight: '50px' }}>
+                                        1
+                                    </span>
                                     Enter email address.
                                 </h3>
-                                <Label for="email">Email:</Label>
+                            </Col>
+                            <Col>
                                 <Input
                                     type="email"
                                     id="email"
@@ -85,24 +115,32 @@ const Checkout = () => {
                                     required
                                     onChange={handleInputChange}
                                 />
-                                <h5>
+                                <h5 style={{ marginBottom: '0px' }}>
                                     Please do NOT put in your actual email. This is just a fictional site. Otherwise, the email is used for sending the receipt and the template (though the template should also be available in the Orders section after purchase).
                                 </h5>
                             </Col>
                         </Row>
                     </FormGroup>
 
-                    <FormGroup>
+                    <Row style={{ marginBottom: '10px' }}>
+                        <Col>
+                            <hr style={{ color: 'black', backgroundColor: 'black', height: 2, }} />
+                        </Col>
+                    </Row>
 
+                    <FormGroup>
                         <Row>
-                            <Col style={{ marginTop: '50px' }}>
+                            <Col>
                                 <h3>
+                                    <span style={{ marginRight: '50px' }}>
+                                        2
+                                    </span>
                                     Enter Payment Information.
                                 </h3>
                             </Col>
                         </Row>
                         <Row>
-                            <Col xs='12'>
+                            <Col xs='6'>
                                 <Label for="cardNumber">Card Number:</Label>
                                 <Input
                                     type="text"
@@ -114,7 +152,7 @@ const Checkout = () => {
                                     onChange={handleInputChange}
                                 />
                             </Col>
-                            <Col md='2'>
+                            <Col xs='3'>
                                 <Label for="cardNumber">Expires</Label>
                                 <Input
                                     type="text"
@@ -126,7 +164,7 @@ const Checkout = () => {
                                     onChange={handleInputChange}
                                 />
                             </Col>
-                            <Col md='2'>
+                            <Col xs='3'>
                                 <Label for="cardCVC">CVC</Label>
                                 <Input
                                     type="text"
@@ -139,10 +177,23 @@ const Checkout = () => {
                                 />
                             </Col>
                         </Row>
+                    </FormGroup>
 
+                    <Row style={{ marginBottom: '10px' }}>
+                        <Col>
+                            <hr style={{ color: 'black', backgroundColor: 'black', height: 2, }} />
+                        </Col>
+                    </Row>
+
+                    <FormGroup>
                         <Row>
-                            <Col style={{ marginTop: '25px' }}>
-                                <h4>Billing Address</h4>
+                            <Col>
+                                <h3>
+                                    <span style={{ marginRight: '50px' }}>
+                                        3
+                                    </span>
+                                    Enter Billing Address.
+                                </h3>
                             </Col>
                         </Row>
 
@@ -171,7 +222,7 @@ const Checkout = () => {
                                     onChange={handleInputChange}
                                 />
                             </Col>
-                            <Col xs='12'>
+                            <Col md='8'>
                                 <Label for="streetAddress">Street Address</Label>
                                 <Input
                                     type="text"
@@ -183,7 +234,7 @@ const Checkout = () => {
                                     onChange={handleInputChange}
                                 />
                             </Col>
-                            <Col md='3'>
+                            <Col md='4'>
                                 <Label for="aptNumOptional">Apt., Ste., Bldg (Optional)</Label>
                                 <Input
                                     type="text"
@@ -194,7 +245,7 @@ const Checkout = () => {
                                     onChange={handleInputChange}
                                 />
                             </Col>
-                            <Col md='5'>
+                            <Col md='6'>
                                 <Label for="city">City</Label>
                                 <Input
                                     type="text"
@@ -206,7 +257,7 @@ const Checkout = () => {
                                     onChange={handleInputChange}
                                 />
                             </Col>
-                            <Col md='2'>
+                            <Col md='3'>
                                 <Label for="state">State</Label>
                                 <Input
                                     type="text"
@@ -218,7 +269,7 @@ const Checkout = () => {
                                     onChange={handleInputChange}
                                 />
                             </Col>
-                            <Col md='2'>
+                            <Col md='3'>
                                 <Label for="zipCode">Zip Code</Label>
                                 <Input
                                     type="text"
@@ -241,10 +292,19 @@ const Checkout = () => {
                         </Row>
                     </FormGroup>
 
+                    <Row style={{ marginBottom: '10px' }}>
+                        <Col>
+                            <hr style={{ color: 'black', backgroundColor: 'black', height: 4, }} />
+                        </Col>
+                    </Row>
+
                     <Row>
-                        <Col style={{ marginTop: '50px' }}>
+                        <Col>
                             <h3>
-                                Final Review of Products.
+                                <span style={{ marginRight: '50px' }}>
+                                    4
+                                </span>
+                                Final Review of Products
                             </h3>
                         </Col>
                     </Row>
