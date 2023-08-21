@@ -28,7 +28,7 @@ const Checkout = () => {
         payment: '',
     });
 
-    const { email, cardNumber, cardExpires, cardCVC, firstName, lastName, streetAddress, aptNumOptional, city, state, zipCode } = formData;
+    const { email, cardNumber, cardExpiresMonth, cardExpiresYear, cardCVC, firstName, lastName, streetAddress, aptNumOptional, city, state, zipCode } = formData;
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -58,17 +58,15 @@ const Checkout = () => {
             if (error.response.data == "Some card information incorrect") {
                 alert('There is something incorrect with your payment / billing information. Please fix and try again.');
             }
-
         }
-
-
     };
 
     const autofill = (e) => {
         e.preventDefault();
         setFormData({
             email: 'frank@frank.com',
-            cardExpires: '3/25',
+            cardExpiresMonth: 3,
+            cardExpiresYear: 2025,
             cardNumber: 123456789101234,
             cardCVC: 123,
             firstName: 'Jenny',
@@ -80,6 +78,21 @@ const Checkout = () => {
         })
     }
 
+    const cardExpMonthArray = [
+        1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12
+    ]
+
+    const cardExpYearArray = [
+        2023, 2024, 2025, 2026, 2027, 2028, 2029, 2030, 2031, 2032
+    ]
+
+    const stateAbbreviations = [
+        'AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA',
+        'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD',
+        'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ',
+        'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC',
+        'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY'
+    ]
 
 
     return (
@@ -94,19 +107,32 @@ const Checkout = () => {
                             </h1>
                         </Col>
                     </Row>
+                    <Row>
+                        <Col style={{ marginBottom: '10px' }}>
+                            <p style={{ marginBottom: '0px' }}>If this becomes a legitimate site, then I would implement actual payment verification. However, because I am not running this with a secure connection, I do not want ANY payment or identification information to be sent.</p>
+                            <span>With that said, for the checkout to work, please click the autofill button here: </span>
+                            <Button onClick={autofill} className='bg-primary'>Auto-fill</Button>
+                        </Col>
+                    </Row>
 
 
                     <FormGroup>
                         <Row>
-                            <Col xs='12'>
+                            <Col xs='1' style={{ maxWidth: '75px' }}>
                                 <h3>
-                                    <span style={{ marginRight: '50px' }}>
-                                        1
-                                    </span>
-                                    Enter email address.
+                                    1
                                 </h3>
                             </Col>
-                            <Col>
+                            <Col xs='11'>
+                                <h3>
+                                    Enter Email Address.
+                                </h3>
+                            </Col>
+                        </Row>
+
+                        <Row>
+                            <Col xs='1' style={{ maxWidth: '75px' }}></Col>
+                            <Col xs='11'>
                                 <Input
                                     type="email"
                                     id="email"
@@ -130,17 +156,21 @@ const Checkout = () => {
 
                     <FormGroup>
                         <Row>
-                            <Col>
+                            <Col xs='1' style={{ maxWidth: '75px' }}>
                                 <h3>
-                                    <span style={{ marginRight: '50px' }}>
-                                        2
-                                    </span>
+                                    2
+                                </h3>
+                            </Col>
+                            <Col xs='11'>
+                                <h3>
                                     Enter Payment Information.
                                 </h3>
                             </Col>
                         </Row>
+
                         <Row>
-                            <Col xs='6'>
+                            <Col xs='1' style={{ maxWidth: '75px' }}></Col>
+                            <Col xs='5'>
                                 <Label for="cardNumber">Card Number:</Label>
                                 <Input
                                     type="text"
@@ -152,19 +182,41 @@ const Checkout = () => {
                                     onChange={handleInputChange}
                                 />
                             </Col>
-                            <Col xs='3'>
-                                <Label for="cardNumber">Expires</Label>
+                            <Col xs='2'>
+                                <Label for="cardExpiresMonth">Expires (Month)</Label>
                                 <Input
-                                    type="text"
-                                    id="cardExpires"
-                                    name="cardExpires"
-                                    value={cardExpires}
-                                    placeholder='3/25'
-                                    required
+                                    type="select"
+                                    id="cardExpiresMonth"
+                                    name="cardExpiresMonth"
+                                    value={cardExpiresMonth}
                                     onChange={handleInputChange}
-                                />
+                                    required
+                                >
+                                    <option value="">-- Select Month --</option>
+                                    {cardExpMonthArray.map((month, idx) => (
+                                        <option key={idx} value={month}>{month}</option>
+                                    ))}
+                                </Input>
                             </Col>
-                            <Col xs='3'>
+                            <Col xs='2'>
+                                <Label for="cardExpiresYear">Expires (Year)</Label>
+
+                                <Input
+                                    type="select"
+                                    id="cardExpiresYear"
+                                    name="cardExpiresYear"
+                                    value={cardExpiresYear}
+                                    onChange={handleInputChange}
+                                    required
+                                >
+                                    <option value="">-- Select Year --</option>
+                                    {cardExpYearArray.map((year, idx) => (
+                                        <option key={idx} value={year}>{year}</option>
+                                    ))}
+                                </Input>
+
+                            </Col>
+                            <Col xs='2'>
                                 <Label for="cardCVC">CVC</Label>
                                 <Input
                                     type="text"
@@ -187,18 +239,21 @@ const Checkout = () => {
 
                     <FormGroup>
                         <Row>
-                            <Col>
+                            <Col xs='1' style={{ maxWidth: '75px' }}>
                                 <h3>
-                                    <span style={{ marginRight: '50px' }}>
-                                        3
-                                    </span>
+                                    3
+                                </h3>
+                            </Col>
+                            <Col xs='11'>
+                                <h3>
                                     Enter Billing Address.
                                 </h3>
                             </Col>
                         </Row>
 
                         <Row>
-                            <Col md='6'>
+                            <Col xs='1' style={{ maxWidth: '75px' }}></Col>
+                            <Col md='5'>
                                 <Label for="firstName">First Name</Label>
                                 <Input
                                     type="text"
@@ -222,7 +277,8 @@ const Checkout = () => {
                                     onChange={handleInputChange}
                                 />
                             </Col>
-                            <Col md='8'>
+                            <Col xs='1' style={{ maxWidth: '75px' }}></Col>
+                            <Col md='7'>
                                 <Label for="streetAddress">Street Address</Label>
                                 <Input
                                     type="text"
@@ -245,7 +301,8 @@ const Checkout = () => {
                                     onChange={handleInputChange}
                                 />
                             </Col>
-                            <Col md='6'>
+                            <Col xs='1' style={{ maxWidth: '75px' }}></Col>
+                            <Col md='5'>
                                 <Label for="city">City</Label>
                                 <Input
                                     type="text"
@@ -283,11 +340,11 @@ const Checkout = () => {
                             </Col>
                         </Row>
                         <Row>
-                            <Col>
+                            <Col xs='1' style={{ maxWidth: '75px' }}></Col>
+                            <Col xs='11'>
                                 <h5>
                                     Please do NOT put in actual card information. This is just a fictional site. For the checkout to work, please click the 'autofill' button below to auto-populate the info that will allow payment.
                                 </h5>
-                                <Button onClick={autofill}>Auto-fill</Button>
                             </Col>
                         </Row>
                     </FormGroup>
@@ -299,16 +356,17 @@ const Checkout = () => {
                     </Row>
 
                     <Row>
-                        <Col>
+                        <Col xs='1' style={{ maxWidth: '75px' }}>
+                            <h3>4</h3>
+                        </Col>
+                        <Col xs='11'>
                             <h3>
-                                <span style={{ marginRight: '50px' }}>
-                                    4
-                                </span>
                                 Final Review of Products
                             </h3>
                         </Col>
                     </Row>
                     <Row>
+                        <Col xs='1' style={{ maxWidth: '75px' }}></Col>
                         <Col>
                             {itemsArrayId.length > 0 &&
                                 itemsArrayId.map((arr, idx) => (

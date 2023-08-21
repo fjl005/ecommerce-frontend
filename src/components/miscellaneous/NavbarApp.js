@@ -19,6 +19,11 @@ const NavbarApp = ({ cartNumber, cartLength, isCheckout }) => {
                                     Login
                                 </NavLink>
                             </NavItem>
+                            <NavItem>
+                                <NavLink tag={Link} to="/orders" style={{ marginTop: '1px' }}>
+                                    Orders
+                                </NavLink>
+                            </NavItem>
                             <NavItem style={{
                                 position: 'absolute',
                                 top: 0,
