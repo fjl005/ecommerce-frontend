@@ -4,9 +4,12 @@ import axios from 'axios';
 import { useState, useEffect } from "react";
 import twoPageAirbnb from '../img/twoPageAirbnb.png';
 import { useLocation } from "react-router-dom";
+import { useCartContext } from "../components/cart/CartContext";
 
-const Orders = ({ cartLength }) => {
+
+const Orders = () => {
     const location = useLocation();
+    const { cartLength } = useCartContext();
 
     const axiosWithAuth = axios.create({
         baseURL: 'http://localhost:5000/',
@@ -16,6 +19,7 @@ const Orders = ({ cartLength }) => {
     const [ordersID, setOrdersID] = useState([]);
     const [ordersData, setOrdersData] = useState([]);
     const [loadingPage, setLoadingPage] = useState(true);
+    const [loggedIn, setLoggedIn] = useState(false);
 
     useEffect(() => {
         fetchOrdersID();
@@ -28,12 +32,17 @@ const Orders = ({ cartLength }) => {
     const fetchOrdersID = async () => {
         try {
             const response = await axiosWithAuth.get('/orders');
+            setLoggedIn(true);
             const data = response.data;
             if (data) {
                 setOrdersID(data);
                 setLoadingPage(false);
             }
         } catch (error) {
+            if (error.response.data == "You must log in before accessing this page") {
+                setLoadingPage(false);
+                setLoggedIn(false);
+            }
             console.log('error: ', error);
         }
     }
@@ -56,6 +65,10 @@ const Orders = ({ cartLength }) => {
         }
     }
 
+    const downloadClick = (order) => {
+        console.log('order from click: ', order);
+    }
+
 
     return (
         <>
@@ -76,7 +89,15 @@ const Orders = ({ cartLength }) => {
                         </Col>
                     </Row>
                 </Container>
-            ) : (
+            ) : !loggedIn ? (
+                <Container>
+                    <Row>
+                        <Col>
+                            <h3>You must log in to see your orders.</h3>
+                        </Col>
+                    </Row>
+                </Container>
+            ) :
                 ordersData ?
                     ordersData.map((order, idx) => (
                         <Container className='cart-container' key={idx}>
@@ -112,6 +133,12 @@ const Orders = ({ cartLength }) => {
                                                 </div>
                                                 1 PDF Included
                                             </p>
+                                            <span
+                                                onClick={() => downloadClick(order)}
+                                                style={{ color: 'blue', textDecoration: 'underline', cursor: 'pointer' }}
+                                            >
+                                                Click to Download
+                                            </span>
                                         </div>
                                     </div>
                                 </Col>
@@ -122,11 +149,10 @@ const Orders = ({ cartLength }) => {
                                 </Col>
                             </Row>
                         </Container>
-                    )
-                    ) : (
+                    )) : (
                         <p>No Orders</p>
                     )
-            )}
+            }
         </>
     )
 }

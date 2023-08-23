@@ -7,21 +7,36 @@ import axios from 'axios';
 import { Link } from "react-router-dom";
 import LoadingOverlay from "./LoadingOverlay";
 import SpinningIcon from "../components/miscellaneous/SpinningIcon";
+import { useCartContext } from "../components/cart/CartContext";
 
-const Cart = ({ cartLength, setCartLength }) => {
+const Cart = () => {
     const axiosWithAuth = axios.create({
         baseURL: 'http://localhost:5000/',
         withCredentials: true,
     });
 
-    const [itemsArrayId, setItemsArrayId] = useState([]);
+    const {
+        fetchCart,
+        fetchSaved,
+        itemsArrayId,
+        savedLength,
+        saveItemsArrayId,
+        cartLength,
+        setCartLength,
+        saveLaterCartItem,
+        moveBackToCart,
+        loadingCartAndSaved,
+        setLoadingCartAndSaved,
+        removeCartItem,
+        removeSavedItem,
+    } = useCartContext();
+
+    // const [itemsArrayId, setItemsArrayId] = useState([]);
     const [totalCost, setTotalCost] = useState(0);
-    const [loadingCartAndSaved, setLoadingCartAndSaved] = useState(false);
     const [loadingCost, setLoadingCost] = useState(true);
 
-
     const [numSaveItems, setNumSaveItems] = useState(0);
-    const [saveItemsArrayId, setSaveItemsArrayId] = useState([]);
+    // const [saveItemsArrayId, setSaveItemsArrayId] = useState([]);
 
     useEffect(() => {
         fetchCart();
@@ -30,29 +45,29 @@ const Cart = ({ cartLength, setCartLength }) => {
 
     useEffect(() => {
         determineTotalCost();
-    }, [itemsArrayId]);
+    }, [cartLength]);
 
-    const fetchCart = async () => {
-        try {
-            const response = await axiosWithAuth.get('/cart');
-            const cartData = response.data.cart;
-            setItemsArrayId(cartData);
-            setCartLength(cartData.length);
-        } catch (error) {
-            console.log('error: ', error);
-        }
-    }
+    // const fetchCart = async () => {
+    //     try {
+    //         const response = await axiosWithAuth.get('/cart');
+    //         const cartData = response.data.cart;
+    //         setItemsArrayId(cartData);
+    //         setCartLength(cartData.length);
+    //     } catch (error) {
+    //         console.log('error: ', error);
+    //     }
+    // }
 
-    const fetchSaved = async () => {
-        try {
-            const response = await axiosWithAuth.get('/cart/saved');
-            const savedItems = response.data.saved;
-            setSaveItemsArrayId(savedItems);
-            setNumSaveItems(savedItems.length);
-        } catch (error) {
-            console.log('error: ', error);
-        }
-    }
+    // const fetchSaved = async () => {
+    //     try {
+    //         const response = await axiosWithAuth.get('/cart/saved');
+    //         const savedItems = response.data.saved;
+    //         setSaveItemsArrayId(savedItems);
+    //         setNumSaveItems(savedItems.length);
+    //     } catch (error) {
+    //         console.log('error: ', error);
+    //     }
+    // }
 
     const determineTotalCost = async () => {
         try {
@@ -60,6 +75,7 @@ const Cart = ({ cartLength, setCartLength }) => {
             let total = 0;
             console.log('items array: ', itemsArrayId);
             for (let item of itemsArrayId) {
+                console.log('calculating...')
                 const response = await axiosWithAuth.get(`/products/${item}`);
                 const itemPrice = response.data.price;
                 total += itemPrice;
@@ -75,52 +91,52 @@ const Cart = ({ cartLength, setCartLength }) => {
     }
 
 
-    const removeCartItem = async (productId) => {
-        try {
-            setLoadingCartAndSaved(true);
-            await axiosWithAuth.delete(`/cart/${productId}`);
-            await fetchCart();
-            // setLoadingCartAndSaved(false);
-        } catch (error) {
-            console.log('error: ', error);
-        }
-    };
+    // const removeCartItem = async (productId) => {
+    //     try {
+    //         setLoadingCartAndSaved(true);
+    //         await axiosWithAuth.delete(`/cart/${productId}`);
+    //         await fetchCart();
+    //         // setLoadingCartAndSaved(false);
+    //     } catch (error) {
+    //         console.log('error: ', error);
+    //     }
+    // };
 
-    const removeSavedItem = async (productId) => {
-        try {
-            setLoadingCartAndSaved(true);
-            await axiosWithAuth.delete(`/cart/saved/${productId}`);
-            await fetchSaved();
-            setLoadingCartAndSaved(false);
-        } catch (error) {
-            console.log('error: ', error);
-        }
-    };
+    // const removeSavedItem = async (productId) => {
+    //     try {
+    //         setLoadingCartAndSaved(true);
+    //         await axiosWithAuth.delete(`/cart/saved/${productId}`);
+    //         await fetchSaved();
+    //         setLoadingCartAndSaved(false);
+    //     } catch (error) {
+    //         console.log('error: ', error);
+    //     }
+    // };
 
-    const saveLaterCartItem = async (productId) => {
-        try {
-            setLoadingCartAndSaved(true);
-            await axiosWithAuth.post(`/cart/saved/${productId}`);
-            await fetchSaved();
-            await fetchCart();
-            // setLoadingCartAndSaved(false);
-        } catch (error) {
-            console.log('error: ', error);
-        }
-    };
+    // const saveLaterCartItem = async (productId) => {
+    //     try {
+    //         setLoadingCartAndSaved(true);
+    //         await axiosWithAuth.post(`/cart/saved/${productId}`);
+    //         await fetchSaved();
+    //         await fetchCart();
+    //         // setLoadingCartAndSaved(false);
+    //     } catch (error) {
+    //         console.log('error: ', error);
+    //     }
+    // };
 
-    const moveBackToCart = async (productId) => {
-        try {
-            setLoadingCartAndSaved(true);
-            await axiosWithAuth.post(`/cart/${productId}`);
-            await fetchCart();
-            await axiosWithAuth.delete(`/cart/saved/${productId}`);
-            await fetchSaved();
-            // setLoadingCartAndSaved(false);
-        } catch (error) {
-            console.log('error: ', error);
-        }
-    };
+    // const moveBackToCart = async (productId) => {
+    //     try {
+    //         setLoadingCartAndSaved(true);
+    //         await axiosWithAuth.post(`/cart/${productId}`);
+    //         await fetchCart();
+    //         await axiosWithAuth.delete(`/cart/saved/${productId}`);
+    //         await fetchSaved();
+    //         // setLoadingCartAndSaved(false);
+    //     } catch (error) {
+    //         console.log('error: ', error);
+    //     }
+    // };
 
     return (
         <>
@@ -185,7 +201,7 @@ const Cart = ({ cartLength, setCartLength }) => {
             <Container style={{ marginTop: '150px' }}>
                 <Row>
                     <Col>
-                        {numSaveItems > 0 ?
+                        {savedLength > 0 ?
                             saveItemsArrayId.map((arr, idx) => (
                                 <>
                                     <h1>Items saved for later</h1>

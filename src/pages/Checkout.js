@@ -7,6 +7,7 @@ import CartItemMDB from '../components/cart/CartItemMDB';
 import CartItemCheckout from '../components/cart/CartItemCheckout';
 import axios from 'axios';
 
+
 const Checkout = () => {
     const axiosWithAuth = axios.create({
         baseURL: 'http://localhost:5000/',

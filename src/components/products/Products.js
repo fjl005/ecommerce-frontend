@@ -29,10 +29,12 @@ const Products = () => {
                 {fetchDone && productsDB.length > 0 &&
                     productsDB.map((product, idx) => (
                         <Col key={idx} xs='6' md='4' lg='3' className='product-item-homepage'>
-                            <Link to={`/products/${product._id}`} target='_blank' style={{
-                                textDecoration: 'none',
-                                color: 'black'
-                            }}>
+                            <Link to={`/products/${product._id}`}
+                                // target='_blank' 
+                                style={{
+                                    textDecoration: 'none',
+                                    color: 'black'
+                                }}>
                                 <div style={{
                                     width: '100%',
                                     padding: '10px 5px'
@@ -67,10 +69,12 @@ const Products = () => {
             <Row>
                 {productsArray.map((product, idx) => (
                     <Col key={idx} xs='6' md='4' lg='3' className='product-item-homepage'>
-                        <Link to={`/products/${product.productId}`} target='_blank' style={{
-                            textDecoration: 'none',
-                            color: 'black'
-                        }}>
+                        <Link to={`/products/${product.productId}`}
+                            // target='_blank' 
+                            style={{
+                                textDecoration: 'none',
+                                color: 'black'
+                            }}>
                             <div style={{
                                 width: '100%',
                                 padding: '10px 5px'

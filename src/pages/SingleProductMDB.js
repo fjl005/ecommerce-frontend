@@ -9,20 +9,21 @@ import ProductDescription from "../components/products/ProductDescription";
 import { useState, useEffect } from "react";
 import RightColToggle from "../components/products/RightColToggle";
 import axios from 'axios';
+import { useCartContext } from "../components/cart/CartContext";
 
 
-const SingleProductMDB = ({ cartLength, setCartLength }) => {
+const SingleProductMDB = () => {
     const axiosWithAuth = axios.create({
         baseURL: 'http://localhost:5000/',
         withCredentials: true,
     });
 
+    const { addItemToCart, tooltipAddCartSignin, tooltipAddCartSuccess, cartLength } = useCartContext();
+
+
     const { productId } = useParams();
     const [fetchDone, setFetchDone] = useState(false);
     const [selectedProduct, setSelectedProduct] = useState({});
-
-    const [tooltipAddCartSignin, setTooltipAddCartSignin] = useState(false);
-    const [tooltipAddCartSuccess, setTooltipAddCartSuccess] = useState(false);
 
 
     useEffect(() => {
@@ -32,26 +33,6 @@ const SingleProductMDB = ({ cartLength, setCartLength }) => {
                 setFetchDone(true);
             }).catch(error => console.log('error: ', error))
     }, []);
-
-    const addItemToCart = async () => {
-        try {
-            await axiosWithAuth.post(`/cart/${productId}`);
-            setTooltipAddCartSuccess(true);
-            setTimeout(() => {
-                setTooltipAddCartSuccess(false);
-            }, 3000);
-            setCartLength(cartLength + 1);
-        } catch (error) {
-            console.log('error: ', error);
-            console.log('response: ', error.response.data);
-            if (error.response.data === 'You must log in before accessing this page') {
-                setTooltipAddCartSignin(true);
-                setTimeout(() => {
-                    setTooltipAddCartSignin(false);
-                }, 3000);
-            }
-        }
-    };
 
     const [highlight, setHighlight] = useState(true);
     const [description, setDescription] = useState(true);
@@ -101,8 +82,9 @@ const SingleProductMDB = ({ cartLength, setCartLength }) => {
                                 <div
                                     id='addToCart'
                                     className='product-page-add-to-cart'
-                                    onClick={() => addItemToCart()}
+                                    onClick={() => addItemToCart(selectedProduct._id)}
                                 >Add to cart</div>
+                                {console.log('product info: ', selectedProduct)}
                                 <Tooltip
                                     isOpen={tooltipAddCartSignin}
                                     target='addToCart'

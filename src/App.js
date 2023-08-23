@@ -15,7 +15,6 @@ function App() {
     const [admin, setAdmin] = useState(false);
     const [loggedIn, setLoggedIn] = useState(false);
     const [pageLoading, setPageLoading] = useState(true);
-    const [cartLength, setCartLength] = useState(0);
 
     const axiosWithAuth = axios.create({
         baseURL: 'http://localhost:5000/',
@@ -46,23 +45,10 @@ function App() {
         }
     };
 
-    const checkCartLength = async () => {
-        try {
-            const response = await axiosWithAuth.get('/cart');
-            const cartData = response.data.cart;
-            console.log('this is from app.js. the cart data is: ', cartData);
-            setCartLength(cartData.length);
-            console.log('this is from app.js. the cart length is now: ', cartLength)
-        } catch (error) {
-            console.log('There was an error checking the cart length from App.js: ', error);
-        }
-    }
-
     // Initiate checkLogin annd checkAdmin at initial page render. Once completed, setPageLoading to false to make the Spinner disappear.
     useEffect(() => {
 
         fetchData();
-        checkCartLength();
 
         // Create a setTimeout to rerun fetchData after 1 Hour, the duration of the cookie.
         const timerId = setTimeout(() => {
@@ -74,10 +60,6 @@ function App() {
             clearTimeout(timerId);
         };
     }, []);
-
-    useEffect(() => {
-        checkCartLength();
-    }, [cartLength])
 
     return (
         <>
@@ -91,7 +73,6 @@ function App() {
                             loggedIn={loggedIn}
                             setLoggedIn={setLoggedIn}
                             pageLoading={pageLoading}
-                            cartLength={cartLength}
                         />
                     } />
 
@@ -103,33 +84,22 @@ function App() {
                             setLoggedIn={setLoggedIn}
                             setAdmin={setAdmin}
                             pageLoading={pageLoading}
-                            cartLength={cartLength}
                         />
                     } />
                     <Route path='/products/:productId' element={
                         // <SingleProduct />
-                        <SingleProductMDB
-                            cartLength={cartLength}
-                            setCartLength={setCartLength}
-                        />
+                        <SingleProductMDB />
                     } />
                     <Route path='/cart' element={
-                        <Cart
-                            cartLength={cartLength}
-                            setCartLength={setCartLength}
-                        />
+                        <Cart />
                     } />
 
                     <Route path='/cart/checkout' element={
-                        <Checkout
-                            cartLength={cartLength}
-                        />
+                        <Checkout />
                     } />
 
                     <Route path='/orders' element={
-                        <Orders
-                            cartLength={cartLength}
-                        />
+                        <Orders />
                     } />
                 </Routes>
             </BrowserRouter>

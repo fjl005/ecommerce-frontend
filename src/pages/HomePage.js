@@ -4,13 +4,17 @@ import { useState, useEffect, useRef } from "react";
 import axios from 'axios';
 import SpinningIcon from "../components/miscellaneous/SpinningIcon";
 import Products from "../components/products/Products";
+import { useCartContext } from "../components/cart/CartContext";
 
-const HomePage = ({ username, admin, setAdmin, loggedIn, setLoggedIn, pageLoading, cartLength }) => {
+const HomePage = ({ username, admin, setAdmin, loggedIn, setLoggedIn, pageLoading, }) => {
     /* Remember that for object destructuring, the ({username}) for the props is essentially:
     function(props) {
         const username = props.username
     }
      */
+
+    const { cartLength } = useCartContext();
+
 
     // User States
     const [loginErrorMsg, setLoginErrorMsg] = useState('');
