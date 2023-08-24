@@ -13,7 +13,6 @@ import axios from 'axios';
 function App() {
     const [username, setUsername] = useState('');
     const [admin, setAdmin] = useState(false);
-    const [loggedIn, setLoggedIn] = useState(false);
     const [pageLoading, setPageLoading] = useState(true);
 
     const axiosWithAuth = axios.create({
@@ -25,14 +24,10 @@ function App() {
         try {
             const response = await axiosWithAuth.get('/users');
             console.log('response: ', response);
-            setLoggedIn(true);
             setUsername(response.data.username);
             setAdmin(response.data.admin)
         } catch (error) {
             console.error(error);
-            setLoggedIn(false);
-            setUsername('');
-            setAdmin(false);
         }
     };
 
@@ -70,8 +65,8 @@ function App() {
                             username={username}
                             admin={admin}
                             setAdmin={setAdmin}
-                            loggedIn={loggedIn}
-                            setLoggedIn={setLoggedIn}
+                            // loggedIn={loggedIn}
+                            // setLoggedIn={setLoggedIn}
                             pageLoading={pageLoading}
                         />
                     } />
@@ -80,8 +75,8 @@ function App() {
                         <LoginPage
                             username={username}
                             setUsername={setUsername}
-                            loggedIn={loggedIn}
-                            setLoggedIn={setLoggedIn}
+                            // loggedIn={loggedIn}
+                            // setLoggedIn={setLoggedIn}
                             setAdmin={setAdmin}
                             pageLoading={pageLoading}
                         />

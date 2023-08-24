@@ -39,6 +39,8 @@ export const CartProvider = ({ children }) => {
             setCartLength(cartData.length);
         } catch (error) {
             console.log('error: ', error);
+            setCartLength(0);
+            setItemsArrayId(null);
         }
     }
 
@@ -50,6 +52,8 @@ export const CartProvider = ({ children }) => {
             setSavedLength(savedItems.length);
         } catch (error) {
             console.log('error: ', error);
+            setCartLength(0);
+            setItemsArrayId(null);
         }
     }
 
@@ -148,6 +152,7 @@ export const CartProvider = ({ children }) => {
             itemsArrayId,
             saveItemsArrayId,
             savedLength,
+            setSavedLength,
             tooltipAddCartSignin,
             tooltipAddCartSuccess,
             fetchCart,

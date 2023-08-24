@@ -5,15 +5,18 @@ import axios from 'axios';
 import SpinningIcon from "../components/miscellaneous/SpinningIcon";
 import Products from "../components/products/Products";
 import { useCartContext } from "../components/cart/CartContext";
+import { useLoginContext } from '../components/login/LoginContext';
 
-const HomePage = ({ username, admin, setAdmin, loggedIn, setLoggedIn, pageLoading, }) => {
+const HomePage = ({ username, admin, setAdmin, pageLoading, }) => {
     /* Remember that for object destructuring, the ({username}) for the props is essentially:
     function(props) {
         const username = props.username
     }
      */
 
+
     const { cartLength } = useCartContext();
+    const { loggedIn, setLoggedIn } = useLoginContext();
 
 
     // User States
@@ -32,16 +35,16 @@ const HomePage = ({ username, admin, setAdmin, loggedIn, setLoggedIn, pageLoadin
     });
 
     // Async Functions (check login, check admin).
-    const checkLogin = async () => {
-        try {
-            await axiosWithAuth.get('/users');
-            setLoggedIn(true);
-        } catch (error) {
-            console.error(error);
-            setLoggedIn(false);
-            setLoginErrorMsg(`It looks like you're not logged in. Please log in to access this page.`);
-        }
-    };
+    // const checkLogin = async () => {
+    //     try {
+    //         await axiosWithAuth.get('/users');
+    //         setLoggedIn(true);
+    //     } catch (error) {
+    //         console.error(error);
+    //         setLoggedIn(false);
+    //         setLoginErrorMsg(`It looks like you're not logged in. Please log in to access this page.`);
+    //     }
+    // };
 
     const checkAdmin = async () => {
         try {
@@ -76,18 +79,18 @@ const HomePage = ({ username, admin, setAdmin, loggedIn, setLoggedIn, pageLoadin
     const adminBtnTimerRef = useRef(null);
 
     // Login Button Press
-    const buttonLoginPress = async () => {
-        try {
-            await checkLogin();
-            if (loggedIn) {
-                welcomeUserBtn();
-            } else {
-                notUserBtn();
-            }
-        } catch (error) {
-            notUserBtn();
-        }
-    };
+    // const buttonLoginPress = async () => {
+    //     try {
+    //         await checkLogin();
+    //         if (loggedIn) {
+    //             welcomeUserBtn();
+    //         } else {
+    //             notUserBtn();
+    //         }
+    //     } catch (error) {
+    //         notUserBtn();
+    //     }
+    // };
 
     function welcomeUserBtn() {
         setBtnLoginMsg('Logged in');
@@ -152,12 +155,12 @@ const HomePage = ({ username, admin, setAdmin, loggedIn, setLoggedIn, pageLoadin
                     <Col>
                         <div className='d-flex justify-content-between align-items-center'>
                             <h1>Home Page</h1>
-                            {loggedIn && (<Button className='bg-primary' onClick={triggerLogout}>Logout</Button>)}
+                            {/* {loggedIn && (<Button className='bg-primary' onClick={triggerLogout}>Logout</Button>)} */}
                         </div>
                     </Col>
                 </Row>
 
-                <Row>
+                {/* <Row>
                     <Col>
                         {pageLoading ? (
                             <SpinningIcon />
@@ -195,7 +198,7 @@ const HomePage = ({ username, admin, setAdmin, loggedIn, setLoggedIn, pageLoadin
                             className={btnAdminBackgroundColor}
                         >{btnAdminMsg}</Button>
                     </Col>
-                </Row>
+                </Row> */}
             </Container>
 
             <Products />

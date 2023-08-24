@@ -8,6 +8,8 @@ import { Link } from "react-router-dom";
 import LoadingOverlay from "./LoadingOverlay";
 import SpinningIcon from "../components/miscellaneous/SpinningIcon";
 import { useCartContext } from "../components/cart/CartContext";
+import { useLoginContext } from '../components/login/LoginContext';
+
 
 const Cart = () => {
     const axiosWithAuth = axios.create({
@@ -30,6 +32,9 @@ const Cart = () => {
         removeCartItem,
         removeSavedItem,
     } = useCartContext();
+
+    const { loggedIn, setLoggedIn } = useLoginContext();
+
 
     // const [itemsArrayId, setItemsArrayId] = useState([]);
     const [totalCost, setTotalCost] = useState(0);
