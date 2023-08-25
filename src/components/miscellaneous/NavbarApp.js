@@ -57,13 +57,13 @@ const NavbarApp = ({ cartLength, isCheckout }) => {
                     {!isCheckout && (
                         <Nav navbar>
                             <NavItem>
-                                <NavLink tag={Link} to="/login" style={{ marginTop: '1px' }}>
-                                    Login
+                                <NavLink tag={Link} to="/orders" style={{ marginTop: '1px' }}>
+                                    Orders
                                 </NavLink>
                             </NavItem>
                             <NavItem>
-                                <NavLink tag={Link} to="/orders" style={{ marginTop: '1px' }}>
-                                    Orders
+                                <NavLink>
+                                    Favorites
                                 </NavLink>
                             </NavItem>
 

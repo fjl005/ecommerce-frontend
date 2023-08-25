@@ -18,6 +18,8 @@ const Cart = () => {
     });
 
     const {
+        cartItems,
+        setCartItems,
         fetchCart,
         fetchSaved,
         itemsArrayId,
@@ -32,6 +34,8 @@ const Cart = () => {
         removeCartItem,
         removeSavedItem,
     } = useCartContext();
+
+    console.log('in cart.js cart items is: ', cartItems);
 
     const { loggedIn, setLoggedIn } = useLoginContext();
 
@@ -158,7 +162,7 @@ const Cart = () => {
                                 <Link
                                     to={{
                                         pathname: `/cart/checkout`,
-                                        search: `?items=${itemsArrayId.join(',')}&totalCost=${totalCost.toFixed(2)}`
+                                        search: `?items=${itemsArrayId ? itemsArrayId.join(',') : ''}&totalCost=${totalCost.toFixed(2)}`
                                     }}
                                     // target='_blank' 
                                     style={{
@@ -174,7 +178,7 @@ const Cart = () => {
                 </Row>
             </Container>
 
-            {cartLength > 0 && itemsArrayId.map((arr, idx) => (
+            {/* {cartLength > 0 && itemsArrayId.map((arr, idx) => (
                 <CartItemMDB
                     key={idx}
                     productId={arr}
@@ -182,6 +186,25 @@ const Cart = () => {
                     saveLaterCartItem={saveLaterCartItem}
                     isSaved={false}
                 />
+            ))} */}
+            {console.log('cart items accessed from Cart.js: ', cartItems)}
+
+            {cartItems && cartItems.map((product, idx) => (
+                <>
+                    <CartItemMDB
+                        key={idx}
+                        cartItemId={product._id}
+                        price={product.price}
+                        name={product.name}
+                        productType={product.productType}
+                        description={product.description}
+                        removeCartItem={removeCartItem}
+                        saveLaterCartItem={saveLaterCartItem}
+                        isSaved={false}
+                    />
+                    {console.log('product: ', product)}
+                </>
+
             ))}
 
             <Container>

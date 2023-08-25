@@ -4,27 +4,12 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 
 
-const CartItemMDB = ({ removeCartItem, productId, saveLaterCartItem, isSaved, removeSavedItem, moveBackToCart, removeItem }) => {
+const CartItemMDB = ({ cartItemId, price, name, productType, description, removeCartItem, saveLaterCartItem, isSaved, removeSavedItem, moveBackToCart, removeItem }) => {
     const axiosWithAuth = axios.create({
         baseURL: 'http://localhost:5000/',
         withCredentials: true,
     });
 
-    const [productData, setProductData] = useState({});
-
-    useEffect(() => {
-        fetchProduct();
-    }, []);
-
-    const fetchProduct = async () => {
-        try {
-            const response = await axiosWithAuth.get(`/products/${productId}`);
-            const data = response.data;
-            setProductData(data);
-        } catch (error) {
-            console.log('error: ', error);
-        }
-    }
 
     return (
         <Container className='cart-container'>
@@ -40,7 +25,7 @@ const CartItemMDB = ({ removeCartItem, productId, saveLaterCartItem, isSaved, re
                 <Col xs='3'>
                     <img
                         src={twoPageAirbnb}
-                        alt={`image for ${productData.name}`}
+                        alt={`image for ${name}`}
                         style={{
                             width: '100%',
                             marginBottom: '20px'
@@ -49,7 +34,7 @@ const CartItemMDB = ({ removeCartItem, productId, saveLaterCartItem, isSaved, re
                 </Col>
                 <Col xs='6'>
                     <div className='d-flex flex-column'>
-                        <h3 className='product-title'>{productData.name}</h3>
+                        <h3 className='product-title'>{name}</h3>
                         <div style={{
                             backgroundColor: 'rgb(240, 240, 240)',
                             width: '80%',
@@ -60,7 +45,7 @@ const CartItemMDB = ({ removeCartItem, productId, saveLaterCartItem, isSaved, re
                                 <div className='icon-margin-align'>
                                     <i class="fa-solid fa-cloud-arrow-down"></i>
                                 </div>
-                                {productData.type}
+                                {productType}
                             </p>
                             <p>
                                 <div className='icon-margin-align'>
@@ -72,8 +57,8 @@ const CartItemMDB = ({ removeCartItem, productId, saveLaterCartItem, isSaved, re
                     </div>
                 </Col>
                 <Col xs='3' style={{ textAlign: 'right' }}>
-                    {productData.price && (
-                        <h3>${productData.price.toFixed(2)}</h3>
+                    {price && (
+                        <h3>${price.toFixed(2)}</h3>
                     )}
                 </Col>
             </Row>
@@ -83,7 +68,7 @@ const CartItemMDB = ({ removeCartItem, productId, saveLaterCartItem, isSaved, re
                         <>
                             <span
                                 className='cart-remove-save-btn'
-                                onClick={() => removeSavedItem(productId)}
+                                onClick={() => removeSavedItem(cartItemId)}
                             >
                                 <i class="fa-solid fa-x" style={{ marginRight: '10px' }}></i>
                                 Remove
@@ -91,7 +76,7 @@ const CartItemMDB = ({ removeCartItem, productId, saveLaterCartItem, isSaved, re
                             <span
                                 className='cart-remove-save-btn'
                                 style={{ marginLeft: '10px' }}
-                                onClick={() => moveBackToCart(productId)}
+                                onClick={() => moveBackToCart(cartItemId)}
                             >
                                 <i class="fa-solid fa-cart-plus" style={{ marginRight: '10px' }}></i>
                                 Move to Cart
@@ -101,7 +86,7 @@ const CartItemMDB = ({ removeCartItem, productId, saveLaterCartItem, isSaved, re
                         <>
                             <span
                                 className='cart-remove-save-btn'
-                                onClick={() => removeCartItem(productId)}
+                                onClick={() => removeCartItem(cartItemId)}
                             >
                                 <i class="fa-solid fa-x" style={{ marginRight: '10px' }}></i>
                                 Remove
@@ -109,7 +94,7 @@ const CartItemMDB = ({ removeCartItem, productId, saveLaterCartItem, isSaved, re
                             <span
                                 className='cart-remove-save-btn'
                                 style={{ marginLeft: '10px' }}
-                                onClick={() => saveLaterCartItem(productId)}
+                                onClick={() => saveLaterCartItem(cartItemId)}
                             >
                                 Save for later
                             </span>

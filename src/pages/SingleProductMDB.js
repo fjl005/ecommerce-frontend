@@ -82,7 +82,7 @@ const SingleProductMDB = () => {
                                 <div
                                     id='addToCart'
                                     className='product-page-add-to-cart'
-                                    onClick={() => addItemToCart(selectedProduct._id)}
+                                    onClick={() => addItemToCart(selectedProduct)}
                                 >Add to cart</div>
                                 {console.log('product info: ', selectedProduct)}
                                 <Tooltip
@@ -120,7 +120,7 @@ const SingleProductMDB = () => {
                                                 <div className='icon-margin-align'>
                                                     <i class="fa-solid fa-cloud-arrow-down"></i>
                                                 </div>
-                                                {selectedProduct.type}
+                                                {selectedProduct.productType}
                                             </p>
                                             <p>
                                                 <div className='icon-margin-align'>

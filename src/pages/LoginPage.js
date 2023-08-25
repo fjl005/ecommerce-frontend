@@ -16,6 +16,7 @@ const LoginPage = ({ username, setUsername, setAdmin, pageLoading }) => {
     // Login states
     const [password, setPassword] = useState('');
     const [loginErrorMsg, setLoginErrorMsg] = useState('');
+    const [initialRender, setInitialRender] = useState(true);
 
     // Axios configuration. Need credentials to send cookies.
     const axiosWithAuth = axios.create({
@@ -66,9 +67,13 @@ const LoginPage = ({ username, setUsername, setAdmin, pageLoading }) => {
     };
 
     useEffect(() => {
-        if (!loggedIn) {
-            triggerLogout();
+        if (!initialRender) {
+            if (!loggedIn) {
+                console.log('this is being run');
+                triggerLogout();
+            }
         }
+        setInitialRender(false);
     }, [loggedIn])
 
     return (

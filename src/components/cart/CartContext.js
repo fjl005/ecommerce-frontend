@@ -14,6 +14,7 @@ export const CartProvider = ({ children }) => {
     const [tooltipAddCartSuccess, setTooltipAddCartSuccess] = useState(false);
 
     const [itemsArrayId, setItemsArrayId] = useState([]);
+    const [cartItems, setCartItems] = useState([]);
     const [totalCost, setTotalCost] = useState(0);
     const [loadingCartAndSaved, setLoadingCartAndSaved] = useState(false);
     const [loadingCost, setLoadingCost] = useState(true);
@@ -35,11 +36,15 @@ export const CartProvider = ({ children }) => {
         try {
             const response = await axiosWithAuth.get('/cart');
             const cartData = response.data.cart;
-            setItemsArrayId(cartData);
+            setCartItems(cartData);
+            console.log('cart items: ', cartData);
             setCartLength(cartData.length);
+            // setItemsArrayId(cartData);
+            // setCartLength(cartData.length);
         } catch (error) {
             console.log('error: ', error);
             setCartLength(0);
+            setCartItems(null);
             setItemsArrayId(null);
         }
     }
@@ -77,9 +82,11 @@ export const CartProvider = ({ children }) => {
         }
     }
 
-    const addItemToCart = async (productId) => {
+    const addItemToCart = async (product) => {
+        const productId = product._id;
+
         try {
-            await axiosWithAuth.post(`/cart/${productId}`);
+            await axiosWithAuth.post('/cart', { product });
             setTooltipAddCartSuccess(true);
             setTimeout(() => {
                 setTooltipAddCartSuccess(false);
@@ -87,7 +94,7 @@ export const CartProvider = ({ children }) => {
             setCartLength(cartLength + 1);
         } catch (error) {
             console.log('error: ', error);
-            console.log('response: ', error.response.data);
+            // console.log('response: ', error.response.data);
             if (error.response.data === 'You must log in before accessing this page') {
                 setTooltipAddCartSignin(true);
                 setTimeout(() => {
@@ -98,10 +105,10 @@ export const CartProvider = ({ children }) => {
     };
 
 
-    const removeCartItem = async (productId) => {
+    const removeCartItem = async (cartItemId) => {
         try {
             setLoadingCartAndSaved(true);
-            await axiosWithAuth.delete(`/cart/${productId}`);
+            await axiosWithAuth.delete(`/cart/${cartItemId}`);
             await fetchCart();
             // setLoadingCartAndSaved(false);
         } catch (error) {
@@ -109,10 +116,10 @@ export const CartProvider = ({ children }) => {
         }
     };
 
-    const removeSavedItem = async (productId) => {
+    const removeSavedItem = async (cartItemId) => {
         try {
             setLoadingCartAndSaved(true);
-            await axiosWithAuth.delete(`/cart/saved/${productId}`);
+            await axiosWithAuth.delete(`/cart/saved/${cartItemId}`);
             await fetchSaved();
             setLoadingCartAndSaved(false);
         } catch (error) {
@@ -120,10 +127,10 @@ export const CartProvider = ({ children }) => {
         }
     };
 
-    const saveLaterCartItem = async (productId) => {
+    const saveLaterCartItem = async (cartItemId) => {
         try {
             setLoadingCartAndSaved(true);
-            await axiosWithAuth.post(`/cart/saved/${productId}`);
+            await axiosWithAuth.post(`/cart/saved/${cartItemId}`);
             await fetchSaved();
             await fetchCart();
             // setLoadingCartAndSaved(false);
@@ -132,12 +139,12 @@ export const CartProvider = ({ children }) => {
         }
     };
 
-    const moveBackToCart = async (productId) => {
+    const moveBackToCart = async (cartItemId) => {
         try {
             setLoadingCartAndSaved(true);
-            await axiosWithAuth.post(`/cart/${productId}`);
+            await axiosWithAuth.post(`/cart/${cartItemId}`);
             await fetchCart();
-            await axiosWithAuth.delete(`/cart/saved/${productId}`);
+            await axiosWithAuth.delete(`/cart/saved/${cartItemId}`);
             await fetchSaved();
             // setLoadingCartAndSaved(false);
         } catch (error) {
@@ -147,6 +154,8 @@ export const CartProvider = ({ children }) => {
 
     return (
         <CartContext.Provider value={{
+            cartItems,
+            setCartItems,
             fetchCart,
             fetchSaved,
             itemsArrayId,

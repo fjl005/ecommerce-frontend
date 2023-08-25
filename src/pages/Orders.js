@@ -34,8 +34,9 @@ const Orders = () => {
             const response = await axiosWithAuth.get('/orders');
             setLoggedIn(true);
             const data = response.data;
+            console.log('data: ', data)
             if (data) {
-                setOrdersID(data);
+                setOrdersData(data);
                 setLoadingPage(false);
             }
         } catch (error) {
@@ -98,9 +99,24 @@ const Orders = () => {
                     </Row>
                 </Container>
             ) :
-                ordersData ?
+                ordersData.length > 0 ?
                     ordersData.map((order, idx) => (
                         <Container className='cart-container' key={idx}>
+                            <Row>
+                                <Col>
+                                    <h4>
+                                        Order placed on: {' '}
+                                        <span>{order.orderDate}</span>
+                                    </h4>
+                                </Col>
+                            </Row>
+                            {order.items.map((purchasedItem, idx) => (
+                                <Row>
+                                    <Col xs='3'>
+
+                                    </Col>
+                                </Row>
+                            ))}
                             <Row style={{ marginBottom: '10px' }}>
                                 <Col xs='3'>
                                     <img
@@ -149,8 +165,17 @@ const Orders = () => {
                                 </Col>
                             </Row>
                         </Container>
+
+
+
                     )) : (
-                        <p>No Orders</p>
+                        <Container>
+                            <Row>
+                                <Col>
+                                    <p>No Orders</p>
+                                </Col>
+                            </Row>
+                        </Container>
                     )
             }
         </>
