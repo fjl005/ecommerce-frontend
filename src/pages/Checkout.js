@@ -6,6 +6,7 @@ import { useLocation } from 'react-router-dom';
 import CartItemMDB from '../components/cart/CartItemMDB';
 import CartItemCheckout from '../components/cart/CartItemCheckout';
 import axios from 'axios';
+import { useCartContext } from '../components/cart/CartContext';
 
 
 const Checkout = () => {
@@ -14,14 +15,15 @@ const Checkout = () => {
         withCredentials: true,
     });
 
+    const { totalCost, itemsArrayId } = useCartContext();
+
 
     // First, grab the location object of the URL, which contains data passed by Cart.js of the item ID's in the cart.
     const location = useLocation();
     console.log('location: ', location);
     // To parse the query parameters, we need to use URLSearchParams (since we stored the items in the 'search' property)
     const queryParams = new URLSearchParams(location.search);
-    const itemsArrayId = queryParams.get("items").split(',');
-    const totalCost = queryParams.get("totalCost");
+    // const itemsArrayId = queryParams.get("items").split(',');
     console.log('total cost from checkout: ', totalCost);
 
     const [formData, setFormData] = useState({
@@ -51,7 +53,8 @@ const Checkout = () => {
                 }
             });
             if (response.data == 'All card information matched') {
-                alert('Payment was successful! Please find your order in the "Orders" page.');
+                // alert('Payment was successful! Please find your order in the "Orders" page.');
+                window.location.href = `/ordercompleted`;
             }
 
         } catch (error) {

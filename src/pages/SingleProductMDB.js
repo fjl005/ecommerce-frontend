@@ -82,7 +82,7 @@ const SingleProductMDB = () => {
                                 <div
                                     id='addToCart'
                                     className='product-page-add-to-cart'
-                                    onClick={() => addItemToCart(selectedProduct)}
+                                    onClick={() => addItemToCart(selectedProduct._id)}
                                 >Add to cart</div>
                                 {console.log('product info: ', selectedProduct)}
                                 <Tooltip

@@ -22,6 +22,9 @@ export const CartProvider = ({ children }) => {
     const [cartLength, setCartLength] = useState(0);
     const [savedLength, setSavedLength] = useState(0);
     const [saveItemsArrayId, setSaveItemsArrayId] = useState([]);
+    const [savedItems, setSavedItems] = useState([]);
+
+
 
     useEffect(() => {
         fetchCart();
@@ -36,11 +39,8 @@ export const CartProvider = ({ children }) => {
         try {
             const response = await axiosWithAuth.get('/cart');
             const cartData = response.data.cart;
-            setCartItems(cartData);
-            console.log('cart items: ', cartData);
+            setItemsArrayId(cartData);
             setCartLength(cartData.length);
-            // setItemsArrayId(cartData);
-            // setCartLength(cartData.length);
         } catch (error) {
             console.log('error: ', error);
             setCartLength(0);
@@ -70,6 +70,7 @@ export const CartProvider = ({ children }) => {
             for (let item of itemsArrayId) {
                 const response = await axiosWithAuth.get(`/products/${item}`);
                 const itemPrice = response.data.price;
+                console.log('item price: ', itemPrice)
                 total += itemPrice;
             }
             setTotalCost(total);
@@ -82,11 +83,9 @@ export const CartProvider = ({ children }) => {
         }
     }
 
-    const addItemToCart = async (product) => {
-        const productId = product._id;
-
+    const addItemToCart = async (productId) => {
         try {
-            await axiosWithAuth.post('/cart', { product });
+            await axiosWithAuth.post(`/cart/${productId}`);
             setTooltipAddCartSuccess(true);
             setTimeout(() => {
                 setTooltipAddCartSuccess(false);
@@ -173,7 +172,11 @@ export const CartProvider = ({ children }) => {
             loadingCartAndSaved,
             setLoadingCartAndSaved,
             cartLength,
-            setCartLength
+            setCartLength,
+            determineTotalCost,
+            totalCost,
+            loadingCost,
+            setLoadingCost
         }}>
             {children}
         </CartContext.Provider>

@@ -22,14 +22,14 @@ const Orders = () => {
     const [loggedIn, setLoggedIn] = useState(false);
 
     useEffect(() => {
-        fetchOrdersID();
+        fetchOrders();
     }, [location.pathname]);
 
-    useEffect(() => {
-        fetchOrdersData();
-    }, [ordersID])
+    // useEffect(() => {
+    //     fetchOrdersData();
+    // }, [ordersData])
 
-    const fetchOrdersID = async () => {
+    const fetchOrders = async () => {
         try {
             const response = await axiosWithAuth.get('/orders');
             setLoggedIn(true);
@@ -48,23 +48,34 @@ const Orders = () => {
         }
     }
 
-    const fetchOrdersData = async () => {
-        try {
-            const updatedOrdersData = [];
-            console.log('orders ID: ', ordersID)
-            for (const productID of ordersID) {
-                console.log('productID: ', productID);
-                const response = await axiosWithAuth.get(`/products/${productID}`);
-                const data = response.data;
-                updatedOrdersData.push(data);
-            }
-            console.log('updated orders data: ', updatedOrdersData);
-            setOrdersData(updatedOrdersData);
-            console.log('orders data: ', ordersData);
-        } catch (error) {
-            console.log('error: ', error);
-        }
-    }
+    const formatDate = (date) => {
+        const options = {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: 'numeric',
+            minute: 'numeric',
+            hour12: true
+        };
+
+        return new Intl.DateTimeFormat('en-US', options).format(date);
+    };
+
+    // const fetchOrdersData = async () => {
+    //     try {
+    //         const updatedOrdersData = [];
+    //         for (const order of ordersData) {
+    //             const response = await axiosWithAuth.get(`/products/${productID}`);
+    //             const data = response.data;
+    //             updatedOrdersData.push(data);
+    //         }
+    //         console.log('updated orders data: ', updatedOrdersData);
+    //         setOrdersData(updatedOrdersData);
+    //         console.log('orders data: ', ordersData);
+    //     } catch (error) {
+    //         console.log('error: ', error);
+    //     }
+    // }
 
     const downloadClick = (order) => {
         console.log('order from click: ', order);
@@ -105,65 +116,60 @@ const Orders = () => {
                             <Row>
                                 <Col>
                                     <h4>
-                                        Order placed on: {' '}
-                                        <span>{order.orderDate}</span>
+                                        Order placed on: {formatDate(new Date(order.orderDate))}
                                     </h4>
                                 </Col>
                             </Row>
                             {order.items.map((purchasedItem, idx) => (
-                                <Row>
+                                <Row style={{ marginBottom: '10px' }}>
+                                    {console.log('purchased item: ', purchasedItem)}
                                     <Col xs='3'>
-
+                                        <img
+                                            src={twoPageAirbnb}
+                                            alt={`image for ${purchasedItem.name}`}
+                                            style={{
+                                                width: '100%',
+                                                marginBottom: '20px'
+                                            }}
+                                        />
+                                    </Col>
+                                    <Col xs='6'>
+                                        <div className='d-flex flex-column'>
+                                            <h3 className='product-title'>{purchasedItem.name}</h3>
+                                            <div style={{
+                                                backgroundColor: 'rgb(240, 240, 240)',
+                                                width: '80%',
+                                                borderRadius: '10px',
+                                                padding: '10px 5px 0px 5px',
+                                            }}>
+                                                <p>
+                                                    <div className='icon-margin-align'>
+                                                        <i class="fa-solid fa-cloud-arrow-down"></i>
+                                                    </div>
+                                                    {purchasedItem.productType}
+                                                </p>
+                                                <p>
+                                                    <div className='icon-margin-align'>
+                                                        <i class="fa-solid fa-paperclip"></i>
+                                                    </div>
+                                                    1 PDF Included
+                                                </p>
+                                                <span
+                                                    onClick={() => downloadClick(order)}
+                                                    style={{ color: 'blue', textDecoration: 'underline', cursor: 'pointer' }}
+                                                >
+                                                    Click to Download
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </Col>
+                                    <Col xs='3' style={{ textAlign: 'right' }}>
+                                        {purchasedItem.price && (
+                                            <h3>${purchasedItem.price.toFixed(2)}</h3>
+                                        )}
                                     </Col>
                                 </Row>
                             ))}
-                            <Row style={{ marginBottom: '10px' }}>
-                                <Col xs='3'>
-                                    <img
-                                        src={twoPageAirbnb}
-                                        alt={`image for ${order.name}`}
-                                        style={{
-                                            width: '100%',
-                                            marginBottom: '20px'
-                                        }}
-                                    />
-                                </Col>
-                                <Col xs='6'>
-                                    <div className='d-flex flex-column'>
-                                        <h3 className='product-title'>{order.name}</h3>
-                                        <div style={{
-                                            backgroundColor: 'rgb(240, 240, 240)',
-                                            width: '80%',
-                                            borderRadius: '10px',
-                                            padding: '10px 5px 0px 5px',
-                                        }}>
-                                            <p>
-                                                <div className='icon-margin-align'>
-                                                    <i class="fa-solid fa-cloud-arrow-down"></i>
-                                                </div>
-                                                {order.type}
-                                            </p>
-                                            <p>
-                                                <div className='icon-margin-align'>
-                                                    <i class="fa-solid fa-paperclip"></i>
-                                                </div>
-                                                1 PDF Included
-                                            </p>
-                                            <span
-                                                onClick={() => downloadClick(order)}
-                                                style={{ color: 'blue', textDecoration: 'underline', cursor: 'pointer' }}
-                                            >
-                                                Click to Download
-                                            </span>
-                                        </div>
-                                    </div>
-                                </Col>
-                                <Col xs='3' style={{ textAlign: 'right' }}>
-                                    {order.price && (
-                                        <h3>${order.price.toFixed(2)}</h3>
-                                    )}
-                                </Col>
-                            </Row>
                         </Container>
 
 

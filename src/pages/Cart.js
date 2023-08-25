@@ -33,16 +33,19 @@ const Cart = () => {
         setLoadingCartAndSaved,
         removeCartItem,
         removeSavedItem,
+        totalCost,
+        determineTotalCost,
+        loadingCost,
+        setLoadingCost
     } = useCartContext();
 
-    console.log('in cart.js cart items is: ', cartItems);
 
     const { loggedIn, setLoggedIn } = useLoginContext();
 
 
     // const [itemsArrayId, setItemsArrayId] = useState([]);
-    const [totalCost, setTotalCost] = useState(0);
-    const [loadingCost, setLoadingCost] = useState(true);
+    // const [totalCost, setTotalCost] = useState(0);
+    // const [loadingCost, setLoadingCost] = useState(true);
 
     const [numSaveItems, setNumSaveItems] = useState(0);
     // const [saveItemsArrayId, setSaveItemsArrayId] = useState([]);
@@ -78,26 +81,26 @@ const Cart = () => {
     //     }
     // }
 
-    const determineTotalCost = async () => {
-        try {
-            setLoadingCost(true);
-            let total = 0;
-            console.log('items array: ', itemsArrayId);
-            for (let item of itemsArrayId) {
-                console.log('calculating...')
-                const response = await axiosWithAuth.get(`/products/${item}`);
-                const itemPrice = response.data.price;
-                total += itemPrice;
-            }
-            setTotalCost(total);
-            console.log('total cost: ', totalCost);
-        } catch (error) {
-            console.log('error: ', error);
-        } finally {
-            setLoadingCost(false);
-            setLoadingCartAndSaved(false);
-        }
-    }
+    // const determineTotalCost = async () => {
+    //     try {
+    //         setLoadingCost(true);
+    //         let total = 0;
+    //         console.log('items array: ', itemsArrayId);
+    //         for (let item of itemsArrayId) {
+    //             console.log('calculating...')
+    //             const response = await axiosWithAuth.get(`/products/${item}`);
+    //             const itemPrice = response.data.price;
+    //             total += itemPrice;
+    //         }
+    //         setTotalCost(total);
+    //         console.log('total cost: ', totalCost);
+    //     } catch (error) {
+    //         console.log('error: ', error);
+    //     } finally {
+    //         setLoadingCost(false);
+    //         setLoadingCartAndSaved(false);
+    //     }
+    // }
 
 
     // const removeCartItem = async (productId) => {
@@ -162,7 +165,6 @@ const Cart = () => {
                                 <Link
                                     to={{
                                         pathname: `/cart/checkout`,
-                                        search: `?items=${itemsArrayId ? itemsArrayId.join(',') : ''}&totalCost=${totalCost.toFixed(2)}`
                                     }}
                                     // target='_blank' 
                                     style={{
@@ -178,31 +180,22 @@ const Cart = () => {
                 </Row>
             </Container>
 
-            {/* {cartLength > 0 && itemsArrayId.map((arr, idx) => (
-                <CartItemMDB
-                    key={idx}
-                    productId={arr}
-                    removeCartItem={removeCartItem}
-                    saveLaterCartItem={saveLaterCartItem}
-                    isSaved={false}
-                />
-            ))} */}
             {console.log('cart items accessed from Cart.js: ', cartItems)}
 
-            {cartItems && cartItems.map((product, idx) => (
+            {cartLength > 0 && itemsArrayId && itemsArrayId.map((productId, idx) => (
                 <>
                     <CartItemMDB
                         key={idx}
-                        cartItemId={product._id}
-                        price={product.price}
-                        name={product.name}
-                        productType={product.productType}
-                        description={product.description}
+                        productId={productId}
+                        // cartItemId={product._id}
+                        // price={product.price}
+                        // name={product.name}
+                        // productType={product.productType}
+                        // description={product.description}
                         removeCartItem={removeCartItem}
                         saveLaterCartItem={saveLaterCartItem}
                         isSaved={false}
                     />
-                    {console.log('product: ', product)}
                 </>
 
             ))}

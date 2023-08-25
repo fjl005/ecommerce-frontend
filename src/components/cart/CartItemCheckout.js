@@ -52,7 +52,7 @@ const CartItemCheckout = ({ productId }) => {
                                 <div className='icon-margin-align'>
                                     <i class="fa-solid fa-cloud-arrow-down"></i>
                                 </div>
-                                {productData.type}
+                                {productData.productType}
                             </p>
                             <p>
                                 <div className='icon-margin-align'>

@@ -4,12 +4,27 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 
 
-const CartItemMDB = ({ cartItemId, price, name, productType, description, removeCartItem, saveLaterCartItem, isSaved, removeSavedItem, moveBackToCart, removeItem }) => {
+const CartItemMDB = ({ removeCartItem, productId, saveLaterCartItem, isSaved, removeSavedItem, moveBackToCart, removeItem }) => {
     const axiosWithAuth = axios.create({
         baseURL: 'http://localhost:5000/',
         withCredentials: true,
     });
 
+    const [productData, setProductData] = useState({});
+
+    useEffect(() => {
+        fetchProduct();
+    }, []);
+
+    const fetchProduct = async () => {
+        try {
+            const response = await axiosWithAuth.get(`/products/${productId}`);
+            const data = response.data;
+            setProductData(data);
+        } catch (error) {
+            console.log('error: ', error);
+        }
+    }
 
     return (
         <Container className='cart-container'>
@@ -25,7 +40,7 @@ const CartItemMDB = ({ cartItemId, price, name, productType, description, remove
                 <Col xs='3'>
                     <img
                         src={twoPageAirbnb}
-                        alt={`image for ${name}`}
+                        alt={`image for ${productData.name}`}
                         style={{
                             width: '100%',
                             marginBottom: '20px'
@@ -34,7 +49,7 @@ const CartItemMDB = ({ cartItemId, price, name, productType, description, remove
                 </Col>
                 <Col xs='6'>
                     <div className='d-flex flex-column'>
-                        <h3 className='product-title'>{name}</h3>
+                        <h3 className='product-title'>{productData.name}</h3>
                         <div style={{
                             backgroundColor: 'rgb(240, 240, 240)',
                             width: '80%',
@@ -45,7 +60,7 @@ const CartItemMDB = ({ cartItemId, price, name, productType, description, remove
                                 <div className='icon-margin-align'>
                                     <i class="fa-solid fa-cloud-arrow-down"></i>
                                 </div>
-                                {productType}
+                                {productData.productType}
                             </p>
                             <p>
                                 <div className='icon-margin-align'>
@@ -57,8 +72,8 @@ const CartItemMDB = ({ cartItemId, price, name, productType, description, remove
                     </div>
                 </Col>
                 <Col xs='3' style={{ textAlign: 'right' }}>
-                    {price && (
-                        <h3>${price.toFixed(2)}</h3>
+                    {productData.price && (
+                        <h3>${productData.price.toFixed(2)}</h3>
                     )}
                 </Col>
             </Row>
@@ -68,7 +83,7 @@ const CartItemMDB = ({ cartItemId, price, name, productType, description, remove
                         <>
                             <span
                                 className='cart-remove-save-btn'
-                                onClick={() => removeSavedItem(cartItemId)}
+                                onClick={() => removeSavedItem(productId)}
                             >
                                 <i class="fa-solid fa-x" style={{ marginRight: '10px' }}></i>
                                 Remove
@@ -76,7 +91,7 @@ const CartItemMDB = ({ cartItemId, price, name, productType, description, remove
                             <span
                                 className='cart-remove-save-btn'
                                 style={{ marginLeft: '10px' }}
-                                onClick={() => moveBackToCart(cartItemId)}
+                                onClick={() => moveBackToCart(productId)}
                             >
                                 <i class="fa-solid fa-cart-plus" style={{ marginRight: '10px' }}></i>
                                 Move to Cart
@@ -86,7 +101,7 @@ const CartItemMDB = ({ cartItemId, price, name, productType, description, remove
                         <>
                             <span
                                 className='cart-remove-save-btn'
-                                onClick={() => removeCartItem(cartItemId)}
+                                onClick={() => removeCartItem(productId)}
                             >
                                 <i class="fa-solid fa-x" style={{ marginRight: '10px' }}></i>
                                 Remove
@@ -94,7 +109,7 @@ const CartItemMDB = ({ cartItemId, price, name, productType, description, remove
                             <span
                                 className='cart-remove-save-btn'
                                 style={{ marginLeft: '10px' }}
-                                onClick={() => saveLaterCartItem(cartItemId)}
+                                onClick={() => saveLaterCartItem(productId)}
                             >
                                 Save for later
                             </span>

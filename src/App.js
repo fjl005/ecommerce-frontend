@@ -6,6 +6,7 @@ import SingleProductMDB from './pages/SingleProductMDB';
 import Orders from './pages/Orders';
 import Checkout from './pages/Checkout';
 import Cart from './pages/Cart';
+import OrderCompleted from './components/orders/OrderCompleted';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
@@ -96,6 +97,8 @@ function App() {
                     <Route path='/orders' element={
                         <Orders />
                     } />
+
+                    <Route path='/ordercompleted' element={<OrderCompleted />} />
                 </Routes>
             </BrowserRouter>
         </>

@@ -45,7 +45,7 @@ const LoginPage = ({ username, setUsername, setAdmin, pageLoading }) => {
             if (error.code === 'ERR_NETWORK') {
                 return setLoginErrorMsg('Sorry, there is a problem with our server.');
             }
-            if (error.response.status === 401) {
+            if (error.response && error.response.data === "Invalid username or password") {
                 return setLoginErrorMsg('Your username or password is incorrect');
             }
         }
