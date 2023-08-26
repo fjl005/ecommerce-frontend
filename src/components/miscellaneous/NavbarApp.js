@@ -4,44 +4,32 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useLoginContext } from '../login/LoginContext';
 import LoadingOverlay from '../../pages/LoadingOverlay';
+import { useCartContext } from '../cart/CartContext';
 
-const NavbarApp = ({ cartLength, isCheckout }) => {
+const NavbarApp = ({ isCheckout }) => {
+    const { cartLength, setCartLength, setSavedLength } = useCartContext();
+
 
     const axiosWithAuth = axios.create({
         baseURL: 'http://localhost:5000/',
         withCredentials: true,
     });
 
-    const { loggedIn, setLoggedIn } = useLoginContext();
+    const { loggedIn, setLoggedIn, setTriggerLogoutMessage, showLoginButton, triggerLogout } = useLoginContext();
 
+    // const triggerLogout = async () => {
+    //     try {
+    //         const response = await axiosWithAuth.post('/users/logout');
+    //         if (response) {
+    //             setLoggedIn(false);
+    //             setTriggerLogoutMessage(true);
+    //         }
+    //     } catch (error) {
+    //         console.log('error: ', error);
+    //     }
+    // }
 
-    useEffect(() => {
-        checkLogin();
-    }, []);
-
-    const checkLogin = async () => {
-        try {
-            const response = await axiosWithAuth.get('/users');
-            if (response) {
-                setLoggedIn(true);
-            }
-        } catch (error) {
-            console.log('error: ', error);
-            setLoggedIn(false);
-        }
-    }
-
-    const triggerLogout = async () => {
-        try {
-            console.log('trigger logout')
-            const response = await axiosWithAuth.post('/users/logout');
-            if (response) {
-                setLoggedIn(false);
-            }
-        } catch (error) {
-            console.log('error: ', error);
-        }
-    }
+    console.log('logged in from navbar? ', loggedIn);
 
 
     return (
@@ -55,38 +43,47 @@ const NavbarApp = ({ cartLength, isCheckout }) => {
                     </NavbarBrand>
 
                     {!isCheckout && (
-                        <Nav navbar>
+                        <Nav navbar className='d-flex align-items-center'>
                             <NavItem>
                                 <NavLink tag={Link} to="/orders" style={{ marginTop: '1px' }}>
                                     Orders
                                 </NavLink>
                             </NavItem>
                             <NavItem>
-                                <NavLink>
+                                <NavLink tag={Link} to="/favorites" style={{ marginTop: '1px' }}>
                                     Favorites
                                 </NavLink>
                             </NavItem>
 
                             <NavItem style={{
                                 position: 'absolute',
-                                top: 0,
+                                top: 5,
                                 right: 0
                             }}>
-                                {loggedIn ? (
-                                    <NavLink tag={Link} to='/login' onClick={() => triggerLogout()}>
-                                        <Button className='bg-success'>Logout</Button>
-                                    </NavLink>
-                                ) : (
-                                    <NavLink tag={Link} to='/login'>
-                                        <Button className='bg-primary'>Login</Button>
-                                    </NavLink>
+                                {showLoginButton && (
+                                    loggedIn ? (
+                                        <NavLink
+                                            tag={Link}
+                                            to='/login'
+                                            onClick={() => {
+                                                triggerLogout();
+                                                setCartLength(0);
+                                                setSavedLength(0);
+                                            }}>
+                                            <Button className='bg-success'>Logout</Button>
+                                        </NavLink>
+                                    ) : (
+                                        <NavLink tag={Link} to='/login' style={{ marginTop: '1px' }}>
+                                            Login
+                                        </NavLink>
+                                    )
                                 )}
                             </NavItem>
 
                             <NavItem style={{
                                 position: 'absolute',
                                 top: 0,
-                                right: 100
+                                right: loggedIn ? 100 : 50
                             }}>
                                 <NavLink tag={Link} to="/cart">
                                     <i
@@ -125,7 +122,6 @@ const NavbarApp = ({ cartLength, isCheckout }) => {
                                                     }}
                                                 >
                                                     {cartLength}
-                                                    {console.log('length of cart: ', cartLength)}
                                                 </span>
                                             </div>
                                         )}

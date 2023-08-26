@@ -2,18 +2,25 @@ import './App.css';
 import LoginPage from './pages/LoginPage';
 import HomePage from './pages/HomePage';
 import SingleProduct from './pages/SingleProduct';
-import SingleProductMDB from './pages/SingleProductMDB';
 import Orders from './pages/Orders';
 import Checkout from './pages/Checkout';
 import Cart from './pages/Cart';
-import OrderCompleted from './components/orders/OrderCompleted';
+import OrderCompletedRedirect from './components/orders/OrderCompletedRedirect';
+import Favorites from './pages/Favorites';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import { useLoginContext } from './components/login/LoginContext';
 import axios from 'axios';
 
 function App() {
-    const [username, setUsername] = useState('');
-    const [admin, setAdmin] = useState(false);
+    const {
+        username,
+        setUsername,
+        admin,
+        setAdmin,
+    } = useLoginContext();
+    // const [username, setUsername] = useState('');
+    // const [admin, setAdmin] = useState(false);
     const [pageLoading, setPageLoading] = useState(true);
 
     const axiosWithAuth = axios.create({
@@ -32,23 +39,24 @@ function App() {
         }
     };
 
-    const fetchData = async () => {
-        try {
-            await checkUser();
-            setPageLoading(false);
-        } catch (error) {
-            setPageLoading(false);
-        }
-    };
+    // const fetchData = async () => {
+    //     try {
+    //         await checkUser();
+    //         setPageLoading(false);
+    //     } catch (error) {
+    //         setPageLoading(false);
+    //     }
+    // };
 
-    // Initiate checkLogin annd checkAdmin at initial page render. Once completed, setPageLoading to false to make the Spinner disappear.
+    // Initiate checkLogin and checkAdmin at initial page render. Once completed, setPageLoading to false to make the Spinner disappear.
     useEffect(() => {
 
-        fetchData();
+
+        // fetchData();
 
         // Create a setTimeout to rerun fetchData after 1 Hour, the duration of the cookie.
         const timerId = setTimeout(() => {
-            fetchData();
+            checkUser();
         }, 1000 * 60 * 60);
 
         // Clean up the timeout when the component unmounts
@@ -62,29 +70,19 @@ function App() {
             <BrowserRouter>
                 <Routes>
                     <Route path='/' element={
-                        <HomePage
-                            username={username}
-                            admin={admin}
-                            setAdmin={setAdmin}
-                            // loggedIn={loggedIn}
-                            // setLoggedIn={setLoggedIn}
-                            pageLoading={pageLoading}
-                        />
+                        <HomePage />
                     } />
 
                     <Route path='/login' element={
                         <LoginPage
                             username={username}
                             setUsername={setUsername}
-                            // loggedIn={loggedIn}
-                            // setLoggedIn={setLoggedIn}
                             setAdmin={setAdmin}
-                            pageLoading={pageLoading}
+                        // pageLoading={pageLoading}
                         />
                     } />
                     <Route path='/products/:productId' element={
-                        // <SingleProduct />
-                        <SingleProductMDB />
+                        <SingleProduct />
                     } />
                     <Route path='/cart' element={
                         <Cart />
@@ -98,7 +96,9 @@ function App() {
                         <Orders />
                     } />
 
-                    <Route path='/ordercompleted' element={<OrderCompleted />} />
+                    <Route path='/ordercompleted' element={<OrderCompletedRedirect />} />
+
+                    <Route path='/favorites' element={<Favorites />} />
                 </Routes>
             </BrowserRouter>
         </>

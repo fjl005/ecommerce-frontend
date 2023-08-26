@@ -13,8 +13,10 @@ root.render(
     <React.StrictMode>
         <LoginProvider>
             <CartProvider>
+
                 <App />
             </CartProvider>
+
         </LoginProvider>
     </React.StrictMode>
 );

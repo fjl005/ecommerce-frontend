@@ -10,42 +10,36 @@ export const CartProvider = ({ children }) => {
         withCredentials: true,
     });
 
+    // Tooltip States (when clicking "add to cart")
     const [tooltipAddCartSignin, setTooltipAddCartSignin] = useState(false);
     const [tooltipAddCartSuccess, setTooltipAddCartSuccess] = useState(false);
 
-    const [itemsArrayId, setItemsArrayId] = useState([]);
-    const [cartItems, setCartItems] = useState([]);
+    // Cart States
+    const [cartItemsArrayId, setCartItemsArrayId] = useState([]);
+    const [cartLength, setCartLength] = useState(0);
+
+    // Saved States
+    const [savedItemsArrayId, setSavedItemsArrayId] = useState([]);
+    const [savedLength, setSavedLength] = useState(0);
+
+    // Total Cost States
     const [totalCost, setTotalCost] = useState(0);
+
+    // Loading States
     const [loadingCartAndSaved, setLoadingCartAndSaved] = useState(false);
     const [loadingCost, setLoadingCost] = useState(true);
 
-    const [cartLength, setCartLength] = useState(0);
-    const [savedLength, setSavedLength] = useState(0);
-    const [saveItemsArrayId, setSaveItemsArrayId] = useState([]);
-    const [savedItems, setSavedItems] = useState([]);
-
-
-
-    useEffect(() => {
-        fetchCart();
-        fetchSaved();
-    }, [])
-
-    useEffect(() => {
-        determineTotalCost();
-    }, [itemsArrayId]);
 
     const fetchCart = async () => {
         try {
             const response = await axiosWithAuth.get('/cart');
             const cartData = response.data.cart;
-            setItemsArrayId(cartData);
+            setCartItemsArrayId(cartData);
             setCartLength(cartData.length);
         } catch (error) {
             console.log('error: ', error);
             setCartLength(0);
-            setCartItems(null);
-            setItemsArrayId(null);
+            setCartItemsArrayId(null);
         }
     }
 
@@ -53,12 +47,12 @@ export const CartProvider = ({ children }) => {
         try {
             const response = await axiosWithAuth.get('/cart/saved');
             const savedItems = response.data.saved;
-            setSaveItemsArrayId(savedItems);
+            setSavedItemsArrayId(savedItems);
             setSavedLength(savedItems.length);
         } catch (error) {
             console.log('error: ', error);
-            setCartLength(0);
-            setItemsArrayId(null);
+            setSavedLength(0);
+            setSavedItemsArrayId(null);
         }
     }
 
@@ -66,15 +60,17 @@ export const CartProvider = ({ children }) => {
         try {
             setLoadingCost(true);
             let total = 0;
-            console.log('items array: ', itemsArrayId);
-            for (let item of itemsArrayId) {
-                const response = await axiosWithAuth.get(`/products/${item}`);
-                const itemPrice = response.data.price;
-                console.log('item price: ', itemPrice)
-                total += itemPrice;
+            if (cartItemsArrayId.length > 0) {
+                for (let item of cartItemsArrayId) {
+                    const response = await axiosWithAuth.get(`/products/${item}`);
+                    const itemPrice = response.data.price;
+                    console.log('item price: ', itemPrice)
+                    total += itemPrice;
+                }
+                console.log('here')
+                console.log('total cost: ', total)
+                setTotalCost(total);
             }
-            setTotalCost(total);
-            console.log('total cost: ', totalCost);
         } catch (error) {
             console.log('error: ', error);
         } finally {
@@ -83,6 +79,14 @@ export const CartProvider = ({ children }) => {
         }
     }
 
+    useEffect(() => {
+        fetchCart();
+    }, []);
+
+    useEffect(() => {
+        determineTotalCost();
+    }, [cartLength]);
+
     const addItemToCart = async (productId) => {
         try {
             await axiosWithAuth.post(`/cart/${productId}`);
@@ -90,10 +94,10 @@ export const CartProvider = ({ children }) => {
             setTimeout(() => {
                 setTooltipAddCartSuccess(false);
             }, 3000);
-            setCartLength(cartLength + 1);
+            // setCartLength(cartLength + 1);
+            fetchCart();
         } catch (error) {
             console.log('error: ', error);
-            // console.log('response: ', error.response.data);
             if (error.response.data === 'You must log in before accessing this page') {
                 setTooltipAddCartSignin(true);
                 setTimeout(() => {
@@ -109,7 +113,6 @@ export const CartProvider = ({ children }) => {
             setLoadingCartAndSaved(true);
             await axiosWithAuth.delete(`/cart/${cartItemId}`);
             await fetchCart();
-            // setLoadingCartAndSaved(false);
         } catch (error) {
             console.log('error: ', error);
         }
@@ -132,7 +135,6 @@ export const CartProvider = ({ children }) => {
             await axiosWithAuth.post(`/cart/saved/${cartItemId}`);
             await fetchSaved();
             await fetchCart();
-            // setLoadingCartAndSaved(false);
         } catch (error) {
             console.log('error: ', error);
         }
@@ -145,7 +147,6 @@ export const CartProvider = ({ children }) => {
             await fetchCart();
             await axiosWithAuth.delete(`/cart/saved/${cartItemId}`);
             await fetchSaved();
-            // setLoadingCartAndSaved(false);
         } catch (error) {
             console.log('error: ', error);
         }
@@ -153,30 +154,40 @@ export const CartProvider = ({ children }) => {
 
     return (
         <CartContext.Provider value={{
-            cartItems,
-            setCartItems,
+            // Fetch Functions
             fetchCart,
             fetchSaved,
-            itemsArrayId,
-            saveItemsArrayId,
+
+            // Array ID's
+            cartItemsArrayId,
+            savedItemsArrayId,
+
+            // Lengths
             savedLength,
             setSavedLength,
+            cartLength,
+            setCartLength,
+
+            // Tooltips
             tooltipAddCartSignin,
             tooltipAddCartSuccess,
-            fetchCart,
+
+            // Button Functions
             addItemToCart,
             removeCartItem,
             removeSavedItem,
             saveLaterCartItem,
             moveBackToCart,
+
+            // Total Cost
+            totalCost,
+            determineTotalCost,
+
+            // Loading
             loadingCartAndSaved,
             setLoadingCartAndSaved,
-            cartLength,
-            setCartLength,
-            determineTotalCost,
-            totalCost,
             loadingCost,
-            setLoadingCost
+            setLoadingCost,
         }}>
             {children}
         </CartContext.Provider>

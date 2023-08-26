@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import NavbarApp from '../components/miscellaneous/NavbarApp';
 import { Container, Row, Col } from 'reactstrap';
 import { Form, FormGroup, Label, Input, Button } from 'reactstrap';
@@ -7,6 +7,7 @@ import CartItemMDB from '../components/cart/CartItemMDB';
 import CartItemCheckout from '../components/cart/CartItemCheckout';
 import axios from 'axios';
 import { useCartContext } from '../components/cart/CartContext';
+import { useLoginContext } from '../components/login/LoginContext';
 
 
 const Checkout = () => {
@@ -15,23 +16,25 @@ const Checkout = () => {
         withCredentials: true,
     });
 
-    const { totalCost, itemsArrayId } = useCartContext();
+    const { totalCost, cartItemsArrayId, fetchCart, fetchSaved, determineTotalCost, cartLength } = useCartContext();
+    const { checkUser } = useLoginContext();
 
+    const [formData, setFormData] = useState({});
 
-    // First, grab the location object of the URL, which contains data passed by Cart.js of the item ID's in the cart.
-    const location = useLocation();
-    console.log('location: ', location);
-    // To parse the query parameters, we need to use URLSearchParams (since we stored the items in the 'search' property)
-    const queryParams = new URLSearchParams(location.search);
-    // const itemsArrayId = queryParams.get("items").split(',');
-    console.log('total cost from checkout: ', totalCost);
-
-    const [formData, setFormData] = useState({
-        email: '',
-        payment: '',
-    });
-
-    const { email, cardNumber, cardExpiresMonth, cardExpiresYear, cardCVC, firstName, lastName, streetAddress, aptNumOptional, city, state, zipCode } = formData;
+    const {
+        email,
+        cardNumber,
+        cardExpiresMonth,
+        cardExpiresYear,
+        cardCVC,
+        firstName,
+        lastName,
+        streetAddress,
+        aptNumOptional,
+        city,
+        state,
+        zipCode
+    } = formData;
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -44,16 +47,16 @@ const Checkout = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log('form data: ', formData)
+
 
         try {
-            const response = await axiosWithAuth.post('/products/verifyCard', formData, {
+            const formDataWithTotalCost = { ...formData, totalCost: totalCost }
+            const response = await axiosWithAuth.post('/products/verifyCard', formDataWithTotalCost, {
                 headers: {
                     'Content-Type': 'application/json',
                 }
             });
             if (response.data == 'All card information matched') {
-                // alert('Payment was successful! Please find your order in the "Orders" page.');
                 window.location.href = `/ordercompleted`;
             }
 
@@ -96,7 +99,17 @@ const Checkout = () => {
         'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ',
         'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC',
         'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY'
-    ]
+    ];
+
+    useEffect(() => {
+        checkUser();
+        fetchCart();
+        fetchSaved();
+    }, []);
+
+    useEffect(() => {
+        determineTotalCost();
+    }, [cartLength]);
 
 
     return (
@@ -372,8 +385,8 @@ const Checkout = () => {
                     <Row>
                         <Col xs='1' style={{ maxWidth: '75px' }}></Col>
                         <Col>
-                            {itemsArrayId.length > 0 &&
-                                itemsArrayId.map((arr, idx) => (
+                            {cartItemsArrayId.length > 0 &&
+                                cartItemsArrayId.map((arr, idx) => (
                                     <CartItemCheckout
                                         key={idx}
                                         productId={arr}

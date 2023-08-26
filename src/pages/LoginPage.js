@@ -5,17 +5,16 @@ import { Container, Row, Col, Form, FormGroup, Label, Input, Button } from 'reac
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import SpinningIcon from '../components/miscellaneous/SpinningIcon';
 import { useLoginContext } from '../components/login/LoginContext';
 
 
-const LoginPage = ({ username, setUsername, setAdmin, pageLoading }) => {
+const LoginPage = ({ username, setUsername, setAdmin, }) => {
     const { cartLength, setCartLength, setSavedLength } = useCartContext();
-    const { loggedIn, setLoggedIn } = useLoginContext();
+    const { loggedIn, setLoggedIn, triggerLogoutSign, loginMsg, setLoginMsg, } = useLoginContext();
 
     // Login states
     const [password, setPassword] = useState('');
-    const [loginErrorMsg, setLoginErrorMsg] = useState('');
+    // const [loginMsg, setLoginMsg] = useState('');
     const [initialRender, setInitialRender] = useState(true);
 
     // Axios configuration. Need credentials to send cookies.
@@ -43,42 +42,41 @@ const LoginPage = ({ username, setUsername, setAdmin, pageLoading }) => {
             setLoggedIn(false);
             console.log(error);
             if (error.code === 'ERR_NETWORK') {
-                return setLoginErrorMsg('Sorry, there is a problem with our server.');
+                return setLoginMsg('Sorry, there is a problem with our server.');
             }
             if (error.response && error.response.data === "Invalid username or password") {
-                return setLoginErrorMsg('Your username or password is incorrect');
+                return setLoginMsg('Your username or password is incorrect');
             }
         }
     };
 
-    const triggerLogout = () => {
-        const logoutPost = async () => {
-            try {
-                await axiosWithAuth.post('/users/logout');
-                setLoggedIn(false);
-                setCartLength(0);
-                setSavedLength(0);
-                setLoginErrorMsg(`You have successfully logged out. Thank you for visiting!`);
-            } catch (error) {
-                setLoginErrorMsg(`It looks like you're not logged in. Please log in to access this page.`);
-            }
-        }
-        logoutPost();
-    };
+    // const triggerLogout = () => {
+    //     const logoutPost = async () => {
+    //         try {
+    //             await axiosWithAuth.post('/users/logout');
+    //             setLoggedIn(false);
+    //             setCartLength(0);
+    //             setSavedLength(0);
+    //             setLoginMsg(`You have successfully logged out. Thank you for visiting!`);
+    //         } catch (error) {
+    //             setLoginMsg(`It looks like you're not logged in. Please log in to access this page.`);
+    //         }
+    //     }
+    //     logoutPost();
+    // };
 
-    useEffect(() => {
-        if (!initialRender) {
-            if (!loggedIn) {
-                console.log('this is being run');
-                triggerLogout();
-            }
-        }
-        setInitialRender(false);
-    }, [loggedIn])
+    // useEffect(() => {
+    //     if (!initialRender) {
+    //         if (!loggedIn && triggerLogoutSign) {
+    //             triggerLogout();
+    //         }
+    //     }
+    //     setInitialRender(false);
+    // }, [loggedIn])
 
     return (
         <>
-            <NavbarApp cartLength={cartLength} loggedIn={loggedIn} setLoggedIn={setLoggedIn} />
+            <NavbarApp />
             <Container>
                 <Row>
                     <Col>
@@ -92,9 +90,7 @@ const LoginPage = ({ username, setUsername, setAdmin, pageLoading }) => {
 
                 <Row>
                     <Col>
-                        {pageLoading ? (
-                            <SpinningIcon />
-                        ) : loggedIn ? (
+                        {loggedIn ? (
                             <>
                                 <h4>Nice, you are logged in now! </h4>
                                 <p>Username: {username}</p>
@@ -125,7 +121,7 @@ const LoginPage = ({ username, setUsername, setAdmin, pageLoading }) => {
                                     </FormGroup>
                                     <Button type='submit' color='primary'>Login</Button>
                                 </Form>
-                                <p>{loginErrorMsg}</p>
+                                <p>{loginMsg}</p>
                             </>
                         )}
                     </Col>

@@ -1,7 +1,6 @@
 import NavbarApp from "../components/miscellaneous/NavbarApp";
 import { Container, Row, Col, Button } from "reactstrap";
 import { useState, useEffect } from "react";
-import CartItem from "../components/cart/CartItem";
 import CartItemMDB from "../components/cart/CartItemMDB";
 import axios from 'axios';
 import { Link } from "react-router-dom";
@@ -10,145 +9,47 @@ import SpinningIcon from "../components/miscellaneous/SpinningIcon";
 import { useCartContext } from "../components/cart/CartContext";
 import { useLoginContext } from '../components/login/LoginContext';
 
-
 const Cart = () => {
-    const axiosWithAuth = axios.create({
-        baseURL: 'http://localhost:5000/',
-        withCredentials: true,
-    });
 
     const {
-        cartItems,
-        setCartItems,
+        // Fetch functions
         fetchCart,
         fetchSaved,
-        itemsArrayId,
+
+        // Array ID's
+        cartItemsArrayId,
+        savedItemsArrayId,
+
+        // Lengths
         savedLength,
-        saveItemsArrayId,
         cartLength,
-        setCartLength,
+
+        // Button functions
         saveLaterCartItem,
         moveBackToCart,
-        loadingCartAndSaved,
-        setLoadingCartAndSaved,
         removeCartItem,
         removeSavedItem,
+
+        // Total Cost
         totalCost,
         determineTotalCost,
+
+        // Loading
+        loadingCartAndSaved,
         loadingCost,
-        setLoadingCost
     } = useCartContext();
 
-
-    const { loggedIn, setLoggedIn } = useLoginContext();
-
-
-    // const [itemsArrayId, setItemsArrayId] = useState([]);
-    // const [totalCost, setTotalCost] = useState(0);
-    // const [loadingCost, setLoadingCost] = useState(true);
-
-    const [numSaveItems, setNumSaveItems] = useState(0);
-    // const [saveItemsArrayId, setSaveItemsArrayId] = useState([]);
+    const { loggedIn, checkUser } = useLoginContext();
 
     useEffect(() => {
+        checkUser();
         fetchCart();
         fetchSaved();
-    }, [])
+    }, []);
 
-    useEffect(() => {
-        determineTotalCost();
-    }, [cartLength]);
-
-    // const fetchCart = async () => {
-    //     try {
-    //         const response = await axiosWithAuth.get('/cart');
-    //         const cartData = response.data.cart;
-    //         setItemsArrayId(cartData);
-    //         setCartLength(cartData.length);
-    //     } catch (error) {
-    //         console.log('error: ', error);
-    //     }
-    // }
-
-    // const fetchSaved = async () => {
-    //     try {
-    //         const response = await axiosWithAuth.get('/cart/saved');
-    //         const savedItems = response.data.saved;
-    //         setSaveItemsArrayId(savedItems);
-    //         setNumSaveItems(savedItems.length);
-    //     } catch (error) {
-    //         console.log('error: ', error);
-    //     }
-    // }
-
-    // const determineTotalCost = async () => {
-    //     try {
-    //         setLoadingCost(true);
-    //         let total = 0;
-    //         console.log('items array: ', itemsArrayId);
-    //         for (let item of itemsArrayId) {
-    //             console.log('calculating...')
-    //             const response = await axiosWithAuth.get(`/products/${item}`);
-    //             const itemPrice = response.data.price;
-    //             total += itemPrice;
-    //         }
-    //         setTotalCost(total);
-    //         console.log('total cost: ', totalCost);
-    //     } catch (error) {
-    //         console.log('error: ', error);
-    //     } finally {
-    //         setLoadingCost(false);
-    //         setLoadingCartAndSaved(false);
-    //     }
-    // }
-
-
-    // const removeCartItem = async (productId) => {
-    //     try {
-    //         setLoadingCartAndSaved(true);
-    //         await axiosWithAuth.delete(`/cart/${productId}`);
-    //         await fetchCart();
-    //         // setLoadingCartAndSaved(false);
-    //     } catch (error) {
-    //         console.log('error: ', error);
-    //     }
-    // };
-
-    // const removeSavedItem = async (productId) => {
-    //     try {
-    //         setLoadingCartAndSaved(true);
-    //         await axiosWithAuth.delete(`/cart/saved/${productId}`);
-    //         await fetchSaved();
-    //         setLoadingCartAndSaved(false);
-    //     } catch (error) {
-    //         console.log('error: ', error);
-    //     }
-    // };
-
-    // const saveLaterCartItem = async (productId) => {
-    //     try {
-    //         setLoadingCartAndSaved(true);
-    //         await axiosWithAuth.post(`/cart/saved/${productId}`);
-    //         await fetchSaved();
-    //         await fetchCart();
-    //         // setLoadingCartAndSaved(false);
-    //     } catch (error) {
-    //         console.log('error: ', error);
-    //     }
-    // };
-
-    // const moveBackToCart = async (productId) => {
-    //     try {
-    //         setLoadingCartAndSaved(true);
-    //         await axiosWithAuth.post(`/cart/${productId}`);
-    //         await fetchCart();
-    //         await axiosWithAuth.delete(`/cart/saved/${productId}`);
-    //         await fetchSaved();
-    //         // setLoadingCartAndSaved(false);
-    //     } catch (error) {
-    //         console.log('error: ', error);
-    //     }
-    // };
+    // useEffect(() => {
+    //     determineTotalCost();
+    // }, [cartLength]);
 
     return (
         <>
@@ -157,7 +58,9 @@ const Cart = () => {
             <Container>
                 <Row>
                     <Col>
-                        {cartLength === 0 ? (
+                        {!loggedIn ? (
+                            <h1>You must log in to access your Cart.</h1>
+                        ) : cartLength === 0 ? (
                             <h1>Your cart is empty</h1>
                         ) : (
                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -166,7 +69,6 @@ const Cart = () => {
                                     to={{
                                         pathname: `/cart/checkout`,
                                     }}
-                                    // target='_blank' 
                                     style={{
                                         textDecoration: 'none',
                                         color: 'black'
@@ -180,24 +82,16 @@ const Cart = () => {
                 </Row>
             </Container>
 
-            {console.log('cart items accessed from Cart.js: ', cartItems)}
-
-            {cartLength > 0 && itemsArrayId && itemsArrayId.map((productId, idx) => (
+            {cartLength > 0 && cartItemsArrayId && cartItemsArrayId.map((productId, idx) => (
                 <>
                     <CartItemMDB
                         key={idx}
                         productId={productId}
-                        // cartItemId={product._id}
-                        // price={product.price}
-                        // name={product.name}
-                        // productType={product.productType}
-                        // description={product.description}
                         removeCartItem={removeCartItem}
                         saveLaterCartItem={saveLaterCartItem}
                         isSaved={false}
                     />
                 </>
-
             ))}
 
             <Container>
@@ -222,10 +116,12 @@ const Cart = () => {
             <Container style={{ marginTop: '150px' }}>
                 <Row>
                     <Col>
-                        {savedLength > 0 ?
-                            saveItemsArrayId.map((arr, idx) => (
+                        {!loggedIn ? (
+                            <h1>You must log in to access your Items Saved for Later.</h1>
+                        ) : savedLength > 0 ?
+                            savedItemsArrayId.map((arr, idx) => (
                                 <>
-                                    <h1>Items saved for later</h1>
+                                    <h1>Items Saved for Later</h1>
                                     <CartItemMDB
                                         key={idx}
                                         productId={arr}
@@ -234,7 +130,6 @@ const Cart = () => {
                                         moveBackToCart={moveBackToCart}
                                     />
                                 </>
-
                             )) : (
                                 <h1>No Items saved for later</h1>
                             )
