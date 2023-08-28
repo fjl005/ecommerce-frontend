@@ -1,4 +1,4 @@
-import SpinningIcon from '../components/miscellaneous/SpinningIcon';
+import SpinningIcon from './SpinningIcon';
 
 const LoadingOverlay = () => {
     return (

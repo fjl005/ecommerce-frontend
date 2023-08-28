@@ -1,36 +1,15 @@
 import { Navbar, NavbarBrand, Nav, NavItem, NavLink, Container, Button } from 'reactstrap';
+import NavbarSearch from './NavbarSearch';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useLoginContext } from '../login/LoginContext';
-import LoadingOverlay from '../../pages/LoadingOverlay';
+import LoadingOverlay from '../miscellaneous/LoadingOverlay';
 import { useCartContext } from '../cart/CartContext';
 
 const NavbarApp = ({ isCheckout }) => {
     const { cartLength, setCartLength, setSavedLength } = useCartContext();
-
-
-    const axiosWithAuth = axios.create({
-        baseURL: 'http://localhost:5000/',
-        withCredentials: true,
-    });
-
-    const { loggedIn, setLoggedIn, setTriggerLogoutMessage, showLoginButton, triggerLogout } = useLoginContext();
-
-    // const triggerLogout = async () => {
-    //     try {
-    //         const response = await axiosWithAuth.post('/users/logout');
-    //         if (response) {
-    //             setLoggedIn(false);
-    //             setTriggerLogoutMessage(true);
-    //         }
-    //     } catch (error) {
-    //         console.log('error: ', error);
-    //     }
-    // }
-
-    console.log('logged in from navbar? ', loggedIn);
-
+    const { loggedIn, showLoginButton, triggerLogout } = useLoginContext();
 
     return (
         <Navbar color="light" light expand="md">
@@ -43,7 +22,7 @@ const NavbarApp = ({ isCheckout }) => {
                     </NavbarBrand>
 
                     {!isCheckout && (
-                        <Nav navbar className='d-flex align-items-center'>
+                        <Nav navbar className='d-flex align-items-center' style={{ border: '1px black solid', width: '100%' }}>
                             <NavItem>
                                 <NavLink tag={Link} to="/orders" style={{ marginTop: '1px' }}>
                                     Orders
@@ -53,6 +32,18 @@ const NavbarApp = ({ isCheckout }) => {
                                 <NavLink tag={Link} to="/favorites" style={{ marginTop: '1px' }}>
                                     Favorites
                                 </NavLink>
+                            </NavItem>
+                            <NavItem>
+                                <NavLink tag={Link} to="/signup" style={{ marginTop: '1px' }}>
+                                    Sign up
+                                </NavLink>
+                            </NavItem>
+                            <NavItem
+                                style={{
+                                    width: '500px'
+                                }}
+                            >
+                                <NavbarSearch />
                             </NavItem>
 
                             <NavItem style={{

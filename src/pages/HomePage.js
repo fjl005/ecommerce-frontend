@@ -1,5 +1,5 @@
 import { Container, Row, Col, Button } from "reactstrap";
-import NavbarApp from '../components/miscellaneous/NavbarApp';
+import NavbarApp from '../components/navbar/NavbarApp';
 import { useState, useEffect, useRef } from "react";
 import axios from 'axios';
 import Products from "../components/products/Products";

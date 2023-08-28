@@ -1,10 +1,10 @@
-import NavbarApp from "../components/miscellaneous/NavbarApp";
+import NavbarApp from "../components/navbar/NavbarApp";
 import { Container, Row, Col, Button } from "reactstrap";
 import { useState, useEffect } from "react";
 import CartItemMDB from "../components/cart/CartItemMDB";
 import axios from 'axios';
 import { Link } from "react-router-dom";
-import LoadingOverlay from "./LoadingOverlay";
+import LoadingOverlay from "../components/miscellaneous/LoadingOverlay";
 import SpinningIcon from "../components/miscellaneous/SpinningIcon";
 import { useCartContext } from "../components/cart/CartContext";
 import { useLoginContext } from '../components/login/LoginContext';
@@ -41,15 +41,18 @@ const Cart = () => {
 
     const { loggedIn, checkUser } = useLoginContext();
 
+    const [loadingPage, setLoadingPage] = useState(true);
+
     useEffect(() => {
         checkUser();
         fetchCart();
         fetchSaved();
     }, []);
 
-    // useEffect(() => {
-    //     determineTotalCost();
-    // }, [cartLength]);
+    useEffect(() => {
+        setTimeout(() => setLoadingPage(false), 1000);
+    }, [loggedIn]);
+
 
     return (
         <>
@@ -58,7 +61,9 @@ const Cart = () => {
             <Container>
                 <Row>
                     <Col>
-                        {!loggedIn ? (
+                        {loadingPage ? (
+                            <h1>Loading page...</h1>
+                        ) : !loggedIn ? (
                             <h1>You must log in to access your Cart.</h1>
                         ) : cartLength === 0 ? (
                             <h1>Your cart is empty</h1>
@@ -116,7 +121,9 @@ const Cart = () => {
             <Container style={{ marginTop: '150px' }}>
                 <Row>
                     <Col>
-                        {!loggedIn ? (
+                        {loadingPage ? (
+                            <h1>Loading page...</h1>
+                        ) : !loggedIn ? (
                             <h1>You must log in to access your Items Saved for Later.</h1>
                         ) : savedLength > 0 ?
                             savedItemsArrayId.map((arr, idx) => (

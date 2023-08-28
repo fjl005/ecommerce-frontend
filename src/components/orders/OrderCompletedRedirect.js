@@ -1,4 +1,4 @@
-import NavbarApp from "../miscellaneous/NavbarApp";
+import NavbarApp from "../navbar/NavbarApp";
 import { Container, Row, Col } from "reactstrap";
 import { useCartContext } from "../cart/CartContext";
 

@@ -58,6 +58,7 @@ export const CartProvider = ({ children }) => {
 
     const determineTotalCost = async () => {
         try {
+            console.log('im being run in determinetotalcost')
             setLoadingCost(true);
             let total = 0;
             if (cartItemsArrayId.length > 0) {
@@ -70,12 +71,11 @@ export const CartProvider = ({ children }) => {
                 console.log('here')
                 console.log('total cost: ', total)
                 setTotalCost(total);
+                setLoadingCost(false);
+                setLoadingCartAndSaved(false);
             }
         } catch (error) {
             console.log('error: ', error);
-        } finally {
-            setLoadingCost(false);
-            setLoadingCartAndSaved(false);
         }
     }
 

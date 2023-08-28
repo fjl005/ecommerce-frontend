@@ -1,4 +1,4 @@
-import NavbarApp from "../components/miscellaneous/NavbarApp";
+import NavbarApp from "../components/navbar/NavbarApp";
 import { Container, Row, Col, Button, Tooltip, UncontrolledAccordion, Accordion, AccordionItem, AccordionHeader, AccordionBody } from "reactstrap";
 import { useParams } from "react-router-dom";
 import { productsArray } from "../components/products/productsArray";

@@ -1,4 +1,4 @@
-import NavbarApp from "../components/miscellaneous/NavbarApp";
+import NavbarApp from "../components/navbar/NavbarApp";
 import { Container, Row, Col } from "reactstrap";
 import axios from 'axios';
 import { useState, useEffect } from "react";
@@ -10,7 +10,7 @@ import OrderItem from "../components/orders/OrderItem";
 
 
 const Orders = () => {
-    const location = useLocation();
+    // const location = useLocation();
     const { cartLength } = useCartContext();
     const { loggedIn, setLoggedIn, checkUser } = useLoginContext();
 
@@ -19,21 +19,22 @@ const Orders = () => {
         withCredentials: true,
     });
 
-    const [ordersID, setOrdersID] = useState([]);
     const [ordersData, setOrdersData] = useState([]);
     const [loadingPage, setLoadingPage] = useState(true);
 
     useEffect(() => {
         checkUser();
         fetchOrders();
-    }, [location.pathname]);
+    }, []);
+
+    useEffect(() => {
+        setTimeout(() => setLoadingPage(false), 1000);
+    }, [loggedIn]);
 
     const fetchOrders = async () => {
         try {
             const response = await axiosWithAuth.get('/orders');
-            // setLoggedIn(true);
             const data = response.data;
-            console.log('data: ', data)
             if (data) {
                 setOrdersData(data);
                 setLoadingPage(false);
@@ -60,7 +61,18 @@ const Orders = () => {
                 </Row>
             </Container>
 
-            {!loggedIn ? (
+
+
+
+            {loadingPage ? (
+                <Container>
+                    <Row>
+                        <Col>
+                            <h3>Loading...</h3>
+                        </Col>
+                    </Row>
+                </Container>
+            ) : !loggedIn ? (
                 <Container>
                     <Row>
                         <Col>
@@ -68,31 +80,21 @@ const Orders = () => {
                         </Col>
                     </Row>
                 </Container>
-            ) :
-                loadingPage ? (
+            ) : ordersData.length > 0 ?
+                ordersData.map((order, idx) => (
+                    <OrderItem
+                        key={idx}
+                        order={order}
+                    />
+                )) : (
                     <Container>
                         <Row>
                             <Col>
-                                <h3>Loading...</h3>
+                                <p>No Orders</p>
                             </Col>
                         </Row>
                     </Container>
-                ) :
-                    ordersData.length > 0 ?
-                        ordersData.map((order, idx) => (
-                            <OrderItem
-                                key={idx}
-                                order={order}
-                            />
-                        )) : (
-                            <Container>
-                                <Row>
-                                    <Col>
-                                        <p>No Orders</p>
-                                    </Col>
-                                </Row>
-                            </Container>
-                        )
+                )
             }
         </>
     )

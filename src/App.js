@@ -1,5 +1,6 @@
 import './App.css';
 import LoginPage from './pages/LoginPage';
+import Signup from './pages/Signup';
 import HomePage from './pages/HomePage';
 import SingleProduct from './pages/SingleProduct';
 import Orders from './pages/Orders';
@@ -69,36 +70,16 @@ function App() {
         <>
             <BrowserRouter>
                 <Routes>
-                    <Route path='/' element={
-                        <HomePage />
-                    } />
-
-                    <Route path='/login' element={
-                        <LoginPage
-                            username={username}
-                            setUsername={setUsername}
-                            setAdmin={setAdmin}
-                        // pageLoading={pageLoading}
-                        />
-                    } />
-                    <Route path='/products/:productId' element={
-                        <SingleProduct />
-                    } />
-                    <Route path='/cart' element={
-                        <Cart />
-                    } />
-
-                    <Route path='/cart/checkout' element={
-                        <Checkout />
-                    } />
-
-                    <Route path='/orders' element={
-                        <Orders />
-                    } />
-
+                    <Route path='/' element={<HomePage />} />
+                    <Route path='/login' element={<LoginPage />} />
+                    <Route path='/signup' element={<Signup />} />
+                    <Route path='/products/:productId' element={<SingleProduct />} />
+                    <Route path='/cart' element={<Cart />} />
+                    <Route path='/cart/checkout' element={<Checkout />} />
+                    <Route path='/orders' element={<Orders />} />
                     <Route path='/ordercompleted' element={<OrderCompletedRedirect />} />
-
                     <Route path='/favorites' element={<Favorites />} />
+
                 </Routes>
             </BrowserRouter>
         </>

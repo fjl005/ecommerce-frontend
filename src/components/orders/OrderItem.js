@@ -1,6 +1,6 @@
 import { Container, Row, Col } from "reactstrap";
 import twoPageAirbnb from '../../img/twoPageAirbnb.png';
-
+import { Button } from "reactstrap";
 
 const OrderItemMDB = ({ order }) => {
 
@@ -32,7 +32,6 @@ const OrderItemMDB = ({ order }) => {
             </Row>
             {order.items.map((purchasedItem, idx) => (
                 <Row key={idx} style={{ marginBottom: '10px' }}>
-                    {console.log('purchased item: ', purchasedItem)}
                     <Col xs='3'>
                         <img
                             src={twoPageAirbnb}
@@ -74,15 +73,19 @@ const OrderItemMDB = ({ order }) => {
                         </div>
                     </Col>
                     <Col xs='3' style={{ textAlign: 'right' }}>
-                        {purchasedItem.price && (
-                            <h3>${purchasedItem.price.toFixed(2)}</h3>
-                        )}
+                        <div className='d-flex flex-column'>
+                            {purchasedItem.price && (
+                                <h3>${purchasedItem.price.toFixed(2)}</h3>
+                            )}
+                            <Button>Leave a Review</Button>
+                        </div>
+
                     </Col>
                 </Row>
             ))}
             <Row>
                 <Col>
-                    <h3>Total Cost: $5.00</h3>
+                    <h3>Total Cost: ${order.totalCost.toFixed(2)}</h3>
                 </Col>
             </Row>
         </Container>

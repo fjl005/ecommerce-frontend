@@ -1,22 +1,19 @@
 import { Container, Row, Col } from "reactstrap";
 import NavbarApp from "../components/navbar/NavbarApp";
-import { useCartContext } from "../components/cart/CartContext";
 
-const Favorites = () => {
-    const { cartLength } = useCartContext();
-
+const Signup = () => {
     return (
         <>
-            <NavbarApp cartLength={cartLength} />
+            <NavbarApp />
             <Container>
                 <Row>
                     <Col>
-                        <h1>Favorites</h1>
+                        <h1>Sign up</h1>
                     </Col>
                 </Row>
             </Container>
         </>
     )
-}
+};
 
-export default Favorites
+export default Signup;

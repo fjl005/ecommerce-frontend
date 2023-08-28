@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import NavbarApp from '../components/miscellaneous/NavbarApp';
+import NavbarApp from '../components/navbar/NavbarApp';
 import { Container, Row, Col } from 'reactstrap';
 import { Form, FormGroup, Label, Input, Button } from 'reactstrap';
 import { useLocation } from 'react-router-dom';
@@ -397,7 +397,7 @@ const Checkout = () => {
                     </Row>
                     <Row>
                         <Col>
-                            <h1>Total Cost: ${Number(totalCost).toFixed(2)}</h1>
+                            <h1>Total Cost: ${totalCost.toFixed(2)}</h1>
                         </Col>
                     </Row>
                     <Button color="primary" type="submit">

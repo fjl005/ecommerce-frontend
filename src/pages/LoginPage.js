@@ -1,5 +1,5 @@
 // import LoginForm from '../components/login/LoginForm';
-import NavbarApp from '../components/miscellaneous/NavbarApp';
+import NavbarApp from '../components/navbar/NavbarApp';
 import { useCartContext } from "../components/cart/CartContext";
 import { Container, Row, Col, Form, FormGroup, Label, Input, Button } from 'reactstrap';
 import { useState, useEffect } from 'react';
