@@ -125,22 +125,23 @@ const Cart = () => {
                             <h1>Loading page...</h1>
                         ) : !loggedIn ? (
                             <h1>You must log in to access your Items Saved for Later.</h1>
-                        ) : savedLength > 0 ?
-                            savedItemsArrayId.map((arr, idx) => (
-                                <>
-                                    <h1>Items Saved for Later</h1>
-                                    <CartItemMDB
-                                        key={idx}
-                                        productId={arr}
-                                        isSaved={true}
-                                        removeSavedItem={removeSavedItem}
-                                        moveBackToCart={moveBackToCart}
-                                    />
-                                </>
-                            )) : (
-                                <h1>No Items saved for later</h1>
-                            )
-                        }
+                        ) : savedLength > 0 ? (
+                            <>
+                                <h1>Items Saved for Later</h1>
+                                {
+                                    savedItemsArrayId.map((arr, idx) => (
+                                        <CartItemMDB
+                                            key={idx}
+                                            productId={arr}
+                                            isSaved={true}
+                                            removeSavedItem={removeSavedItem}
+                                            moveBackToCart={moveBackToCart}
+                                        />
+                                    ))}
+                            </>
+                        ) : (
+                            <h1>No Items saved for later</h1>
+                        )}
                     </Col>
                 </Row>
             </Container>

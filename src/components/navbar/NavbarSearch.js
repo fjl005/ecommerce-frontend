@@ -14,23 +14,20 @@ const SearchBar = () => {
     };
 
     return (
-        <div className='d-flex'
-            style={{
-                width: '100%', // Make the input stretch to fill available width
-                padding: '8px', // Adjust padding as needed
-                borderRadius: '4px', // Apply border radius
-            }}>
-            <Form onSubmit={handleSearchSubmit} className='d-flex'>
+        <div className='d-flex'>
+            <Form onSubmit={handleSearchSubmit} className='d-flex' style={{ width: '100%', padding: '0px' }}>
                 <Input
                     type="text"
                     placeholder="Search..."
                     value={searchQuery}
                     onChange={handleSearchChange}
                     style={{
-                        marginRight: '8px', // Add some space between input and button
+                        marginRight: '8px',
                     }}
                 />
-                <Button type="submit">Search</Button>
+                <Button type="submit" style={{ borderRadius: '50%' }}>
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </Button>
             </Form>
         </div>
     );

@@ -76,6 +76,8 @@ export const CartProvider = ({ children }) => {
             }
         } catch (error) {
             console.log('error: ', error);
+            setLoadingCost(false);
+            setLoadingCartAndSaved(false);
         }
     }
 

@@ -8,9 +8,21 @@ import { Link } from 'react-router-dom';
 import { useLoginContext } from '../components/login/LoginContext';
 
 
-const LoginPage = ({ username, setUsername, setAdmin, }) => {
-    const { cartLength, setCartLength, setSavedLength } = useCartContext();
-    const { loggedIn, setLoggedIn, triggerLogoutSign, loginMsg, setLoginMsg, } = useLoginContext();
+const LoginPage = () => {
+    const {
+        cartLength,
+        setCartLength,
+        setSavedLength } = useCartContext();
+
+    const {
+        loggedIn,
+        setLoggedIn,
+        triggerLogoutSign,
+        loginMsg,
+        setLoginMsg,
+        setUsername,
+        username,
+        setAdmin } = useLoginContext();
 
     // Login states
     const [password, setPassword] = useState('');
