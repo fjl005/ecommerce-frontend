@@ -8,6 +8,7 @@ import Checkout from './pages/Checkout';
 import Cart from './pages/Cart';
 import OrderCompletedRedirect from './components/orders/OrderCompletedRedirect';
 import Favorites from './pages/Favorites';
+import LeaveReview from './pages/LeaveReview';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { useLoginContext } from './components/login/LoginContext';
@@ -79,7 +80,7 @@ function App() {
                     <Route path='/orders' element={<Orders />} />
                     <Route path='/ordercompleted' element={<OrderCompletedRedirect />} />
                     <Route path='/favorites' element={<Favorites />} />
-
+                    <Route path='/review/:purchaseId' element={<LeaveReview />} />
                 </Routes>
             </BrowserRouter>
         </>

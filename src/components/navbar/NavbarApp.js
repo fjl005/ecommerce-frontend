@@ -1,4 +1,4 @@
-import { Navbar, NavbarBrand, Nav, NavItem, NavLink, Container, Button } from 'reactstrap';
+import { Navbar, NavbarBrand, Nav, NavItem, NavLink, Container, Button, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import NavbarSearch from './NavbarSearch';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
@@ -18,7 +18,7 @@ const NavbarAppTest = ({ isCheckout }) => {
                 style={{ height: '60px', }}
             >
                 <div className='d-flex flex-row align-items-center'>
-                    <NavbarBrand tag={Link} to="/">
+                    <NavbarBrand tag={Link} to="/" className='d-flex align-items-start'>
                         Fetsy
                     </NavbarBrand>
 
@@ -39,6 +39,8 @@ const NavbarAppTest = ({ isCheckout }) => {
                                     Sign Up
                                 </NavLink>
                             </NavItem>
+
+
                         </Nav>
                     )}
                 </div>
@@ -103,17 +105,23 @@ const NavbarAppTest = ({ isCheckout }) => {
                         <NavItem>
                             {showLoginButton && (
                                 loggedIn ? (
-                                    <NavLink
-                                        style={{ margin: '0px', padding: '0px' }}
-                                        tag={Link}
-                                        to='/login'
-                                        onClick={() => {
-                                            triggerLogout();
-                                            setCartLength(0);
-                                            setSavedLength(0);
-                                        }}>
-                                        <Button className='bg-success' style={{ margin: '0' }}>Logout</Button>
-                                    </NavLink>
+                                    <UncontrolledDropdown>
+                                        <DropdownToggle color='primary' caret>
+                                            Profile
+                                        </DropdownToggle>
+                                        <DropdownMenu>
+                                            <DropdownItem tag={Link} to='/settings'>
+                                                Settings
+                                            </DropdownItem>
+                                            <DropdownItem tag={Link} to='/login' onClick={() => {
+                                                triggerLogout();
+                                                setCartLength(0);
+                                                setSavedLength(0);
+                                            }}>
+                                                Logout
+                                            </DropdownItem>
+                                        </DropdownMenu>
+                                    </UncontrolledDropdown>
                                 ) : (
                                     <NavLink tag={Link} to='/login' style={{ marginTop: '1px' }}>
                                         Login
@@ -122,10 +130,11 @@ const NavbarAppTest = ({ isCheckout }) => {
                             )}
                         </NavItem>
                     </Nav>
-                )}
+                )
+                }
 
-            </Container>
-        </Navbar>
+            </Container >
+        </Navbar >
     )
 }
 

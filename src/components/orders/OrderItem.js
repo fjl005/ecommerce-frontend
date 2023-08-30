@@ -1,6 +1,7 @@
 import { Container, Row, Col } from "reactstrap";
 import twoPageAirbnb from '../../img/twoPageAirbnb.png';
 import { Button } from "reactstrap";
+import { Link } from 'react-router-dom';
 
 const OrderItemMDB = ({ order }) => {
 
@@ -19,7 +20,11 @@ const OrderItemMDB = ({ order }) => {
 
     const downloadClick = (order) => {
         console.log('order from click: ', order);
-    }
+    };
+
+    // const leaveReview = (purchaseID) => {
+
+    // }
 
     return (
         <Container className='cart-container'>
@@ -77,7 +82,17 @@ const OrderItemMDB = ({ order }) => {
                             {purchasedItem.price && (
                                 <h3>${purchasedItem.price.toFixed(2)}</h3>
                             )}
-                            <Button>Leave a Review</Button>
+                            <Link
+                                to={{
+                                    pathname: `/review/${purchasedItem._id}`,
+                                }}
+                                style={{
+                                    textDecoration: 'none',
+                                    color: 'black'
+                                }}
+                            >
+                                <Button>Leave a Review</Button>
+                            </Link>
                         </div>
 
                     </Col>
