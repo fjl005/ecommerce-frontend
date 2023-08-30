@@ -1,14 +1,11 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import axios from 'axios';
+import { axiosWithAuth } from '../miscellaneous/axiosWithAuth';
 
 // Create a new context named CartContext using the createContext, which will store and share cart-related data and functions.
 const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
-    const axiosWithAuth = axios.create({
-        baseURL: 'http://localhost:5000/',
-        withCredentials: true,
-    });
 
     // Tooltip States (when clicking "add to cart")
     const [tooltipAddCartSignin, setTooltipAddCartSignin] = useState(false);
@@ -58,7 +55,6 @@ export const CartProvider = ({ children }) => {
 
     const determineTotalCost = async () => {
         try {
-            console.log('im being run in determinetotalcost')
             setLoadingCost(true);
             let total = 0;
             if (cartItemsArrayId.length > 0) {

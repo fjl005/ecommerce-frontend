@@ -1,6 +1,7 @@
 import { Container, Row, Col } from "reactstrap";
 import NavbarApp from "../components/navbar/NavbarApp";
 import { useCartContext } from "../components/cart/CartContext";
+import { axiosWithAuth } from "../components/miscellaneous/axiosWithAuth";
 
 const Favorites = () => {
     const { cartLength } = useCartContext();

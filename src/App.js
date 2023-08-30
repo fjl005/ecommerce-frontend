@@ -1,6 +1,6 @@
 import './App.css';
 import LoginPage from './pages/LoginPage';
-import Signup from './pages/Signup';
+import SignUp from './pages/SignUp';
 import HomePage from './pages/HomePage';
 import SingleProduct from './pages/SingleProduct';
 import Orders from './pages/Orders';
@@ -72,7 +72,7 @@ function App() {
                 <Routes>
                     <Route path='/' element={<HomePage />} />
                     <Route path='/login' element={<LoginPage />} />
-                    <Route path='/signup' element={<Signup />} />
+                    <Route path='/signup' element={<SignUp />} />
                     <Route path='/products/:productId' element={<SingleProduct />} />
                     <Route path='/cart' element={<Cart />} />
                     <Route path='/cart/checkout' element={<Checkout />} />

@@ -10,13 +10,10 @@ import { useState, useEffect } from "react";
 import RightColToggle from "../components/products/RightColToggle";
 import axios from 'axios';
 import { useCartContext } from "../components/cart/CartContext";
+import { axiosWithAuth } from "../components/miscellaneous/axiosWithAuth";
 
 
 const SingleProduct = () => {
-    const axiosWithAuth = axios.create({
-        baseURL: 'http://localhost:5000/',
-        withCredentials: true,
-    });
 
     const { addItemToCart, tooltipAddCartSignin, tooltipAddCartSuccess, cartLength } = useCartContext();
 

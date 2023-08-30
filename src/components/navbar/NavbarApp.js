@@ -36,7 +36,7 @@ const NavbarAppTest = ({ isCheckout }) => {
                             </NavItem>
                             <NavItem>
                                 <NavLink tag={Link} to="/signup" style={{ marginTop: '1px', whiteSpace: 'nowrap' }}>
-                                    Sign up
+                                    Sign Up
                                 </NavLink>
                             </NavItem>
                         </Nav>

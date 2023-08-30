@@ -8,14 +8,10 @@ import CartItemCheckout from '../components/cart/CartItemCheckout';
 import axios from 'axios';
 import { useCartContext } from '../components/cart/CartContext';
 import { useLoginContext } from '../components/login/LoginContext';
+import { axiosWithAuth } from '../components/miscellaneous/axiosWithAuth';
 
 
 const Checkout = () => {
-    const axiosWithAuth = axios.create({
-        baseURL: 'http://localhost:5000/',
-        withCredentials: true,
-    });
-
     const { totalCost, cartItemsArrayId, fetchCart, fetchSaved, determineTotalCost, cartLength } = useCartContext();
     const { checkUser } = useLoginContext();
 
@@ -244,6 +240,14 @@ const Checkout = () => {
                                     required
                                     onChange={handleInputChange}
                                 />
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col xs='1' style={{ maxWidth: '75px' }}></Col>
+                            <Col xs='11'>
+                                <h5>
+                                    Please do NOT put in actual card information. This is just a fictional site. For the checkout to work, please click the 'autofill' button below to auto-populate the info that will allow payment.
+                                </h5>
                             </Col>
                         </Row>
                     </FormGroup>

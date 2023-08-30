@@ -6,6 +6,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { useLoginContext } from '../components/login/LoginContext';
+import { axiosWithAuth } from '../components/miscellaneous/axiosWithAuth';
 
 
 const LoginPage = () => {
@@ -30,16 +31,17 @@ const LoginPage = () => {
     const [initialRender, setInitialRender] = useState(true);
 
     // Axios configuration. Need credentials to send cookies.
-    const axiosWithAuth = axios.create({
-        baseURL: 'http://localhost:5000/',
-        withCredentials: true,
-    });
+    // const axiosWithAuth = axios.create({
+    //     baseURL: 'http://localhost:5000/',
+    //     withCredentials: true,
+    // });
+
+
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        const endpoint = 'http://localhost:5000/users/login';
         try {
-            const response = await axiosWithAuth.post(endpoint, {
+            const response = await axiosWithAuth.post('/users/login', {
                 username,
                 password
             });
@@ -61,30 +63,6 @@ const LoginPage = () => {
             }
         }
     };
-
-    // const triggerLogout = () => {
-    //     const logoutPost = async () => {
-    //         try {
-    //             await axiosWithAuth.post('/users/logout');
-    //             setLoggedIn(false);
-    //             setCartLength(0);
-    //             setSavedLength(0);
-    //             setLoginMsg(`You have successfully logged out. Thank you for visiting!`);
-    //         } catch (error) {
-    //             setLoginMsg(`It looks like you're not logged in. Please log in to access this page.`);
-    //         }
-    //     }
-    //     logoutPost();
-    // };
-
-    // useEffect(() => {
-    //     if (!initialRender) {
-    //         if (!loggedIn && triggerLogoutSign) {
-    //             triggerLogout();
-    //         }
-    //     }
-    //     setInitialRender(false);
-    // }, [loggedIn])
 
     return (
         <>

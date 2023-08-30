@@ -8,6 +8,7 @@ import LoadingOverlay from "../components/miscellaneous/LoadingOverlay";
 import SpinningIcon from "../components/miscellaneous/SpinningIcon";
 import { useCartContext } from "../components/cart/CartContext";
 import { useLoginContext } from '../components/login/LoginContext';
+import { axiosWithAuth } from "../components/miscellaneous/axiosWithAuth";
 
 const Cart = () => {
 

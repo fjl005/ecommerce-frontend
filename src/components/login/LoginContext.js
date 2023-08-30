@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import axios from 'axios';
+import { axiosWithAuth } from '../miscellaneous/axiosWithAuth';
 // import { useCartContext } from '../cart/CartContext';
 
 // First, create the context
@@ -9,10 +10,6 @@ const LoginContext = createContext();
 export const LoginProvider = ({ children }) => {
     // const { cartLength, setCartLength, setSavedLength } = useCartContext();
 
-    const axiosWithAuth = axios.create({
-        baseURL: 'http://localhost:5000/',
-        withCredentials: true,
-    });
 
     const [username, setUsername] = useState('');
     const [admin, setAdmin] = useState(false);
@@ -23,13 +20,10 @@ export const LoginProvider = ({ children }) => {
     const checkUser = async () => {
         try {
             const response = await axiosWithAuth.get('/users');
-            console.log('response: ', response);
             setLoggedIn(true);
             setUsername(response.data.username);
             setAdmin(response.data.admin);
-            console.log('checked user. will now set login button to true')
         } catch (error) {
-            console.log('hello?')
             console.error(error);
             setLoggedIn(false);
             setUsername('');

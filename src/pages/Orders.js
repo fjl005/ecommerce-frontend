@@ -7,17 +7,13 @@ import { useLocation } from "react-router-dom";
 import { useCartContext } from "../components/cart/CartContext";
 import { useLoginContext } from "../components/login/LoginContext";
 import OrderItem from "../components/orders/OrderItem";
+import { axiosWithAuth } from "../components/miscellaneous/axiosWithAuth";
 
 
 const Orders = () => {
     // const location = useLocation();
     const { cartLength } = useCartContext();
     const { loggedIn, setLoggedIn, checkUser } = useLoginContext();
-
-    const axiosWithAuth = axios.create({
-        baseURL: 'http://localhost:5000/',
-        withCredentials: true,
-    });
 
     const [ordersData, setOrdersData] = useState([]);
     const [loadingPage, setLoadingPage] = useState(true);

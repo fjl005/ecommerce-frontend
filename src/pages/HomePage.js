@@ -3,6 +3,7 @@ import NavbarApp from '../components/navbar/NavbarApp';
 import { useState, useEffect, useRef } from "react";
 import axios from 'axios';
 import Products from "../components/products/Products";
+import { axiosWithAuth } from "../components/miscellaneous/axiosWithAuth";
 
 const HomePage = () => {
     /* Remember that for object destructuring, the ({username}) for the props is essentially:
@@ -13,12 +14,6 @@ const HomePage = () => {
 
      */
 
-
-    // Axios Configuration. Need Credentials to send cookies.
-    const axiosWithAuth = axios.create({
-        baseURL: 'http://localhost:5000/',
-        withCredentials: true,
-    });
 
     return (
         <>

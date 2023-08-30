@@ -2,13 +2,10 @@ import { Container, Row, Col } from "reactstrap";
 import twoPageAirbnb from '../../img/twoPageAirbnb.png';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import { axiosWithAuth } from "../miscellaneous/axiosWithAuth";
 
 
 const CartItemMDB = ({ removeCartItem, productId, saveLaterCartItem, isSaved, removeSavedItem, moveBackToCart, removeItem }) => {
-    const axiosWithAuth = axios.create({
-        baseURL: 'http://localhost:5000/',
-        withCredentials: true,
-    });
 
     const [productData, setProductData] = useState({});
 
