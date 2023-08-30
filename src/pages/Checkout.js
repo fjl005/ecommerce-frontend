@@ -3,7 +3,7 @@ import NavbarApp from '../components/navbar/NavbarApp';
 import { Container, Row, Col } from 'reactstrap';
 import { Form, FormGroup, Label, Input, Button } from 'reactstrap';
 import { useLocation } from 'react-router-dom';
-import CartItemMDB from '../components/cart/CartItemMDB';
+import CartItem from '../components/cart/CartItem';
 import CartItemCheckout from '../components/cart/CartItemCheckout';
 import axios from 'axios';
 import { useCartContext } from '../components/cart/CartContext';

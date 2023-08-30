@@ -1,7 +1,7 @@
 import NavbarApp from "../components/navbar/NavbarApp";
 import { Container, Row, Col, Button } from "reactstrap";
 import { useState, useEffect } from "react";
-import CartItemMDB from "../components/cart/CartItemMDB";
+import CartItem from "../components/cart/CartItem";
 import axios from 'axios';
 import { Link } from "react-router-dom";
 import LoadingOverlay from "../components/miscellaneous/LoadingOverlay";
@@ -90,7 +90,7 @@ const Cart = () => {
 
             {cartLength > 0 && cartItemsArrayId && cartItemsArrayId.map((productId, idx) => (
                 <>
-                    <CartItemMDB
+                    <CartItem
                         key={idx}
                         productId={productId}
                         removeCartItem={removeCartItem}
@@ -131,7 +131,7 @@ const Cart = () => {
                                 <h1>Items Saved for Later</h1>
                                 {
                                     savedItemsArrayId.map((arr, idx) => (
-                                        <CartItemMDB
+                                        <CartItem
                                             key={idx}
                                             productId={arr}
                                             isSaved={true}

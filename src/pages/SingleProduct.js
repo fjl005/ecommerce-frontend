@@ -20,6 +20,7 @@ const SingleProduct = () => {
     const { productId } = useParams();
     const [fetchDone, setFetchDone] = useState(false);
     const [selectedProduct, setSelectedProduct] = useState({});
+    const [tooltipAddFavorite, setTooltipAddFavorite] = useState(false);
 
     useEffect(() => {
         fetchProductData();
@@ -58,6 +59,18 @@ const SingleProduct = () => {
         setShowSeller(!showSeller);
     }
 
+    const addItemToFavorites = async (productId) => {
+        try {
+            await axiosWithAuth.post(`/favorites`, { productId });
+            setTooltipAddFavorite(true);
+            setTimeout(() => {
+                setTooltipAddFavorite(false);
+            }, 3000);
+        } catch (error) {
+            console.log('error: ', error);
+        }
+    }
+
     return (
         <>
             <NavbarApp cartLength={cartLength} />
@@ -83,7 +96,6 @@ const SingleProduct = () => {
                                     className='product-page-add-to-cart'
                                     onClick={() => addItemToCart(selectedProduct._id)}
                                 >Add to cart</div>
-                                {console.log('product info: ', selectedProduct)}
                                 <Tooltip
                                     isOpen={tooltipAddCartSignin}
                                     target='addToCart'
@@ -98,10 +110,21 @@ const SingleProduct = () => {
                                     Item added to cart!
                                 </Tooltip>
 
-                                <div className='product-page-add-to-collection'>
+                                <div
+                                    className='product-page-add-to-collection'
+                                    id='addFavorite'
+                                    onClick={() => addItemToFavorites(selectedProduct._id)}
+                                >
                                     <i class="fa-solid fa-heart" style={{ color: '#8B0000', marginRight: '5px' }}></i>
                                     Add to Favorites
                                 </div>
+
+                                <Tooltip
+                                    isOpen={tooltipAddFavorite}
+                                    target='addFavorite'
+                                >
+                                    Item added to Favorites!
+                                </Tooltip>
 
                                 <div>
                                     <RightColToggle

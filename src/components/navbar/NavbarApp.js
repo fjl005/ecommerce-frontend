@@ -19,7 +19,7 @@ const NavbarAppTest = ({ isCheckout }) => {
             >
                 <div className='d-flex flex-row align-items-center'>
                     <NavbarBrand tag={Link} to="/">
-                        Home Page
+                        Fetsy
                     </NavbarBrand>
 
                     {!isCheckout && (

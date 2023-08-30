@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { axiosWithAuth } from "../miscellaneous/axiosWithAuth";
 
 
-const CartItemMDB = ({ removeCartItem, productId, saveLaterCartItem, isSaved, removeSavedItem, moveBackToCart, removeItem }) => {
+const CartItem = ({ removeCartItem, productId, saveLaterCartItem, isSaved, removeSavedItem, moveBackToCart, removeItem }) => {
 
     const [productData, setProductData] = useState({});
 
@@ -118,4 +118,4 @@ const CartItemMDB = ({ removeCartItem, productId, saveLaterCartItem, isSaved, re
     )
 }
 
-export default CartItemMDB
+export default CartItem;

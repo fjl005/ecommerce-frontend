@@ -10,7 +10,6 @@ const LoginContext = createContext();
 export const LoginProvider = ({ children }) => {
     // const { cartLength, setCartLength, setSavedLength } = useCartContext();
 
-
     const [username, setUsername] = useState('');
     const [admin, setAdmin] = useState(false);
     const [loggedIn, setLoggedIn] = useState(false);

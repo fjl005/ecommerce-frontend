@@ -61,11 +61,8 @@ export const CartProvider = ({ children }) => {
                 for (let item of cartItemsArrayId) {
                     const response = await axiosWithAuth.get(`/products/${item}`);
                     const itemPrice = response.data.price;
-                    console.log('item price: ', itemPrice)
                     total += itemPrice;
                 }
-                console.log('here')
-                console.log('total cost: ', total)
                 setTotalCost(total);
                 setLoadingCost(false);
                 setLoadingCartAndSaved(false);
@@ -92,7 +89,6 @@ export const CartProvider = ({ children }) => {
             setTimeout(() => {
                 setTooltipAddCartSuccess(false);
             }, 3000);
-            // setCartLength(cartLength + 1);
             fetchCart();
         } catch (error) {
             console.log('error: ', error);
