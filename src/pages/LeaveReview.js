@@ -14,6 +14,8 @@ const LeaveReview = () => {
     const location = useLocation();
     const productName = location.state ? location.state.name : '';
     const productId = location.state ? location.state.productId : '';
+    const orderId = location.state ? location.state.orderId : '';
+
 
 
     // States
@@ -48,6 +50,7 @@ const LeaveReview = () => {
                 ratingDescription,
                 currentDate,
                 purchaseId,
+                orderId
             });
 
             alert('Review was submitted successfully');

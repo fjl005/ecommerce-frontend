@@ -31,6 +31,7 @@ const Orders = () => {
         try {
             const response = await axiosWithAuth.get('/orders');
             const data = response.data;
+            console.log('data: ', data);
             if (data) {
                 setOrdersData(data);
                 setLoadingPage(false);
@@ -57,9 +58,6 @@ const Orders = () => {
                 </Row>
             </Container>
 
-
-
-
             {loadingPage ? (
                 <Container>
                     <Row>
@@ -81,6 +79,7 @@ const Orders = () => {
                     <OrderItem
                         key={idx}
                         order={order}
+                        orderId={order._id}
                     />
                 )) : (
                     <Container>

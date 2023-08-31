@@ -2,8 +2,15 @@ import { Container, Row, Col } from "reactstrap";
 import twoPageAirbnb from '../../img/twoPageAirbnb.png';
 import { Button } from "reactstrap";
 import { Link } from 'react-router-dom';
+import { useEffect, useState } from "react";
+import { axiosWithAuth } from "../miscellaneous/axiosWithAuth";
 
-const OrderItem = ({ order }) => {
+const OrderItem = ({ order, orderId }) => {
+
+    const [starRating, setStarRating] = useState(5);
+    const [ratingDescription, setRatingDescription] = useState('');
+
+
 
     const formatDate = (date) => {
         const options = {
@@ -20,7 +27,29 @@ const OrderItem = ({ order }) => {
 
     const downloadClick = (order) => {
         console.log('order from click: ', order);
+        console.log('order ID: ', orderId);
     };
+
+    useEffect(() => {
+        for (const item of order.items) {
+            if (item.hasReview) {
+                console.log('has review for', item._id.toString());
+                fetchReview(item._id.toString());
+            }
+        }
+    }, []);
+
+    const fetchReview = async (purchaseId) => {
+        try {
+            const response = await axiosWithAuth.get(`/reviews/${purchaseId}`);
+            console.log('response: ', response);
+            const data = response.data;
+            setStarRating(data.starRating);
+            setRatingDescription(data.ratingDescription);
+        } catch (error) {
+
+        }
+    }
 
 
     return (
@@ -83,7 +112,7 @@ const OrderItem = ({ order }) => {
                                 to={{
                                     pathname: `/review/${purchasedItem._id}`,
                                 }}
-                                state={{ name: purchasedItem.name, productId: purchasedItem.productId }}
+                                state={{ name: purchasedItem.name, productId: purchasedItem.productId, orderId: orderId }}
                                 style={{
                                     textDecoration: 'none',
                                     color: 'black'
@@ -91,6 +120,14 @@ const OrderItem = ({ order }) => {
                             >
                                 <Button>Leave a Review</Button>
                             </Link>
+                            {purchasedItem.hasReview && (
+                                <>
+                                    <p>This product has a review.</p>
+                                    <p>Rating (out of 5 stars): {starRating} / 5</p>
+                                    <p>Rating Description:</p>
+                                    <p>{ratingDescription ? ratingDescription : 'blank'}</p>
+                                </>
+                            )}
                         </div>
                     </Col>
                 </Row>

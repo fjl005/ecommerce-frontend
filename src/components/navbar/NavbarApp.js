@@ -35,6 +35,11 @@ const NavbarAppTest = ({ isCheckout }) => {
                                 </NavLink>
                             </NavItem>
                             <NavItem>
+                                <NavLink tag={Link} to="/favorites" style={{ marginTop: '1px' }}>
+                                    Reviews
+                                </NavLink>
+                            </NavItem>
+                            <NavItem>
                                 <NavLink tag={Link} to="/signup" style={{ marginTop: '1px', whiteSpace: 'nowrap' }}>
                                     Sign Up
                                 </NavLink>
