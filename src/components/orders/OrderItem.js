@@ -3,7 +3,7 @@ import twoPageAirbnb from '../../img/twoPageAirbnb.png';
 import { Button } from "reactstrap";
 import { Link } from 'react-router-dom';
 
-const OrderItemMDB = ({ order }) => {
+const OrderItem = ({ order }) => {
 
     const formatDate = (date) => {
         const options = {
@@ -22,9 +22,6 @@ const OrderItemMDB = ({ order }) => {
         console.log('order from click: ', order);
     };
 
-    // const leaveReview = (purchaseID) => {
-
-    // }
 
     return (
         <Container className='cart-container'>
@@ -86,6 +83,7 @@ const OrderItemMDB = ({ order }) => {
                                 to={{
                                     pathname: `/review/${purchasedItem._id}`,
                                 }}
+                                state={{ name: purchasedItem.name, productId: purchasedItem.productId }}
                                 style={{
                                     textDecoration: 'none',
                                     color: 'black'
@@ -94,7 +92,6 @@ const OrderItemMDB = ({ order }) => {
                                 <Button>Leave a Review</Button>
                             </Link>
                         </div>
-
                     </Col>
                 </Row>
             ))}
@@ -107,4 +104,4 @@ const OrderItemMDB = ({ order }) => {
     )
 }
 
-export default OrderItemMDB
+export default OrderItem;

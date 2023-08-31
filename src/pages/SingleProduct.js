@@ -122,6 +122,7 @@ const SingleProduct = () => {
                                 <Tooltip
                                     isOpen={tooltipAddFavorite}
                                     target='addFavorite'
+                                    placement='bottom'
                                 >
                                     Item added to Favorites!
                                 </Tooltip>

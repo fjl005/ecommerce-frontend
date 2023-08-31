@@ -110,14 +110,19 @@ const NavbarAppTest = ({ isCheckout }) => {
                                             Profile
                                         </DropdownToggle>
                                         <DropdownMenu>
-                                            <DropdownItem tag={Link} to='/settings'>
+                                            <DropdownItem
+                                            // tag={Link}
+                                            // to='/settings'
+                                            >
                                                 Settings
                                             </DropdownItem>
-                                            <DropdownItem tag={Link} to='/login' onClick={() => {
-                                                triggerLogout();
-                                                setCartLength(0);
-                                                setSavedLength(0);
-                                            }}>
+                                            <DropdownItem tag={Link} to='/login'
+                                                onClick={() => {
+                                                    triggerLogout();
+                                                    setCartLength(0);
+                                                    setSavedLength(0);
+                                                }}
+                                            >
                                                 Logout
                                             </DropdownItem>
                                         </DropdownMenu>

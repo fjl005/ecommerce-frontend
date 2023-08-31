@@ -45,7 +45,6 @@ const LoginPage = () => {
                 username,
                 password
             });
-            console.log('response: ', response);
             const data = response.data.user;
             setCartLength(data.cart.length);
 
