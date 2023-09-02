@@ -2,15 +2,13 @@ import NavbarApp from "../components/navbar/NavbarApp";
 import { Container, Row, Col, Button } from "reactstrap";
 import { useState, useEffect } from "react";
 import CartItem from "../components/cart/CartItem";
-import axios from 'axios';
 import { Link } from "react-router-dom";
 import LoadingOverlay from "../components/miscellaneous/LoadingOverlay";
 import SpinningIcon from "../components/miscellaneous/SpinningIcon";
 import { useCartContext } from "../components/cart/CartContext";
 import { useLoginContext } from '../components/login/LoginContext';
-import { axiosWithAuth } from "../components/miscellaneous/axiosWithAuth";
 
-const Cart = () => {
+const CartPage = () => {
 
     const {
         // Fetch functions
@@ -58,7 +56,7 @@ const Cart = () => {
     return (
         <>
             {loadingCartAndSaved && <LoadingOverlay />}
-            <NavbarApp cartLength={cartLength} />
+            <NavbarApp />
             <Container>
                 <Row>
                     <Col>
@@ -93,9 +91,8 @@ const Cart = () => {
                     <CartItem
                         key={idx}
                         productId={productId}
-                        removeCartItem={removeCartItem}
-                        saveLaterCartItem={saveLaterCartItem}
                         isSaved={false}
+                        inCartJs={true}
                     />
                 </>
             ))}
@@ -135,8 +132,7 @@ const Cart = () => {
                                             key={idx}
                                             productId={arr}
                                             isSaved={true}
-                                            removeSavedItem={removeSavedItem}
-                                            moveBackToCart={moveBackToCart}
+                                            inCartJs={true}
                                         />
                                     ))}
                             </>
@@ -150,4 +146,4 @@ const Cart = () => {
     )
 }
 
-export default Cart
+export default CartPage;

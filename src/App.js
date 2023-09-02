@@ -1,18 +1,19 @@
 import './App.css';
 import LoginPage from './pages/LoginPage';
-import SignUp from './pages/SignUp';
+import SignUpPage from './pages/SignUpPage';
 import HomePage from './pages/HomePage';
-import SingleProduct from './pages/SingleProduct';
-import Orders from './pages/Orders';
-import Checkout from './pages/Checkout';
-import Cart from './pages/Cart';
-import OrderCompletedRedirect from './components/orders/OrderCompletedRedirect';
-import Favorites from './pages/Favorites';
-import LeaveReview from './pages/LeaveReview';
+import SingleProductPage from './pages/SingleProductPage';
+import OrdersPage from './pages/OrdersPage';
+import CheckoutPage from './pages/CheckoutPage';
+import CartPage from './pages/CartPage';
+import OrderCompletedRedirectPage from './pages/OrderCompletedRedirectPage';
+import FavoritesPage from './pages/FavoritesPage';
+import LeaveReviewPage from './pages/LeaveReviewPage';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { useLoginContext } from './components/login/LoginContext';
 import axios from 'axios';
+import ReviewsPage from './pages/ReviewsPage';
 
 function App() {
     const {
@@ -73,14 +74,17 @@ function App() {
                 <Routes>
                     <Route path='/' element={<HomePage />} />
                     <Route path='/login' element={<LoginPage />} />
-                    <Route path='/signup' element={<SignUp />} />
-                    <Route path='/products/:productId' element={<SingleProduct />} />
-                    <Route path='/cart' element={<Cart />} />
-                    <Route path='/cart/checkout' element={<Checkout />} />
-                    <Route path='/orders' element={<Orders />} />
-                    <Route path='/ordercompleted' element={<OrderCompletedRedirect />} />
-                    <Route path='/favorites' element={<Favorites />} />
-                    <Route path='/review/:purchaseId' element={<LeaveReview />} />
+                    <Route path='/signup' element={<SignUpPage />} />
+                    <Route path='/products/:productId' element={<SingleProductPage />} />
+                    <Route path='/cart' element={<CartPage />} />
+                    <Route path='/cart/checkout' element={<CheckoutPage />} />
+                    <Route path='/orders' element={<OrdersPage />} />
+                    <Route path='/ordercompleted' element={<OrderCompletedRedirectPage />} />
+                    <Route path='/favorites' element={<FavoritesPage />} />
+                    <Route path='/review/:purchasedItemId' element={<LeaveReviewPage />} />
+                    <Route path='/review/edit/:purchasedItemId' element={<LeaveReviewPage />} />
+                    <Route path='/reviews' element={<ReviewsPage />} />
+
                 </Routes>
             </BrowserRouter>
         </>

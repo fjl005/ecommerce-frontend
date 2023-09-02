@@ -1,17 +1,13 @@
 import NavbarApp from "../components/navbar/NavbarApp";
 import { Container, Row, Col } from "reactstrap";
-import axios from 'axios';
 import { useState, useEffect } from "react";
-import twoPageAirbnb from '../img/twoPageAirbnb.png';
-import { useLocation } from "react-router-dom";
 import { useCartContext } from "../components/cart/CartContext";
 import { useLoginContext } from "../components/login/LoginContext";
-import OrderItem from "../components/orders/OrderItem";
+import ItemsInOrder from "../components/orders/ItemsInOrder";
 import { axiosWithAuth } from "../components/miscellaneous/axiosWithAuth";
 
 
-const Orders = () => {
-    // const location = useLocation();
+const OrdersPage = () => {
     const { cartLength } = useCartContext();
     const { loggedIn, setLoggedIn, checkUser } = useLoginContext();
 
@@ -31,7 +27,6 @@ const Orders = () => {
         try {
             const response = await axiosWithAuth.get('/orders');
             const data = response.data;
-            console.log('data: ', data);
             if (data) {
                 setOrdersData(data);
                 setLoadingPage(false);
@@ -49,7 +44,7 @@ const Orders = () => {
 
     return (
         <>
-            <NavbarApp cartLength={cartLength} />
+            <NavbarApp />
             <Container>
                 <Row>
                     <Col>
@@ -76,7 +71,7 @@ const Orders = () => {
                 </Container>
             ) : ordersData.length > 0 ?
                 ordersData.map((order, idx) => (
-                    <OrderItem
+                    <ItemsInOrder
                         key={idx}
                         order={order}
                         orderId={order._id}
@@ -93,6 +88,6 @@ const Orders = () => {
             }
         </>
     )
-}
+};
 
-export default Orders
+export default OrdersPage;

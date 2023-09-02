@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { axiosWithAuth } from "../miscellaneous/axiosWithAuth";
+import ProductChecklistView from "../products/ProductChecklistView";
+import { Container } from "reactstrap";
 
 const FavoriteItem = ({ productId }) => {
 
@@ -11,7 +13,7 @@ const FavoriteItem = ({ productId }) => {
 
     const fetchFavorite = async () => {
         try {
-            const response = await axiosWithAuth.get(`/product/${productId}`);
+            const response = await axiosWithAuth.get(`/products/${productId}`);
             const data = response.data;
             setFavoriteItem(data);
         } catch (error) {
@@ -21,9 +23,12 @@ const FavoriteItem = ({ productId }) => {
 
 
     return (
-        <>
-            <h4>Product: {productId}</h4>
-        </>
+        <Container className='cart-container'>
+            <ProductChecklistView
+                productItem={favoriteItem}
+                inFavoritesJs={true}
+            />
+        </Container>
     )
 }
 

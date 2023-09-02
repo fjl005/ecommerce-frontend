@@ -2,16 +2,13 @@ import { useState, useEffect } from 'react'
 import NavbarApp from '../components/navbar/NavbarApp';
 import { Container, Row, Col } from 'reactstrap';
 import { Form, FormGroup, Label, Input, Button } from 'reactstrap';
-import { useLocation } from 'react-router-dom';
 import CartItem from '../components/cart/CartItem';
-import CartItemCheckout from '../components/cart/CartItemCheckout';
-import axios from 'axios';
 import { useCartContext } from '../components/cart/CartContext';
 import { useLoginContext } from '../components/login/LoginContext';
 import { axiosWithAuth } from '../components/miscellaneous/axiosWithAuth';
 
 
-const Checkout = () => {
+const CheckoutPage = () => {
     const { totalCost, cartItemsArrayId, fetchCart, fetchSaved, determineTotalCost, cartLength } = useCartContext();
     const { checkUser } = useLoginContext();
 
@@ -390,10 +387,10 @@ const Checkout = () => {
                         <Col xs='1' style={{ maxWidth: '75px' }}></Col>
                         <Col>
                             {cartItemsArrayId.length > 0 &&
-                                cartItemsArrayId.map((arr, idx) => (
-                                    <CartItemCheckout
+                                cartItemsArrayId.map((productId, idx) => (
+                                    <CartItem
                                         key={idx}
-                                        productId={arr}
+                                        productId={productId}
                                     />
                                 ))
                             }
@@ -413,4 +410,4 @@ const Checkout = () => {
     )
 }
 
-export default Checkout;
+export default CheckoutPage;

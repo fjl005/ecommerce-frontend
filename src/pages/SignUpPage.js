@@ -3,7 +3,7 @@ import { useState } from "react";
 import NavbarApp from "../components/navbar/NavbarApp";
 import { axiosWithAuth } from "../components/miscellaneous/axiosWithAuth";
 
-const SignUp = () => {
+const SignUpPage = () => {
 
     const [newUserUsername, setNewUserUsername] = useState('');
     const [newUserPassword, setNewUserPassword] = useState('');
@@ -79,7 +79,7 @@ const SignUp = () => {
                             )}
 
                         </Col>
-                    </Row >
+                    </Row>
 
                     <Row>
                         <Col>
@@ -88,10 +88,10 @@ const SignUp = () => {
                             )}
                         </Col>
                     </Row>
-                </Row >
-            </Container >
+                </Row>
+            </Container>
         </>
     )
 };
 
-export default SignUp;
+export default SignUpPage;

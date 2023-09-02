@@ -3,17 +3,15 @@ import { Container, Row, Col, Button, Tooltip, UncontrolledAccordion, Accordion,
 import { useParams } from "react-router-dom";
 import { productsArray } from "../components/products/productsArray";
 import ProductImgCarousel from "../components/products/ProductImgCarousel";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Reviews from "../components/reviews/Reviews";
 import ProductDescription from "../components/products/ProductDescription";
 import { useState, useEffect } from "react";
 import RightColToggle from "../components/products/RightColToggle";
-import axios from 'axios';
 import { useCartContext } from "../components/cart/CartContext";
 import { axiosWithAuth } from "../components/miscellaneous/axiosWithAuth";
 
 
-const SingleProduct = () => {
+const SingleProductPage = () => {
 
     const { addItemToCart, tooltipAddCartSignin, tooltipAddCartSuccess, cartLength } = useCartContext();
 
@@ -73,8 +71,7 @@ const SingleProduct = () => {
 
     return (
         <>
-            <NavbarApp cartLength={cartLength} />
-            {/* <Container style={{ width: '70%', maxWidth: '70000px', backgroundColor: 'gray' }}> */}
+            <NavbarApp />
             {fetchDone && (
                 <Container className='product-page-container'>
                     <Row>
@@ -221,6 +218,6 @@ const SingleProduct = () => {
             )}
         </>
     )
-}
+};
 
-export default SingleProduct;
+export default SingleProductPage;

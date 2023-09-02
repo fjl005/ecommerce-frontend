@@ -7,7 +7,7 @@ import { useLoginContext } from '../login/LoginContext';
 import LoadingOverlay from '../miscellaneous/LoadingOverlay';
 import { useCartContext } from '../cart/CartContext';
 
-const NavbarAppTest = ({ isCheckout }) => {
+const NavbarApp = ({ isCheckout }) => {
     const { cartLength, setCartLength, setSavedLength } = useCartContext();
     const { loggedIn, showLoginButton, triggerLogout } = useLoginContext();
 
@@ -35,7 +35,7 @@ const NavbarAppTest = ({ isCheckout }) => {
                                 </NavLink>
                             </NavItem>
                             <NavItem>
-                                <NavLink tag={Link} to="/favorites" style={{ marginTop: '1px' }}>
+                                <NavLink tag={Link} to="/reviews" style={{ marginTop: '1px' }}>
                                     Reviews
                                 </NavLink>
                             </NavItem>
@@ -148,4 +148,4 @@ const NavbarAppTest = ({ isCheckout }) => {
     )
 }
 
-export default NavbarAppTest;
+export default NavbarApp;

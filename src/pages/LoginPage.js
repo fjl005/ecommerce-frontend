@@ -3,7 +3,6 @@ import NavbarApp from '../components/navbar/NavbarApp';
 import { useCartContext } from "../components/cart/CartContext";
 import { Container, Row, Col, Form, FormGroup, Label, Input, Button } from 'reactstrap';
 import { useState, useEffect } from 'react';
-import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { useLoginContext } from '../components/login/LoginContext';
 import { axiosWithAuth } from '../components/miscellaneous/axiosWithAuth';

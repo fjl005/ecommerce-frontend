@@ -6,7 +6,7 @@ import { useLoginContext } from "../components/login/LoginContext";
 import FavoriteItem from "../components/favorites/FavoriteItem";
 import { useState, useEffect } from "react";
 
-const Favorites = () => {
+const FavoritesPage = () => {
     const { cartLength } = useCartContext();
     const { loggedIn } = useLoginContext();
 
@@ -23,8 +23,6 @@ const Favorites = () => {
             const data = response.data;
             setFavoritesData(data.favorites);
             setLoadingPage(false);
-            console.log('favorites data: ', favoritesData);
-            console.log('favorites data length > 0?', favoritesData.length > 0);
         } catch (error) {
             console.log('error: ', error);
             setLoadingPage(false);
@@ -34,7 +32,7 @@ const Favorites = () => {
 
     return (
         <>
-            <NavbarApp cartLength={cartLength} />
+            <NavbarApp />
             <Container>
                 <Row>
                     <Col>
@@ -49,10 +47,10 @@ const Favorites = () => {
                         ) : !loggedIn ? (
                             <p>You must log in to access this page.</p>
                         ) : favoritesData.length > 0 ?
-                            favoritesData.map((favoriteProductId, idx) => (
+                            favoritesData.map((productId, idx) => (
                                 <FavoriteItem
                                     key={idx}
-                                    productId={favoriteProductId}
+                                    productId={productId}
                                 />
                             ))
                             : (
@@ -63,6 +61,6 @@ const Favorites = () => {
             </Container>
         </>
     )
-}
+};
 
-export default Favorites
+export default FavoritesPage;
