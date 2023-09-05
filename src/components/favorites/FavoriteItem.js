@@ -3,7 +3,7 @@ import { axiosWithAuth } from "../miscellaneous/axiosWithAuth";
 import ProductChecklistView from "../products/ProductChecklistView";
 import { Container } from "reactstrap";
 
-const FavoriteItem = ({ productId }) => {
+const FavoriteItem = ({ productId, setLoadingFavoritesPage }) => {
 
     const [favoriteItem, setFavoriteItem] = useState({});
 
@@ -27,6 +27,7 @@ const FavoriteItem = ({ productId }) => {
             <ProductChecklistView
                 productItem={favoriteItem}
                 inFavoritesJs={true}
+                setLoadingFavoritesPage={setLoadingFavoritesPage}
             />
         </Container>
     )

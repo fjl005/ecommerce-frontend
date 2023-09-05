@@ -82,6 +82,7 @@ export const CartProvider = ({ children }) => {
         determineTotalCost();
     }, [cartLength]);
 
+
     const addItemToCart = async (productId) => {
         try {
             await axiosWithAuth.post(`/cart/${productId}`);

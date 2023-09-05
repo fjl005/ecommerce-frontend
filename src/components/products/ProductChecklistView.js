@@ -14,28 +14,27 @@ const ProductChecklistView = ({
     inCartJs,
     isSaved,
     inFavoritesJs,
+    setLoadingFavoritesPage
     // inReviewsJs
 }) => {
 
     const [starRating, setStarRating] = useState(5);
     const [ratingDescription, setRatingDescription] = useState('');
-    const [loadingPage, setLoadingPage] = useState(true);
+    const [loadingProduct, setLoadingProduct] = useState(true);
 
     const downloadClick = (orderId) => {
         console.log('order ID: ', orderId);
         console.log('order: ', order);
     };
 
-    const { saveLaterCartItem, removeCartItem, moveBackToCart, removeSavedItem } = useCartContext();
-
-    console.log('product Item: ', productItem);
+    const { saveLaterCartItem, removeCartItem, moveBackToCart, removeSavedItem, fetchCart } = useCartContext();
 
     useEffect(() => {
         if (productItem.hasReview) {
             fetchReview(productItem._id.toString());
-        } else {
-            setLoadingPage(false);
         }
+        setLoadingProduct(false);
+
     }, []);
 
     const fetchReview = async (purchasedItemId) => {
@@ -45,16 +44,44 @@ const ProductChecklistView = ({
             const data = response.data;
             setStarRating(data.starRating);
             setRatingDescription(data.ratingDescription);
-            setLoadingPage(false);
+            setLoadingProduct(false);
         } catch (error) {
             console.log('error: ', error);
-            setLoadingPage(false);
+            setLoadingProduct(false);
         }
-    }
+    };
+
+    const removeFavoritesItem = async (productId) => {
+        try {
+            setLoadingFavoritesPage(true);
+            const response = await axiosWithAuth.delete(`/favorites/${productId}`);
+            const data = response.data;
+            setLoadingFavoritesPage(false);
+        } catch (error) {
+            console.log('error in ProductChecklistView.js, removeFavoritesItem(): ', error);
+            setLoadingFavoritesPage(false);
+        }
+    };
+
+    const addCartFromFavorites = async (productId) => {
+        try {
+            setLoadingFavoritesPage(true);
+            const response = await axiosWithAuth.post(`/favorites/cart/${productId}`);
+            const data = response.data;
+            console.log('data: ', data);
+            setLoadingFavoritesPage(false);
+            fetchCart();
+            alert('Product has been added to Cart!');
+        } catch (error) {
+            console.log('error in ProductChecklistView.js, addCartFromFavorites(): ', error);
+            setLoadingFavoritesPage(false);
+        }
+    };
+
 
     return (
         <>
-            {loadingPage ? (
+            {loadingProduct ? (
                 <Row>
                     <Col>
                         <h1>Loading...</h1>
@@ -209,18 +236,17 @@ const ProductChecklistView = ({
                             <Col style={{ marginBottom: '10px' }}>
                                 <span
                                     className='cart-remove-save-btn'
-                                    style={{ marginLeft: '10px' }}
-                                    onClick={() => moveBackToCart(productItem._id)}
-                                >
-                                    <i class="fa-solid fa-cart-plus" style={{ marginRight: '10px' }}></i>
-                                    Add to Cart
-                                </span>
-                                <span
-                                    className='cart-remove-save-btn'
-                                // onClick={() => removeFavoritesItem(productItem._id)}
+                                    onClick={() => removeFavoritesItem(productItem._id)}
                                 >
                                     <i class="fa-solid fa-x" style={{ marginRight: '10px' }}></i>
                                     Remove From Favorites
+                                </span>
+                                <span
+                                    className='cart-remove-save-btn'
+                                    onClick={() => addCartFromFavorites(productItem._id)}
+                                >
+                                    <i class="fa-solid fa-cart-plus" style={{ marginRight: '10px' }}></i>
+                                    Add to Cart
                                 </span>
                             </Col>
                         </Row>

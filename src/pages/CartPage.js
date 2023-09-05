@@ -68,7 +68,11 @@ const CartPage = () => {
                             <h1>Your cart is empty</h1>
                         ) : (
                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                <h1>{cartLength} items in your cart.</h1>
+                                <h1>
+                                    {cartLength === 1
+                                        ? `${cartLength} item in your Favorites`
+                                        : `${cartLength} items in your Favorites`}
+                                </h1>
                                 <Link
                                     to={{
                                         pathname: `/cart/checkout`,

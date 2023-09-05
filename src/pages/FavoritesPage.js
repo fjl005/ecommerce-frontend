@@ -5,27 +5,30 @@ import { axiosWithAuth } from "../components/miscellaneous/axiosWithAuth";
 import { useLoginContext } from "../components/login/LoginContext";
 import FavoriteItem from "../components/favorites/FavoriteItem";
 import { useState, useEffect } from "react";
+import LoadingOverlay from "../components/miscellaneous/LoadingOverlay";
 
 const FavoritesPage = () => {
     const { cartLength } = useCartContext();
     const { loggedIn } = useLoginContext();
 
     const [favoritesData, setFavoritesData] = useState({});
-    const [loadingPage, setLoadingPage] = useState(true);
+    const [favoritesLength, setFavoritesLength] = useState(0);
+    const [loadingFavoritesPage, setLoadingFavoritesPage] = useState(true);
 
     useEffect(() => {
         fetchAllFavorites();
-    }, []);
+    }, [loadingFavoritesPage]);
 
     const fetchAllFavorites = async () => {
         try {
             const response = await axiosWithAuth.get(`/favorites`);
             const data = response.data;
             setFavoritesData(data.favorites);
-            setLoadingPage(false);
+            setFavoritesLength(data.favorites.length);
+            setLoadingFavoritesPage(false);
         } catch (error) {
             console.log('error: ', error);
-            setLoadingPage(false);
+            setLoadingFavoritesPage(false);
         }
     };
 
@@ -36,26 +39,28 @@ const FavoritesPage = () => {
             <Container>
                 <Row>
                     <Col>
-                        <h1>Favorites</h1>
-                    </Col>
-                </Row>
-
-                <Row>
-                    <Col>
-                        {loadingPage ? (
-                            <h3>Loading...</h3>
+                        {loadingFavoritesPage ? (
+                            <LoadingOverlay />
                         ) : !loggedIn ? (
                             <p>You must log in to access this page.</p>
-                        ) : favoritesData.length > 0 ?
-                            favoritesData.map((productId, idx) => (
-                                <FavoriteItem
-                                    key={idx}
-                                    productId={productId}
-                                />
-                            ))
-                            : (
-                                <p>No Favorites</p>
-                            )}
+                        ) : favoritesData.length > 0 ? (
+                            <>
+                                <h1>
+                                    {favoritesLength === 1
+                                        ? `${favoritesLength} item in your Favorites`
+                                        : `${favoritesLength} items in your Favorites`}
+                                </h1>
+                                {favoritesData.map((productId, idx) => (
+                                    <FavoriteItem
+                                        key={idx}
+                                        productId={productId}
+                                        setLoadingFavoritesPage={setLoadingFavoritesPage}
+                                    />
+                                ))}
+                            </>
+                        ) : (
+                            <h1>No Favorites</h1>
+                        )}
                     </Col>
                 </Row>
             </Container>
