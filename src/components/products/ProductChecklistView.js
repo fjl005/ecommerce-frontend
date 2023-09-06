@@ -1,4 +1,4 @@
-import { Row, Col, Button } from 'reactstrap';
+import { Container, Row, Col, Button } from 'reactstrap';
 import twoPageAirbnb from '../../img/twoPageAirbnb.png';
 import { Link } from 'react-router-dom';
 import FiveStarGenerator from '../reviews/FiveStarGenerator';
@@ -14,7 +14,7 @@ const ProductChecklistView = ({
     inCartJs,
     isSaved,
     inFavoritesJs,
-    setLoadingFavoritesPage
+    setFavoritesLoadingOverlay
     // inReviewsJs
 }) => {
 
@@ -53,28 +53,27 @@ const ProductChecklistView = ({
 
     const removeFavoritesItem = async (productId) => {
         try {
-            setLoadingFavoritesPage(true);
+            setFavoritesLoadingOverlay(true);
             const response = await axiosWithAuth.delete(`/favorites/${productId}`);
             const data = response.data;
-            setLoadingFavoritesPage(false);
+            setFavoritesLoadingOverlay(false);
         } catch (error) {
             console.log('error in ProductChecklistView.js, removeFavoritesItem(): ', error);
-            setLoadingFavoritesPage(false);
+            setFavoritesLoadingOverlay(false);
         }
     };
 
     const addCartFromFavorites = async (productId) => {
         try {
-            setLoadingFavoritesPage(true);
+            setFavoritesLoadingOverlay(true);
             const response = await axiosWithAuth.post(`/favorites/cart/${productId}`);
             const data = response.data;
             console.log('data: ', data);
-            setLoadingFavoritesPage(false);
+            setFavoritesLoadingOverlay(false);
             fetchCart();
-            alert('Product has been added to Cart!');
         } catch (error) {
             console.log('error in ProductChecklistView.js, addCartFromFavorites(): ', error);
-            setLoadingFavoritesPage(false);
+            setFavoritesLoadingOverlay(false);
         }
     };
 
@@ -82,6 +81,7 @@ const ProductChecklistView = ({
     return (
         <>
             {loadingProduct ? (
+
                 <Row>
                     <Col>
                         <h1>Loading...</h1>
@@ -89,6 +89,7 @@ const ProductChecklistView = ({
                 </Row>
             ) : (
                 <>
+
                     <Row style={{ paddingTop: '10px', marginBottom: '10px', }}>
                         <Col xs='12' sm='4' md='3'>
                             <img

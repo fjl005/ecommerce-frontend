@@ -64,9 +64,11 @@ export const CartProvider = ({ children }) => {
                     total += itemPrice;
                 }
                 setTotalCost(total);
-                setLoadingCost(false);
-                setLoadingCartAndSaved(false);
+            } else {
+                setTotalCost(0);
             }
+            setLoadingCost(false);
+            setLoadingCartAndSaved(false);
         } catch (error) {
             console.log('error: ', error);
             setLoadingCost(false);
@@ -108,6 +110,8 @@ export const CartProvider = ({ children }) => {
             setLoadingCartAndSaved(true);
             await axiosWithAuth.delete(`/cart/${cartItemId}`);
             await fetchCart();
+            setLoadingCartAndSaved(false);
+
         } catch (error) {
             console.log('error: ', error);
         }

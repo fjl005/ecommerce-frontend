@@ -14,10 +14,20 @@ const FavoritesPage = () => {
     const [favoritesData, setFavoritesData] = useState({});
     const [favoritesLength, setFavoritesLength] = useState(0);
     const [loadingFavoritesPage, setLoadingFavoritesPage] = useState(true);
+    const [favoritesLoadingOverlay, setFavoritesLoadingOverlay] = useState(false);
 
+    // Performed only at initial render.
+    // useEffect(() => {
+    //     fetchAllFavorites();
+    // }, []);
+
+    // Performed whenever an item is removed from Favorites or added to Cart.
     useEffect(() => {
-        fetchAllFavorites();
-    }, [loadingFavoritesPage]);
+        if (!favoritesLoadingOverlay) {
+            // When this is set to false, the function is completed and so we can fetch all favorites. 
+            fetchAllFavorites();
+        }
+    }, [favoritesLoadingOverlay]);
 
     const fetchAllFavorites = async () => {
         try {
@@ -35,14 +45,20 @@ const FavoritesPage = () => {
 
     return (
         <>
+            {favoritesLoadingOverlay && <LoadingOverlay />}
             <NavbarApp />
             <Container>
                 <Row>
                     <Col>
                         {loadingFavoritesPage ? (
-                            <LoadingOverlay />
+                            <>
+                                <h1>Loading Favorites...</h1>
+                            </>
                         ) : !loggedIn ? (
-                            <p>You must log in to access this page.</p>
+                            <>
+                                <h1>Favorites</h1>
+                                <p>You must log in to access this page.</p>
+                            </>
                         ) : favoritesData.length > 0 ? (
                             <>
                                 <h1>
@@ -54,7 +70,7 @@ const FavoritesPage = () => {
                                     <FavoriteItem
                                         key={idx}
                                         productId={productId}
-                                        setLoadingFavoritesPage={setLoadingFavoritesPage}
+                                        setFavoritesLoadingOverlay={setFavoritesLoadingOverlay}
                                     />
                                 ))}
                             </>

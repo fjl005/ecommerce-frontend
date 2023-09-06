@@ -70,8 +70,8 @@ const CartPage = () => {
                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                 <h1>
                                     {cartLength === 1
-                                        ? `${cartLength} item in your Favorites`
-                                        : `${cartLength} items in your Favorites`}
+                                        ? `${cartLength} item in your Cart`
+                                        : `${cartLength} items in your Cart`}
                                 </h1>
                                 <Link
                                     to={{
