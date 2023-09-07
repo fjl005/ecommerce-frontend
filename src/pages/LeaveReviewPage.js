@@ -43,7 +43,7 @@ const LeaveReviewPage = () => {
                 });
 
                 alert('Review was modified successfully');
-                window.location.href = '/orders';
+                window.location.href = '/reviews';
 
             } catch (error) {
                 console.log('error: when editing review: ', error);

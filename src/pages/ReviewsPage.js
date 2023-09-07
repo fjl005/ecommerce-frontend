@@ -1,8 +1,31 @@
 import { Container, Row, Col, Button } from "reactstrap";
 import NavbarApp from "../components/navbar/NavbarApp";
-import twoPageAirbnb from '../img/twoPageAirbnb.png';
+import SingleReview from "../components/reviews/SingleReview";
+import { axiosWithAuth } from "../components/miscellaneous/axiosWithAuth";
+import { useEffect, useState } from "react";
+import { useLoginContext } from "../components/login/LoginContext";
 
 const ReviewsPage = () => {
+
+    const { username } = useLoginContext();
+    const [reviewsData, setReviewsData] = useState([]);
+
+    useEffect(() => {
+        fetchReviews();
+    }, [username]);
+
+    const fetchReviews = async () => {
+        try {
+            console.log('username: ', username);
+            const response = await axiosWithAuth.get(`/reviews/user/${username}`);
+            const data = response.data;
+            setReviewsData(data);
+            console.log('reviews data: ', reviewsData);
+        } catch (error) {
+            console.log('error with fetching reviews in ReviewsPage.js: ', error);
+        }
+    }
+
     return (
         <>
             <NavbarApp />
@@ -14,40 +37,16 @@ const ReviewsPage = () => {
                 </Row>
             </Container>
 
-            <Container>
-                <Row>
-                    <Col>
-                        <h2 style={{ textAlign: 'center' }}>Two Page Airbnb Template</h2>
-                    </Col>
-                </Row>
-                <Row>
-                    <div style={{ display: 'flex', alignItems: 'center' }}>
-                        <Col sm='6' style={{ textAlign: 'right' }}>
-                            <img
-                                src={twoPageAirbnb}
-                                alt='alt text'
-                                style={{
-                                    width: '70%'
-                                }}
-                            />
-                        </Col>
-                        <Col sm='6' style={{ marginLeft: '10px' }}>
-                            <h5>Review placed on: September 06, 2023 at 10:00AM.</h5>
-                            <p>Five Stars</p>
-                            <p>Review text</p>
-                            <p>Show Full Review (function coming soon).</p>
-                            <Button>Edit Review</Button>
-                        </Col>
-                    </div>
-                </Row>
-                <Row>
-                    <Col style={{ textAlign: 'center' }}>
-                        <h4>Product Details</h4>
-                        <p>Digital Download</p>
-                        <p>1 PDF Included</p>
-                    </Col>
-                </Row>
-            </Container>
+            {reviewsData.length > 0 && reviewsData.map((review, idx) => (
+                <SingleReview
+                    key={idx}
+                    productId={review.productId}
+                    purchasedItemId={review.purchasedItemId}
+                    starRating={review.starRating}
+                    ratingDescription={review.ratingDescription}
+                    dateOfReview={review.currentDate}
+                />
+            ))}
         </>
     )
 };
