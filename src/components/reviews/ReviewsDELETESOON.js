@@ -1,3 +1,4 @@
+import ReviewsChecklistView from "./ReviewsChecklistView";
 import { reviewsData, averageRating } from "./reviewsData";
 import StarReviews from "./StarReviews";
 import { useState } from "react";
@@ -57,14 +58,13 @@ const Reviews = () => {
             </h2>
 
             {reviewsData.slice(startReviewIdx, endReviewIdx).map((review, idx) => (
-                <div key={idx}>
-                    <h3>Rating: {review.rating}</h3>
-                    <StarReviews rating={review.rating} />
-                    <p>{review.description}</p>
-                    <p>Purchased Item: {review.product}</p>
-                    <p>{review.name}, {review.date}</p>
-                    <div className='line-between-reviews'></div>
-                </div>
+                <ReviewsChecklistView
+                    key={idx}
+                    starRating={review.starRating}
+                    ratingDescription={review.ratingDescription}
+                    productId={review.productId}
+                    dateOfReview={review.dat}
+                />
             ))}
 
             <div className='d-flex'>

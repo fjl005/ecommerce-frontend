@@ -6,6 +6,7 @@ import { useLoginContext } from "../components/login/LoginContext";
 import FavoriteItem from "../components/favorites/FavoriteItem";
 import { useState, useEffect } from "react";
 import LoadingOverlay from "../components/miscellaneous/LoadingOverlay";
+import SpinningIcon from "../components/miscellaneous/SpinningIcon";
 
 const FavoritesPage = () => {
     const { cartLength } = useCartContext();
@@ -52,12 +53,11 @@ const FavoritesPage = () => {
                     <Col>
                         {loadingFavoritesPage ? (
                             <>
-                                <h1>Loading Favorites...</h1>
+                                <SpinningIcon size='2x' />
                             </>
                         ) : !loggedIn ? (
                             <>
-                                <h1>Favorites</h1>
-                                <p>You must log in to access this page.</p>
+                                <h1>You must log in to view your Favorites.</h1>
                             </>
                         ) : favoritesData.length > 0 ? (
                             <>

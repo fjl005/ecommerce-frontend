@@ -61,7 +61,7 @@ const CartPage = () => {
                 <Row>
                     <Col>
                         {loadingPage ? (
-                            <h1>Loading page...</h1>
+                            <SpinningIcon size='2x' />
                         ) : !loggedIn ? (
                             <h1>You must log in to access your Cart.</h1>
                         ) : cartLength === 0 ? (
@@ -124,7 +124,7 @@ const CartPage = () => {
                 <Row>
                     <Col>
                         {loadingPage ? (
-                            <h1>Loading page...</h1>
+                            <SpinningIcon size='2x' />
                         ) : !loggedIn ? (
                             <h1>You must log in to access your Items Saved for Later.</h1>
                         ) : savedLength > 0 ? (

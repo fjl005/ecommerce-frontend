@@ -5,6 +5,7 @@ import FiveStarGenerator from '../reviews/FiveStarGenerator';
 import { useCartContext } from '../cart/CartContext';
 import { useState, useEffect } from 'react';
 import { axiosWithAuth } from '../miscellaneous/axiosWithAuth';
+import SpinningIcon from '../miscellaneous/SpinningIcon';
 
 const ProductChecklistView = ({
     productItem,
@@ -84,12 +85,11 @@ const ProductChecklistView = ({
 
                 <Row>
                     <Col>
-                        <h1>Loading...</h1>
+                        <SpinningIcon size='2x' />
                     </Col>
                 </Row>
             ) : (
                 <>
-
                     <Row style={{ paddingTop: '10px', marginBottom: '10px', }}>
                         <Col xs='12' sm='4' md='3'>
                             <img

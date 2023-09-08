@@ -5,6 +5,7 @@ import { useCartContext } from "../components/cart/CartContext";
 import { useLoginContext } from "../components/login/LoginContext";
 import ItemsInOrder from "../components/orders/ItemsInOrder";
 import { axiosWithAuth } from "../components/miscellaneous/axiosWithAuth";
+import SpinningIcon from "../components/miscellaneous/SpinningIcon";
 
 
 const OrdersPage = () => {
@@ -45,19 +46,11 @@ const OrdersPage = () => {
     return (
         <>
             <NavbarApp />
-            <Container>
-                <Row>
-                    <Col>
-                        <h1>View Your Orders</h1>
-                    </Col>
-                </Row>
-            </Container>
-
             {loadingPage ? (
                 <Container>
                     <Row>
                         <Col>
-                            <h3>Loading...</h3>
+                            <SpinningIcon size='2x' />
                         </Col>
                     </Row>
                 </Container>
@@ -65,27 +58,39 @@ const OrdersPage = () => {
                 <Container>
                     <Row>
                         <Col>
-                            <h3>You must log in to see your orders.</h3>
+                            <h1>You must log in to see your orders.</h1>
                         </Col>
                     </Row>
                 </Container>
-            ) : ordersData.length > 0 ?
-                ordersData.map((order, idx) => (
-                    <ItemsInOrder
-                        key={idx}
-                        order={order}
-                        orderId={order._id}
-                    />
-                )) : (
+            ) : (
+                <>
                     <Container>
                         <Row>
                             <Col>
-                                <p>No Orders</p>
+                                <h1>View Your Orders</h1>
                             </Col>
                         </Row>
                     </Container>
-                )
-            }
+
+                    {ordersData.length > 0 ?
+                        ordersData.map((order, idx) => (
+                            <ItemsInOrder
+                                key={idx}
+                                order={order}
+                                orderId={order._id}
+                            />
+                        )) : (
+                            <Container>
+                                <Row>
+                                    <Col>
+                                        <p>No Orders</p>
+                                    </Col>
+                                </Row>
+                            </Container>
+                        )
+                    }
+                </>
+            )}
         </>
     )
 };

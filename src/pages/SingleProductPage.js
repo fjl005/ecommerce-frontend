@@ -3,7 +3,7 @@ import { Container, Row, Col, Button, Tooltip, UncontrolledAccordion, Accordion,
 import { useParams } from "react-router-dom";
 import { productsArray } from "../components/products/productsArray";
 import ProductImgCarousel from "../components/products/ProductImgCarousel";
-import Reviews from "../components/reviews/Reviews";
+import ReviewsInSingleProductPage from "../components/reviews/ReviewsInSingleProductPage";
 import ProductDescription from "../components/products/ProductDescription";
 import { useState, useEffect } from "react";
 import RightColToggle from "../components/products/RightColToggle";
@@ -80,7 +80,7 @@ const SingleProductPage = () => {
                             {/* d-none makes the display none on all viewport sizes, but d-md-block applies the display: block to md+ viewport sizes. This makes it visible at these viewport sizes. */}
 
                             <div className="d-none d-xl-block" style={{ marginTop: '20px' }}>
-                                <Reviews />
+                                <ReviewsInSingleProductPage />
                             </div>
                         </Col>
 
@@ -195,7 +195,7 @@ const SingleProductPage = () => {
                         </Col>
 
                         <div className="d-xl-none">
-                            <Reviews />
+                            <ReviewsInSingleProductPage />
                         </div>
                     </Row>
                     <Row>
