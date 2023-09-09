@@ -1,6 +1,8 @@
 import FiveStarGenerator from "./FiveStarGenerator";
 import { axiosWithAuth } from "../miscellaneous/axiosWithAuth";
 import { useEffect, useState } from "react";
+import twoPageAirbnb from '../../img/twoPageAirbnb.png';
+import { Link } from 'react-router-dom';
 
 const ReviewsChecklistView = ({ starRating, ratingDescription, productId, username, dateOfReview }) => {
 
@@ -38,14 +40,35 @@ const ReviewsChecklistView = ({ starRating, ratingDescription, productId, userna
 
     return (
         <>
-            <h3>Rating: {starRating}</h3>
-            <FiveStarGenerator starRating={starRating} />
-            <p>{ratingDescription}</p>
-            <p>Purchased Item: {productData.name}</p>
-            <p>
+            <h6 style={{ margin: '20px auto 0px auto' }}>
                 By {username}, {' '}
                 {formatDate(new Date(dateOfReview))}
-            </p>
+            </h6>
+            <FiveStarGenerator starRating={starRating} />
+            <p>{ratingDescription}</p>
+
+            <Link
+                to={`/products/${productData._id}`}
+                style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    marginBottom: '20px',
+                    textDecoration: 'none',
+                    color: 'black',
+                }}
+            >
+                <img
+                    src={twoPageAirbnb}
+                    alt='alt image'
+                    style={{
+                        width: '200px'
+                    }}
+                />
+                <h4 style={{ marginLeft: '20px' }}>{productData.name}</h4>
+            </Link>
+
+
+
             <div className='line-between-reviews'></div>
         </>
     )

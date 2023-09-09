@@ -116,8 +116,8 @@ const NavbarApp = ({ isCheckout }) => {
                                         </DropdownToggle>
                                         <DropdownMenu>
                                             <DropdownItem
-                                            // tag={Link}
-                                            // to='/settings'
+                                                tag={Link}
+                                                to='/profilesettings'
                                             >
                                                 Settings
                                             </DropdownItem>

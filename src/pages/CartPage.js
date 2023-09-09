@@ -73,17 +73,22 @@ const CartPage = () => {
                                         ? `${cartLength} item in your Cart`
                                         : `${cartLength} items in your Cart`}
                                 </h1>
-                                <Link
-                                    to={{
-                                        pathname: `/cart/checkout`,
-                                    }}
-                                    style={{
-                                        textDecoration: 'none',
-                                        color: 'black'
-                                    }}
-                                >
-                                    <Button>Checkout</Button>
-                                </Link>
+
+                                <div>
+                                    <Button style={{ marginRight: '20px' }}>Delete All Cart Items</Button>
+                                    <Link
+                                        to={{
+                                            pathname: `/cart/checkout`,
+                                        }}
+                                        style={{
+                                            textDecoration: 'none',
+                                            color: 'black'
+                                        }}
+                                    >
+                                        <Button>Checkout</Button>
+                                    </Link>
+                                </div>
+
                             </div>
                         )}
                     </Col>
@@ -129,7 +134,16 @@ const CartPage = () => {
                             <h1>You must log in to access your Items Saved for Later.</h1>
                         ) : savedLength > 0 ? (
                             <>
-                                <h1>Items Saved for Later</h1>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+
+                                    <h1>Items Saved for Later</h1>
+                                    <div>
+                                        <Button style={{ marginRight: '20px' }}>Delete All Saved Items</Button>
+                                        <Button>Move All Saved to Cart</Button>
+                                    </div>
+
+
+                                </div>
                                 {
                                     savedItemsArrayId.map((arr, idx) => (
                                         <CartItem

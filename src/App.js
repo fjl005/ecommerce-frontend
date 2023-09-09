@@ -9,6 +9,8 @@ import CartPage from './pages/CartPage';
 import OrderCompletedRedirectPage from './pages/OrderCompletedRedirectPage';
 import FavoritesPage from './pages/FavoritesPage';
 import LeaveReviewPage from './pages/LeaveReviewPage';
+import ProfileSettingsPage from './pages/ProfileSettingsPage';
+
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { useLoginContext } from './components/login/LoginContext';
@@ -84,6 +86,8 @@ function App() {
                     <Route path='/review/:purchasedItemId' element={<LeaveReviewPage />} />
                     <Route path='/review/edit/:purchasedItemId' element={<LeaveReviewPage />} />
                     <Route path='/reviews' element={<ReviewsPage />} />
+                    <Route path='/profilesettings' element={<ProfileSettingsPage />} />
+
 
                 </Routes>
             </BrowserRouter>

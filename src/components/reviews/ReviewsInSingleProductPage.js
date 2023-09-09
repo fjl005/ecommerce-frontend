@@ -97,9 +97,13 @@ const ReviewsInSingleProductPage = () => {
                 <h2>No Reviews from this Shop Yet.</h2>
             ) : (
                 <>
-                    <h2 className='d-flex align-items-center'>Other Reviews from this shop
+                    <h2
+                        className='d-flex align-items-center'
+                        style={{
+                            marginBottom: '30px'
+                        }}>
+                        Other Reviews from this shop
                         <span style={{
-                            display: 'inline-block',
                             fontSize: '20px',
                             margin: '0px 10px'
                         }}> | </span>
