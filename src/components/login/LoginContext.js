@@ -19,6 +19,7 @@ export const LoginProvider = ({ children }) => {
     const checkUser = async () => {
         try {
             const response = await axiosWithAuth.get('/users');
+            console.log('response from checkUser in LoginContext: ', response);
             setLoggedIn(true);
             setUsername(response.data.username);
             setAdmin(response.data.admin);

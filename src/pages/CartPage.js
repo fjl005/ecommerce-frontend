@@ -142,7 +142,6 @@ const CartPage = () => {
                                         <Button>Move All Saved to Cart</Button>
                                     </div>
 
-
                                 </div>
                                 {
                                     savedItemsArrayId.map((arr, idx) => (
