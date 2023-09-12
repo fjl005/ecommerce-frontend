@@ -71,7 +71,24 @@ const ProfileSettingsPage = () => {
             setPasswordType('password');
             setButtonPWName('Show Passwords');
         }
-    }
+    };
+
+    const deleteAccount = async () => {
+        const userConfirmed = window.confirm("Are you sure you want to delete your account? This action cannot be undone.");
+
+        if (userConfirmed) {
+            try {
+                const deleteResponse = await axiosWithAuth.delete(`/users/${username}`);
+                console.log('deleteResponse: ', deleteResponse);
+                alert(`Account with username ${username} has been deleted. You will be redirected to the Home Page after this.`);
+                await axiosWithAuth.post('/users/logout');
+                window.location.href = `/`;
+            } catch (error) {
+                console.log('Error in deleteAccount() in ProfileSettingsPage.js: ', error);
+                alert('There was a problem with deleting this user. Please try again.')
+            }
+        }
+    };
 
 
     return (
@@ -142,7 +159,7 @@ const ProfileSettingsPage = () => {
 
                 <Row>
                     <Col style={{ textAlign: 'center' }}>
-                        <Button className='bg-danger'>Delete Account</Button>
+                        <Button className='bg-danger' onClick={() => deleteAccount()}>Delete Account</Button>
                     </Col>
                 </Row>
             </Container>

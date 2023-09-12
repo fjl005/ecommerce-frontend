@@ -7,6 +7,7 @@ import LoadingOverlay from "../components/miscellaneous/LoadingOverlay";
 import SpinningIcon from "../components/miscellaneous/SpinningIcon";
 import { useCartContext } from "../components/cart/CartContext";
 import { useLoginContext } from '../components/login/LoginContext';
+import { axiosWithAuth } from "../components/miscellaneous/axiosWithAuth";
 
 const CartPage = () => {
 
@@ -52,6 +53,68 @@ const CartPage = () => {
         setTimeout(() => setLoadingPage(false), 1000);
     }, [loggedIn]);
 
+    // Just not using arrow function for funsies.
+    async function deleteAllCart() {
+        const userConfirmed = window.confirm("Are you sure you want to delete all items from your Cart?");
+
+        if (userConfirmed) {
+            try {
+                const response = await axiosWithAuth.delete('/cart');
+                const data = response.data;
+                fetchCart();
+            } catch (error) {
+                console.log('Error in deleteAllCart() in CartPage.js: ', error);
+                alert('There was an error in deleting all items in your Cart.');
+            }
+        }
+    }
+
+    const deleteAllSaved = async () => {
+        const userConfirmed = window.confirm("Are you sure you want to delete all items from your Saved?");
+
+        if (userConfirmed) {
+            try {
+                await axiosWithAuth.delete('/cart/all/saved');
+                fetchSaved();
+            } catch (error) {
+                console.log('Error in deleteAllSaved() in CartPage.js: ', error);
+                alert('There was an error in deleting all items in your Saved.');
+            }
+        }
+    };
+
+    const moveAllToCart = async () => {
+        const userConfirmed = window.confirm("Are you sure you want to move all Saved Items to your Cart?");
+
+        if (userConfirmed) {
+            try {
+                await axiosWithAuth.post('/cart/all/tocart');
+                fetchCart();
+                fetchSaved();
+            } catch (error) {
+                console.log('Error in moveAllToCart() in CartPage.js: ', error);
+                alert('There was an error in moving all Saved items to your Cart.');
+            }
+        }
+    };
+
+    const moveAllToSaved = async () => {
+        const userConfirmed = window.confirm("Are you sure you want to move all Cart Items to your Saved?");
+
+        if (userConfirmed) {
+            try {
+                await axiosWithAuth.post('/cart/all/tosaved');
+                fetchCart();
+                fetchSaved();
+            } catch (error) {
+                console.log('Error in moveAllToSaved() in CartPage.js: ', error);
+                alert('There was an error in moving all Cart items to your Saved.');
+            }
+        }
+    };
+
+
+
 
     return (
         <>
@@ -75,7 +138,14 @@ const CartPage = () => {
                                 </h1>
 
                                 <div>
-                                    <Button style={{ marginRight: '20px' }}>Delete All Cart Items</Button>
+                                    <Button
+                                        style={{ marginRight: '20px' }}
+                                        onClick={() => moveAllToSaved()}
+                                    >Move All Cart Items to Saved</Button>
+                                    <Button
+                                        style={{ marginRight: '20px' }}
+                                        onClick={() => deleteAllCart()}
+                                    >Delete All Cart Items</Button>
                                     <Link
                                         to={{
                                             pathname: `/cart/checkout`,
@@ -85,10 +155,9 @@ const CartPage = () => {
                                             color: 'black'
                                         }}
                                     >
-                                        <Button>Checkout</Button>
+                                        <Button className='bg-success'>Checkout</Button>
                                     </Link>
                                 </div>
-
                             </div>
                         )}
                     </Col>
@@ -138,8 +207,13 @@ const CartPage = () => {
 
                                     <h1>Items Saved for Later</h1>
                                     <div>
-                                        <Button style={{ marginRight: '20px' }}>Delete All Saved Items</Button>
-                                        <Button>Move All Saved to Cart</Button>
+                                        <Button
+                                            style={{ marginRight: '20px' }}
+                                            onClick={() => deleteAllSaved()}
+                                        >Delete All Saved Items</Button>
+                                        <Button
+                                            onClick={() => moveAllToCart()}
+                                        >Move All Saved to Cart</Button>
                                     </div>
 
                                 </div>
