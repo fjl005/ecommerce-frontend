@@ -1,4 +1,5 @@
 import './App.css';
+
 import LoginPage from './pages/LoginPage';
 import SignUpPage from './pages/SignUpPage';
 import HomePage from './pages/HomePage';
@@ -10,6 +11,8 @@ import OrderCompletedRedirectPage from './pages/OrderCompletedRedirectPage';
 import FavoritesPage from './pages/FavoritesPage';
 import LeaveReviewPage from './pages/LeaveReviewPage';
 import ProfileSettingsPage from './pages/ProfileSettingsPage';
+import AdminPage from './pages/admin/AdminPage';
+import AddNewProduct from './pages/admin/AddNewProduct';
 
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { useState, useEffect } from 'react';
@@ -87,7 +90,8 @@ function App() {
                     <Route path='/review/edit/:purchasedItemId' element={<LeaveReviewPage />} />
                     <Route path='/reviews' element={<ReviewsPage />} />
                     <Route path='/profilesettings' element={<ProfileSettingsPage />} />
-
+                    <Route path='/admin' element={<AdminPage />} />
+                    <Route path='/admin/addnewproduct' element={<AddNewProduct />} />
 
                 </Routes>
             </BrowserRouter>

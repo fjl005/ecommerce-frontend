@@ -9,7 +9,7 @@ import { useCartContext } from '../cart/CartContext';
 
 const NavbarApp = ({ isCheckout }) => {
     const { cartLength, setCartLength, setSavedLength } = useCartContext();
-    const { loggedIn, showLoginButton, triggerLogout } = useLoginContext();
+    const { loggedIn, showLoginButton, triggerLogout, admin } = useLoginContext();
 
     return (
         <Navbar color="light" light expand="md">
@@ -44,8 +44,6 @@ const NavbarApp = ({ isCheckout }) => {
                                     Sign Up
                                 </NavLink>
                             </NavItem>
-
-
                         </Nav>
                     )}
                 </div>
@@ -56,14 +54,22 @@ const NavbarApp = ({ isCheckout }) => {
                     </div>
                 )}
 
+                {admin && (
+                    <Nav navbar>
+                        <NavItem>
+                            <NavLink tag={Link} to="/admin">
+                                <Button>Admin</Button>
+                            </NavLink>
+                        </NavItem>
+                    </Nav>
+                )}
+
                 {!isCheckout && (
                     <Nav navbar
                         className='d-flex align-items-center justify-content-between'
                     >
-
-
                         <NavItem style={{ marginRight: '20px' }}>
-                            <NavLink tag={Link} to="/cart" >
+                            <NavLink tag={Link} to="/cart">
                                 <i
                                     class="fa-solid fa-cart-shopping"
                                     style={{
@@ -107,6 +113,8 @@ const NavbarApp = ({ isCheckout }) => {
                             </NavLink>
                         </NavItem>
 
+
+
                         <NavItem>
                             {showLoginButton && (
                                 loggedIn ? (
@@ -140,11 +148,9 @@ const NavbarApp = ({ isCheckout }) => {
                             )}
                         </NavItem>
                     </Nav>
-                )
-                }
-
-            </Container >
-        </Navbar >
+                )}
+            </Container>
+        </Navbar>
     )
 }
 

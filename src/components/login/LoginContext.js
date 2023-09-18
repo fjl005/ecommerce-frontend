@@ -54,6 +54,7 @@ export const LoginProvider = ({ children }) => {
             const response = await axiosWithAuth.post('/users/logout');
             if (response) {
                 setLoggedIn(false);
+                checkUser();
                 setLoginMsg(`You have successfully logged out. Thank you for visiting!`);
 
                 setTimeout(() => {
