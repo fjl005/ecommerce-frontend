@@ -13,6 +13,7 @@ import LeaveReviewPage from './pages/LeaveReviewPage';
 import ProfileSettingsPage from './pages/ProfileSettingsPage';
 import AdminPage from './pages/admin/AdminPage';
 import AddNewProduct from './pages/admin/AddNewProduct';
+import EditProducts from './pages/admin/EditProducts';
 
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { useState, useEffect } from 'react';
@@ -92,6 +93,7 @@ function App() {
                     <Route path='/profilesettings' element={<ProfileSettingsPage />} />
                     <Route path='/admin' element={<AdminPage />} />
                     <Route path='/admin/addnewproduct' element={<AddNewProduct />} />
+                    <Route path='/admin/editproducts' element={<EditProducts />} />
 
                 </Routes>
             </BrowserRouter>

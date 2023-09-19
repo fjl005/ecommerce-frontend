@@ -27,9 +27,11 @@ const AdminPage = () => {
                     </Row>
                     <Row>
                         <Col>
-                            <h3>
-                                Stats overview for:
-                                <UncontrolledDropdown>
+                            <div style={{ display: 'flex', alignItems: 'center' }}>
+                                <h3 style={{ marginBottom: '0' }}>
+                                    Stats overview for:
+                                </h3>
+                                <UncontrolledDropdown style={{ marginLeft: '15px' }}>
                                     <DropdownToggle caret>
                                         {statsOverviewRange}
                                     </DropdownToggle>
@@ -44,14 +46,15 @@ const AdminPage = () => {
                                         ))}
                                     </DropdownMenu>
                                 </UncontrolledDropdown>
-                            </h3>
+                            </div>
+
 
                             <Table bordered style={{ textAlign: 'center' }}>
                                 <thead>
                                     <tr>
-                                        <th>Total Views (Today)</th>
-                                        <th>Total Orders (Today)</th>
-                                        <th>Total Views (Today)</th>
+                                        <th>Total Views</th>
+                                        <th>Total Orders</th>
+                                        <th>Total Views</th>
                                     </tr>
                                 </thead>
                                 <tbody>
