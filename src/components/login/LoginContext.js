@@ -15,6 +15,7 @@ export const LoginProvider = ({ children }) => {
     const [loggedIn, setLoggedIn] = useState(false);
     const [showLoginButton, setShowLoginButton] = useState(false);
     const [loginMsg, setLoginMsg] = useState('');
+    const [waitingCheckUser, setWaitingCheckUser] = useState(true);
 
     const checkUser = async () => {
         try {
@@ -23,11 +24,13 @@ export const LoginProvider = ({ children }) => {
             setLoggedIn(true);
             setUsername(response.data.username);
             setAdmin(response.data.admin);
+            setWaitingCheckUser(false);
         } catch (error) {
             console.error(error);
             setLoggedIn(false);
             setUsername('');
             setAdmin(false);
+            setWaitingCheckUser(false);
         } finally {
             setShowLoginButton(true);
         }
@@ -80,7 +83,8 @@ export const LoginProvider = ({ children }) => {
             setShowLoginButton,
             loginMsg,
             setLoginMsg,
-            triggerLogout
+            triggerLogout,
+            waitingCheckUser
         }}>
             {children}
         </LoginContext.Provider>

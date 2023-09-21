@@ -7,18 +7,22 @@ import { useLoginContext } from "../../components/login/LoginContext";
 
 const AdminPage = () => {
 
-    const { admin } = useLoginContext();
+    const { admin, waitingCheckUser } = useLoginContext();
     // const arr = ['Products', 'add', 'edit', 'hide', 'delete'];
     const statsDates = ['Yesterday', 'Today', 'Last 7 Days', 'Last Month', 'This Year', 'Last Year', 'All Time'];
 
     // States
     const [statsOverviewRange, setStatsOverviewRange] = useState('Today');
 
+    console.log('waiting check user: ', waitingCheckUser);
+    console.log('admin: ', admin);
+
 
     return (
         <>
             <NavbarApp />
-            {admin ? (
+            {!waitingCheckUser &&
+                admin ? (
                 <Container>
                     <Row>
                         <Col>

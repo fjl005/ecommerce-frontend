@@ -3,8 +3,13 @@ import { Container, Row, Col } from 'reactstrap';
 import { axiosWithAuth } from "../../components/miscellaneous/axiosWithAuth";
 import { useState, useEffect } from 'react'
 import Products from "../../components/products/Products";
+import { useLoginContext } from "../../components/login/LoginContext";
+
 
 const EditProducts = () => {
+
+    const { admin } = useLoginContext();
+
 
     // States
     const [allProducts, setAllProducts] = useState([]);
@@ -24,20 +29,33 @@ const EditProducts = () => {
     return (
         <>
             <NavbarApp />
-            <Container>
-                <Row>
-                    <Col>
-                        <h1>Edit Products</h1>
-                        <p>Select a product below and choose to edit or delete.</p>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col>
-                        <h4>Edit  /  Delete</h4>
-                    </Col>
-                </Row>
-            </Container>
-            <Products />
+            {admin ? (
+                <>
+                    <Container>
+                        <Row>
+                            <Col>
+                                <h1>Edit Products</h1>
+                                <p>Select a product below and choose to edit or delete.</p>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col>
+                                <h4>Edit  /  Delete</h4>
+                            </Col>
+                        </Row>
+                    </Container>
+                    <Products />
+                </>
+            ) : (
+                <Container>
+                    <Row>
+                        <Col>
+                            <h1>You are not the admin. You cannot access this page.</h1>
+                        </Col>
+                    </Row>
+                </Container>
+            )}
+
 
         </>
     )

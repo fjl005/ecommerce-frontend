@@ -5,6 +5,7 @@ import axios from 'axios';
 import { useEffect, useState } from "react";
 import twoPageAirbnb from '../../img/twoPageAirbnb.png';
 
+
 const Products = () => {
 
     const [productsDB, setProductsDB] = useState([]);

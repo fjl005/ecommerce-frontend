@@ -94,7 +94,6 @@ function App() {
                     <Route path='/admin' element={<AdminPage />} />
                     <Route path='/admin/addnewproduct' element={<AddNewProduct />} />
                     <Route path='/admin/editproducts' element={<EditProducts />} />
-
                 </Routes>
             </BrowserRouter>
         </>
