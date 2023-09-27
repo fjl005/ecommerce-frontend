@@ -3,13 +3,17 @@ import { Container, Row, Col } from "reactstrap";
 import { useLoginContext } from "../login/LoginContext";
 import twoPageAirbnb from '../../img/twoPageAirbnb.png';
 
-const ProductSubmitted = ({ title, price, productType, description }) => {
+const ProductSubmitted = ({ title, price, productType, description, productId }) => {
     return (
         <>
             <Container>
                 <Row>
                     <Col>
-                        <h1>Your product has been submitted!</h1>
+                        {productId ? (
+                            <h1>Your product has been updated!</h1>
+                        ) : (
+                            <h1>Your product has been submitted!</h1>
+                        )}
                     </Col>
                 </Row>
             </Container>

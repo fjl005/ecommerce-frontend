@@ -12,7 +12,7 @@ import FavoritesPage from './pages/FavoritesPage';
 import LeaveReviewPage from './pages/LeaveReviewPage';
 import ProfileSettingsPage from './pages/ProfileSettingsPage';
 import AdminPage from './pages/admin/AdminPage';
-import AddNewProduct from './pages/admin/AddNewProduct';
+import PostProduct from './pages/admin/PostProduct';
 import EditProducts from './pages/admin/EditProducts';
 
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
@@ -92,7 +92,8 @@ function App() {
                     <Route path='/reviews' element={<ReviewsPage />} />
                     <Route path='/profilesettings' element={<ProfileSettingsPage />} />
                     <Route path='/admin' element={<AdminPage />} />
-                    <Route path='/admin/addnewproduct' element={<AddNewProduct />} />
+                    <Route path='/admin/addnewproduct' element={<PostProduct />} />
+                    <Route path='/admin/editproduct/:productId' element={<PostProduct />} />
                     <Route path='/admin/editproducts' element={<EditProducts />} />
                 </Routes>
             </BrowserRouter>

@@ -1,14 +1,17 @@
 import { Col, Container, Row, FormGroup, Label, Input, Button, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from "reactstrap";
 import NavbarApp from "../../components/navbar/NavbarApp";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { axiosWithAuth } from "../../components/miscellaneous/axiosWithAuth";
 import { useLoginContext } from "../../components/login/LoginContext";
 import ProductSubmitted from "../../components/admin/ProductSubmitted";
+import { useParams } from "react-router-dom";
+import axios from "axios";
 
+const PostProduct = () => {
 
-const AddNewProduct = () => {
+    const { productId } = useParams();
 
     const { admin } = useLoginContext();
 
@@ -43,22 +46,79 @@ const AddNewProduct = () => {
 
     const handleSubmit = async (values, { setSubmitting }) => {
         console.log('Form values: ', values);
+
         const { productType, productTitle, productPrice, productDescription } = values;
 
-        const response = await axiosWithAuth.post('/products', {
-            name: productTitle,
-            price: productPrice,
-            description: productDescription,
-            productType
-        });
-        console.log('response: ', response);
-        const data = response.data.product;
-        setNewProductData(data);
-        setProductSuccessMsg('Product successfully submitted!');
+        try {
+            if (productId) {
+                // PUT operation: updating existing product.
+                const response = await axiosWithAuth.put(`/products/${productId}`, {
+                    name: productTitle,
+                    price: productPrice,
+                    description: productDescription,
+                    productType
+                });
 
-        setSubmitting(false);
-        setSubmitted(true);
+                const data = response.data;
+                setNewProductData(data);
+                setProductSuccessMsg('Product successfully updated!');
+
+            } else {
+                // POST operation: creating new product.
+                const response = await axiosWithAuth.post('/products', {
+                    name: productTitle,
+                    price: productPrice,
+                    description: productDescription,
+                    productType
+                });
+                const data = response.data.product;
+                setNewProductData(data);
+                setProductSuccessMsg('Product successfully submitted!');
+
+
+            }
+        } catch (error) {
+            console.log('error in handleSubmit() in PostProduct.js: ', error);
+        } finally {
+            setSubmitting(false);
+            setSubmitted(true);
+        }
+
+        // console.log('response: ', response);
+        // const data = response.data.product;
+        // setNewProductData(data);
+        // setProductSuccessMsg('Product successfully submitted!');
+
+        // setSubmitting(false);
+        // setSubmitted(true);
     };
+
+    // States for the form
+    const [title, setTitle] = useState('');
+    const [price, setPrice] = useState(0);
+    const [productType, setProductType] = useState('');
+    const [description, setDescription] = useState('');
+
+
+    useEffect(() => {
+        if (productId) {
+            fetchProduct();
+        }
+    }, []);
+
+    const fetchProduct = async () => {
+        try {
+            const response = await axios.get(`http://localhost:5000/products/${productId}`);
+            const data = response.data;
+            console.log('data: ', data);
+            setTitle(data.name);
+            setPrice(data.price);
+            setProductType(data.productType);
+            setDescription(data.description);
+        } catch (error) {
+            console.log('error in fetch product in PostProduct.js: ', error);
+        }
+    }
 
     return (
         <>
@@ -70,21 +130,27 @@ const AddNewProduct = () => {
                         price={newProductData.price}
                         productType={newProductData.productType}
                         description={newProductData.description}
+                        productId={productId}
                     />
                 ) : (
                     <Container>
                         <Row>
                             <Col>
-                                <h1>Add New Product</h1>
+                                {productId ? (
+                                    <h1>Edit Existing Product</h1>
+                                ) : (
+                                    <h1>Add New Product</h1>
+                                )}
                             </Col>
                         </Row>
                         <Row>
                             <Formik
+                                enableReinitialize={true}
                                 initialValues={{
-                                    productType: '',
-                                    productTitle: '',
-                                    productPrice: 0,
-                                    productDescription: '',
+                                    productType: productType,
+                                    productTitle: title,
+                                    productPrice: price,
+                                    productDescription: description,
                                 }}
                                 validationSchema={validationSchema}
                                 onSubmit={handleSubmit}
@@ -174,4 +240,4 @@ const AddNewProduct = () => {
     )
 }
 
-export default AddNewProduct;
+export default PostProduct;

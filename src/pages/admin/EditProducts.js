@@ -44,7 +44,7 @@ const EditProducts = () => {
                             </Col>
                         </Row>
                     </Container>
-                    <Products />
+                    <Products adminPage={true} />
                 </>
             ) : (
                 <Container>
