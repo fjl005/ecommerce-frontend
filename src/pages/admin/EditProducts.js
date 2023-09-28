@@ -1,18 +1,19 @@
 import NavbarApp from "../../components/navbar/NavbarApp";
-import { Container, Row, Col } from 'reactstrap';
+import { Container, Row, Col, Button } from 'reactstrap';
 import { axiosWithAuth } from "../../components/miscellaneous/axiosWithAuth";
 import { useState, useEffect } from 'react'
 import Products from "../../components/products/Products";
 import { useLoginContext } from "../../components/login/LoginContext";
-
+import { Link } from "react-router-dom";
 
 const EditProducts = () => {
 
     const { admin } = useLoginContext();
 
-
     // States
     const [allProducts, setAllProducts] = useState([]);
+    const [itemSelectedIdArr, setItemSelectedIdArr] = useState([]);
+    const [reloadProducts, setReloadProducts] = useState(false);
 
     useEffect(() => {
         fetchProducts();
@@ -21,10 +22,35 @@ const EditProducts = () => {
     const fetchProducts = async () => {
         const response = await axiosWithAuth.get('/products');
         const data = response.data;
-        console.log('data: ', data);
         setAllProducts(data);
-    }
+    };
 
+    const handleEditClick = () => {
+        console.log('editing the following listings: ', itemSelectedIdArr);
+    };
+
+    const handleDeleteClick = () => {
+        const confirmed = window.confirm("Are you sure you want to delete the selected items?");
+        if (confirmed) {
+            deleteProducts();
+        }
+    };
+
+    const deleteProducts = async () => {
+        try {
+            setReloadProducts(true);
+            const response = await axiosWithAuth.delete(`/products/multiple/items`, {
+                data: itemSelectedIdArr
+            });
+            console.log('response: ', response);
+            alert('Products have been deleted');
+            fetchProducts();
+        } catch (error) {
+            console.log('Error in deleteProduct() in Products.js', error);
+        } finally {
+            setReloadProducts(false);
+        }
+    }
 
     return (
         <>
@@ -35,16 +61,38 @@ const EditProducts = () => {
                         <Row>
                             <Col>
                                 <h1>Edit Products</h1>
-                                <p>Select a product below and choose to edit or delete.</p>
+                                <h4>Click on an individual item to edit the listing. To edit or delete multiple listings at once, then click on the corresponding checkboxes.</h4>
                             </Col>
                         </Row>
                         <Row>
                             <Col>
-                                <h4>Edit  /  Delete</h4>
+                                {itemSelectedIdArr.length > 0 && (
+                                    <>
+                                        {/* <Link to={`/linked-component?items=${JSON.stringify(items)}`}> */}
+
+                                        <Button
+                                            onClick={() => handleEditClick()}
+                                        >
+                                            Edit {itemSelectedIdArr.length} Listings
+                                        </Button>
+                                        {/* </Link> */}
+
+                                        {/* <Link to={`/linked-component?items=${JSON.stringify(items)}`}> */}
+
+                                        <Button
+                                            onClick={() => handleDeleteClick()}
+                                            className='bg-danger'
+                                            style={{ marginLeft: '20px' }}
+                                        >
+                                            Delete {itemSelectedIdArr.length} Listings
+                                        </Button>
+                                        {/* </Link> */}
+                                    </>
+                                )}
                             </Col>
                         </Row>
                     </Container>
-                    <Products adminPage={true} />
+                    <Products adminPage={true} itemSelectedIdArr={itemSelectedIdArr} setItemSelectedIdArr={setItemSelectedIdArr} reloadProducts={reloadProducts} />
                 </>
             ) : (
                 <Container>

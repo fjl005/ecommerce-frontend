@@ -9,13 +9,11 @@ import ProductSubmitted from "../../components/admin/ProductSubmitted";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 
-const PostProduct = () => {
+const PostProduct = ({ itemSelectedIdArr }) => {
 
     const { productId } = useParams();
-
     const { admin } = useLoginContext();
 
-    const [loadingPage, isLoadingPage] = useState(true);
     const [productSuccessMsg, setProductSuccessMsg] = useState('');
     const [submitted, setSubmitted] = useState(false);
     const [newProductData, setNewProductData] = useState({});

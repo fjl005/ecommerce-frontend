@@ -7,20 +7,20 @@ import twoPageAirbnb from '../../img/twoPageAirbnb.png';
 import { axiosWithAuth } from "../miscellaneous/axiosWithAuth";
 
 
-const Products = ({ adminPage }) => {
+const Products = ({ adminPage, itemSelectedIdArr, setItemSelectedIdArr, reloadProducts }) => {
 
     const [productsDB, setProductsDB] = useState([]);
     const [fetchDone, setFetchDone] = useState(false);
-    const [itemSelectIdArr, setItemSelectIdArr] = useState([]);
+    // const [itemSelectIdArr, setItemSelectIdArr] = useState([]);
 
     useEffect(() => {
-        // axios.get('http://localhost:5000/products/')
-        //     .then(response => {
-        //         setProductsDB(response.data);
-        //         setFetchDone(true);
-        //     }).catch(error => console.log('error with get request to products: ', error));
         fetchProducts();
-    }, []);
+    }, [reloadProducts]);
+
+    // Probably not needed, will delete this useEffect soon.
+    useEffect(() => {
+        console.log('selected id: ', itemSelectedIdArr);
+    }, [itemSelectedIdArr]);
 
     const fetchProducts = async () => {
         try {
@@ -30,43 +30,37 @@ const Products = ({ adminPage }) => {
         } catch (error) {
             console.log('Error in fetchProducts() in Products.js', error);
         }
-
-    }
+    };
 
     // maybe turn this into an array?
     const handleCheckbox = (productId) => {
-        if (itemSelectIdArr.includes(productId)) {
-            const updatedArr = itemSelectIdArr.filter((id) => id !== productId);
-            setItemSelectIdArr(updatedArr);
-        } else {
-            setItemSelectIdArr([...itemSelectIdArr, productId]);
+        if (itemSelectedIdArr) {
+            if (itemSelectedIdArr.includes(productId)) {
+                const updatedArr = itemSelectedIdArr.filter((id) => id !== productId);
+                setItemSelectedIdArr(updatedArr);
+            } else {
+                setItemSelectedIdArr([...itemSelectedIdArr, productId]);
+            }
         }
     };
-
-    const handleClickItem = (productId) => {
-        console.log('item clicked: ', productId);
-    };
-
-    useEffect(() => {
-        console.log('selected id: ', itemSelectIdArr);
-    }, [itemSelectIdArr]);
 
     const handleDelete = (productId) => {
         const confirmed = window.confirm("Are you sure you want to delete this item?");
         if (confirmed) {
             deleteProduct(productId);
         }
-    }
+    };
 
     const deleteProduct = async (productId) => {
         try {
             await axiosWithAuth.delete(`/products/${productId}`);
             alert('Product has been deleted');
+            setItemSelectedIdArr([]);
             fetchProducts();
         } catch (error) {
             console.log('Error in deleteProduct() in Products.js', error);
         }
-    }
+    };
 
     return (
         <Container>
@@ -81,11 +75,10 @@ const Products = ({ adminPage }) => {
                         <Col
                             key={idx} xs='6' md='4' lg='3'
                             className='product-item-homepage'
-                            style={{ border: itemSelectIdArr.includes(product._id) ? '1px solid black' : '' }}
+                            style={{ border: itemSelectedIdArr ? (itemSelectedIdArr.includes(product._id) ? '1px solid black' : '') : '' }}
                         >
                             <Link to={adminPage ? `/admin/editproduct/${product._id}` : `/products/${product._id}`}
                                 // target='_blank' 
-                                onClick={() => handleClickItem(product._id)}
                                 style={{
                                     textDecoration: 'none',
                                     color: 'black',
@@ -125,7 +118,7 @@ const Products = ({ adminPage }) => {
                                     <Input
                                         type="checkbox"
                                         style={{ width: '25px', height: '25px' }}
-                                        checked={itemSelectIdArr.includes(product._id)}
+                                        checked={itemSelectedIdArr.includes(product._id)}
                                         onChange={() => handleCheckbox(product._id)}
                                     />
                                     <Button
@@ -135,9 +128,7 @@ const Products = ({ adminPage }) => {
                                         Delete
                                     </Button>
                                 </div>
-
                             )}
-
                         </Col>
                     ))
                 }
