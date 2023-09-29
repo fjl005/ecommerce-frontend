@@ -8,11 +8,28 @@ import { useLoginContext } from "../../components/login/LoginContext";
 import ProductSubmitted from "../../components/admin/ProductSubmitted";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import { useLocation } from "react-router-dom";
 
-const PostProduct = ({ itemSelectedIdArr }) => {
+const PostProduct = () => {
 
-    const { productId } = useParams();
     const { admin } = useLoginContext();
+
+    // Grab productId from the URL, if it exists.
+    const { productId } = useParams();
+
+    /* 
+        -useLocation: allows us to access info about the current URL, including the query parameters.
+        -location.search is a property of the location object that contains the query string portion of the URL (including the ?). 
+        -URLSearchParams is a built-in JS class that allows you to work with query parameters
+        -We are retrieving the value associated with the key 'items' from the query parameters
+        -Then convert the JSON string into a JS array.
+    */
+    const location = useLocation();
+    const searchParams = new URLSearchParams(location.search);
+    const itemStr = searchParams.get('items');
+    const itemSelectedIdArr = JSON.parse(itemStr);
+
+    console.log('itemSelectedIdArr: ', itemSelectedIdArr);
 
     const [productSuccessMsg, setProductSuccessMsg] = useState('');
     const [submitted, setSubmitted] = useState(false);
@@ -48,7 +65,23 @@ const PostProduct = ({ itemSelectedIdArr }) => {
         const { productType, productTitle, productPrice, productDescription } = values;
 
         try {
-            if (productId) {
+            if (itemSelectedIdArr && !productId) {
+                // PUT operation: updating existing product.
+                const response = await axiosWithAuth.put(`/products/multiple/items`, {
+                    productIds: itemSelectedIdArr,
+                    updatedInfo: {
+                        name: productTitle,
+                        price: productPrice,
+                        description: productDescription,
+                        productType
+                    }
+                });
+
+                const data = response.data;
+                console.log('data: ', data);
+                setNewProductData(data);
+                setProductSuccessMsg('Product successfully updated!');
+            } else if (productId) {
                 // PUT operation: updating existing product.
                 const response = await axiosWithAuth.put(`/products/${productId}`, {
                     name: productTitle,
@@ -72,8 +105,6 @@ const PostProduct = ({ itemSelectedIdArr }) => {
                 const data = response.data.product;
                 setNewProductData(data);
                 setProductSuccessMsg('Product successfully submitted!');
-
-
             }
         } catch (error) {
             console.log('error in handleSubmit() in PostProduct.js: ', error);
@@ -81,14 +112,6 @@ const PostProduct = ({ itemSelectedIdArr }) => {
             setSubmitting(false);
             setSubmitted(true);
         }
-
-        // console.log('response: ', response);
-        // const data = response.data.product;
-        // setNewProductData(data);
-        // setProductSuccessMsg('Product successfully submitted!');
-
-        // setSubmitting(false);
-        // setSubmitted(true);
     };
 
     // States for the form
@@ -101,14 +124,23 @@ const PostProduct = ({ itemSelectedIdArr }) => {
     useEffect(() => {
         if (productId) {
             fetchProduct();
+        } else if (itemSelectedIdArr) {
+            fetchProduct(itemSelectedIdArr[0]);
         }
     }, []);
 
-    const fetchProduct = async () => {
+    const fetchProduct = async (itemId) => {
+        let id;
+
+        if (!itemId) {
+            id = productId;
+        } else {
+            id = itemId;
+        }
+
         try {
-            const response = await axios.get(`http://localhost:5000/products/${productId}`);
+            const response = await axios.get(`http://localhost:5000/products/${id}`);
             const data = response.data;
-            console.log('data: ', data);
             setTitle(data.name);
             setPrice(data.price);
             setProductType(data.productType);
@@ -116,7 +148,7 @@ const PostProduct = ({ itemSelectedIdArr }) => {
         } catch (error) {
             console.log('error in fetch product in PostProduct.js: ', error);
         }
-    }
+    };
 
     return (
         <>
@@ -129,16 +161,20 @@ const PostProduct = ({ itemSelectedIdArr }) => {
                         productType={newProductData.productType}
                         description={newProductData.description}
                         productId={productId}
+                        itemSelectedIdArr={itemSelectedIdArr}
                     />
                 ) : (
                     <Container>
                         <Row>
                             <Col>
-                                {productId ? (
-                                    <h1>Edit Existing Product</h1>
-                                ) : (
-                                    <h1>Add New Product</h1>
-                                )}
+                                {itemSelectedIdArr ? (
+                                    <h1>Update {itemSelectedIdArr.length} listings</h1>
+                                ) :
+                                    productId ? (
+                                        <h1>Update Existing Product</h1>
+                                    ) : (
+                                        <h1>Add New Product</h1>
+                                    )}
                             </Col>
                         </Row>
                         <Row>

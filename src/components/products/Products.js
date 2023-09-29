@@ -77,7 +77,7 @@ const Products = ({ adminPage, itemSelectedIdArr, setItemSelectedIdArr, reloadPr
                             className='product-item-homepage'
                             style={{ border: itemSelectedIdArr ? (itemSelectedIdArr.includes(product._id) ? '1px solid black' : '') : '' }}
                         >
-                            <Link to={adminPage ? `/admin/editproduct/${product._id}` : `/products/${product._id}`}
+                            <Link to={adminPage ? `/admin/updateproduct/${product._id}` : `/products/${product._id}`}
                                 // target='_blank' 
                                 style={{
                                     textDecoration: 'none',

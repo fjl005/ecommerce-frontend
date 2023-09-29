@@ -83,7 +83,7 @@ const AdminPage = () => {
                             </Link>
 
                             <Link
-                                to='/admin/editproducts'
+                                to='/admin/editproductspage'
                             >
                                 <p>Edit / Delete Existing Product(s)</p>
 

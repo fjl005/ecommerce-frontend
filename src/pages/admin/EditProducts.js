@@ -68,16 +68,15 @@ const EditProducts = () => {
                             <Col>
                                 {itemSelectedIdArr.length > 0 && (
                                     <>
-                                        {/* <Link to={`/linked-component?items=${JSON.stringify(items)}`}> */}
+                                        <Link to={itemSelectedIdArr.length === 1 ? `/admin/updateproduct/${itemSelectedIdArr[0]}` : `/admin/updateproduct?items=${JSON.stringify(itemSelectedIdArr)}`}>
 
-                                        <Button
-                                            onClick={() => handleEditClick()}
-                                        >
-                                            Edit {itemSelectedIdArr.length} Listings
-                                        </Button>
-                                        {/* </Link> */}
+                                            <Button
+                                                onClick={() => handleEditClick()}
+                                            >
+                                                Edit {itemSelectedIdArr.length} Listings
+                                            </Button>
+                                        </Link>
 
-                                        {/* <Link to={`/linked-component?items=${JSON.stringify(items)}`}> */}
 
                                         <Button
                                             onClick={() => handleDeleteClick()}
@@ -86,7 +85,6 @@ const EditProducts = () => {
                                         >
                                             Delete {itemSelectedIdArr.length} Listings
                                         </Button>
-                                        {/* </Link> */}
                                     </>
                                 )}
                             </Col>

@@ -93,8 +93,9 @@ function App() {
                     <Route path='/profilesettings' element={<ProfileSettingsPage />} />
                     <Route path='/admin' element={<AdminPage />} />
                     <Route path='/admin/addnewproduct' element={<PostProduct />} />
-                    <Route path='/admin/editproduct/:productId' element={<PostProduct />} />
-                    <Route path='/admin/editproducts' element={<EditProducts />} />
+                    <Route path='/admin/updateproduct' element={<PostProduct />} />
+                    <Route path='/admin/updateproduct/:productId' element={<PostProduct />} />
+                    <Route path='/admin/editproductspage' element={<EditProducts />} />
                 </Routes>
             </BrowserRouter>
         </>
