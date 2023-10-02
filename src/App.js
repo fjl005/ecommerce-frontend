@@ -12,8 +12,10 @@ import FavoritesPage from './pages/FavoritesPage';
 import LeaveReviewPage from './pages/LeaveReviewPage';
 import ProfileSettingsPage from './pages/ProfileSettingsPage';
 import AdminPage from './pages/admin/AdminPage';
-import PostProduct from './pages/admin/PostProduct';
-import EditProducts from './pages/admin/EditProducts';
+import PostProductPage from './pages/admin/PostProductPage';
+import EditProductsPage from './pages/admin/EditProductsPage';
+import AllReviewsPage from './pages/admin/AllReviewsPage';
+import AllOrdersPage from './pages/admin/AllOrdersPage';
 
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { useState, useEffect } from 'react';
@@ -92,10 +94,13 @@ function App() {
                     <Route path='/reviews' element={<ReviewsPage />} />
                     <Route path='/profilesettings' element={<ProfileSettingsPage />} />
                     <Route path='/admin' element={<AdminPage />} />
-                    <Route path='/admin/addnewproduct' element={<PostProduct />} />
-                    <Route path='/admin/updateproduct' element={<PostProduct />} />
-                    <Route path='/admin/updateproduct/:productId' element={<PostProduct />} />
-                    <Route path='/admin/editproductspage' element={<EditProducts />} />
+                    <Route path='/admin/addnewproduct' element={<PostProductPage />} />
+                    <Route path='/admin/updateproduct' element={<PostProductPage />} />
+                    <Route path='/admin/updateproduct/:productId' element={<PostProductPage />} />
+                    <Route path='/admin/editproductspage' element={<EditProductsPage />} />
+                    <Route path='/admin/allreviews' element={<AllReviewsPage />} />
+                    <Route path='/admin/allorders' element={<AllOrdersPage />} />
+
                 </Routes>
             </BrowserRouter>
         </>

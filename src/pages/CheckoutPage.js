@@ -104,7 +104,6 @@ const CheckoutPage = () => {
         determineTotalCost();
     }, [cartLength]);
 
-
     return (
         <>
             <NavbarApp isCheckout={true} />

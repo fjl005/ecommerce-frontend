@@ -6,7 +6,7 @@ import { axiosWithAuth } from "../miscellaneous/axiosWithAuth";
 import { Link } from "react-router-dom";
 import SpinningIcon from "../miscellaneous/SpinningIcon";
 
-const SingleReview = ({ productId, purchasedItemId, starRating, ratingDescription, dateOfReview }) => {
+const SingleReview = ({ productId, purchasedItemId, starRating, ratingDescription, dateOfReview, username, adminPage }) => {
 
     const [productData, setProductData] = useState({});
     const [loadingReview, setLoadingReview] = useState(true);
@@ -55,6 +55,7 @@ const SingleReview = ({ productId, purchasedItemId, starRating, ratingDescriptio
                             <h2>{productData.name}</h2>
                         </Col>
                     </Row>
+
                     <Row>
                         <Col md='3'>
                             <img
@@ -66,7 +67,8 @@ const SingleReview = ({ productId, purchasedItemId, starRating, ratingDescriptio
                             />
                         </Col>
                         <Col md='6'>
-                            <h5>Review placed on: {formatDate(new Date(dateOfReview))}</h5>
+                            <h4>Review placed on: {formatDate(new Date(dateOfReview))}</h4>
+
                             <FiveStarGenerator starRating={starRating} />
                             <p>{ratingDescription}</p>
 
@@ -94,27 +96,38 @@ const SingleReview = ({ productId, purchasedItemId, starRating, ratingDescriptio
                                 </p>
                             </div>
                             <div style={{ textAlign: 'center', margin: '20px 0px' }}>
-                                <Link
-                                    to={{
-                                        pathname: `/review/edit/${purchasedItemId}`,
-                                    }}
-                                    state={{
-                                        name: productData.name,
-                                        productId: productId,
-                                        // orderId: orderId,
-                                        starRatingPrev: starRating,
-                                        ratingDescriptionPrev: ratingDescription
-                                    }}
-                                    style={{
-                                        textDecoration: 'none',
-                                        color: 'black',
-                                        textAlign: 'center',
-                                        margin: '20px 0px'
-                                    }}
-                                >
-                                    <Button>Edit Review</Button>
-                                </Link>
+                                {!adminPage && (
+                                    <Link
+                                        to={{
+                                            pathname: `/review/edit/${purchasedItemId}`,
+                                        }}
+                                        state={{
+                                            name: productData.name,
+                                            productId: productId,
+                                            // orderId: orderId,
+                                            starRatingPrev: starRating,
+                                            ratingDescriptionPrev: ratingDescription
+                                        }}
+                                        style={{
+                                            textDecoration: 'none',
+                                            color: 'black',
+                                            textAlign: 'center',
+                                            margin: '20px 0px'
+                                        }}
+                                    >
+                                        <Button>Edit Review</Button>
+                                    </Link>
+                                )}
                             </div>
+                            {username && (
+                                <div style={{
+                                    overflow: 'hidden',
+                                    whiteSpace: 'nowrap',
+                                    textOverflow: 'ellipsis',
+                                }}>
+                                    <h5>Purchased by {username}</h5>
+                                </div>
+                            )}
                         </Col>
                     </Row>
                 </>

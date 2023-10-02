@@ -6,7 +6,7 @@ import Products from "../../components/products/Products";
 import { useLoginContext } from "../../components/login/LoginContext";
 import { Link } from "react-router-dom";
 
-const EditProducts = () => {
+const EditProductsPage = () => {
 
     const { admin } = useLoginContext();
 
@@ -107,4 +107,4 @@ const EditProducts = () => {
     )
 }
 
-export default EditProducts
+export default EditProductsPage;

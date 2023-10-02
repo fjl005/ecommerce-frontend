@@ -76,25 +76,24 @@ const AdminPage = () => {
                             {/* <AdminPageTable data={arr} /> */}
                             <h3>Listings:</h3>
 
-                            <Link
-                                to='/admin/addnewproduct'
-                            >
+                            <Link to='/admin/addnewproduct'>
                                 <p>Add New Product</p>
                             </Link>
 
-                            <Link
-                                to='/admin/editproductspage'
-                            >
+                            <Link to='/admin/editproductspage'>
                                 <p>Edit / Delete Existing Product(s)</p>
-
                             </Link>
                         </Col>
                     </Row>
                     <Row>
                         <Col>
                             <h3>Orders & Reviews:</h3>
-                            <p>View All Orders</p>
-                            <p>View All Reviews</p>
+                            <Link to='/admin/allorders'>
+                                <p>View All Orders</p>
+                            </Link>
+                            <Link to='/admin/allreviews'>
+                                <p>View All Reviews</p>
+                            </Link>
                         </Col>
                     </Row>
                     <Row>

@@ -10,7 +10,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
 
-const PostProduct = () => {
+const PostProductPage = () => {
 
     const { admin } = useLoginContext();
 
@@ -274,4 +274,4 @@ const PostProduct = () => {
     )
 }
 
-export default PostProduct;
+export default PostProductPage;

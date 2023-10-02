@@ -15,7 +15,9 @@ const ProductChecklistView = ({
     inCartJs,
     isSaved,
     inFavoritesJs,
-    setFavoritesLoadingOverlay
+    setFavoritesLoadingOverlay,
+    adminPage,
+    buyer
     // inReviewsJs
 }) => {
 
@@ -158,7 +160,9 @@ const ProductChecklistView = ({
                                                     color: 'black'
                                                 }}
                                             >
-                                                <Button>Edit Review</Button>
+                                                {!adminPage && (
+                                                    <Button>Edit Review</Button>
+                                                )}
                                             </Link>
                                             <h4>Your review:</h4>
                                             <FiveStarGenerator starRating={starRating} />
@@ -167,6 +171,14 @@ const ProductChecklistView = ({
                                             </p>
                                             <p>Show Full Review (function coming soon)</p>
                                         </>
+                                    ) : adminPage ? (
+                                        <div style={{
+                                            textOverflow: 'ellipsis',
+                                            overflow: 'hidden',
+                                            whiteSpace: 'nowrap',
+                                        }}>
+                                            <h4>Purchased by: {buyer}</h4>
+                                        </div>
                                     ) : (
                                         <Link
                                             to={{

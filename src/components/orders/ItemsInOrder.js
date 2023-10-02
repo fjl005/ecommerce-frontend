@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { axiosWithAuth } from "../miscellaneous/axiosWithAuth";
 import ProductChecklistView from "../products/ProductChecklistView";
 
-const OrderItem = ({ order, orderId }) => {
+const OrderItem = ({ order, orderId, adminPage, buyer }) => {
 
     const [editUrl, setEditUrl] = useState('');
 
@@ -40,6 +40,8 @@ const OrderItem = ({ order, orderId }) => {
                     inOrderJs={true}
                     orderId={orderId}
                     order={order}
+                    buyer={buyer}
+                    adminPage={adminPage}
                 />
             ))}
             <Row>
