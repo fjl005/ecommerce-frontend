@@ -79,7 +79,7 @@ const LeaveReviewPage = () => {
         if (confirmed) {
             try {
                 console.log('order id: ', orderId);
-                const response = await axiosWithAuth.delete(`/reviews/${purchasedItemId}/${orderId}`);
+                const response = await axiosWithAuth.delete(`/reviews/${purchasedItemId}`);
                 alert('Review was deleted successfully');
                 window.location.href = '/reviews';
             } catch (error) {
