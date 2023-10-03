@@ -62,7 +62,7 @@ const LeaveReviewPage = () => {
                 });
 
                 alert('Review was submitted successfully');
-                window.location.href = '/orders';
+                window.location.href = '/reviews';
 
             } catch (error) {
                 console.log('error: when submitting review: ', error);
@@ -74,11 +74,20 @@ const LeaveReviewPage = () => {
     };
 
     const deleteReview = async () => {
-        try {
-            const response = await axiosWithAuth.delete(`/reviews/${purchasedItemId}`);
-            alert('Review was submitted successfully');
-        } catch (error) {
-            console.log('error: when deleting review: ', error);
+        const confirmed = window.confirm('Are you sure you want to delete this review?');
+
+        if (confirmed) {
+            try {
+                console.log('order id: ', orderId);
+                const response = await axiosWithAuth.delete(`/reviews/${purchasedItemId}/${orderId}`);
+                alert('Review was deleted successfully');
+                window.location.href = '/reviews';
+            } catch (error) {
+                console.log('error: when deleting review: ', error);
+            }
+        } else {
+            // User clicked cancel in the confirmation dialog
+            console.log('Review deletion cancelled.');
         }
     }
 

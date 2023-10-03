@@ -21,7 +21,7 @@ const ProductChecklistView = ({
     // inReviewsJs
 }) => {
 
-    const [starRating, setStarRating] = useState(5);
+    const [starRating, setStarRating] = useState(null);
     const [ratingDescription, setRatingDescription] = useState('');
     const [loadingProduct, setLoadingProduct] = useState(true);
 
@@ -142,7 +142,7 @@ const ProductChecklistView = ({
                                 )}
 
                                 {inOrderJs && (
-                                    productItem.hasReview ? (
+                                    productItem.hasReview && starRating ? (
                                         <>
                                             <Link
                                                 to={{
