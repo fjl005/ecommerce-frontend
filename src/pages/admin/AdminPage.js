@@ -1,5 +1,6 @@
 import AdminPageTable from "../../components/admin/AdminPageTable";
 import NavbarApp from "../../components/navbar/NavbarApp";
+import NavbarAdmin from "../../components/admin/NavbarAdmin";
 import { Container, Row, Col, Table, Label, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from "reactstrap";
 import { Link } from "react-router-dom";
 import { useState } from "react";
@@ -20,7 +21,7 @@ const AdminPage = () => {
 
     return (
         <>
-            <NavbarApp />
+            <NavbarAdmin />
             {!waitingCheckUser &&
                 admin ? (
                 <Container>
@@ -75,32 +76,39 @@ const AdminPage = () => {
                         <Col>
                             {/* <AdminPageTable data={arr} /> */}
                             <h3>Listings:</h3>
-
-                            <Link to='/admin/addnewproduct'>
-                                <p>Add New Product</p>
-                            </Link>
-
-                            <Link to='/admin/editproductspage'>
-                                <p>Edit / Delete Existing Product(s)</p>
-                            </Link>
+                            <p>
+                                <Link to='/admin/addnewproduct'>
+                                    Add New Product
+                                </Link>
+                            </p>
+                            <p>
+                                <Link to='/admin/editproductspage'>
+                                    Edit / Delete Existing Product(s)
+                                </Link>
+                            </p>
                         </Col>
                     </Row>
                     <Row>
                         <Col>
                             <h3>Orders & Reviews:</h3>
-                            <Link to='/admin/allorders'>
-                                <p>View All Orders</p>
-                            </Link>
-                            <Link to='/admin/allreviews'>
-                                <p>View All Reviews</p>
-                            </Link>
+                            <p>
+                                <Link to='/admin/allorders'>
+                                    View All Orders
+                                </Link>
+                            </p>
+                            <p>
+                                <Link to='/admin/allreviews'>
+                                    View All Reviews
+                                </Link>
+                            </p>
+
                         </Col>
                     </Row>
                     <Row>
                         <Col>
                             <h3>Finances:</h3>
-                            <p>Add Sale</p>
-                            <p>View Billing</p>
+                            <span>Add Sale</span>
+                            <span>View Billing</span>
                         </Col>
                     </Row>
                     <Row>

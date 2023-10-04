@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import NavbarApp from "../../components/navbar/NavbarApp";
 import { axiosWithAuth } from "../../components/miscellaneous/axiosWithAuth";
 import ItemsInOrder from '../../components/orders/ItemsInOrder';
+import NavbarAdmin from "../../components/admin/NavbarAdmin";
 
 const AllOrdersPage = () => {
     const [loadingOrdersPage, setLoadingOrdersPage] = useState(true);
@@ -27,7 +28,7 @@ const AllOrdersPage = () => {
 
     return (
         <>
-            <NavbarApp />
+            <NavbarAdmin />
             <Container>
                 <Row>
                     <Col>

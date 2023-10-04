@@ -1,4 +1,4 @@
-import NavbarApp from "../../components/navbar/NavbarApp";
+import NavbarAdmin from "../../components/admin/NavbarAdmin";
 import { Container, Row, Col, Button } from 'reactstrap';
 import { axiosWithAuth } from "../../components/miscellaneous/axiosWithAuth";
 import { useState, useEffect } from 'react'
@@ -54,7 +54,7 @@ const EditProductsPage = () => {
 
     return (
         <>
-            <NavbarApp />
+            <NavbarAdmin />
             {admin ? (
                 <>
                     <Container>

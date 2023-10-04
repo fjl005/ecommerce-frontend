@@ -1,5 +1,5 @@
 import { Col, Container, Row, FormGroup, Label, Input, Button, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from "reactstrap";
-import NavbarApp from "../../components/navbar/NavbarApp";
+import NavbarAdmin from "../../components/admin/NavbarAdmin";
 import { useEffect, useState } from "react";
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
@@ -152,7 +152,7 @@ const PostProductPage = () => {
 
     return (
         <>
-            <NavbarApp />
+            <NavbarAdmin />
             {admin ? (
                 submitted ? (
                     <ProductSubmitted

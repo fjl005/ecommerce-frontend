@@ -1,6 +1,6 @@
 import { Col, Container, Row } from "reactstrap";
 import { useEffect, useState } from "react";
-import NavbarApp from "../../components/navbar/NavbarApp";
+import NavbarAdmin from "../../components/admin/NavbarAdmin";
 import { axiosWithAuth } from "../../components/miscellaneous/axiosWithAuth";
 import SingleReview from "../../components/reviews/SingleReview";
 
@@ -27,7 +27,7 @@ const AllReviewsPage = () => {
 
     return (
         <>
-            <NavbarApp />
+            <NavbarAdmin />
             <Container>
                 <Row>
                     <Col>

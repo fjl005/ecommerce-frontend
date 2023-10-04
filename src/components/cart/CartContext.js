@@ -54,6 +54,7 @@ export const CartProvider = ({ children }) => {
     }
 
     const determineTotalCost = async () => {
+        console.log('determine cost')
         try {
             setLoadingCost(true);
             let total = 0;
@@ -82,7 +83,7 @@ export const CartProvider = ({ children }) => {
 
     useEffect(() => {
         determineTotalCost();
-    }, [cartLength]);
+    }, [cartItemsArrayId]);
 
 
     const addItemToCart = async (productId) => {

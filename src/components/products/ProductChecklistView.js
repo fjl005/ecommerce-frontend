@@ -17,13 +17,13 @@ const ProductChecklistView = ({
     inFavoritesJs,
     setFavoritesLoadingOverlay,
     adminPage,
-    buyer
     // inReviewsJs
 }) => {
 
     const [starRating, setStarRating] = useState(null);
     const [ratingDescription, setRatingDescription] = useState('');
     const [loadingProduct, setLoadingProduct] = useState(true);
+    const [reviewDate, setReviewDate] = useState('');
 
     const downloadClick = (orderId) => {
         console.log('order ID: ', orderId);
@@ -47,6 +47,16 @@ const ProductChecklistView = ({
             const data = response.data;
             setStarRating(data.starRating);
             setRatingDescription(data.ratingDescription);
+
+            const date = new Date(data.currentDate);
+
+            const year = date.getFullYear();
+            const month = date.getMonth() + 1; // Month is 0-based, so add 1
+            const day = date.getDate();
+
+            const formattedDate = `${month}/${day}/${year}`;
+
+            setReviewDate(formattedDate);
             setLoadingProduct(false);
         } catch (error) {
             console.log('error: ', error);
@@ -164,21 +174,13 @@ const ProductChecklistView = ({
                                                     <Button>Edit Review</Button>
                                                 )}
                                             </Link>
-                                            <h4>Your review:</h4>
+                                            <h4>Review: ({reviewDate})</h4>
                                             <FiveStarGenerator starRating={starRating} />
                                             <p style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                                                 {ratingDescription ? ratingDescription : ''}
                                             </p>
                                             <p>Show Full Review (function coming soon)</p>
                                         </>
-                                    ) : adminPage ? (
-                                        <div style={{
-                                            textOverflow: 'ellipsis',
-                                            overflow: 'hidden',
-                                            whiteSpace: 'nowrap',
-                                        }}>
-                                            <h4>Purchased by: {buyer}</h4>
-                                        </div>
                                     ) : (
                                         <Link
                                             to={{

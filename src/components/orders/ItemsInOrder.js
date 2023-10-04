@@ -31,6 +31,11 @@ const OrderItem = ({ order, orderId, adminPage, buyer }) => {
                     <h4>
                         Order placed on: {formatDate(new Date(order.orderDate))}
                     </h4>
+                    {buyer && (
+                        <h5>
+                            Purchased by: {buyer}
+                        </h5>
+                    )}
                 </Col>
             </Row>
             {order.items.map((purchasedItem, idx) => (
@@ -40,7 +45,6 @@ const OrderItem = ({ order, orderId, adminPage, buyer }) => {
                     inOrderJs={true}
                     orderId={orderId}
                     order={order}
-                    buyer={buyer}
                     adminPage={adminPage}
                 />
             ))}
