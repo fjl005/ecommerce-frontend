@@ -16,6 +16,7 @@ import PostProductPage from './pages/admin/PostProductPage';
 import EditProductsPage from './pages/admin/EditProductsPage';
 import AllReviewsPage from './pages/admin/AllReviewsPage';
 import AllOrdersPage from './pages/admin/AllOrdersPage';
+import BillingPage from './pages/admin/BillingPage';
 
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { useState, useEffect } from 'react';
@@ -100,6 +101,7 @@ function App() {
                     <Route path='/admin/editproductspage' element={<EditProductsPage />} />
                     <Route path='/admin/allreviews' element={<AllReviewsPage />} />
                     <Route path='/admin/allorders' element={<AllOrdersPage />} />
+                    <Route path='/admin/billing' element={<BillingPage />} />
 
                 </Routes>
             </BrowserRouter>

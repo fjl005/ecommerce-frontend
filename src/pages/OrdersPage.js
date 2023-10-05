@@ -26,7 +26,7 @@ const OrdersPage = () => {
 
     const fetchOrders = async () => {
         try {
-            const response = await axiosWithAuth.get('/orders');
+            const response = await axiosWithAuth.get('/orders/user');
             const data = response.data;
             if (data) {
                 setOrdersData(data);

@@ -107,8 +107,13 @@ const AdminPage = () => {
                     <Row>
                         <Col>
                             <h3>Finances:</h3>
-                            <span>Add Sale</span>
-                            <span>View Billing</span>
+                            <p>Add Sale</p>
+                            <p>
+                                <Link to='/admin/billing'>
+                                    View Billing
+                                </Link>
+                            </p>
+
                         </Col>
                     </Row>
                     <Row>
