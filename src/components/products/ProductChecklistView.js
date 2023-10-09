@@ -196,7 +196,9 @@ const ProductChecklistView = ({
                                                 color: 'black'
                                             }}
                                         >
-                                            <Button>Leave a Review</Button>
+                                            {!adminPage && (
+                                                <Button>Leave a Review</Button>
+                                            )}
                                         </Link>
                                     ))}
                             </div>

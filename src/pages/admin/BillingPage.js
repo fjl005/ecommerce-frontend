@@ -30,9 +30,10 @@ const BillingPage = () => {
         <>
             <NavbarAdmin />
             <Container>
-                <Row>
+                <Row style={{ marginBottom: '20px' }}>
                     <Col>
                         <h1>Billing</h1>
+                        <h4>Net Balance: ${totalBalance.toFixed(2)}</h4>
                     </Col>
                 </Row>
                 <Row>
@@ -84,7 +85,7 @@ const BillingPage = () => {
                                                 {/* <td style={{ verticalAlign: 'middle' }}>${(item.price * 0.0775).toFixed(2)}</td>
                                             <td style={{ verticalAlign: 'middle' }}>${(item.price - item.price * 0.0775).toFixed(2)}</td> */}
                                                 <td style={{ verticalAlign: 'middle' }}>
-                                                    {netBalance}
+                                                    ${netBalance.toFixed(2)}
                                                 </td>
                                             </tr>
                                         )

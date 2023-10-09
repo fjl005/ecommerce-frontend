@@ -1,4 +1,18 @@
-import { Navbar, NavbarBrand, Nav, NavItem, NavLink, Container, Button, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+import {
+    Navbar,
+    NavbarBrand,
+    Nav,
+    NavItem,
+    NavLink,
+    Container,
+    Button,
+    UncontrolledDropdown,
+    DropdownToggle,
+    DropdownMenu,
+    DropdownItem,
+    NavbarToggler,
+    Collapse
+} from 'reactstrap';
 import NavbarSearch from './NavbarSearch';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
@@ -10,42 +24,57 @@ import { useCartContext } from '../cart/CartContext';
 const NavbarApp = ({ isCheckout }) => {
     const { cartLength, setCartLength, setSavedLength } = useCartContext();
     const { loggedIn, showLoginButton, triggerLogout, admin } = useLoginContext();
+    const [isOpen, setIsOpen] = useState(false); // Add state for Navbar toggling
+
+    const toggleNavbar = () => {
+        setIsOpen(!isOpen);
+    };
 
     return (
-        <Navbar color="light" light expand="md">
+        <Navbar color="light" light expand="lg">
             <Container
                 className='d-flex flex-row align-items-center justify-content-between'
-                style={{ height: '60px', }}
             >
+                <NavbarToggler onClick={toggleNavbar} style={{ marginRight: '20px' }} />
+
                 <div className='d-flex flex-row align-items-center'>
+
                     <NavbarBrand tag={Link} to="/" className='d-flex align-items-start'>
                         Fetsy
                     </NavbarBrand>
 
-                    {!isCheckout && (
-                        <Nav navbar>
-                            <NavItem>
-                                <NavLink tag={Link} to="/orders" style={{ marginTop: '1px' }}>
-                                    Orders
-                                </NavLink>
-                            </NavItem>
-                            <NavItem>
-                                <NavLink tag={Link} to="/favorites" style={{ marginTop: '1px' }}>
-                                    Favorites
-                                </NavLink>
-                            </NavItem>
-                            <NavItem>
-                                <NavLink tag={Link} to="/reviews" style={{ marginTop: '1px' }}>
-                                    Reviews
-                                </NavLink>
-                            </NavItem>
-                            <NavItem>
-                                <NavLink tag={Link} to="/signup" style={{ marginTop: '1px', whiteSpace: 'nowrap' }}>
-                                    Sign Up
-                                </NavLink>
-                            </NavItem>
-                        </Nav>
-                    )}
+                    <Collapse isOpen={isOpen} navbar>
+
+                        {!isCheckout && (
+                            <Nav className='mr-auto' navbar>
+                                {loggedIn && (
+                                    <>
+                                        <NavItem>
+                                            <NavLink tag={Link} to="/orders" style={{ marginTop: '1px' }}>
+                                                Orders
+                                            </NavLink>
+                                        </NavItem>
+                                        <NavItem>
+                                            <NavLink tag={Link} to="/favorites" style={{ marginTop: '1px' }}>
+                                                Favorites
+                                            </NavLink>
+                                        </NavItem>
+                                        <NavItem>
+                                            <NavLink tag={Link} to="/reviews" style={{ marginTop: '1px' }}>
+                                                Reviews
+                                            </NavLink>
+                                        </NavItem>
+                                    </>
+                                )}
+                                <NavItem>
+                                    <NavLink tag={Link} to="/signup" style={{ marginTop: '1px', whiteSpace: 'nowrap' }}>
+                                        Sign Up
+                                    </NavLink>
+                                </NavItem>
+                            </Nav>
+                        )}
+                    </Collapse>
+
                 </div>
 
                 {!isCheckout && (
@@ -54,15 +83,7 @@ const NavbarApp = ({ isCheckout }) => {
                     </div>
                 )}
 
-                {admin && (
-                    <Nav navbar>
-                        <NavItem>
-                            <NavLink tag={Link} to="/admin">
-                                <Button>Admin</Button>
-                            </NavLink>
-                        </NavItem>
-                    </Nav>
-                )}
+
 
                 {!isCheckout && (
                     <Nav navbar
@@ -113,40 +134,49 @@ const NavbarApp = ({ isCheckout }) => {
                             </NavLink>
                         </NavItem>
 
+                        <Collapse isOpen={isOpen} navbar>
 
-
-                        <NavItem>
-                            {showLoginButton && (
-                                loggedIn ? (
-                                    <UncontrolledDropdown>
-                                        <DropdownToggle color='primary' caret>
-                                            Profile
-                                        </DropdownToggle>
-                                        <DropdownMenu>
-                                            <DropdownItem
-                                                tag={Link}
-                                                to='/profilesettings'
-                                            >
-                                                Settings
-                                            </DropdownItem>
-                                            <DropdownItem tag={Link} to='/login'
-                                                onClick={() => {
-                                                    triggerLogout();
-                                                    setCartLength(0);
-                                                    setSavedLength(0);
-                                                }}
-                                            >
-                                                Logout
-                                            </DropdownItem>
-                                        </DropdownMenu>
-                                    </UncontrolledDropdown>
-                                ) : (
-                                    <NavLink tag={Link} to='/login' style={{ marginTop: '1px' }}>
-                                        Login
+                            {admin && (
+                                <NavItem style={{ marginRight: '20px' }}>
+                                    <NavLink tag={Link} to="/admin">
+                                        <Button>Admin</Button>
                                     </NavLink>
-                                )
+                                </NavItem>
                             )}
-                        </NavItem>
+
+                            <NavItem>
+                                {showLoginButton && (
+                                    loggedIn ? (
+                                        <UncontrolledDropdown>
+                                            <DropdownToggle color='primary' caret>
+                                                Profile
+                                            </DropdownToggle>
+                                            <DropdownMenu>
+                                                <DropdownItem
+                                                    tag={Link}
+                                                    to='/profilesettings'
+                                                >
+                                                    Settings
+                                                </DropdownItem>
+                                                <DropdownItem tag={Link} to='/login'
+                                                    onClick={() => {
+                                                        triggerLogout();
+                                                        setCartLength(0);
+                                                        setSavedLength(0);
+                                                    }}
+                                                >
+                                                    Logout
+                                                </DropdownItem>
+                                            </DropdownMenu>
+                                        </UncontrolledDropdown>
+                                    ) : (
+                                        <NavLink tag={Link} to='/login' style={{ marginTop: '1px' }}>
+                                            Login
+                                        </NavLink>
+                                    )
+                                )}
+                            </NavItem>
+                        </Collapse>
                     </Nav>
                 )}
             </Container>

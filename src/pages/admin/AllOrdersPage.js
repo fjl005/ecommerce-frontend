@@ -16,7 +16,7 @@ const AllOrdersPage = () => {
     const fetchOrders = async () => {
         try {
             const response = await axiosWithAuth.get(`/orders`);
-            const data = response.data;
+            const data = response.data.orders;
             setOrdersData(data);
             setLoadingOrdersPage(false);
         } catch (error) {
