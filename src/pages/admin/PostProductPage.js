@@ -34,6 +34,12 @@ const PostProductPage = () => {
     const [productSuccessMsg, setProductSuccessMsg] = useState('');
     const [submitted, setSubmitted] = useState(false);
     const [newProductData, setNewProductData] = useState({});
+    const [imageFile, setImageFile] = useState(null);
+
+    const handleImageChange = (event) => {
+        const file = event.target.files[0];
+        setImageFile(file);
+    };
 
     const validationSchema = Yup.object({
         productTitle: Yup.string().required('Title is required'),
@@ -83,6 +89,7 @@ const PostProductPage = () => {
                 setProductSuccessMsg('Product successfully updated!');
             } else if (productId) {
                 // PUT operation: updating existing product.
+
                 const response = await axiosWithAuth.put(`/products/${productId}`, {
                     name: productTitle,
                     price: productPrice,
@@ -96,11 +103,32 @@ const PostProductPage = () => {
 
             } else {
                 // POST operation: creating new product.
+                let imgUrl = '';
+                try {
+                    const serverCheck = await axios.post('http://localhost:5000/cloudinary');
+
+                    const formDataImg = new FormData();
+                    formDataImg.append('file', imageFile);
+                    formDataImg.append("upload_preset", process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET);
+
+                    const cloudinaryRes = await axios.post(`https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/image/upload`, formDataImg);
+
+                    const cloudinaryData = cloudinaryRes.data;
+                    console.log('cloudinary data: ', cloudinaryData);
+                    imgUrl = cloudinaryData.secure_url;
+
+                } catch (error) {
+                    console.log('error with cloudinary: ', error);
+                }
+
+                console.log('img url: ', imgUrl);
+
                 const response = await axiosWithAuth.post('/products', {
                     name: productTitle,
                     price: productPrice,
                     description: productDescription,
-                    productType
+                    productType,
+                    // imgUrl
                 });
                 const data = response.data.product;
                 setNewProductData(data);
@@ -235,11 +263,17 @@ const PostProductPage = () => {
                                                 <option value='Physical Item'>Physical Item</option>
                                             </Field>
                                             <ErrorMessage name='productType' component='div' className='text-danger' />
-
-
                                         </Col>
                                         <Col>
                                             <h4>Images</h4>
+                                            <Input
+                                                name='productImg'
+                                                id='img'
+                                                type='file'
+                                                accept="image/*"
+                                                onChange={handleImageChange}
+                                            // disabled={} 
+                                            />
                                         </Col>
 
                                         <Button type='submit' className='bg-primary' disabled={isSubmitting}>

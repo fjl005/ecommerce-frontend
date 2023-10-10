@@ -30,108 +30,111 @@ const NavbarAdmin = () => {
     };
 
     return (
+        <>
+            {admin && (
+                <Navbar color='dark' expand="xl">
+                    <Container
+                        className='d-flex flex-row align-items-center justify-content-between'
 
-        <Navbar color='dark' expand="xl">
-            <Container
-                className='d-flex flex-row align-items-center justify-content-between'
+                    >
+                        <div className='d-flex flex-row align-items-center'>
+                            <NavbarToggler onClick={toggleNavbar} style={{ marginRight: '20px', backgroundColor: 'white' }} />
 
-            >
-                <div className='d-flex flex-row align-items-center'>
-                    <NavbarToggler onClick={toggleNavbar} style={{ marginRight: '20px', backgroundColor: 'white' }} />
+                            <NavbarBrand tag={Link} to="/admin" style={{ color: 'white' }}>
+                                Fetsy Admin
+                            </NavbarBrand>
 
-                    <NavbarBrand tag={Link} to="/admin" style={{ color: 'white' }}>
-                        Fetsy Admin
-                    </NavbarBrand>
+                            <Collapse isOpen={isOpen} navbar>
 
-                    <Collapse isOpen={isOpen} navbar>
+                                <Nav className='ml-auto'>
+                                    <NavItem>
+                                        <NavLink tag={Link} to="/admin/addnewproduct" style={{ color: 'white' }}>
+                                            Add Product
+                                        </NavLink>
+                                    </NavItem>
+                                    <NavItem>
+                                        <NavLink tag={Link} to="/admin/editproductspage" style={{ color: 'white' }}>
+                                            Edit Products
+                                        </NavLink>
+                                    </NavItem>
+                                    <NavItem>
+                                        <NavLink tag={Link} to="/admin/allorders" style={{ color: 'white' }}>
+                                            All Orders
+                                        </NavLink>
+                                    </NavItem>
+                                    <NavItem>
+                                        <NavLink tag={Link} to="/admin/allreviews" style={{ color: 'white' }}>
+                                            All Reviews
+                                        </NavLink>
+                                    </NavItem>
+                                    <NavItem>
+                                        <NavLink style={{ color: 'white' }}>
+                                            Add Sale
+                                        </NavLink>
+                                    </NavItem>
+                                    <NavItem>
+                                        <NavLink tag={Link} to="/admin/billing" style={{ color: 'white' }}>
+                                            Billing
+                                        </NavLink>
+                                    </NavItem>
+                                    <NavItem>
+                                        <NavLink style={{ color: 'white' }}>
+                                            Shop Settings
+                                        </NavLink>
+                                    </NavItem>
+                                </Nav>
+                            </Collapse>
+                        </div>
 
-                        <Nav className='ml-auto'>
-                            <NavItem>
-                                <NavLink tag={Link} to="/admin/addnewproduct" style={{ color: 'white' }}>
-                                    Add Product
-                                </NavLink>
-                            </NavItem>
-                            <NavItem>
-                                <NavLink tag={Link} to="/admin/editproductspage" style={{ color: 'white' }}>
-                                    Edit Products
-                                </NavLink>
-                            </NavItem>
-                            <NavItem>
-                                <NavLink tag={Link} to="/admin/allorders" style={{ color: 'white' }}>
-                                    All Orders
-                                </NavLink>
-                            </NavItem>
-                            <NavItem>
-                                <NavLink tag={Link} to="/admin/allreviews" style={{ color: 'white' }}>
-                                    All Reviews
-                                </NavLink>
-                            </NavItem>
-                            <NavItem>
-                                <NavLink style={{ color: 'white' }}>
-                                    Add Sale
-                                </NavLink>
-                            </NavItem>
-                            <NavItem>
-                                <NavLink tag={Link} to="/admin/billing" style={{ color: 'white' }}>
-                                    Billing
-                                </NavLink>
-                            </NavItem>
-                            <NavItem>
-                                <NavLink style={{ color: 'white' }}>
-                                    Shop Settings
-                                </NavLink>
-                            </NavItem>
+                        <Nav>
+                            <div className='d-flex align-items-center'>
+                                {admin && (
+                                    <NavItem>
+                                        <NavLink tag={Link} to="/">
+                                            <Button>User</Button>
+                                        </NavLink>
+                                    </NavItem>
+                                )}
+                                <NavItem>
+                                    {showLoginButton && (
+                                        loggedIn ? (
+                                            <UncontrolledDropdown>
+                                                <DropdownToggle color='primary' caret>
+                                                    Profile
+                                                </DropdownToggle>
+                                                <DropdownMenu>
+                                                    <DropdownItem
+                                                        tag={Link}
+                                                        to='/profilesettings'
+                                                    >
+                                                        Settings
+                                                    </DropdownItem>
+                                                    <DropdownItem tag={Link} to='/login'
+                                                        onClick={() => {
+                                                            triggerLogout();
+                                                            setCartLength(0);
+                                                            setSavedLength(0);
+                                                        }}
+                                                    >
+                                                        Logout
+                                                    </DropdownItem>
+                                                </DropdownMenu>
+                                            </UncontrolledDropdown>
+                                        ) : (
+                                            <NavLink tag={Link} to='/login' style={{ marginTop: '1px' }}>
+                                                Login
+                                            </NavLink>
+                                        )
+                                    )}
+                                </NavItem>
+                            </div>
+
                         </Nav>
-                    </Collapse>
-                </div>
-
-                <Nav>
-                    <div className='d-flex align-items-center'>
-                        {admin && (
-                            <NavItem>
-                                <NavLink tag={Link} to="/">
-                                    <Button>User</Button>
-                                </NavLink>
-                            </NavItem>
-                        )}
-                        <NavItem>
-                            {showLoginButton && (
-                                loggedIn ? (
-                                    <UncontrolledDropdown>
-                                        <DropdownToggle color='primary' caret>
-                                            Profile
-                                        </DropdownToggle>
-                                        <DropdownMenu>
-                                            <DropdownItem
-                                                tag={Link}
-                                                to='/profilesettings'
-                                            >
-                                                Settings
-                                            </DropdownItem>
-                                            <DropdownItem tag={Link} to='/login'
-                                                onClick={() => {
-                                                    triggerLogout();
-                                                    setCartLength(0);
-                                                    setSavedLength(0);
-                                                }}
-                                            >
-                                                Logout
-                                            </DropdownItem>
-                                        </DropdownMenu>
-                                    </UncontrolledDropdown>
-                                ) : (
-                                    <NavLink tag={Link} to='/login' style={{ marginTop: '1px' }}>
-                                        Login
-                                    </NavLink>
-                                )
-                            )}
-                        </NavItem>
-                    </div>
-
-                </Nav>
-            </Container>
-
-        </Navbar >
+                    </Container>
+                </Navbar>
+            )
+            }
+        </>
     )
 }
 
