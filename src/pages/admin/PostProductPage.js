@@ -9,6 +9,7 @@ import ProductSubmitted from "../../components/admin/ProductSubmitted";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
+import SpinningIcon from "../../components/miscellaneous/SpinningIcon";
 
 const PostProductPage = () => {
 
@@ -31,14 +32,31 @@ const PostProductPage = () => {
 
     console.log('itemSelectedIdArr: ', itemSelectedIdArr);
 
-    const [productSuccessMsg, setProductSuccessMsg] = useState('');
+    const [errorMsg, setErrorMsg] = useState('');
     const [submitted, setSubmitted] = useState(false);
     const [newProductData, setNewProductData] = useState({});
-    const [imageFile, setImageFile] = useState(null);
+    const [imageFiles, setImageFiles] = useState([]);
+    const [imageURLs, setImageURLs] = useState([]);
 
     const handleImageChange = (event) => {
-        const file = event.target.files[0];
-        setImageFile(file);
+        const maxImageCount = 10;
+
+        const files = event.target.files;
+        if (files.length > maxImageCount) {
+            setErrorMsg('You can only upload a maximum of 10 files');
+        }
+
+        let newImageURLs = [];
+
+        for (let i = 0; i < files.length; i++) {
+            const file = files[i];
+            const url = URL.createObjectURL(file);
+            newImageURLs.push(url);
+        }
+        // const file = event.target.files[0];
+        setImageFiles(files);
+        setImageURLs(newImageURLs);
+        setErrorMsg('');
     };
 
     const validationSchema = Yup.object({
@@ -86,7 +104,7 @@ const PostProductPage = () => {
                 const data = response.data;
                 console.log('data: ', data);
                 setNewProductData(data);
-                setProductSuccessMsg('Product successfully updated!');
+                setErrorMsg('Product successfully updated!');
             } else if (productId) {
                 // PUT operation: updating existing product.
 
@@ -99,40 +117,43 @@ const PostProductPage = () => {
 
                 const data = response.data;
                 setNewProductData(data);
-                setProductSuccessMsg('Product successfully updated!');
+                setErrorMsg('Product successfully updated!');
 
             } else {
                 // POST operation: creating new product.
-                let imgUrl = '';
+                let imgUrl = [];
                 try {
                     const serverCheck = await axios.post('http://localhost:5000/cloudinary');
 
-                    const formDataImg = new FormData();
-                    formDataImg.append('file', imageFile);
-                    formDataImg.append("upload_preset", process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET);
+                    for (let imageFile of imageFiles) {
+                        const formDataImg = new FormData();
+                        formDataImg.append('file', imageFile);
+                        formDataImg.append("upload_preset", process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET);
 
-                    const cloudinaryRes = await axios.post(`https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/image/upload`, formDataImg);
+                        const cloudinaryRes = await axios.post(`https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/image/upload`, formDataImg);
 
-                    const cloudinaryData = cloudinaryRes.data;
-                    console.log('cloudinary data: ', cloudinaryData);
-                    imgUrl = cloudinaryData.secure_url;
-
+                        const cloudinaryData = cloudinaryRes.data;
+                        console.log('cloudinary data: ', cloudinaryData);
+                        imgUrl.push(cloudinaryData.secure_url);
+                    }
                 } catch (error) {
                     console.log('error with cloudinary: ', error);
                 }
 
                 console.log('img url: ', imgUrl);
 
+
                 const response = await axiosWithAuth.post('/products', {
                     name: productTitle,
                     price: productPrice,
                     description: productDescription,
                     productType,
-                    // imgUrl
+                    pictures: imgUrl
                 });
+
                 const data = response.data.product;
                 setNewProductData(data);
-                setProductSuccessMsg('Product successfully submitted!');
+                setErrorMsg('Product successfully submitted!');
             }
         } catch (error) {
             console.log('error in handleSubmit() in PostProduct.js: ', error);
@@ -188,6 +209,7 @@ const PostProductPage = () => {
                         price={newProductData.price}
                         productType={newProductData.productType}
                         description={newProductData.description}
+                        pictures={newProductData.pictures}
                         productId={productId}
                         itemSelectedIdArr={itemSelectedIdArr}
                     />
@@ -265,29 +287,66 @@ const PostProductPage = () => {
                                             <ErrorMessage name='productType' component='div' className='text-danger' />
                                         </Col>
                                         <Col>
-                                            <h4>Images</h4>
+                                            <h4>Images (max. 10)</h4>
                                             <Input
                                                 name='productImg'
                                                 id='img'
                                                 type='file'
-                                                accept="image/*"
+                                                accept='image/*'
+                                                multiple
                                                 onChange={handleImageChange}
                                             // disabled={} 
                                             />
+                                            {imageURLs && imageURLs.map((url, idx) => (
+                                                <div
+                                                    key={idx}
+                                                    style={{
+                                                        display: 'inline-block',
+                                                        width: '200px',
+                                                        height: '200px',
+                                                        border: '1px solid black',
+                                                        marginRight: '10px',
+                                                    }}
+                                                >
+                                                    <img
+                                                        key={idx}
+                                                        src={url}
+                                                        alt='uploaded image by user'
+                                                        style={{
+                                                            width: '100%',
+                                                            height: '100%',
+                                                            objectFit: 'cover',
+                                                        }}
+                                                    />
+                                                </div>
+                                            ))}
+                                            <h3>{errorMsg}</h3>
                                         </Col>
 
-                                        <Button type='submit' className='bg-primary' disabled={isSubmitting}>
-                                            {isSubmitting ? 'Submitting...' : 'Submit'}
-                                        </Button>
+
+                                        <div className='d-flex align-items-center'>
+                                            <Button
+                                                type='submit'
+                                                className='bg-primary'
+                                                disabled={isSubmitting}
+                                                style={{ marginRight: '10px' }}
+                                            >
+                                                {isSubmitting ? 'Submitting...' : 'Submit'}
+                                            </Button>
+                                            {isSubmitting &&
+                                                <>                                                <SpinningIcon style={{ marginLeft: '20px' }} size='xl' />
+                                                    <span>This may take a moment.</span>
+                                                </>
+                                            }
+                                        </div>
                                     </Form>
                                 )}
-
                             </Formik>
                         </Row>
-                        {productSuccessMsg && (
+                        {errorMsg && (
                             <Row>
                                 <Col>
-                                    {productSuccessMsg}
+                                    {errorMsg}
                                 </Col>
                             </Row>
                         )}

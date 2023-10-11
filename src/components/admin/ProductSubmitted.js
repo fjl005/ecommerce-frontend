@@ -3,7 +3,7 @@ import { Container, Row, Col } from "reactstrap";
 import { useLoginContext } from "../login/LoginContext";
 import twoPageAirbnb from '../../img/twoPageAirbnb.png';
 
-const ProductSubmitted = ({ title, price, productType, description, productId, itemSelectedIdArr }) => {
+const ProductSubmitted = ({ title, price, productType, description, pictures, productId, itemSelectedIdArr }) => {
     return (
         <>
             <Container>
@@ -25,13 +25,13 @@ const ProductSubmitted = ({ title, price, productType, description, productId, i
                     <Col>
                         <h2>{title}</h2>
                         <h4>${price}</h4>
-                        <img src={twoPageAirbnb} style={{ width: '60%' }} />
+                        <img src={pictures[0]} style={{ width: '60%' }} />
                     </Col>
                 </Row>
                 <Row>
                     <Col>
                         <div style={{ backgroundColor: 'rgb(240, 240, 240)', width: '60%', margin: '20px auto 0px auto' }}>
-                            <p>{productType}</p>
+                            <h4>{productType}</h4>
                             <p>{description}</p>
                         </div>
                     </Col>

@@ -87,14 +87,28 @@ const Products = ({ adminPage, itemSelectedIdArr, setItemSelectedIdArr, reloadPr
                                     width: '100%',
                                     padding: '10px 5px 0px 5px'
                                 }}>
-                                    <img
-                                        src={twoPageAirbnb}
-                                        alt='image of product'
-                                        style={{
-                                            width: '100%',
-                                            height: 'auto'
-                                        }}
-                                    />
+                                    {
+                                        product.pictures.length > 0 ? (
+                                            <img
+                                                src={product.pictures[0]}
+                                                alt='image of product'
+                                                style={{
+                                                    width: '100%',
+                                                    height: 'auto'
+                                                }}
+                                            />
+                                        ) : (
+                                            <img
+                                                src={twoPageAirbnb}
+                                                alt='image of product'
+                                                style={{
+                                                    width: '100%',
+                                                    height: 'auto'
+                                                }}
+                                            />
+                                        )
+                                    }
+
                                     <h6
                                         style={{
                                             whiteSpace: 'nowrap', // Prevents text from wrapping
@@ -133,7 +147,8 @@ const Products = ({ adminPage, itemSelectedIdArr, setItemSelectedIdArr, reloadPr
                     ))
                 }
             </Row>
-            <Row>
+
+            {/* <Row>
                 <Col>
                     <h1>Products</h1>
                 </Col>
@@ -171,7 +186,7 @@ const Products = ({ adminPage, itemSelectedIdArr, setItemSelectedIdArr, reloadPr
                         </Link>
                     </Col>
                 ))}
-            </Row>
+            </Row> */}
         </Container>
     )
 }
