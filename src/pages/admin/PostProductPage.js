@@ -10,6 +10,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
 import SpinningIcon from "../../components/miscellaneous/SpinningIcon";
+import ImageUpload from "../../components/admin/ImageUpload";
 
 const PostProductPage = () => {
 
@@ -42,11 +43,13 @@ const PostProductPage = () => {
         const maxImageCount = 10;
 
         const files = event.target.files;
-        if (files.length > maxImageCount) {
+        if (files.length + imageURLs.length > maxImageCount) {
             setErrorMsg('You can only upload a maximum of 10 files');
+            return;
         }
 
-        let newImageURLs = [];
+        const filesArray = Array.from(files); // Convert FileList to an array
+        let newImageURLs = [...imageURLs];
 
         for (let i = 0; i < files.length; i++) {
             const file = files[i];
@@ -54,7 +57,7 @@ const PostProductPage = () => {
             newImageURLs.push(url);
         }
         // const file = event.target.files[0];
-        setImageFiles(files);
+        setImageFiles(filesArray);
         setImageURLs(newImageURLs);
         setErrorMsg('');
     };
@@ -199,6 +202,15 @@ const PostProductPage = () => {
         }
     };
 
+    const deleteImgUpload = (urlToDelete, idx) => {
+        const updatedURLs = imageURLs.filter(imgUrl => imgUrl !== urlToDelete);
+        console.log('image files', imageFiles);
+        const updatedFiles = imageFiles.filter((file, index) => idx !== index);
+
+        setImageURLs(updatedURLs);
+        setImageFiles(updatedFiles);
+    }
+
     return (
         <>
             <NavbarAdmin />
@@ -288,6 +300,31 @@ const PostProductPage = () => {
                                         </Col>
                                         <Col>
                                             <h4>Images (max. 10)</h4>
+                                            <div>
+                                                <Button
+                                                    type='button'
+                                                    style={{
+                                                        margin: '0px',
+                                                        padding: '0px',
+                                                        textAlign: 'center',
+                                                        display: 'flex',
+                                                        aligntItems: 'center',
+
+                                                    }}
+                                                >
+                                                    <Label
+                                                        htmlFor="img"
+                                                        style={{
+                                                            cursor: 'pointer',
+                                                            padding: '5px',
+                                                            margin: '0px'
+                                                        }}
+                                                    >
+                                                        Choose Files
+                                                    </Label>
+                                                </Button>
+
+                                            </div>
                                             <Input
                                                 name='productImg'
                                                 id='img'
@@ -295,6 +332,8 @@ const PostProductPage = () => {
                                                 accept='image/*'
                                                 multiple
                                                 onChange={handleImageChange}
+                                                style={{ fontSize: 0, display: 'none' }} // Set font-size to 0 to hide the text
+
                                             // disabled={} 
                                             />
                                             {imageURLs && imageURLs.map((url, idx) => (
@@ -306,18 +345,15 @@ const PostProductPage = () => {
                                                         height: '200px',
                                                         border: '1px solid black',
                                                         marginRight: '10px',
+                                                        position: 'relative'
                                                     }}
                                                 >
-                                                    <img
-                                                        key={idx}
-                                                        src={url}
-                                                        alt='uploaded image by user'
-                                                        style={{
-                                                            width: '100%',
-                                                            height: '100%',
-                                                            objectFit: 'cover',
-                                                        }}
+                                                    <ImageUpload
+                                                        url={url}
+                                                        idx={idx}
+                                                        deleteImgUpload={deleteImgUpload}
                                                     />
+
                                                 </div>
                                             ))}
                                             <h3>{errorMsg}</h3>
@@ -335,7 +371,7 @@ const PostProductPage = () => {
                                             </Button>
                                             {isSubmitting &&
                                                 <>                                                <SpinningIcon style={{ marginLeft: '20px' }} size='xl' />
-                                                    <span>This may take a moment.</span>
+                                                    <span>This may take a moment, and may take longer if you are uploading multiple images. Your patience is highly appreciated.</span>
                                                 </>
                                             }
                                         </div>
