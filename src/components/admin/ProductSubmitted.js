@@ -1,16 +1,47 @@
-import NavbarApp from "../navbar/NavbarApp";
+import NavbarAdmin from "./NavbarAdmin";
 import { Container, Row, Col } from "reactstrap";
+import { useEffect, useState } from "react";
 import { useLoginContext } from "../login/LoginContext";
 import twoPageAirbnb from '../../img/twoPageAirbnb.png';
 
-const ProductSubmitted = ({ title, price, productType, description, pictures, productId, itemSelectedIdArr }) => {
+const ProductSubmitted = () => {
+
+    const [name, setName] = useState('');
+    const [price, setPrice] = useState(0);
+    const [description, setDescription] = useState('');
+    const [productType, setProductType] = useState('');
+    const [thumbnailURL, setThumbnailURL] = useState('');
+    const [itemsLength, setItemsLength] = useState([]);
+    const [productId, setProductId] = useState('');
+
+
+    useEffect(() => {
+        // Get the query parameters from the URL
+        const queryParams = new URLSearchParams(window.location.search);
+
+        // Access the data using the get method
+        setName(queryParams.get('name'));
+        setPrice(queryParams.get('price'));
+        setDescription(queryParams.get('description'));
+        setProductType(queryParams.get('productType'));
+        setThumbnailURL(queryParams.get('thumbnailURL'));
+        setProductId(queryParams.get('productId'));
+
+        setItemsLength(queryParams.get('itemsLength'));
+
+        console.log('product id: ', productId);
+
+    }, []);
+
     return (
+
         <>
+            <NavbarAdmin />
             <Container>
                 <Row>
                     <Col>
-                        {itemSelectedIdArr ? (
-                            <h1>{itemSelectedIdArr.length} products have been updated!</h1>
+                        {itemsLength > 0 ? (
+                            <h1>{itemsLength} products have been updated!</h1>
                         ) : productId ? (
                             <h1>Your product has been updated!</h1>
                         ) : (
@@ -23,9 +54,11 @@ const ProductSubmitted = ({ title, price, productType, description, pictures, pr
             <Container className='cart-container' style={{ textAlign: 'center' }}>
                 <Row>
                     <Col>
-                        <h2>{title}</h2>
+                        <h2>{name}</h2>
                         <h4>${price}</h4>
-                        <img src={pictures[0]} style={{ width: '60%' }} />
+                        {thumbnailURL && (
+                            <img src={thumbnailURL} style={{ width: '60%' }} />
+                        )}
                     </Col>
                 </Row>
                 <Row>

@@ -13,10 +13,12 @@ import LeaveReviewPage from './pages/LeaveReviewPage';
 import ProfileSettingsPage from './pages/ProfileSettingsPage';
 import AdminPage from './pages/admin/AdminPage';
 import PostProductPage from './pages/admin/PostProductPage';
+import ProductSubmitted from './components/admin/ProductSubmitted';
 import EditProductsPage from './pages/admin/EditProductsPage';
 import AllReviewsPage from './pages/admin/AllReviewsPage';
 import AllOrdersPage from './pages/admin/AllOrdersPage';
 import BillingPage from './pages/admin/BillingPage';
+
 
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { useState, useEffect } from 'react';
@@ -97,6 +99,7 @@ function App() {
                     <Route path='/profilesettings' element={<ProfileSettingsPage />} />
                     <Route path='/admin' element={<AdminPage />} />
                     <Route path='/admin/addnewproduct' element={<PostProductPage />} />
+                    <Route path='/admin/addnewproduct/submitted' element={<ProductSubmitted />} />
                     <Route path='/admin/updateproduct' element={<PostProductPage />} />
                     <Route path='/admin/updateproduct/:productId' element={<PostProductPage />} />
                     <Route path='/admin/editproductspage' element={<EditProductsPage />} />

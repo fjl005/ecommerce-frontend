@@ -22,6 +22,7 @@ const EditProductsPage = () => {
     const fetchProducts = async () => {
         const response = await axiosWithAuth.get('/products');
         const data = response.data;
+        console.log('data: ', data);
         setAllProducts(data);
     };
 
@@ -90,7 +91,12 @@ const EditProductsPage = () => {
                             </Col>
                         </Row>
                     </Container>
-                    <Products adminPage={true} itemSelectedIdArr={itemSelectedIdArr} setItemSelectedIdArr={setItemSelectedIdArr} reloadProducts={reloadProducts} />
+                    <Products
+                        adminPage={true}
+                        itemSelectedIdArr={itemSelectedIdArr}
+                        setItemSelectedIdArr={setItemSelectedIdArr}
+                        reloadProducts={reloadProducts}
+                    />
                 </>
             ) : (
                 <Container>

@@ -44,16 +44,22 @@ const Products = ({ adminPage, itemSelectedIdArr, setItemSelectedIdArr, reloadPr
         }
     };
 
-    const handleDelete = (productId) => {
+    const handleDelete = (product) => {
         const confirmed = window.confirm("Are you sure you want to delete this item?");
         if (confirmed) {
-            deleteProduct(productId);
+            deleteProduct(product);
         }
     };
 
-    const deleteProduct = async (productId) => {
+    const deleteProduct = async (product) => {
         try {
-            await axiosWithAuth.delete(`/products/${productId}`);
+            console.log('pictures to delete: ', product.pictures);
+            for (let imgObj of product.pictures) {
+                await axiosWithAuth.delete(`/cloudinary/${imgObj.publicId}`);
+                console.log('deleted img obj: ', imgObj);
+            }
+
+            await axiosWithAuth.delete(`/products/${product._id}`);
             alert('Product has been deleted');
             setItemSelectedIdArr([]);
             fetchProducts();
@@ -90,7 +96,7 @@ const Products = ({ adminPage, itemSelectedIdArr, setItemSelectedIdArr, reloadPr
                                     {
                                         product.pictures.length > 0 ? (
                                             <img
-                                                src={product.pictures[0]}
+                                                src={product.pictures[0].url}
                                                 alt='image of product'
                                                 style={{
                                                     width: '100%',
@@ -137,7 +143,7 @@ const Products = ({ adminPage, itemSelectedIdArr, setItemSelectedIdArr, reloadPr
                                     />
                                     <Button
                                         className='bg-danger'
-                                        onClick={() => handleDelete(product._id)}
+                                        onClick={() => handleDelete(product)}
                                     >
                                         Delete
                                     </Button>
