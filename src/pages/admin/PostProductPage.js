@@ -36,6 +36,7 @@ const PostProductPage = () => {
     const [imageURLs, setImageURLs] = useState([]);
     const [imageUploadNum, setImageUploadNum] = useState(0);
 
+
     // When images are uploaded, run handleImageChange
     const handleImageChange = (event) => {
         const maxImageCount = 10;
@@ -88,18 +89,25 @@ const PostProductPage = () => {
 
     // When the submit button is clicked, use the values from the Form.
     const handleSubmit = async (values, { setSubmitting }) => {
-
         const { productType, productTitle, productPrice, productDescription } = values;
         const updatedInfo = {
             name: productTitle,
             price: productPrice,
             description: productDescription,
             productType
-        }
+        };
+
+        let uploadNum = 0;
+        let imgDataArray = [];
+        let imgDataDeletePut = [];
+        let imgDataAddPut = [];
 
         try {
-            // Scenario 1: PUT operation for updating existing MULTIPLE product.
+            // First, check the server. Don't upload photos if the server is down.
+            await axiosWithAuth.get('/cloudinary');
+
             if (itemSelectedIdArr && !productId) {
+                // Scenario 1: PUT operation for updating existing MULTIPLE products
                 const response = await axiosWithAuth.put(`/products/multiple/items`, {
                     productIds: itemSelectedIdArr,
                     updatedInfo
@@ -107,74 +115,128 @@ const PostProductPage = () => {
 
                 const data = response.data;
                 switchPage(data);
+            } else if (productId) {
+                // Scenario 2: PUT operation for updating an existing SINGLE product
+                let deleteImagesObj = [];
 
-            }
-            // Scenario 2: PUT operation for updating existing SINGLE product
-            else if (productId) {
+                // Find images missing in current imageURLs from original fetchedImgData.
+                for (let image of fetchedImgData) {
+                    if (!imageURLs.includes(image.url)) {
+                        deleteImagesObj.push(image);
+                    }
+                }
+
+                if (deleteImagesObj.length > 0) {
+                    // Delete images from Cloudinary
+                    try {
+                        const deleteImgPublicIdArr = [];
+                        const deletePromises = deleteImagesObj.map(async (image) => {
+                            deleteImgPublicIdArr.push(image.publicId);
+                            await axiosWithAuth.delete(`/cloudinary/${image.publicId}`);
+                        });
+
+                        await Promise.all(deletePromises);
+                        updatedInfo.deletePublicId = deleteImgPublicIdArr;
+                    } catch (error) {
+                        console.log('Error deleting images:', error);
+                    }
+                }
+
+                if (imageFiles.length > 0) {
+                    // Upload image files to Cloudinary.
+                    const newImages = await imgUpload(imageFiles, uploadNum, imgDataArray, updatedInfo);
+                    updatedInfo.newImageData = newImages;
+                }
+
+                // Update the product with updatedInfo
                 const response = await axiosWithAuth.put(`/products/${productId}`, {
                     updatedInfo
                 });
-
+                console.log('response: ', response);
                 const data = response.data;
                 switchPage(data);
 
-            }
-            // Scenario 3: POST operation for posting NEW product. 
-            else {
-                let imgDataArray = [];
-
-                // Part A: post to Cloudinary, one by one. Await all promises so that the http requests can be sent right away instead of waiting one by one.
-                try {
-                    const serverCheck = await axiosWithAuth.get('/cloudinary');
-                    let uploadNum = 0;
-
-                    if (imageFiles) {
-
-                        const uploadPromises = imageFiles.map(async (imageFile, index) => {
-                            const formDataImg = new FormData();
-                            formDataImg.append('file', imageFile);
-                            formDataImg.append('upload_preset', process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET);
-
-                            const cloudinaryRes = await axios.post(`https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/image/upload`, formDataImg);
-
-                            const cloudinaryData = cloudinaryRes.data;
-                            const imgData = {
-                                url: cloudinaryData.secure_url,
-                                publicId: cloudinaryData.public_id,
-                                position: index,
-                            };
-
-                            imgDataArray.push(imgData);
-                            uploadNum++;
-                            setImageUploadNum(uploadNum);
-                        });
-
-                        await Promise.all(uploadPromises);
-                        imgDataArray.sort((a, b) => a.position - b.position);
+            } else {
+                // Scenario 3: POST operation for posting NEW product
+                if (imageFiles.length > 0) {
+                    // Part A: post to Cloudinary, one by one.
+                    try {
+                        await imgUpload(imageFiles, uploadNum, imgDataArray);
+                    } catch (error) {
+                        console.log('Error with Cloudinary:', error);
                     }
-
-                } catch (error) {
-                    console.log('error with cloudinary: ', error);
                 }
 
-                // Part B: post to server. 
+                // Part B: post to server.
+                updatedInfo.pictures = imgDataArray;
                 const response = await axiosWithAuth.post('/products', {
-                    name: productTitle,
-                    price: productPrice,
-                    description: productDescription,
-                    productType,
-                    pictures: imgDataArray
+                    updatedInfo
                 });
+
+                console.log('response: ', response);
 
                 const data = response.data.product;
                 switchPage(data);
             }
         } catch (error) {
-            console.log('error in handleSubmit() in PostProduct.js: ', error);
+            console.log('Error in handleSubmit() in PostProduct.js: ', error);
         } finally {
             setSubmitting(false);
         }
     };
+
+
+    useEffect(() => {
+        console.log('image files: ', imageFiles);
+    }, [imageURLs])
+
+    const imgUpload = async (imageFiles, uploadNum, imgDataArray, updatedInfo) => {
+
+        const uploadPromises = imageFiles.map(async (imageFile, index) => {
+            const formDataImg = new FormData();
+            formDataImg.append('file', imageFile);
+            formDataImg.append('upload_preset', process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET);
+
+            const cloudinaryRes = await axios.post(`https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/image/upload`, formDataImg);
+
+            const cloudinaryData = cloudinaryRes.data;
+            const imgData = {
+                url: cloudinaryData.secure_url,
+                publicId: cloudinaryData.public_id,
+                position: index,
+            };
+
+            imgDataArray.push(imgData);
+            uploadNum++;
+            setImageUploadNum(uploadNum);
+        });
+
+        await Promise.all(uploadPromises);
+        imgDataArray.sort((a, b) => a.position - b.position);
+
+        const newImageData = imgDataArray.map(({ url, publicId }) => ({ url, publicId }));
+        return newImageData;
+
+        // if (updatedInfo) {
+        //     // This parameter is included for a PUT operation.
+        //     const newImageData = imgDataArray.map(({ url, publicId }) => ({ url, publicId }));
+
+        //     console.log('new image data: ', newImageData);
+        //     updatedInfo.newImageData = newImageData
+        //     const response = await axiosWithAuth.put(`/products/${productId}`, {
+        //         updatedInfo,
+        //     })
+        // }
+    };
+
+    const deleteImgUpload = (urlToDelete, idx) => {
+        const updatedURLs = imageURLs.filter(imgUrl => imgUrl !== urlToDelete);
+        const updatedFiles = imageFiles.filter((file, index) => idx !== index);
+
+        setImageURLs(updatedURLs);
+        setImageFiles(updatedFiles);
+    };
+
 
     const switchPage = (data) => {
         let thumbnailURL = '';
@@ -207,6 +269,7 @@ const PostProductPage = () => {
     const [price, setPrice] = useState(0);
     const [productType, setProductType] = useState('');
     const [description, setDescription] = useState('');
+    const [fetchedImgData, setFetchedImgData] = useState([]);
 
 
     useEffect(() => {
@@ -222,10 +285,12 @@ const PostProductPage = () => {
         try {
             const response = await axios.get(`http://localhost:5000/products/${id}`);
             const data = response.data;
+            console.log('data: ', data);
             setTitle(data.name);
             setPrice(data.price);
             setProductType(data.productType);
             setDescription(data.description);
+            setFetchedImgData(data.pictures);
 
             let fetchedImgArr = [];
 
@@ -242,13 +307,7 @@ const PostProductPage = () => {
         }
     };
 
-    const deleteImgUpload = (urlToDelete, idx) => {
-        const updatedURLs = imageURLs.filter(imgUrl => imgUrl !== urlToDelete);
-        const updatedFiles = imageFiles.filter((file, index) => idx !== index);
 
-        setImageURLs(updatedURLs);
-        setImageFiles(updatedFiles);
-    }
 
     return (
         <>
