@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleXmark } from '@fortawesome/free-solid-svg-icons'
 
 
-const ImageUpload = ({ url, idx, deleteImgUpload }) => {
+const ImageUpload = ({ url, idx, deleteImgUpload, existing }) => {
 
     return (
         <>
@@ -24,7 +24,7 @@ const ImageUpload = ({ url, idx, deleteImgUpload }) => {
                 }}
             >
                 <div
-                    onClick={() => deleteImgUpload(url, idx)}
+                    onClick={() => deleteImgUpload(url, idx, existing)}
                     style={{
                         position: 'relative',
                         display: 'inline-block',

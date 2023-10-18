@@ -24,171 +24,55 @@ const PostProductPage = () => {
         -We are retrieving the value associated with the key 'items' from the query parameters
         -Then convert the JSON string into a JS array.
     */
+
     const location = useLocation();
     const searchParams = new URLSearchParams(location.search);
     const itemStr = searchParams.get('items');
     const itemSelectedIdArr = JSON.parse(itemStr);
 
 
-    // States regarding the files
+    // States regarding the files and images
     const [fileErrorMsg, setFileErrorMsg] = useState('');
-    const [imageFiles, setImageFiles] = useState([]);
-    const [imageURLs, setImageURLs] = useState([]);
+    const [newlyUploadedImageFiles, setNewlyUploadedImageFiles] = useState([]);
+    const [newlyUploadedImageURLs, setNewlyUploadedImageURLs] = useState([]);
+    const [existingImagesURLs, setExistingImagesURLs] = useState([]);
     const [imageUploadNum, setImageUploadNum] = useState(0);
 
+
+    // States for the form
+    const [title, setTitle] = useState('');
+    const [price, setPrice] = useState(0);
+    const [productType, setProductType] = useState('');
+    const [description, setDescription] = useState('');
+    const [fetchedImgData, setFetchedImgData] = useState([]);
+
+
+    // Image Functions
 
     // When images are uploaded, run handleImageChange
     const handleImageChange = (event) => {
         const maxImageCount = 10;
-
         const files = event.target.files
-        const filesArray = Array.from(files); // Convert FileList to an array
-        if (filesArray.length + imageURLs.length > maxImageCount) {
-            setFileErrorMsg('You can only upload a maximum of 10 files');
+        const filesArray = Array.from(files);
+
+        if (filesArray.length + newlyUploadedImageFiles.length + existingImagesURLs.length > maxImageCount) {
+            setFileErrorMsg('You can only have a maximum of 10 images total.');
             return;
         }
 
-        // If imageURLs already exist, then the newImageURLs will continue off of this.
-        let newImageURLs = [...imageURLs];
+        let newImageURLs = [...newlyUploadedImageURLs];
 
         for (let i = 0; i < filesArray.length; i++) {
             const file = filesArray[i];
             const url = URL.createObjectURL(file);
             newImageURLs.push(url);
         }
-        // const file = event.target.files[0];
-        setImageFiles([...imageFiles, ...filesArray]);
-        setImageURLs(newImageURLs);
+
+        setNewlyUploadedImageFiles([...newlyUploadedImageFiles, ...filesArray]);
+        setNewlyUploadedImageURLs(newImageURLs);
         setFileErrorMsg('');
     };
 
-    // Form validation
-    const validationSchema = Yup.object({
-        productTitle: Yup.string().required('Title is required'),
-        productPrice: Yup.number()
-            .positive('Price must be positive')
-            .max(9999.99, 'Price must be less than or equal to $9,999.99')
-            .test(
-                'is-decimal',
-                'Price must have up to two decimal places',
-                /* 
-                    ^: notes the start of the string
-                    \d*: any number of digits
-                    \.: a literal period
-                    \d{1,2}: followed by either 1 or 2 digits
-                    |: or
-                    \d+: any number of digits without a period.
-
-                    (not used) [^]: means anything that's NOT.
-                */
-                (value) => /^(\d*\.\d{1,2}|\d+)$/.test(value)
-            ),
-        productDescription: Yup.string().required('Description is required'),
-        productType: Yup.string().required('Product Type is required').oneOf(['Digital Download', 'Physical Item'], 'Invalid Product Type'),
-    });
-
-    // When the submit button is clicked, use the values from the Form.
-    const handleSubmit = async (values, { setSubmitting }) => {
-        const { productType, productTitle, productPrice, productDescription } = values;
-        const updatedInfo = {
-            name: productTitle,
-            price: productPrice,
-            description: productDescription,
-            productType
-        };
-
-        let uploadNum = 0;
-        let imgDataArray = [];
-        let imgDataDeletePut = [];
-        let imgDataAddPut = [];
-
-        try {
-            // First, check the server. Don't upload photos if the server is down.
-            await axiosWithAuth.get('/cloudinary');
-
-            if (itemSelectedIdArr && !productId) {
-                // Scenario 1: PUT operation for updating existing MULTIPLE products
-                const response = await axiosWithAuth.put(`/products/multiple/items`, {
-                    productIds: itemSelectedIdArr,
-                    updatedInfo
-                });
-
-                const data = response.data;
-                switchPage(data);
-            } else if (productId) {
-                // Scenario 2: PUT operation for updating an existing SINGLE product
-                let deleteImagesObj = [];
-
-                // Find images missing in current imageURLs from original fetchedImgData.
-                for (let image of fetchedImgData) {
-                    if (!imageURLs.includes(image.url)) {
-                        deleteImagesObj.push(image);
-                    }
-                }
-
-                if (deleteImagesObj.length > 0) {
-                    // Delete images from Cloudinary
-                    try {
-                        const deleteImgPublicIdArr = [];
-                        const deletePromises = deleteImagesObj.map(async (image) => {
-                            deleteImgPublicIdArr.push(image.publicId);
-                            await axiosWithAuth.delete(`/cloudinary/${image.publicId}`);
-                        });
-
-                        await Promise.all(deletePromises);
-                        updatedInfo.deletePublicId = deleteImgPublicIdArr;
-                    } catch (error) {
-                        console.log('Error deleting images:', error);
-                    }
-                }
-
-                if (imageFiles.length > 0) {
-                    // Upload image files to Cloudinary.
-                    const newImages = await imgUpload(imageFiles, uploadNum, imgDataArray, updatedInfo);
-                    updatedInfo.newImageData = newImages;
-                }
-
-                // Update the product with updatedInfo
-                const response = await axiosWithAuth.put(`/products/${productId}`, {
-                    updatedInfo
-                });
-                console.log('response: ', response);
-                const data = response.data;
-                switchPage(data);
-
-            } else {
-                // Scenario 3: POST operation for posting NEW product
-                if (imageFiles.length > 0) {
-                    // Part A: post to Cloudinary, one by one.
-                    try {
-                        await imgUpload(imageFiles, uploadNum, imgDataArray);
-                    } catch (error) {
-                        console.log('Error with Cloudinary:', error);
-                    }
-                }
-
-                // Part B: post to server.
-                updatedInfo.pictures = imgDataArray;
-                const response = await axiosWithAuth.post('/products', {
-                    updatedInfo
-                });
-
-                console.log('response: ', response);
-
-                const data = response.data.product;
-                switchPage(data);
-            }
-        } catch (error) {
-            console.log('Error in handleSubmit() in PostProduct.js: ', error);
-        } finally {
-            setSubmitting(false);
-        }
-    };
-
-
-    useEffect(() => {
-        console.log('image files: ', imageFiles);
-    }, [imageURLs])
 
     const imgUpload = async (imageFiles, uploadNum, imgDataArray, updatedInfo) => {
 
@@ -217,27 +101,142 @@ const PostProductPage = () => {
         const newImageData = imgDataArray.map(({ url, publicId }) => ({ url, publicId }));
         return newImageData;
 
-        // if (updatedInfo) {
-        //     // This parameter is included for a PUT operation.
-        //     const newImageData = imgDataArray.map(({ url, publicId }) => ({ url, publicId }));
-
-        //     console.log('new image data: ', newImageData);
-        //     updatedInfo.newImageData = newImageData
-        //     const response = await axiosWithAuth.put(`/products/${productId}`, {
-        //         updatedInfo,
-        //     })
-        // }
     };
 
-    const deleteImgUpload = (urlToDelete, idx) => {
-        const updatedURLs = imageURLs.filter(imgUrl => imgUrl !== urlToDelete);
-        const updatedFiles = imageFiles.filter((file, index) => idx !== index);
+    const deleteImgUpload = (urlToDelete, idx, existing) => {
+        if (existing) {
+            const updatedURLs = existingImagesURLs.filter(imgUrl => imgUrl !== urlToDelete);
+            setExistingImagesURLs(updatedURLs);
+        } else {
+            const updatedURLs = newlyUploadedImageURLs.filter(imgUrl => imgUrl !== urlToDelete);
+            const updatedFiles = newlyUploadedImageFiles.filter((file, index) => idx !== index);
 
-        setImageURLs(updatedURLs);
-        setImageFiles(updatedFiles);
+            setNewlyUploadedImageURLs(updatedURLs);
+            setNewlyUploadedImageFiles(updatedFiles);
+        }
     };
 
 
+    // Form validation
+    const validationSchema = Yup.object({
+        productTitle: Yup.string().required('Title is required'),
+        productPrice: Yup.number()
+            .positive('Price must be positive')
+            .max(9999.99, 'Price must be less than or equal to $9,999.99')
+            .test(
+                'is-decimal',
+                'Price must have up to two decimal places',
+                /* 
+                    ^: notes the start of the string
+                    \d*: any number of digits
+                    \.: a literal period
+                    \d{1,2}: followed by either 1 or 2 digits
+                    |: or
+                    \d+: any number of digits without a period.
+
+                    (not used) [^]: means anything that's NOT.
+                */
+                (value) => /^(\d*\.\d{1,2}|\d+)$/.test(value)
+            ),
+        productDescription: Yup.string().required('Description is required'),
+        productType: Yup.string().required('Product Type is required').oneOf(['Digital Download', 'Physical Item'], 'Invalid Product Type'),
+    });
+
+    // Form submission
+    const handleSubmit = async (values, { setSubmitting }) => {
+        const { productType, productTitle, productPrice, productDescription } = values;
+        const updatedInfo = {
+            name: productTitle,
+            price: productPrice,
+            description: productDescription,
+            productType
+        };
+
+        let uploadNum = 0;
+        let imgDataArray = [];
+
+        try {
+            // First, check the server. Don't upload photos if the server is down.
+            await axiosWithAuth.get('/cloudinary');
+
+            // SCENARIO ONE: PUT operation for updating existing MULTIPLE products
+            if (itemSelectedIdArr && !productId) {
+                const response = await axiosWithAuth.put(`/products/multiple/items`, {
+                    productIds: itemSelectedIdArr,
+                    updatedInfo
+                });
+                switchPage(response.data);
+            }
+
+            // SCENARIO TWO: PUT operation for updating an existing SINGLE product
+            else if (productId) {
+                let deleteImagesObj = [];
+
+                // Find images missing in current imageURLs from original fetchedImgData.
+                for (let image of fetchedImgData) {
+                    if (!existingImagesURLs.includes(image.url)) {
+                        deleteImagesObj.push(image);
+                    }
+                }
+
+                // If images should be deleted, first delete from Cloudinary via their public id.
+                if (deleteImagesObj.length > 0) {
+                    try {
+                        const deleteImgPublicIdArr = [];
+                        const deletePromises = deleteImagesObj.map(async (image) => {
+                            deleteImgPublicIdArr.push(image.publicId);
+                            await axiosWithAuth.delete(`/cloudinary/${image.publicId}`);
+                        });
+
+                        await Promise.all(deletePromises);
+
+                        // Include deletePublicIdArr as a property for updatedInfo, so these can be deleted from our server.
+                        updatedInfo.deletePublicIdArr = deleteImgPublicIdArr;
+                    } catch (error) {
+                        console.log('Error deleting images:', error);
+                    }
+                }
+
+                // After existing images are deleted, upload any newly uploaded images to Cloudinary.
+                if (newlyUploadedImageFiles.length > 0) {
+                    const newImages = await imgUpload(newlyUploadedImageFiles, uploadNum, imgDataArray, updatedInfo);
+                    updatedInfo.newImageData = newImages;
+                }
+
+                const response = await axiosWithAuth.put(`/products/${productId}`, {
+                    updatedInfo
+                });
+                switchPage(response.data);
+
+            }
+
+            // SCENARIO THREE: POST operation for posting NEW product
+            else {
+                // First, upload images to Cloudinary.
+                if (newlyUploadedImageFiles.length > 0) {
+                    try {
+                        await imgUpload(newlyUploadedImageFiles, uploadNum, imgDataArray);
+                    } catch (error) {
+                        console.log('Error with Cloudinary:', error);
+                    }
+                }
+
+                // Then, post to server.
+                updatedInfo.pictures = imgDataArray;
+                const response = await axiosWithAuth.post('/products', {
+                    updatedInfo
+                });
+
+                switchPage(response.data.product);
+            }
+        } catch (error) {
+            console.log('Error in handleSubmit() in PostProduct.js: ', error);
+        } finally {
+            setSubmitting(false);
+        }
+    };
+
+    // After form submission
     const switchPage = (data) => {
         let thumbnailURL = '';
         let itemsLength = 0;
@@ -264,14 +263,7 @@ const PostProductPage = () => {
         window.location.href = `/admin/addnewproduct/submitted?${queryString}`;
     };
 
-    // States for the form
-    const [title, setTitle] = useState('');
-    const [price, setPrice] = useState(0);
-    const [productType, setProductType] = useState('');
-    const [description, setDescription] = useState('');
-    const [fetchedImgData, setFetchedImgData] = useState([]);
-
-
+    // Fetch Products if editing existing product(s)
     useEffect(() => {
         if (productId) {
             fetchProduct(productId);
@@ -281,32 +273,29 @@ const PostProductPage = () => {
     }, []);
 
     const fetchProduct = async (id) => {
-
         try {
             const response = await axios.get(`http://localhost:5000/products/${id}`);
             const data = response.data;
-            console.log('data: ', data);
             setTitle(data.name);
             setPrice(data.price);
             setProductType(data.productType);
             setDescription(data.description);
             setFetchedImgData(data.pictures);
 
-            let fetchedImgArr = [];
+            let fetchedImgURLs = [];
 
             if (data.pictures && data.pictures.length > 0) {
                 for (let imgObj of data.pictures) {
-                    fetchedImgArr.push(imgObj.url);
+                    fetchedImgURLs.push(imgObj.url);
                 }
             }
 
-            setImageURLs(fetchedImgArr);
+            setExistingImagesURLs(fetchedImgURLs);
 
         } catch (error) {
             console.log('error in fetch product in PostProduct.js: ', error);
         }
     };
-
 
 
     return (
@@ -398,7 +387,7 @@ const PostProductPage = () => {
                                                     margin: '0px 10px 0px 0px'
                                                 }}
                                             >Images (max. 10)</h4>
-                                            {imageFiles.length < 10 && (
+                                            {newlyUploadedImageFiles.length + existingImagesURLs.length < 10 && (
                                                 <>
                                                     <Button
                                                         type='button'
@@ -444,25 +433,63 @@ const PostProductPage = () => {
 
                                         </div>
 
-                                        {imageURLs && imageURLs.map((url, idx) => (
-                                            <div
-                                                key={idx}
-                                                style={{
-                                                    display: 'inline-block',
-                                                    width: '200px',
-                                                    height: '200px',
-                                                    border: '1px solid black',
-                                                    margin: '10px 20px 10px 0px',
-                                                    position: 'relative'
-                                                }}
-                                            >
-                                                <ImageUpload
-                                                    url={url}
-                                                    idx={idx}
-                                                    deleteImgUpload={deleteImgUpload}
-                                                />
-                                            </div>
-                                        ))}
+                                        {(productId || (itemSelectedIdArr && itemSelectedIdArr.length > 0)) && (
+                                            <>
+                                                <h6>Previously Uploaded</h6>
+                                                {existingImagesURLs && existingImagesURLs.length > 0 ?
+                                                    existingImagesURLs.map((url, idx) => (
+                                                        <div
+                                                            key={idx}
+                                                            style={{
+                                                                display: 'inline-block',
+                                                                width: '200px',
+                                                                height: '200px',
+                                                                border: '1px solid black',
+                                                                margin: '10px 20px 10px 0px',
+                                                                position: 'relative'
+                                                            }}
+                                                        >
+                                                            <ImageUpload
+                                                                url={url}
+                                                                idx={idx}
+                                                                existing={true}
+                                                                deleteImgUpload={deleteImgUpload}
+                                                            />
+                                                        </div>
+                                                    )) : (
+                                                        <p>None or all deleted.</p>
+                                                    )}
+
+                                                <h6>Newly Uploaded</h6>
+                                            </>
+                                        )}
+
+                                        {newlyUploadedImageURLs
+                                            && newlyUploadedImageURLs.length === 0 ? (
+                                            <p>None.</p>
+                                        ) : (
+                                            newlyUploadedImageURLs.map((url, idx) => (
+                                                <div
+                                                    key={idx}
+                                                    style={{
+                                                        display: 'inline-block',
+                                                        width: '200px',
+                                                        height: '200px',
+                                                        border: '1px solid black',
+                                                        margin: '10px 20px 10px 0px',
+                                                        position: 'relative'
+                                                    }}
+                                                >
+                                                    <ImageUpload
+                                                        url={url}
+                                                        idx={idx}
+                                                        existing={false}
+                                                        deleteImgUpload={deleteImgUpload}
+                                                    />
+                                                </div>
+                                            ))
+                                        )}
+
                                     </Col>
 
                                     <div className='d-flex align-items-center'>
@@ -489,7 +516,7 @@ const PostProductPage = () => {
                                                         margin: '0px 10px 0px 10px'
                                                     }}
                                                 >
-                                                    Uploaded {imageUploadNum} of {imageFiles.length} images.
+                                                    Uploaded {imageUploadNum} of {newlyUploadedImageFiles.length} images.
                                                 </span>
                                             </>
                                         }
