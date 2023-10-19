@@ -154,13 +154,94 @@ const PostProductPage = () => {
 
         let uploadNum = 0;
         let imgDataArray = [];
+        let deletePublicIdArr = [];
 
         try {
             // First, check the server. Don't upload photos if the server is down.
             await axiosWithAuth.get('/cloudinary');
 
+
+            // SCENARIO ONE: POST operation on new listing.
+            if (!itemSelectedIdArr && !productId) {
+                // First, upload images to Cloudinary.
+                if (newlyUploadedImageFiles.length > 0) {
+                    try {
+                        await imgUpload(newlyUploadedImageFiles, uploadNum, imgDataArray);
+                    } catch (error) {
+                        console.log('Error with Cloudinary:', error);
+                    }
+                }
+
+                // Then, post to server.
+                updatedInfo.pictures = imgDataArray;
+                const response = await axiosWithAuth.post('/products', {
+                    updatedInfo
+                });
+
+                switchPage(response.data.product);
+            }
+
+            // Otherwise, if there is an itemSelectedIdArr or a productId, then we will be updating an existing(s) product(s). But in either case, we will need to update the images anyway. 
+            else {
+
+                // Find images missing in exiting imageURLs from original fetchedImgData.
+                let deleteImagesObj = [];
+                for (let image of fetchedImgData) {
+                    if (!existingImagesURLs.includes(image.url)) {
+                        deleteImagesObj.push(image);
+                    }
+                }
+
+                // If images should be deleted, first delete from Cloudinary via their public id.
+                if (deleteImagesObj.length > 0) {
+                    try {
+                        const deletePromises = deleteImagesObj.map(async (image) => {
+                            deletePublicIdArr.push(image.publicId);
+                            await axiosWithAuth.delete(`/cloudinary/${image.publicId}`);
+                        });
+
+                        await Promise.all(deletePromises);
+
+                        // Include deletePublicIdArr as a property for updatedInfo, so these can also be deleted from our server.
+                        updatedInfo.deletePublicIdArr = deletePublicIdArr;
+                    } catch (error) {
+                        console.log('Error deleting images:', error);
+                    }
+                }
+
+                // After existing images are deleted, upload any newly uploaded images to Cloudinary.
+                if (newlyUploadedImageFiles.length > 0) {
+                    const newImages = await imgUpload(newlyUploadedImageFiles, uploadNum, imgDataArray, updatedInfo);
+                    updatedInfo.newImageData = newImages;
+                }
+
+                // With the images now taken care of, let's now go through the possible scenarios again.
+
+                // SCENARIO TWO: PUT operation for an existing SINGLE product.
+                if (productId && !itemSelectedIdArr) {
+                    const response = await axiosWithAuth.put(`/products/${productId}`, {
+                        updatedInfo
+                    });
+                    switchPage(response.data);
+                }
+
+                // SCENARIO THREE: PUT operation for updating existing MULTIPLE products
+                else if (itemSelectedIdArr && itemSelectedIdArr.length > 0) {
+                    const response = await axiosWithAuth.put(`/products/multiple/items`, {
+                        itemSelectedIdArr,
+                        updatedInfo
+                    });
+                    switchPage(response.data);
+                }
+
+            }
+
+
+            /*
+
             // SCENARIO ONE: PUT operation for updating existing MULTIPLE products
             if (itemSelectedIdArr && !productId) {
+                // Attach image data to updatedInfo
                 const response = await axiosWithAuth.put(`/products/multiple/items`, {
                     productIds: itemSelectedIdArr,
                     updatedInfo
@@ -229,6 +310,8 @@ const PostProductPage = () => {
 
                 switchPage(response.data.product);
             }
+            
+            */
         } catch (error) {
             console.log('Error in handleSubmit() in PostProduct.js: ', error);
         } finally {

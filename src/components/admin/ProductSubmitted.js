@@ -26,10 +26,8 @@ const ProductSubmitted = () => {
         setProductType(queryParams.get('productType'));
         setThumbnailURL(queryParams.get('thumbnailURL'));
         setProductId(queryParams.get('productId'));
-
         setItemsLength(queryParams.get('itemsLength'));
 
-        console.log('product id: ', productId);
 
     }, []);
 
@@ -42,7 +40,7 @@ const ProductSubmitted = () => {
                     <Col>
                         {itemsLength > 0 ? (
                             <h1>{itemsLength} products have been updated!</h1>
-                        ) : productId ? (
+                        ) : productId && productId !== "undefined" ? (
                             <h1>Your product has been updated!</h1>
                         ) : (
                             <h1>Your product has been submitted!</h1>
