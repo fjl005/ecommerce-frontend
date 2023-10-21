@@ -1,6 +1,7 @@
 import { Carousel, CarouselItem } from 'reactstrap';
 import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import fetsyEcommerceLogo from '../../img/fetsyEcommerceLogo.png';
 
 /*
 To set up a carousel, you need the following:
@@ -10,13 +11,23 @@ To set up a carousel, you need the following:
 */
 
 const ProductImgCarousel = ({ selectedProduct }) => {
-    const imgArray = selectedProduct.img;
+    const imgObjArray = selectedProduct.pictures;
+    const imgURLArray = [];
+
+    console.log('img obj array: ', imgObjArray);
+
+    if (imgObjArray.length === 0) {
+        imgURLArray.push(null);
+    }
+    for (let imgObj of imgObjArray) {
+        imgURLArray.push(imgObj.url);
+    }
 
     const [currImg, setCurrImg] = useState(0);
 
     const next = () => {
         // Example: if we have an array [0, 1, 2], and the current index is 0, we would add 1 then % the length, giving us 1 % 3 = 0 Remainder 1. % the length should simply give us the index. But, if we're at the last index, and we do 3 % 3, it gives us 1 Remainder 0, bringing us back to the first index 0.
-        const nextIndex = (currImg + 1) % imgArray.length;
+        const nextIndex = (currImg + 1) % imgURLArray.length;
         console.log('current index is: ', currImg);
         console.log('next index is: ', nextIndex);
         setCurrImg(nextIndex);
@@ -24,7 +35,7 @@ const ProductImgCarousel = ({ selectedProduct }) => {
 
     const previous = () => {
         // Similar concept to the next function, but we add the length to prevent any negative numbers (in case the currImg is at 0).
-        const prevIndex = (currImg - 1 + imgArray.length) % imgArray.length;
+        const prevIndex = (currImg - 1 + imgURLArray.length) % imgURLArray.length;
         console.log('current index is: ', currImg);
         console.log('previous index is: ', prevIndex);
         setCurrImg(prevIndex);
@@ -53,10 +64,10 @@ const ProductImgCarousel = ({ selectedProduct }) => {
                         left: '0px',
                     }}>
 
-                        {imgArray.map((image, idx) => (
+                        {imgURLArray.map((image, idx) => (
                             <img
                                 key={idx}
-                                src={image}
+                                src={image === null ? fetsyEcommerceLogo : image}
                                 alt={selectedProduct.name}
                                 className='product-img-array-image-thumbnail'
                                 style={{
@@ -95,11 +106,11 @@ const ProductImgCarousel = ({ selectedProduct }) => {
                             flex: '1',
                         }}
                     >
-                        {imgArray.map((image, idx) => (
+                        {imgURLArray.map((image, idx) => (
                             <CarouselItem key={idx}>
                                 <div className='d-flex align-items-center'>
                                     <img
-                                        src={image}
+                                        src={image === null ? fetsyEcommerceLogo : image}
                                         alt={selectedProduct.name}
                                         style={{
                                             width: '100%',
@@ -149,13 +160,13 @@ const ProductImgCarousel = ({ selectedProduct }) => {
 
                         child one
 
-                        {/* {imgArray.map((image, idx) => (
+                        {/* {.map((image, idx) => (
                             <div key={idx} style={{ position: "relative", width: "100px", height: "100px" }}>
                                 <img src={image} alt={`Image ${idx}`} style={{ position: 'absolute', width: "100%", height: "100%", objectFit: "cover" }} />
                             </div>
                         ))} */}
 
-            {/* {imgArray.map((image, idx) => (
+            {/* {.map((image, idx) => (
                             <img key={idx} src={image} alt={`Image ${idx}`} style={{ width: "100px", height: "100px", objectFit: "cover" }} />
                         ))}
 

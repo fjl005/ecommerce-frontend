@@ -30,6 +30,7 @@ const SingleProductPage = () => {
             const data = response.data;
             setSelectedProduct(data);
             setFetchDone(true);
+            console.log('data: ', data);
 
         } catch (error) {
             console.log('error: ', error);
@@ -76,7 +77,7 @@ const SingleProductPage = () => {
                 <Container className='product-page-container'>
                     <Row>
                         <Col sm='12' xl='8' style={{ marginBottom: '20px' }}>
-                            <ProductImgCarousel selectedProduct={productsArray[0]} />
+                            <ProductImgCarousel selectedProduct={selectedProduct} />
                             {/* d-none makes the display none on all viewport sizes, but d-md-block applies the display: block to md+ viewport sizes. This makes it visible at these viewport sizes. */}
 
                             <div className="d-none d-xl-block" style={{ marginTop: '20px' }}>

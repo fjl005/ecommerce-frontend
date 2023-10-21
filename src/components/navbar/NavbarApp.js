@@ -20,8 +20,10 @@ import { useEffect, useState } from 'react';
 import { useLoginContext } from '../login/LoginContext';
 import LoadingOverlay from '../miscellaneous/LoadingOverlay';
 import { useCartContext } from '../cart/CartContext';
+import fetsyEcommerceLogo from '../../img/fetsyEcommerceLogo.png';
+import fetsyNavbarBrand from '../../img/fetsyNavbarBrand.png';
 
-const NavbarApp = ({ isCheckout }) => {
+const NavbarApp = ({ isCheckout, currentPage }) => {
     const { cartLength, setCartLength, setSavedLength } = useCartContext();
     const { loggedIn, showLoginButton, triggerLogout, admin } = useLoginContext();
     const [isOpen, setIsOpen] = useState(false); // Add state for Navbar toggling
@@ -29,6 +31,8 @@ const NavbarApp = ({ isCheckout }) => {
     const toggleNavbar = () => {
         setIsOpen(!isOpen);
     };
+
+    const signedInNavItems = ['Orders', 'Favorites', 'Reviews']
 
     return (
         <Navbar color="light" light expand="lg">
@@ -40,7 +44,14 @@ const NavbarApp = ({ isCheckout }) => {
                 <div className='d-flex flex-row align-items-center'>
 
                     <NavbarBrand tag={Link} to="/" className='d-flex align-items-start'>
-                        Fetsy
+                        <img
+                            src={fetsyNavbarBrand}
+                            alt="Fetsy Navbar Logo"
+                            style={{
+                                width: '100px',
+                                height: 'auto',
+                            }}
+                        />
                     </NavbarBrand>
 
                     <Collapse isOpen={isOpen} navbar>
@@ -49,25 +60,43 @@ const NavbarApp = ({ isCheckout }) => {
                             <Nav className='mr-auto' navbar>
                                 {loggedIn && (
                                     <>
-                                        <NavItem>
-                                            <NavLink tag={Link} to="/orders" style={{ marginTop: '1px' }}>
+                                        {signedInNavItems.map((navText, idx) => (
+                                            <NavItem
+                                                key={idx}
+                                                className={currentPage === navText ? 'selected-navbar-background' : ''}
+                                            >
+                                                <NavLink
+                                                    tag={Link}
+                                                    to={`/${navText}`}
+                                                >
+                                                    {navText}
+                                                </NavLink>
+                                            </NavItem>
+                                        ))}
+                                        {/* <NavItem style={{ backgroundColor: '#D8BFD8' }}>
+                                            <NavLink tag={Link} to="/orders">
                                                 Orders
                                             </NavLink>
                                         </NavItem>
                                         <NavItem>
-                                            <NavLink tag={Link} to="/favorites" style={{ marginTop: '1px' }}>
+                                            <NavLink tag={Link} to="/favorites">
                                                 Favorites
                                             </NavLink>
                                         </NavItem>
                                         <NavItem>
-                                            <NavLink tag={Link} to="/reviews" style={{ marginTop: '1px' }}>
+                                            <NavLink tag={Link} to="/reviews">
                                                 Reviews
                                             </NavLink>
-                                        </NavItem>
+                                        </NavItem> */}
                                     </>
                                 )}
-                                <NavItem>
-                                    <NavLink tag={Link} to="/signup" style={{ marginTop: '1px', whiteSpace: 'nowrap' }}>
+                                <NavItem
+                                    className={currentPage === 'Signup' ? 'selected-navbar-background' : ''}
+                                >
+                                    <NavLink
+                                        tag={Link}
+                                        to="/signup"
+                                        style={{ whiteSpace: 'nowrap' }}>
                                         Sign Up
                                     </NavLink>
                                 </NavItem>
@@ -89,7 +118,10 @@ const NavbarApp = ({ isCheckout }) => {
                     <Nav navbar
                         className='d-flex align-items-center justify-content-between'
                     >
-                        <NavItem style={{ marginRight: '20px' }}>
+                        <NavItem
+                            className={currentPage === 'Cart' ? 'selected-navbar-background' : ''}
+                            style={{ marginRight: '20px' }}
+                        >
                             <NavLink tag={Link} to="/cart">
                                 <i
                                     class="fa-solid fa-cart-shopping"

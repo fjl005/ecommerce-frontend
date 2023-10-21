@@ -2,6 +2,7 @@ import FiveStarGenerator from "./FiveStarGenerator";
 import { axiosWithAuth } from "../miscellaneous/axiosWithAuth";
 import { useEffect, useState } from "react";
 import twoPageAirbnb from '../../img/twoPageAirbnb.png';
+import fetsyEcommerceLogo from '../../img/fetsyEcommerceLogo.png';
 import { Link } from 'react-router-dom';
 
 const ReviewsChecklistView = ({ starRating, ratingDescription, productId, username, dateOfReview }) => {
@@ -58,7 +59,7 @@ const ReviewsChecklistView = ({ starRating, ratingDescription, productId, userna
                 }}
             >
                 <img
-                    src={twoPageAirbnb}
+                    src={productData.pictures && productData.pictures.length > 0 ? productData.pictures[0].url : fetsyEcommerceLogo}
                     alt='alt image'
                     style={{
                         width: '200px'

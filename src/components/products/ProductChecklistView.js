@@ -1,5 +1,6 @@
 import { Container, Row, Col, Button } from 'reactstrap';
 import twoPageAirbnb from '../../img/twoPageAirbnb.png';
+import fetsyEcommerceLogo from '../../img/fetsyEcommerceLogo.png';
 import { Link } from 'react-router-dom';
 import FiveStarGenerator from '../reviews/FiveStarGenerator';
 import { useCartContext } from '../cart/CartContext';
@@ -37,7 +38,6 @@ const ProductChecklistView = ({
             fetchReview(productItem._id.toString());
         }
         setLoadingProduct(false);
-
     }, []);
 
     const fetchReview = async (purchasedItemId) => {
@@ -105,7 +105,9 @@ const ProductChecklistView = ({
                     <Row style={{ paddingTop: '10px', marginBottom: '10px', }}>
                         <Col xs='12' sm='4' md='3'>
                             <img
-                                src={twoPageAirbnb}
+                                src={
+                                    (productItem.pictures && productItem.pictures.length > 0) ? productItem.pictures[0].url : fetsyEcommerceLogo
+                                }
                                 alt={`image for ${productItem.name}`}
                                 style={{
                                     width: '100%',

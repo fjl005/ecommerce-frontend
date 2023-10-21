@@ -45,7 +45,7 @@ const OrdersPage = () => {
 
     return (
         <>
-            <NavbarApp />
+            <NavbarApp currentPage='Orders' />
             {loadingPage ? (
                 <Container>
                     <Row>

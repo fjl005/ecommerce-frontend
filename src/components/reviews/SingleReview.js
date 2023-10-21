@@ -1,5 +1,6 @@
 import { Container, Row, Col, Button } from "reactstrap";
 import twoPageAirbnb from '../../img/twoPageAirbnb.png';
+import fetsyEcommerceLogo from '../../img/fetsyEcommerceLogo.png';
 import FiveStarGenerator from "./FiveStarGenerator";
 import { useEffect, useState } from "react";
 import { axiosWithAuth } from "../miscellaneous/axiosWithAuth";
@@ -59,7 +60,8 @@ const SingleReview = ({ productId, purchasedItemId, starRating, ratingDescriptio
                     <Row>
                         <Col md='3'>
                             <img
-                                src={twoPageAirbnb}
+                                src={
+                                    (productData.pictures && productData.pictures.length > 0) ? productData.pictures[0].url : fetsyEcommerceLogo}
                                 alt='alt text'
                                 style={{
                                     width: '100%'

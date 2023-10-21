@@ -457,70 +457,106 @@ const PostProductPage = () => {
                                         </Field>
                                         <ErrorMessage name='productType' component='div' className='text-danger' />
                                     </Col>
+
+
                                     <Col>
-                                        <div
-                                            style={{
-                                                display: 'flex',
-                                                alignItems: 'center',
-                                                marginTop: '20px'
-                                            }}
-                                        >
-                                            <h4
-                                                style={{
-                                                    margin: '0px 10px 0px 0px'
-                                                }}
-                                            >Images (max. 10)</h4>
-                                            {newlyUploadedImageFiles.length + existingImagesURLs.length < 10 && (
-                                                <>
-                                                    <Button
-                                                        type='button'
-                                                        style={{
-                                                            margin: '0px',
-                                                            padding: '0px',
-                                                            textAlign: 'center',
-                                                            display: 'flex',
-                                                            alignItems: 'center',
-                                                        }}
-                                                    >
-                                                        <Label
-                                                            htmlFor="img"
-                                                            style={{
-                                                                cursor: 'pointer',
-                                                                padding: '5px',
-                                                                margin: '0px'
-                                                            }}
-                                                        >
-                                                            Choose Files
-                                                        </Label>
-                                                    </Button>
-                                                    <Input
-                                                        name='productImg'
-                                                        id='img'
-                                                        type='file'
-                                                        accept='image/*'
-                                                        multiple
-                                                        onChange={handleImageChange}
-                                                        style={{ fontSize: 0, display: 'none' }} // Set font-size to 0 to hide the text
-                                                    // disabled={} 
-                                                    />
-                                                </>
-
-                                            )}
-
-                                            <h5
-                                                style={{
-                                                    margin: '0 0 0 10px',
-                                                    color: 'red'
-                                                }}
-                                            >{fileErrorMsg}</h5>
-
-                                        </div>
-
-                                        {(productId || (itemSelectedIdArr && itemSelectedIdArr.length > 0)) && (
+                                        {itemSelectedIdArr ? (
+                                            <h4>Currently, images cannot be updated when editing multiple products</h4>
+                                        ) : (
                                             <>
-                                                <h6>Previously Uploaded</h6>
-                                                {existingImagesURLs && existingImagesURLs.length > 0 ?
-                                                    existingImagesURLs.map((url, idx) => (
+                                                <div
+                                                    style={{
+                                                        display: 'flex',
+                                                        alignItems: 'center',
+                                                        marginTop: '20px'
+                                                    }}
+                                                >
+                                                    <h4
+                                                        style={{
+                                                            margin: '0px 10px 0px 0px'
+                                                        }}
+                                                    >Images (max. 10)</h4>
+                                                    {newlyUploadedImageFiles.length + existingImagesURLs.length < 10 && (
+                                                        <>
+                                                            <Button
+                                                                type='button'
+                                                                style={{
+                                                                    margin: '0px',
+                                                                    padding: '0px',
+                                                                    textAlign: 'center',
+                                                                    display: 'flex',
+                                                                    alignItems: 'center',
+                                                                }}
+                                                            >
+                                                                <Label
+                                                                    htmlFor="img"
+                                                                    style={{
+                                                                        cursor: 'pointer',
+                                                                        padding: '5px',
+                                                                        margin: '0px'
+                                                                    }}
+                                                                >
+                                                                    Choose Files
+                                                                </Label>
+                                                            </Button>
+                                                            <Input
+                                                                name='productImg'
+                                                                id='img'
+                                                                type='file'
+                                                                accept='image/*'
+                                                                multiple
+                                                                onChange={handleImageChange}
+                                                                style={{ fontSize: 0, display: 'none' }} // Set font-size to 0 to hide the text
+                                                            // disabled={} 
+                                                            />
+                                                        </>
+
+                                                    )}
+
+                                                    <h5
+                                                        style={{
+                                                            margin: '0 0 0 10px',
+                                                            color: 'red'
+                                                        }}
+                                                    >{fileErrorMsg}</h5>
+                                                </div>
+
+                                                {(productId || (itemSelectedIdArr && itemSelectedIdArr.length > 0)) && (
+                                                    <>
+                                                        <h6>Previously Uploaded</h6>
+                                                        {existingImagesURLs && existingImagesURLs.length > 0 ?
+                                                            existingImagesURLs.map((url, idx) => (
+                                                                <div
+                                                                    key={idx}
+                                                                    style={{
+                                                                        display: 'inline-block',
+                                                                        width: '200px',
+                                                                        height: '200px',
+                                                                        border: '1px solid black',
+                                                                        margin: '10px 20px 10px 0px',
+                                                                        position: 'relative'
+                                                                    }}
+                                                                >
+                                                                    <ImageUpload
+                                                                        url={url}
+                                                                        idx={idx}
+                                                                        existing={true}
+                                                                        deleteImgUpload={deleteImgUpload}
+                                                                    />
+                                                                </div>
+                                                            )) : (
+                                                                <p>None or all deleted.</p>
+                                                            )}
+
+                                                        <h6>Newly Uploaded</h6>
+                                                    </>
+                                                )}
+
+                                                {newlyUploadedImageURLs
+                                                    && newlyUploadedImageURLs.length === 0 ? (
+                                                    <p>None.</p>
+                                                ) : (
+                                                    newlyUploadedImageURLs.map((url, idx) => (
                                                         <div
                                                             key={idx}
                                                             style={{
@@ -535,43 +571,19 @@ const PostProductPage = () => {
                                                             <ImageUpload
                                                                 url={url}
                                                                 idx={idx}
-                                                                existing={true}
+                                                                existing={false}
                                                                 deleteImgUpload={deleteImgUpload}
                                                             />
                                                         </div>
-                                                    )) : (
-                                                        <p>None or all deleted.</p>
-                                                    )}
+                                                    ))
+                                                )}
 
-                                                <h6>Newly Uploaded</h6>
                                             </>
+
                                         )}
 
-                                        {newlyUploadedImageURLs
-                                            && newlyUploadedImageURLs.length === 0 ? (
-                                            <p>None.</p>
-                                        ) : (
-                                            newlyUploadedImageURLs.map((url, idx) => (
-                                                <div
-                                                    key={idx}
-                                                    style={{
-                                                        display: 'inline-block',
-                                                        width: '200px',
-                                                        height: '200px',
-                                                        border: '1px solid black',
-                                                        margin: '10px 20px 10px 0px',
-                                                        position: 'relative'
-                                                    }}
-                                                >
-                                                    <ImageUpload
-                                                        url={url}
-                                                        idx={idx}
-                                                        existing={false}
-                                                        deleteImgUpload={deleteImgUpload}
-                                                    />
-                                                </div>
-                                            ))
-                                        )}
+
+
 
                                     </Col>
 

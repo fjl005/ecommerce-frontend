@@ -20,6 +20,7 @@ const ReviewsInSingleProductPage = () => {
     }, []);
 
     useEffect(() => {
+        console.log('reviews data: ', reviewsData);
         calculateAvgReview();
     }, [reviewsData]);
 
@@ -36,7 +37,7 @@ const ReviewsInSingleProductPage = () => {
     }
 
     const calculateAvgReview = () => {
-        if (!reviewsData) {
+        if (reviewsData.length === 0) {
             setAverageRating(0);
         } else {
             let sumReviews = 0;
@@ -93,7 +94,7 @@ const ReviewsInSingleProductPage = () => {
         <>
             {loadingReviews ? (
                 <SpinningIcon size='2x' />
-            ) : !reviewsData ? (
+            ) : reviewsData.length === 0 ? (
                 <h2>No Reviews from this Shop Yet.</h2>
             ) : (
                 <>

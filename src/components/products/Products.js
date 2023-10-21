@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import axios from 'axios';
 import { useEffect, useState } from "react";
 import twoPageAirbnb from '../../img/twoPageAirbnb.png';
+import fetsyEcommerceLogo from '../../img/fetsyEcommerceLogo.png';
 import { axiosWithAuth } from "../miscellaneous/axiosWithAuth";
 
 
@@ -11,7 +12,6 @@ const Products = ({ adminPage, itemSelectedIdArr, setItemSelectedIdArr, reloadPr
 
     const [productsDB, setProductsDB] = useState([]);
     const [fetchDone, setFetchDone] = useState(false);
-    // const [itemSelectIdArr, setItemSelectIdArr] = useState([]);
 
     useEffect(() => {
         fetchProducts();
@@ -72,7 +72,7 @@ const Products = ({ adminPage, itemSelectedIdArr, setItemSelectedIdArr, reloadPr
         <Container>
             <Row>
                 <Col>
-                    <h1>Products (accessing mongodb)</h1>
+                    <h1>Products</h1>
                 </Col>
             </Row>
             <Row>
@@ -105,7 +105,7 @@ const Products = ({ adminPage, itemSelectedIdArr, setItemSelectedIdArr, reloadPr
                                             />
                                         ) : (
                                             <img
-                                                src={twoPageAirbnb}
+                                                src={fetsyEcommerceLogo}
                                                 alt='image of product'
                                                 style={{
                                                     width: '100%',

@@ -47,7 +47,7 @@ const FavoritesPage = () => {
     return (
         <>
             {favoritesLoadingOverlay && <LoadingOverlay />}
-            <NavbarApp />
+            <NavbarApp currentPage='Favorites' />
             <Container>
                 <Row>
                     <Col>

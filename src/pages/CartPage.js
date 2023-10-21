@@ -114,12 +114,10 @@ const CartPage = () => {
     };
 
 
-
-
     return (
         <>
             {loadingCartAndSaved && <LoadingOverlay />}
-            <NavbarApp />
+            <NavbarApp currentPage='Cart' />
             <Container>
                 <Row>
                     <Col>

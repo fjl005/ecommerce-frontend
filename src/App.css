@@ -206,3 +206,8 @@
 
     /* Add more styles for medium screens and above here */
 }
+
+/* Navbar */
+.selected-navbar-background {
+    background-color: #d8d8d8;
+}

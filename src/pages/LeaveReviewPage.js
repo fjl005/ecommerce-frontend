@@ -4,6 +4,7 @@ import { useParams, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { axiosWithAuth } from "../components/miscellaneous/axiosWithAuth";
 import twoPageAirbnb from '../img/twoPageAirbnb.png';
+import fetsyEcommerceLogo from '../img/fetsyEcommerceLogo.png';
 import { useLoginContext } from "../components/login/LoginContext";
 import FiveStarGenerator from "../components/reviews/FiveStarGenerator";
 
@@ -119,7 +120,10 @@ const LeaveReviewPage = () => {
                             width: '50%'
                         }}>
                             <img
-                                src={twoPageAirbnb}
+                                src={
+                                    // (productName.pictures && product.pictures.length > 0) ? productName.pictures[0].url : fetsyEcommerceLogo
+                                    fetsyEcommerceLogo
+                                }
                                 alt={`image for ${productName}`}
                                 style={{
                                     width: '100%',

@@ -30,7 +30,7 @@ const ReviewsPage = () => {
 
     return (
         <>
-            <NavbarApp />
+            <NavbarApp currentPage='Reviews' />
             {loadingReviewsPage ? (
                 <Container>
                     <Row>

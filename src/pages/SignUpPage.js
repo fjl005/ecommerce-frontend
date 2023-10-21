@@ -39,7 +39,7 @@ const SignUpPage = () => {
 
     return (
         <>
-            <NavbarApp />
+            <NavbarApp currentPage='Signup' />
             <Container>
                 <Row>
                     <Col>
