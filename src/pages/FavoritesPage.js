@@ -17,11 +17,6 @@ const FavoritesPage = () => {
     const [loadingFavoritesPage, setLoadingFavoritesPage] = useState(true);
     const [favoritesLoadingOverlay, setFavoritesLoadingOverlay] = useState(false);
 
-    // Performed only at initial render.
-    // useEffect(() => {
-    //     fetchAllFavorites();
-    // }, []);
-
     // Performed whenever an item is removed from Favorites or added to Cart.
     useEffect(() => {
         if (!favoritesLoadingOverlay) {
@@ -52,13 +47,9 @@ const FavoritesPage = () => {
                 <Row>
                     <Col>
                         {loadingFavoritesPage ? (
-                            <>
-                                <SpinningIcon size='2x' />
-                            </>
+                            <SpinningIcon size='2x' />
                         ) : !loggedIn ? (
-                            <>
-                                <h1>You must log in to view your Favorites.</h1>
-                            </>
+                            <h1>You must log in to view your Favorites.</h1>
                         ) : favoritesData.length > 0 ? (
                             <>
                                 <h1>

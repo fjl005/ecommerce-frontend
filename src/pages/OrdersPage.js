@@ -42,55 +42,37 @@ const OrdersPage = () => {
     }
 
 
-
     return (
         <>
             <NavbarApp currentPage='Orders' />
-            {loadingPage ? (
-                <Container>
-                    <Row>
-                        <Col>
+            <Container>
+                <Row>
+                    <Col>
+                        {loadingPage ? (
                             <SpinningIcon size='2x' />
-                        </Col>
-                    </Row>
-                </Container>
-            ) : !loggedIn ? (
-                <Container>
-                    <Row>
-                        <Col>
+                        ) : !loggedIn ? (
                             <h1>You must log in to see your orders.</h1>
-                        </Col>
-                    </Row>
-                </Container>
-            ) : (
-                <>
-                    <Container>
-                        <Row>
-                            <Col>
-                                <h1>View Your Orders</h1>
-                            </Col>
-                        </Row>
-                    </Container>
-
-                    {ordersData.length > 0 ?
-                        ordersData.map((order, idx) => (
-                            <ItemsInOrder
-                                key={idx}
-                                order={order}
-                                orderId={order._id}
-                            />
-                        )) : (
-                            <Container>
-                                <Row>
-                                    <Col>
-                                        <p>No Orders</p>
-                                    </Col>
-                                </Row>
-                            </Container>
-                        )
-                    }
-                </>
-            )}
+                        ) : (
+                            ordersData.length > 0 ? (
+                                <>
+                                    <h1>View Your Orders</h1>
+                                    {ordersData.length > 0 &&
+                                        ordersData.map((order, idx) => (
+                                            <ItemsInOrder
+                                                key={idx}
+                                                order={order}
+                                                orderId={order._id}
+                                            />
+                                        ))
+                                    }
+                                </>
+                            ) : (
+                                <h1>No Orders</h1>
+                            )
+                        )}
+                    </Col>
+                </Row>
+            </Container>
         </>
     )
 };

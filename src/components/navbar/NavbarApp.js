@@ -22,6 +22,9 @@ import LoadingOverlay from '../miscellaneous/LoadingOverlay';
 import { useCartContext } from '../cart/CartContext';
 import fetsyEcommerceLogo from '../../img/fetsyEcommerceLogo.png';
 import fetsyNavbarBrand from '../../img/fetsyNavbarBrand.png';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCartShopping } from '@fortawesome/free-solid-svg-icons';
+
 
 const NavbarApp = ({ isCheckout, currentPage }) => {
     const { cartLength, setCartLength, setSavedLength } = useCartContext();
@@ -40,7 +43,6 @@ const NavbarApp = ({ isCheckout, currentPage }) => {
                 className='d-flex flex-row align-items-center justify-content-between'
             >
                 <NavbarToggler onClick={toggleNavbar} style={{ marginRight: '20px' }} />
-
                 <div className='d-flex flex-row align-items-center'>
 
                     <NavbarBrand tag={Link} to="/" className='d-flex align-items-start'>
@@ -55,7 +57,6 @@ const NavbarApp = ({ isCheckout, currentPage }) => {
                     </NavbarBrand>
 
                     <Collapse isOpen={isOpen} navbar>
-
                         {!isCheckout && (
                             <Nav className='mr-auto' navbar>
                                 {loggedIn && (
@@ -63,47 +64,38 @@ const NavbarApp = ({ isCheckout, currentPage }) => {
                                         {signedInNavItems.map((navText, idx) => (
                                             <NavItem
                                                 key={idx}
-                                                className={currentPage === navText ? 'selected-navbar-background' : ''}
+                                                className={currentPage === navText ? 'selected-navbar-background' : 'navbar-hover'}
                                             >
                                                 <NavLink
                                                     tag={Link}
                                                     to={`/${navText}`}
+                                                    style={{
+                                                        color: currentPage === navText ? 'white' : 'black'
+                                                    }}
                                                 >
                                                     {navText}
                                                 </NavLink>
                                             </NavItem>
                                         ))}
-                                        {/* <NavItem style={{ backgroundColor: '#D8BFD8' }}>
-                                            <NavLink tag={Link} to="/orders">
-                                                Orders
-                                            </NavLink>
-                                        </NavItem>
-                                        <NavItem>
-                                            <NavLink tag={Link} to="/favorites">
-                                                Favorites
-                                            </NavLink>
-                                        </NavItem>
-                                        <NavItem>
-                                            <NavLink tag={Link} to="/reviews">
-                                                Reviews
-                                            </NavLink>
-                                        </NavItem> */}
                                     </>
                                 )}
                                 <NavItem
-                                    className={currentPage === 'Signup' ? 'selected-navbar-background' : ''}
+                                    className={currentPage === 'Signup' ? 'selected-navbar-background' : 'navbar-hover'}
                                 >
                                     <NavLink
                                         tag={Link}
                                         to="/signup"
-                                        style={{ whiteSpace: 'nowrap' }}>
+                                        style={{
+                                            whiteSpace: 'nowrap',
+                                            color: currentPage === 'Signup' ? 'white' : 'black'
+                                        }}
+                                    >
                                         Sign Up
                                     </NavLink>
                                 </NavItem>
                             </Nav>
                         )}
                     </Collapse>
-
                 </div>
 
                 {!isCheckout && (
@@ -118,19 +110,26 @@ const NavbarApp = ({ isCheckout, currentPage }) => {
                     <Nav navbar
                         className='d-flex align-items-center justify-content-between'
                     >
-                        <NavItem
-                            className={currentPage === 'Cart' ? 'selected-navbar-background' : ''}
-                            style={{ marginRight: '20px' }}
-                        >
-                            <NavLink tag={Link} to="/cart">
-                                <i
-                                    class="fa-solid fa-cart-shopping"
+                        {loggedIn && (
+                            <NavItem
+                                className={currentPage === 'Cart' ? 'selected-navbar-background-cart' : 'navbar-hover'}
+                                style={{ marginRight: '20px' }}
+                            >
+                                <NavLink
+                                    tag={Link}
+                                    to="/cart"
                                     style={{
-                                        fontSize: '35px',
                                         position: 'relative',
-                                        padding: '5px',
                                     }}
                                 >
+                                    <FontAwesomeIcon
+                                        icon={faCartShopping}
+                                        style={{
+                                            fontSize: '35px',
+                                            padding: '5px',
+                                        }}
+                                    />
+
                                     {cartLength > 0 && (
                                         <div
                                             style={{
@@ -162,9 +161,10 @@ const NavbarApp = ({ isCheckout, currentPage }) => {
                                             </span>
                                         </div>
                                     )}
-                                </i>
-                            </NavLink>
-                        </NavItem>
+                                </NavLink>
+                            </NavItem>
+                        )}
+
 
                         <Collapse isOpen={isOpen} navbar>
 
@@ -212,7 +212,7 @@ const NavbarApp = ({ isCheckout, currentPage }) => {
                     </Nav>
                 )}
             </Container>
-        </Navbar>
+        </Navbar >
     )
 }
 

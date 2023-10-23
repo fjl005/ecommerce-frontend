@@ -209,5 +209,13 @@
 
 /* Navbar */
 .selected-navbar-background {
+    background-color: #8C52FF;
+}
+
+.selected-navbar-background-cart {
+    background-color: #d8d8d8;
+}
+
+.navbar-hover:hover {
     background-color: #d8d8d8;
 }

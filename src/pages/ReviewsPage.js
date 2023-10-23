@@ -31,43 +31,33 @@ const ReviewsPage = () => {
     return (
         <>
             <NavbarApp currentPage='Reviews' />
-            {loadingReviewsPage ? (
-                <Container>
-                    <Row>
-                        <Col>
+            <Container>
+                <Row>
+                    <Col>
+                        {loadingReviewsPage ? (
                             <SpinningIcon size='2x' />
-                        </Col>
-                    </Row>
-                </Container>
-            ) : !loggedIn ? (
-                <Container>
-                    <Row>
-                        <Col>
+                        ) : !loggedIn ? (
                             <h1>You must log in to view your Reviews.</h1>
-                        </Col>
-                    </Row>
-                </Container>
-            ) : (
-                <>
-                    <Container>
-                        <Row>
-                            <Col>
+                        ) : reviewsData.length > 0 ? (
+                            <>
                                 <h1>Your Reviews</h1>
-                            </Col>
-                        </Row>
-                    </Container>
-                    {reviewsData.length > 0 && reviewsData.map((review, idx) => (
-                        <SingleReview
-                            key={idx}
-                            productId={review.productId}
-                            purchasedItemId={review.purchasedItemId}
-                            starRating={review.starRating}
-                            ratingDescription={review.ratingDescription}
-                            dateOfReview={review.currentDate}
-                        />
-                    ))}
-                </>
-            )}
+                                {reviewsData.map((review, idx) => (
+                                    <SingleReview
+                                        key={idx}
+                                        productId={review.productId}
+                                        purchasedItemId={review.purchasedItemId}
+                                        starRating={review.starRating}
+                                        ratingDescription={review.ratingDescription}
+                                        dateOfReview={review.currentDate}
+                                    />
+                                ))}
+                            </>
+                        ) : (
+                            <h1>No Reviews</h1>
+                        )}
+                    </Col>
+                </Row>
+            </Container>
         </>
     )
 };

@@ -21,6 +21,8 @@ const ProductChecklistView = ({
     // inReviewsJs
 }) => {
 
+    console.log('product item: ', productItem);
+
     const [starRating, setStarRating] = useState(null);
     const [ratingDescription, setRatingDescription] = useState('');
     const [loadingProduct, setLoadingProduct] = useState(true);

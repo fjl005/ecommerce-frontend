@@ -7,13 +7,13 @@ const SignUpPage = () => {
 
     const [newUserUsername, setNewUserUsername] = useState('');
     const [newUserPassword, setNewUserPassword] = useState('');
+    const [repeatPassword, setRepeatPassword] = useState('');
     const [messageOnScreen, setMessageOnScreen] = useState('');
     const [messageTimeout, setMessageTimeout] = useState('');
     const [setupComplete, setSetupComplete] = useState(false);
 
     const handleSubmit = async (event) => {
 
-        console.log('submitting');
         event.preventDefault();
         if (messageTimeout) {
             console.log('pre clear: messageTimeout: ', messageTimeout);
@@ -21,12 +21,18 @@ const SignUpPage = () => {
             setMessageTimeout('');
         }
 
+        if (newUserPassword !== repeatPassword) {
+            return setMessageOnScreen('The passwords do not match');
+        }
+
         try {
             await axiosWithAuth.post('/users/signup', {
                 username: newUserUsername,
                 password: newUserPassword
             });
+            setMessageOnScreen('');
             setSetupComplete(true);
+
         } catch (error) {
             console.log('error: ', error);
             setMessageOnScreen(error.response.data);
@@ -74,10 +80,18 @@ const SignUpPage = () => {
                                             onChange={(event) => setNewUserPassword(event.target.value)}
                                         />
                                     </FormGroup>
+                                    <FormGroup>
+                                        <Label for='passwordRepeat'>Enter Password Again:</Label>
+                                        <Input
+                                            type='password'
+                                            id='passwordRepeat'
+                                            value={repeatPassword}
+                                            onChange={(event) => setRepeatPassword(event.target.value)}
+                                        />
+                                    </FormGroup>
                                     <Button type='submit' color='primary'>Sign up</Button>
                                 </Form>
                             )}
-
                         </Col>
                     </Row>
 
