@@ -7,6 +7,9 @@ import { useCartContext } from '../cart/CartContext';
 import { useState, useEffect } from 'react';
 import { axiosWithAuth } from '../miscellaneous/axiosWithAuth';
 import SpinningIcon from '../miscellaneous/SpinningIcon';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCloudArrowDown, faPaperclip } from '@fortawesome/free-solid-svg-icons';
+
 
 const ProductChecklistView = ({
     productItem,
@@ -20,8 +23,6 @@ const ProductChecklistView = ({
     adminPage,
     // inReviewsJs
 }) => {
-
-    console.log('product item: ', productItem);
 
     const [starRating, setStarRating] = useState(null);
     const [ratingDescription, setRatingDescription] = useState('');
@@ -126,18 +127,17 @@ const ProductChecklistView = ({
                                     borderRadius: '10px',
                                     padding: '10px 5px 0px 5px',
                                 }}>
+
                                     <p>
-                                        <div className='icon-margin-align'>
-                                            <i class="fa-solid fa-cloud-arrow-down"></i>
-                                        </div>
+                                        <FontAwesomeIcon icon={faCloudArrowDown} className='icon-margin-align' />
                                         {productItem.productType}
                                     </p>
                                     <p>
-                                        <div className='icon-margin-align'>
-                                            <i class="fa-solid fa-paperclip"></i>
-                                        </div>
+                                        <FontAwesomeIcon icon={faPaperclip} className='icon-margin-align' />
                                         1 PDF Included
                                     </p>
+
+
                                     {inOrderJs && (
                                         <span
                                             onClick={() => downloadClick(orderId)}

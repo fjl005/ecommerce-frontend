@@ -12,26 +12,41 @@ const CheckoutPage = () => {
     const { totalCost, cartItemsArrayId, fetchCart, fetchSaved, determineTotalCost, cartLength } = useCartContext();
     const { checkUser } = useLoginContext();
 
-    const [formData, setFormData] = useState({});
+    // const [formData, setFormData] = useState({});
 
-    const {
-        email,
-        cardNumber,
-        cardExpiresMonth,
-        cardExpiresYear,
-        cardCVC,
-        firstName,
-        lastName,
-        streetAddress,
-        aptNumOptional,
-        city,
-        state,
-        zipCode
-    } = formData;
+    // const {
+    //     email,
+    //     cardNumber,
+    //     cardExpiresMonth,
+    //     cardExpiresYear,
+    //     cardCVC,
+    //     firstName,
+    //     lastName,
+    //     streetAddress,
+    //     aptNumOptional,
+    //     city,
+    //     state,
+    //     zipCode
+    // } = formData;
+
+    const [formData, setFormData] = useState({
+        email: '',
+        cardNumber: 0,
+        cardExpiresMonth: 0,
+        cardExpiresYear: 0,
+        cardCVC: 0,
+        firstName: '',
+        lastName: '',
+        streetAddress: '',
+        aptNumOptional: '',
+        city: '',
+        state: '',
+        zipCode: 0,
+    });
+
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        console.log('name: ', name, 'value: ', value)
         setFormData((prevData) => ({
             ...prevData,
             [name]: value,
@@ -40,7 +55,6 @@ const CheckoutPage = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
 
         try {
             const formDataWithTotalCost = { ...formData, totalCost: totalCost }
@@ -64,17 +78,36 @@ const CheckoutPage = () => {
     const autofill = (e) => {
         e.preventDefault();
         setFormData({
+            ...formData,
             email: 'frank@frank.com',
+            cardNumber: 123456789101234,
             cardExpiresMonth: 3,
             cardExpiresYear: 2025,
-            cardNumber: 123456789101234,
             cardCVC: 123,
             firstName: 'Jenny',
             lastName: 'Smith',
             streetAddress: '1234 SomeStreet Ave',
-            city: 'San Francisco',
+            aptNumOptional: 'Apt. 311',
+            city: 'Sann Francisco',
             state: 'CA',
-            zipCode: 98765
+            zipCode: 98765,
+        });
+    };
+
+    const clear = () => {
+        setFormData({
+            email: '',
+            cardNumber: 0,
+            cardExpiresMonth: 0,
+            cardExpiresYear: 0,
+            cardCVC: 0,
+            firstName: '',
+            lastName: '',
+            streetAddress: '',
+            aptNumOptional: '',
+            city: '',
+            state: '',
+            zipCode: 0,
         })
     }
 
@@ -121,6 +154,8 @@ const CheckoutPage = () => {
                             <p style={{ marginBottom: '0px' }}>If this becomes a legitimate site, then I would implement actual payment verification. However, because I am not running this with a secure connection, I do not want ANY payment or identification information to be sent.</p>
                             <span>With that said, for the checkout to work, please click the autofill button here: </span>
                             <Button onClick={autofill} className='bg-primary'>Auto-fill</Button>
+                            <Button onClick={clear}>Clear</Button>
+
                         </Col>
                     </Row>
 
@@ -146,7 +181,7 @@ const CheckoutPage = () => {
                                     type="email"
                                     id="email"
                                     name="email"
-                                    value={email}
+                                    value={formData.email}
                                     required
                                     onChange={handleInputChange}
                                 />
@@ -180,13 +215,13 @@ const CheckoutPage = () => {
                         <Row>
                             <Col xs='1' style={{ maxWidth: '75px' }}></Col>
                             <Col xs='5'>
-                                <Label for="cardNumber">Card Number:</Label>
+                                <Label for="cardNumber">Card Number (no dashes):</Label>
                                 <Input
                                     type="text"
                                     id="cardNumber"
                                     name="cardNumber"
-                                    value={cardNumber}
-                                    placeholder='1234-5678-9101-2345'
+                                    value={formData.cardNumber}
+                                    placeholder='1234567891012345'
                                     required
                                     onChange={handleInputChange}
                                 />
@@ -197,7 +232,7 @@ const CheckoutPage = () => {
                                     type="select"
                                     id="cardExpiresMonth"
                                     name="cardExpiresMonth"
-                                    value={cardExpiresMonth}
+                                    value={formData.cardExpiresMonth}
                                     onChange={handleInputChange}
                                     required
                                 >
@@ -214,7 +249,7 @@ const CheckoutPage = () => {
                                     type="select"
                                     id="cardExpiresYear"
                                     name="cardExpiresYear"
-                                    value={cardExpiresYear}
+                                    value={formData.cardExpiresYear}
                                     onChange={handleInputChange}
                                     required
                                 >
@@ -231,7 +266,7 @@ const CheckoutPage = () => {
                                     type="text"
                                     id="cardCVC"
                                     name="cardCVC"
-                                    value={cardCVC}
+                                    value={formData.cardCVC}
                                     placeholder='123'
                                     required
                                     onChange={handleInputChange}
@@ -276,7 +311,7 @@ const CheckoutPage = () => {
                                     type="text"
                                     id="firstName"
                                     name="firstName"
-                                    value={firstName}
+                                    value={formData.firstName}
                                     placeholder='Jenny'
                                     required
                                     onChange={handleInputChange}
@@ -288,7 +323,7 @@ const CheckoutPage = () => {
                                     type="text"
                                     id="lastName"
                                     name="lastName"
-                                    value={lastName}
+                                    value={formData.lastName}
                                     placeholder='Smith'
                                     required
                                     onChange={handleInputChange}
@@ -301,7 +336,7 @@ const CheckoutPage = () => {
                                     type="text"
                                     id="streetAddress"
                                     name="streetAddress"
-                                    value={streetAddress}
+                                    value={formData.streetAddress}
                                     placeholder='1234 SomeStreet Ave'
                                     required
                                     onChange={handleInputChange}
@@ -313,7 +348,7 @@ const CheckoutPage = () => {
                                     type="text"
                                     id="aptNumOptional"
                                     name="aptNumOptional"
-                                    value={aptNumOptional}
+                                    value={formData.aptNumOptional}
                                     placeholder='Apt 106'
                                     onChange={handleInputChange}
                                 />
@@ -325,7 +360,7 @@ const CheckoutPage = () => {
                                     type="text"
                                     id="city"
                                     name="city"
-                                    value={city}
+                                    value={formData.city}
                                     placeholder='San Francisco'
                                     required
                                     onChange={handleInputChange}
@@ -337,7 +372,7 @@ const CheckoutPage = () => {
                                     type="text"
                                     id="state"
                                     name="state"
-                                    value={state}
+                                    value={formData.state}
                                     placeholder='CA'
                                     required
                                     onChange={handleInputChange}
@@ -349,7 +384,7 @@ const CheckoutPage = () => {
                                     type="text"
                                     id="stazipCodete"
                                     name="zipCode"
-                                    value={zipCode}
+                                    value={formData.zipCode}
                                     placeholder='98765'
                                     required
                                     onChange={handleInputChange}
