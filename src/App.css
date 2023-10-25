@@ -25,8 +25,7 @@
 .product-page-container {
     /* !important is used to override the default bootstrap css styling */
     margin-top: 25px;
-    width: 80% !important;
-    min-width: 800px !important;
+    width: 70% !important;
     max-width: 2000px !important;
 }
 
@@ -181,6 +180,11 @@
 .icon-margin-align {
     width: 35px;
     display: inline-block;
+}
+
+.icon-text-div {
+    margin-bottom: 10px;
+    display: flex;
 }
 
 /* Product */

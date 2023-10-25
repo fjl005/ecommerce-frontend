@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import axios from 'axios';
-import { axiosWithAuth } from '../miscellaneous/axiosWithAuth';
+import { axiosWithAuth } from '../miscellaneous/axios';
 
 // Create a new context named CartContext using the createContext, which will store and share cart-related data and functions.
 const CartContext = createContext();

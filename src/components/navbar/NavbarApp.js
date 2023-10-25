@@ -66,10 +66,7 @@ const NavbarApp = ({ isCheckout, currentPage }) => {
                 {isCheckout ? (
                     <Nav navbar>
                         <NavItem>
-                            <NavLink
-                                tag={Link}
-                                to={`/cart`}
-                            >
+                            <NavLink tag={Link} to={`/cart`}>
                                 Back to Cart
                             </NavLink>
                         </NavItem>
@@ -84,9 +81,7 @@ const NavbarApp = ({ isCheckout, currentPage }) => {
                                             key={idx}
                                             className={currentPage === navText ? 'selected-navbar-background' : 'navbar-hover'}
                                         >
-                                            <NavLink
-                                                tag={Link}
-                                                to={`/${navText}`}
+                                            <NavLink tag={Link} to={`/${navText}`}
                                                 style={{
                                                     color: currentPage === navText ? 'white' : 'black'
                                                 }}
@@ -101,9 +96,7 @@ const NavbarApp = ({ isCheckout, currentPage }) => {
                                 <NavItem
                                     className={currentPage === 'Signup' ? 'selected-navbar-background' : 'navbar-hover'}
                                 >
-                                    <NavLink
-                                        tag={Link}
-                                        to="/signup"
+                                    <NavLink tag={Link} to="/signup"
                                         style={{
                                             whiteSpace: 'nowrap',
                                             color: currentPage === 'Signup' ? 'white' : 'black'
@@ -124,7 +117,7 @@ const NavbarApp = ({ isCheckout, currentPage }) => {
                         >
                             {!loggedIn ? (
                                 <NavItem>
-                                    <NavLink tag={Link} to='/login' style={{ marginTop: '1px' }}>
+                                    <NavLink tag={Link} to='/login'>
                                         Login
                                     </NavLink>
                                 </NavItem>
@@ -134,15 +127,12 @@ const NavbarApp = ({ isCheckout, currentPage }) => {
                                         className={currentPage === 'Cart' ? 'selected-navbar-background-cart' : 'navbar-hover'}
                                         style={{ marginRight: '20px' }}
                                     >
-                                        <NavLink
-                                            tag={Link}
-                                            to="/cart"
+                                        <NavLink tag={Link} to="/cart"
                                             style={{
                                                 position: 'relative',
                                             }}
                                         >
-                                            <FontAwesomeIcon
-                                                icon={faCartShopping}
+                                            <FontAwesomeIcon icon={faCartShopping}
                                                 style={{
                                                     fontSize: '35px',
                                                     padding: '5px',
@@ -180,7 +170,6 @@ const NavbarApp = ({ isCheckout, currentPage }) => {
                                     </NavItem>
 
                                     <Collapse isOpen={isOpen} navbar>
-
                                         {admin && (
                                             <NavItem style={{ marginRight: '20px' }}>
                                                 <NavLink tag={Link} to="/admin">
@@ -197,10 +186,7 @@ const NavbarApp = ({ isCheckout, currentPage }) => {
                                                     </DropdownToggle>
 
                                                     <DropdownMenu>
-                                                        <DropdownItem
-                                                            tag={Link}
-                                                            to='/profilesettings'
-                                                        >
+                                                        <DropdownItem tag={Link} to='/profilesettings'>
                                                             Settings
                                                         </DropdownItem>
 
@@ -225,7 +211,7 @@ const NavbarApp = ({ isCheckout, currentPage }) => {
                 )}
             </Container>
         </Navbar>
-    )
-}
+    );
+};
 
 export default NavbarApp;

@@ -1,30 +1,24 @@
-import { Container, Row, Col, Label, Input, Button } from "reactstrap";
-import { productsArray } from "./productsArray";
+import { Container, Row, Col, Input, Button } from "reactstrap";
 import { Link } from "react-router-dom";
-import axios from 'axios';
 import { useEffect, useState } from "react";
-import twoPageAirbnb from '../../img/twoPageAirbnb.png';
 import fetsyEcommerceLogo from '../../img/fetsyEcommerceLogo.png';
-import { axiosWithAuth } from "../miscellaneous/axiosWithAuth";
+import { axiosNoAuth, axiosWithAuth } from "../miscellaneous/axios";
+import LoadingOverlay from "../miscellaneous/LoadingOverlay";
 
 
 const Products = ({ adminPage, itemSelectedIdArr, setItemSelectedIdArr, reloadProducts }) => {
 
     const [productsDB, setProductsDB] = useState([]);
     const [fetchDone, setFetchDone] = useState(false);
+    const [isDeleting, setIsDeleting] = useState(false);
 
     useEffect(() => {
         fetchProducts();
     }, [reloadProducts]);
 
-    // Probably not needed, will delete this useEffect soon.
-    useEffect(() => {
-        console.log('selected id: ', itemSelectedIdArr);
-    }, [itemSelectedIdArr]);
-
     const fetchProducts = async () => {
         try {
-            const response = await axios.get('http://localhost:5000/products/');
+            const response = await axiosNoAuth.get('/products');
             setProductsDB(response.data);
             setFetchDone(true);
         } catch (error) {
@@ -32,13 +26,14 @@ const Products = ({ adminPage, itemSelectedIdArr, setItemSelectedIdArr, reloadPr
         }
     };
 
-    // maybe turn this into an array?
     const handleCheckbox = (productId) => {
         if (itemSelectedIdArr) {
             if (itemSelectedIdArr.includes(productId)) {
+                // Deselected item, remove from array since it was previously checkmarked.
                 const updatedArr = itemSelectedIdArr.filter((id) => id !== productId);
                 setItemSelectedIdArr(updatedArr);
             } else {
+                // Otherwise, add item to array
                 setItemSelectedIdArr([...itemSelectedIdArr, productId]);
             }
         }
@@ -52,11 +47,10 @@ const Products = ({ adminPage, itemSelectedIdArr, setItemSelectedIdArr, reloadPr
     };
 
     const deleteProduct = async (product) => {
+        setIsDeleting(true);
         try {
-            console.log('pictures to delete: ', product.pictures);
             for (let imgObj of product.pictures) {
                 await axiosWithAuth.delete(`/cloudinary/${imgObj.publicId}`);
-                console.log('deleted img obj: ', imgObj);
             }
 
             await axiosWithAuth.delete(`/products/${product._id}`);
@@ -65,6 +59,8 @@ const Products = ({ adminPage, itemSelectedIdArr, setItemSelectedIdArr, reloadPr
             fetchProducts();
         } catch (error) {
             console.log('Error in deleteProduct() in Products.js', error);
+        } finally {
+            setIsDeleting(false);
         }
     };
 
@@ -76,125 +72,88 @@ const Products = ({ adminPage, itemSelectedIdArr, setItemSelectedIdArr, reloadPr
                 </Col>
             </Row>
             <Row>
-                {fetchDone && productsDB.length > 0 &&
-                    productsDB.map((product, idx) => (
-                        <Col
-                            key={idx} xs='6' md='4' lg='3'
-                            className='product-item-homepage'
-                            style={{ border: itemSelectedIdArr ? (itemSelectedIdArr.includes(product._id) ? '1px solid black' : '') : '' }}
+                {isDeleting ? (
+                    <LoadingOverlay />
+                ) : fetchDone && productsDB.length > 0 &&
+                productsDB.map((product, idx) => (
+                    <Col
+                        key={idx} xs='6' md='4' lg='3'
+                        className='product-item-homepage'
+                        style={{ border: itemSelectedIdArr ? (itemSelectedIdArr.includes(product._id) ? '1px solid black' : '') : '' }}
+                    >
+                        <Link to={adminPage ? `/admin/updateproduct/${product._id}` : `/products/${product._id}`}
+                            style={{
+                                textDecoration: 'none',
+                                color: 'black',
+                            }}
                         >
-                            <Link to={adminPage ? `/admin/updateproduct/${product._id}` : `/products/${product._id}`}
-                                // target='_blank' 
+                            <div
                                 style={{
-                                    textDecoration: 'none',
-                                    color: 'black',
-                                }}>
-                                <div style={{
                                     width: '100%',
                                     padding: '10px 5px 0px 5px'
-                                }}>
-                                    {
-                                        product.pictures.length > 0 ? (
-                                            <img
-                                                src={product.pictures[0].url}
-                                                alt='image of product'
-                                                style={{
-                                                    width: '100%',
-                                                    height: 'auto'
-                                                }}
-                                            />
-                                        ) : (
-                                            <img
-                                                src={fetsyEcommerceLogo}
-                                                alt='image of product'
-                                                style={{
-                                                    width: '100%',
-                                                    height: 'auto'
-                                                }}
-                                            />
-                                        )
-                                    }
-
-                                    <h6
+                                }}
+                            >
+                                {product.pictures.length > 0 ? (
+                                    <img
+                                        src={product.pictures[0].url}
+                                        alt='image of product'
                                         style={{
-                                            whiteSpace: 'nowrap', // Prevents text from wrapping
-                                            overflow: 'hidden', // Hide overflowing text
-                                            textOverflow: 'ellipsis' // Display ellipsis for long text
+                                            width: '100%',
+                                            height: 'auto'
                                         }}
-                                    >{product.name}</h6>
-                                    <h4>${product.price.toFixed(2)}</h4>
-                                </div>
-                            </Link>
+                                    />
+                                ) : (
+                                    <img
+                                        src={fetsyEcommerceLogo}
+                                        alt='image of product'
+                                        style={{
+                                            width: '100%',
+                                            height: 'auto'
+                                        }}
+                                    />
+                                )
+                                }
 
-                            {adminPage && (
-                                <div style={{
+                                <h6
+                                    style={{
+                                        whiteSpace: 'nowrap',
+                                        overflow: 'hidden',
+                                        textOverflow: 'ellipsis'
+                                    }}
+                                >{product.name}</h6>
+                                <h4>${product.price.toFixed(2)}</h4>
+                            </div>
+                        </Link>
+
+                        {adminPage && (
+                            <div
+                                style={{
                                     marginTop: '0px',
                                     width: '100%',
                                     padding: '0px 5px 10px 5px',
                                     display: 'flex',
                                     justifyContent: 'space-between',
                                     alignItems: 'center'
-                                }}>
-                                    <Input
-                                        type="checkbox"
-                                        style={{ width: '25px', height: '25px' }}
-                                        checked={itemSelectedIdArr.includes(product._id)}
-                                        onChange={() => handleCheckbox(product._id)}
-                                    />
-                                    <Button
-                                        className='bg-danger'
-                                        onClick={() => handleDelete(product)}
-                                    >
-                                        Delete
-                                    </Button>
-                                </div>
-                            )}
-                        </Col>
-                    ))
-                }
-            </Row>
-
-            {/* <Row>
-                <Col>
-                    <h1>Products</h1>
-                </Col>
-            </Row>
-            <Row>
-                {productsArray.map((product, idx) => (
-                    <Col key={idx} xs='6' md='4' lg='3' className='product-item-homepage'>
-                        <Link to={`/products/${product.productId}`}
-                            // target='_blank' 
-                            style={{
-                                textDecoration: 'none',
-                                color: 'black'
-                            }}>
-                            <div style={{
-                                width: '100%',
-                                padding: '10px 5px'
-                            }}>
-                                <img
-                                    src={product.img[0]}
-                                    alt='image of product'
-                                    style={{
-                                        width: '100%',
-                                        height: 'auto'
-                                    }}
+                                }}
+                            >
+                                <Input
+                                    type="checkbox"
+                                    style={{ width: '25px', height: '25px' }}
+                                    checked={itemSelectedIdArr.includes(product._id)}
+                                    onChange={() => handleCheckbox(product._id)}
                                 />
-                                <h6
-                                    style={{
-                                        whiteSpace: 'nowrap', // Prevents text from wrapping
-                                        overflow: 'hidden', // Hide overflowing text
-                                        textOverflow: 'ellipsis' // Display ellipsis for long text
-                                    }}
-                                >{product.name}</h6>
-                                <h4>${product.price.toFixed(2)}</h4>
+                                <Button
+                                    className='bg-danger'
+                                    onClick={() => handleDelete(product)}
+                                >
+                                    Delete </Button>
                             </div>
-                        </Link>
+                        )}
                     </Col>
                 ))}
-            </Row> */}
+            </Row>
         </Container>
-    )
-}
+    );
+};
 
-export default Products
+export default Products;

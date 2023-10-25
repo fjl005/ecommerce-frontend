@@ -1,20 +1,25 @@
 import NavbarApp from "../components/navbar/NavbarApp";
-import { Container, Row, Col, Button, Tooltip, UncontrolledAccordion, Accordion, AccordionItem, AccordionHeader, AccordionBody } from "reactstrap";
+import {
+    Container,
+    Row,
+    Col,
+    Button,
+    Tooltip,
+} from "reactstrap";
 import { useParams } from "react-router-dom";
-import { productsArray } from "../components/products/productsArray";
 import ProductImgCarousel from "../components/products/ProductImgCarousel";
 import ReviewsInSingleProductPage from "../components/reviews/ReviewsInSingleProductPage";
 import ProductDescription from "../components/products/ProductDescription";
 import { useState, useEffect } from "react";
 import RightColToggle from "../components/products/RightColToggle";
 import { useCartContext } from "../components/cart/CartContext";
-import { axiosWithAuth } from "../components/miscellaneous/axiosWithAuth";
-
+import { axiosWithAuth } from "../components/miscellaneous/axios";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHeart, faPaperclip, faCloudArrowDown } from '@fortawesome/free-solid-svg-icons';
 
 const SingleProductPage = () => {
 
-    const { addItemToCart, tooltipAddCartSignin, tooltipAddCartSuccess, cartLength } = useCartContext();
-
+    const { addItemToCart, tooltipAddCartSignin, tooltipAddCartSuccess } = useCartContext();
     const { productId } = useParams();
     const [fetchDone, setFetchDone] = useState(false);
     const [selectedProduct, setSelectedProduct] = useState({});
@@ -30,33 +35,10 @@ const SingleProductPage = () => {
             const data = response.data;
             setSelectedProduct(data);
             setFetchDone(true);
-            console.log('data: ', data);
-
         } catch (error) {
             console.log('error: ', error);
         }
-    }
-
-    const [showHighlight, setShowHighlight] = useState(true);
-    const [showDescription, setShowDescription] = useState(true);
-    const [showDelivery, setShowDelivery] = useState(true);
-    const [showSeller, setShowSeller] = useState(true);
-
-    const toggleHighlight = () => {
-        setShowHighlight(!showHighlight);
-    }
-
-    const toggleDescription = () => {
-        setShowDescription(!showDescription);
-    }
-
-    const toggleDelivery = () => {
-        setShowDelivery(!showDelivery);
-    }
-
-    const toggleSeller = () => {
-        setShowSeller(!showSeller);
-    }
+    };
 
     const addItemToFavorites = async (productId) => {
         try {
@@ -68,7 +50,28 @@ const SingleProductPage = () => {
         } catch (error) {
             console.log('error: ', error);
         }
-    }
+    };
+
+    const [showHighlight, setShowHighlight] = useState(true);
+    const [showDescription, setShowDescription] = useState(true);
+    const [showDelivery, setShowDelivery] = useState(true);
+    const [showSeller, setShowSeller] = useState(true);
+
+    const toggleHighlight = () => {
+        setShowHighlight(!showHighlight);
+    };
+
+    const toggleDescription = () => {
+        setShowDescription(!showDescription);
+    };
+
+    const toggleDelivery = () => {
+        setShowDelivery(!showDelivery);
+    };
+
+    const toggleSeller = () => {
+        setShowSeller(!showSeller);
+    };
 
     return (
         <>
@@ -79,7 +82,6 @@ const SingleProductPage = () => {
                         <Col sm='12' xl='8' style={{ marginBottom: '20px' }}>
                             <ProductImgCarousel selectedProduct={selectedProduct} />
                             {/* d-none makes the display none on all viewport sizes, but d-md-block applies the display: block to md+ viewport sizes. This makes it visible at these viewport sizes. */}
-
                             <div className="d-none d-xl-block" style={{ marginTop: '20px' }}>
                                 <ReviewsInSingleProductPage />
                             </div>
@@ -113,7 +115,10 @@ const SingleProductPage = () => {
                                     id='addFavorite'
                                     onClick={() => addItemToFavorites(selectedProduct._id)}
                                 >
-                                    <i class="fa-solid fa-heart" style={{ color: '#8B0000', marginRight: '5px' }}></i>
+                                    <FontAwesomeIcon
+                                        icon={faHeart}
+                                        style={{ color: '#8B0000', marginRight: '5px' }}
+                                    />
                                     Add to Favorites
                                 </div>
 
@@ -134,19 +139,18 @@ const SingleProductPage = () => {
 
                                     {showHighlight && (
                                         <>
-                                            <p style={{ marginBottom: '10px' }}>
-                                                {/* We create these div's of width 35px to make the text align the same, since the font awesome icons have slightly different widths. */}
+                                            <div className='icon-text-div'>
                                                 <div className='icon-margin-align'>
-                                                    <i class="fa-solid fa-cloud-arrow-down"></i>
+                                                    <FontAwesomeIcon icon={faCloudArrowDown} />
                                                 </div>
-                                                {selectedProduct.productType}
-                                            </p>
-                                            <p>
+                                                <p>{selectedProduct.productType}</p>
+                                            </div>
+                                            <div className='icon-text-div'>
                                                 <div className='icon-margin-align'>
-                                                    <i class="fa-solid fa-paperclip"></i>
+                                                    <FontAwesomeIcon icon={faPaperclip} />
                                                 </div>
-                                                Digital File Type(s): 1 PDF
-                                            </p>
+                                                <p>Digital File Type(s): 1 PDF</p>
+                                            </div>
                                         </>
                                     )}
                                 </div>
@@ -218,7 +222,7 @@ const SingleProductPage = () => {
                 </Container>
             )}
         </>
-    )
+    );
 };
 
 export default SingleProductPage;

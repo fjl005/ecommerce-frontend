@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import axios from 'axios';
-import { axiosWithAuth } from '../miscellaneous/axiosWithAuth';
+import { axiosWithAuth } from '../miscellaneous/axios';
 // import { useCartContext } from '../cart/CartContext';
 
 // First, create the context
