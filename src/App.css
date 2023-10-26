@@ -187,6 +187,19 @@
     display: flex;
 }
 
+.outer-buttons-div .cart-top-button {
+    border: none;
+    margin-right: 20px;
+}
+
+.cart-header-buttons {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+
+}
+
 /* Product */
 .product-title {
     white-space: nowrap;
@@ -222,4 +235,19 @@
 
 .navbar-hover:hover {
     background-color: #d8d8d8;
+}
+
+
+
+/* Navbar Search */
+.navbar-search-form {
+    display: flex;
+    width: 100%;
+    padding: 0px;
+}
+
+.navbar-search-form .navbar-search-button {
+    background-color: #8C52FF;
+    border: 1px #8C52FF solid;
+    border-radius: 50%;
 }

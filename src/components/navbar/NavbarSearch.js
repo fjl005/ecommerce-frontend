@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { Form, Input, Button } from 'reactstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 
 const SearchBar = () => {
     const [searchQuery, setSearchQuery] = useState('');
@@ -15,7 +17,7 @@ const SearchBar = () => {
 
     return (
         <div className='d-flex'>
-            <Form onSubmit={handleSearchSubmit} className='d-flex' style={{ width: '100%', padding: '0px' }}>
+            <Form onSubmit={handleSearchSubmit} className='navbar-search-form'>
                 <Input
                     type="text"
                     placeholder="Search..."
@@ -25,8 +27,8 @@ const SearchBar = () => {
                         marginRight: '8px',
                     }}
                 />
-                <Button type="submit" style={{ borderRadius: '50%' }}>
-                    <i class="fa-solid fa-magnifying-glass"></i>
+                <Button type="submit" className='navbar-search-button'>
+                    <FontAwesomeIcon icon={faMagnifyingGlass} />
                 </Button>
             </Form>
         </div>

@@ -1,5 +1,5 @@
 import { Carousel, CarouselItem } from 'reactstrap';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import fetsyEcommerceLogo from '../../img/fetsyEcommerceLogo.png';
@@ -7,6 +7,7 @@ import fetsyEcommerceLogo from '../../img/fetsyEcommerceLogo.png';
 
 const ProductImgCarousel = ({ selectedProduct }) => {
     const imgObjArray = selectedProduct.pictures;
+    const carouselRef = useRef(null);
     const imgURLArray = [];
 
     if (imgObjArray.length === 0) {
@@ -84,9 +85,14 @@ const ProductImgCarousel = ({ selectedProduct }) => {
                     style={{
                         flex: '1',
                     }}
+                    slide={false}
+                    fade={false}
+                    ref={carouselRef}
                 >
                     {imgURLArray.map((image, idx) => (
-                        <CarouselItem key={idx}>
+                        <CarouselItem
+                            key={idx}
+                        >
                             <div className='d-flex align-items-center'>
                                 <img
                                     src={image === null ? fetsyEcommerceLogo : image}

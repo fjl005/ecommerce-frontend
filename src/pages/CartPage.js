@@ -8,6 +8,8 @@ import SpinningIcon from "../components/miscellaneous/SpinningIcon";
 import { useCartContext } from "../components/cart/CartContext";
 import { useLoginContext } from '../components/login/LoginContext';
 import { axiosWithAuth } from "../components/miscellaneous/axiosWithAuth";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowRight, faTrash, faMoneyCheckDollar } from "@fortawesome/free-solid-svg-icons";
 
 const CartPage = () => {
 
@@ -126,24 +128,24 @@ const CartPage = () => {
                         ) : !loggedIn ? (
                             <h1>You must log in to access your Cart.</h1>
                         ) : cartLength === 0 ? (
-                            <h1>Your cart is empty</h1>
+                            <h1 className='text-center'>Your cart is empty</h1>
                         ) : (
-                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                            <div className='cart-header-buttons'>
                                 <h1>
                                     {cartLength === 1
                                         ? `${cartLength} item in your Cart`
                                         : `${cartLength} items in your Cart`}
                                 </h1>
 
-                                <div>
+                                <div className='outer-buttons-div'>
                                     <Button
-                                        style={{ marginRight: '20px' }}
                                         onClick={() => moveAllToSaved()}
-                                    >Move All Cart Items to Saved</Button>
+                                        className='cart-top-button'
+                                    >Cart <FontAwesomeIcon icon={faArrowRight} /> Saved</Button>
                                     <Button
-                                        style={{ marginRight: '20px' }}
                                         onClick={() => deleteAllCart()}
-                                    >Delete All Cart Items</Button>
+                                        className='bg-danger cart-top-button'
+                                    > <FontAwesomeIcon icon={faTrash} /> Cart</Button>
                                     <Link
                                         to={{
                                             pathname: `/cart/checkout`,
@@ -153,7 +155,7 @@ const CartPage = () => {
                                             color: 'black'
                                         }}
                                     >
-                                        <Button className='bg-success'>Checkout</Button>
+                                        <Button className='bg-success' style={{ border: 'none' }}> <FontAwesomeIcon icon={faMoneyCheckDollar} /> Checkout</Button>
                                     </Link>
                                 </div>
                             </div>
@@ -201,32 +203,31 @@ const CartPage = () => {
                             <h1>You must log in to access your Items Saved for Later.</h1>
                         ) : savedLength > 0 ? (
                             <>
-                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-
+                                <div className='cart-header-buttons'>
                                     <h1>Items Saved for Later</h1>
-                                    <div>
+                                    <div className='outer-buttons-div'>
                                         <Button
-                                            style={{ marginRight: '20px' }}
                                             onClick={() => deleteAllSaved()}
-                                        >Delete All Saved Items</Button>
+                                            className='bg-danger cart-top-button'
+                                        ><FontAwesomeIcon icon={faTrash} /> Saved</Button>
                                         <Button
+                                            style={{ marginRight: '20px', border: 'none' }}
                                             onClick={() => moveAllToCart()}
-                                        >Move All Saved to Cart</Button>
+                                        >Saved <FontAwesomeIcon icon={faArrowRight} /> Cart</Button>
                                     </div>
 
                                 </div>
-                                {
-                                    savedItemsArrayId.map((arr, idx) => (
-                                        <CartItem
-                                            key={idx}
-                                            productId={arr}
-                                            isSaved={true}
-                                            inCartJs={true}
-                                        />
-                                    ))}
+                                {savedItemsArrayId.map((arr, idx) => (
+                                    <CartItem
+                                        key={idx}
+                                        productId={arr}
+                                        isSaved={true}
+                                        inCartJs={true}
+                                    />
+                                ))}
                             </>
                         ) : (
-                            <h1>No Items saved for later</h1>
+                            <h1 className='text-center'>No Items saved for later</h1>
                         )}
                     </Col>
                 </Row>

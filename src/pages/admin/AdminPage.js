@@ -29,11 +29,11 @@ const AdminPage = () => {
                     <>
                         <Row>
                             <Col>
-                                <h1>Admin Page</h1>
+                                <h1 style={{ textAlign: 'center' }}>Admin Page</h1>
                             </Col>
                         </Row>
 
-                        <Row>
+                        {/* <Row>
                             <Col>
                                 <div style={{ display: 'flex', alignItems: 'center' }}>
                                     <h3 style={{ marginBottom: '0' }}>
@@ -75,7 +75,7 @@ const AdminPage = () => {
                                     </tbody>
                                 </Table>
                             </Col>
-                        </Row>
+                        </Row> */}
 
                         <Row>
                             <Col>

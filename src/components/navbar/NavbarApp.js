@@ -157,6 +157,7 @@ const NavbarApp = ({ isCheckout, currentPage }) => {
                                                             alignItems: 'center',
                                                             justifyContent: 'center',
                                                             fontSize: '15px',
+                                                            fontWeight: 'bold',
                                                             color: 'white',
                                                             width: '100%',
                                                             height: '100%',

@@ -20,7 +20,6 @@ const ReviewsInSingleProductPage = () => {
     }, []);
 
     useEffect(() => {
-        console.log('reviews data: ', reviewsData);
         calculateAvgReview();
     }, [reviewsData]);
 

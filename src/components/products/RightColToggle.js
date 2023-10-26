@@ -1,4 +1,6 @@
 import { Button } from "reactstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAngleDown, faAngleUp } from "@fortawesome/free-solid-svg-icons";
 
 const RightColToggle = ({ section, toggleState, toggleStateFxn }) => {
     return (
@@ -8,9 +10,9 @@ const RightColToggle = ({ section, toggleState, toggleStateFxn }) => {
         >
             <h3>{section}</h3>
             {toggleState ? (
-                <i class="fa-solid fa-angle-up"></i>
+                <FontAwesomeIcon icon={faAngleUp} />
             ) : (
-                <i class="fa-solid fa-angle-down"></i>
+                <FontAwesomeIcon icon={faAngleDown} />
             )}
         </div>
     )
