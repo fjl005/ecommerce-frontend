@@ -177,7 +177,7 @@
     cursor: pointer;
 }
 
-.icon-margin-align {
+.product-info-icon-align {
     width: 35px;
     display: inline-block;
 }
@@ -197,7 +197,10 @@
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
+}
 
+.font-awesome-margin {
+    margin-right: 10px;
 }
 
 /* Product */

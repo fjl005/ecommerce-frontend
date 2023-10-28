@@ -1,11 +1,11 @@
-import NavbarApp from "../components/navbar/NavbarApp";
+import NavbarApp from "../../components/navbar/NavbarApp";
 import { Container, Row, Col } from "reactstrap";
 import { useState, useEffect } from "react";
-import { useCartContext } from "../components/cart/CartContext";
-import { useLoginContext } from "../components/login/LoginContext";
-import ItemsInOrder from "../components/orders/ItemsInOrder";
-import { axiosWithAuth } from "../components/miscellaneous/axiosWithAuth";
-import SpinningIcon from "../components/miscellaneous/SpinningIcon";
+import { useCartContext } from "../../components/cart/CartContext";
+import { useLoginContext } from "../../components/login/LoginContext";
+import ItemsInOrder from "../../components/orders/ItemsInOrder";
+import { axiosWithAuth } from "../../components/miscellaneous/axiosWithAuth";
+import SpinningIcon from "../../components/miscellaneous/SpinningIcon";
 
 
 const OrdersPage = () => {

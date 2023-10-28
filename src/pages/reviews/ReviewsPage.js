@@ -1,10 +1,10 @@
 import { Container, Row, Col, Button } from "reactstrap";
-import NavbarApp from "../components/navbar/NavbarApp";
-import SingleReview from "../components/reviews/SingleReview";
-import { axiosWithAuth } from "../components/miscellaneous/axiosWithAuth";
+import NavbarApp from "../../components/navbar/NavbarApp";
+import SingleReview from "../../components/reviews/SingleReview";
+import { axiosWithAuth } from "../../components/miscellaneous/axiosWithAuth";
 import { useEffect, useState } from "react";
-import { useLoginContext } from "../components/login/LoginContext";
-import SpinningIcon from "../components/miscellaneous/SpinningIcon";
+import { useLoginContext } from "../../components/login/LoginContext";
+import SpinningIcon from "../../components/miscellaneous/SpinningIcon";
 
 const ReviewsPage = () => {
 

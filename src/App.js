@@ -1,16 +1,17 @@
 import './App.css';
 
-import LoginPage from './pages/LoginPage';
-import SignUpPage from './pages/SignUpPage';
-import HomePage from './pages/HomePage';
-import SingleProductPage from './pages/SingleProductPage';
-import OrdersPage from './pages/OrdersPage';
-import CheckoutPage from './pages/CheckoutPage';
-import CartPage from './pages/CartPage';
-import OrderCompletedRedirectPage from './pages/OrderCompletedRedirectPage';
-import FavoritesPage from './pages/FavoritesPage';
-import LeaveReviewPage from './pages/LeaveReviewPage';
-import ProfileSettingsPage from './pages/ProfileSettingsPage';
+import LoginPage from './pages/home/LoginPage';
+import SignUpPage from './pages/home/SignUpPage';
+import HomePage from './pages/home/HomePage';
+import SingleProductPage from './pages/products/SingleProductPage';
+import OrdersPage from './pages/orders/OrdersPage';
+import CheckoutPage from './pages/cart/CheckoutPage';
+import CartPage from './pages/cart/CartPage';
+import OrderCompletedRedirectPage from './pages/orders/OrderCompletedRedirectPage';
+import FavoritesPage from './pages/favorites/FavoritesPage';
+import LeaveReviewPage from './pages/reviews/LeaveReviewPage';
+import ReviewsPage from './pages/reviews/ReviewsPage';
+import ProfileSettingsPage from './pages/home/ProfileSettingsPage';
 import AdminPage from './pages/admin/AdminPage';
 import PostProductPage from './pages/admin/PostProductPage';
 import ProductSubmitted from './components/admin/ProductSubmitted';
@@ -24,7 +25,6 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { useLoginContext } from './components/login/LoginContext';
 import axios from 'axios';
-import ReviewsPage from './pages/ReviewsPage';
 
 
 function App() {
@@ -85,6 +85,7 @@ function App() {
             <BrowserRouter>
                 <Routes>
                     <Route path='/' element={<HomePage />} />
+                    <Route path='/search/:searchTerm' element={<HomePage />} />
                     <Route path='/login' element={<LoginPage />} />
                     <Route path='/signup' element={<SignUpPage />} />
                     <Route path='/products/:productId' element={<SingleProductPage />} />

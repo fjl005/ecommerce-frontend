@@ -1,7 +1,7 @@
 import { Container, Row, Col, Form, FormGroup, Label, Input, Button } from "reactstrap";
 import { useState } from "react";
-import NavbarApp from "../components/navbar/NavbarApp";
-import { axiosWithAuth } from "../components/miscellaneous/axiosWithAuth";
+import NavbarApp from "../../components/navbar/NavbarApp";
+import { axiosWithAuth } from "../../components/miscellaneous/axiosWithAuth";
 
 const SignUpPage = () => {
 

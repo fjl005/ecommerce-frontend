@@ -1,13 +1,13 @@
-import NavbarApp from "../components/navbar/NavbarApp";
+import NavbarApp from "../../components/navbar/NavbarApp";
 import { Container, Row, Col, Button } from "reactstrap";
 import { useState, useEffect } from "react";
-import CartItem from "../components/cart/CartItem";
+import CartItem from "../../components/cart/CartItem";
 import { Link } from "react-router-dom";
-import LoadingOverlay from "../components/miscellaneous/LoadingOverlay";
-import SpinningIcon from "../components/miscellaneous/SpinningIcon";
-import { useCartContext } from "../components/cart/CartContext";
-import { useLoginContext } from '../components/login/LoginContext';
-import { axiosWithAuth } from "../components/miscellaneous/axiosWithAuth";
+import LoadingOverlay from "../../components/miscellaneous/LoadingOverlay";
+import SpinningIcon from "../../components/miscellaneous/SpinningIcon";
+import { useCartContext } from "../../components/cart/CartContext";
+import { useLoginContext } from '../../components/login/LoginContext';
+import { axiosWithAuth } from "../../components/miscellaneous/axiosWithAuth";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight, faTrash, faMoneyCheckDollar } from "@fortawesome/free-solid-svg-icons";
 
@@ -26,15 +26,8 @@ const CartPage = () => {
         savedLength,
         cartLength,
 
-        // Button functions
-        saveLaterCartItem,
-        moveBackToCart,
-        removeCartItem,
-        removeSavedItem,
-
         // Total Cost
         totalCost,
-        determineTotalCost,
 
         // Loading
         loadingCartAndSaved,
@@ -165,14 +158,12 @@ const CartPage = () => {
             </Container>
 
             {cartLength > 0 && cartItemsArrayId && cartItemsArrayId.map((productId, idx) => (
-                <>
-                    <CartItem
-                        key={idx}
-                        productId={productId}
-                        isSaved={false}
-                        inCartJs={true}
-                    />
-                </>
+                <CartItem
+                    key={idx}
+                    productId={productId}
+                    isSaved={false}
+                    inCartJs={true}
+                />
             ))}
 
             <Container>

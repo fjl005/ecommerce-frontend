@@ -1,11 +1,11 @@
 // import LoginForm from '../components/login/LoginForm';
-import NavbarApp from '../components/navbar/NavbarApp';
-import { useCartContext } from "../components/cart/CartContext";
+import NavbarApp from '../../components/navbar/NavbarApp';
+import { useCartContext } from "../../components/cart/CartContext";
 import { Container, Row, Col, Form, FormGroup, Label, Input, Button } from 'reactstrap';
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { useLoginContext } from '../components/login/LoginContext';
-import { axiosWithAuth } from '../components/miscellaneous/axiosWithAuth';
+import { useLoginContext } from '../../components/login/LoginContext';
+import { axiosWithAuth } from '../../components/miscellaneous/axiosWithAuth';
 
 
 const LoginPage = () => {

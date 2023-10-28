@@ -1,6 +1,4 @@
 import { Container, Row, Col } from "reactstrap";
-import twoPageAirbnb from '../../img/twoPageAirbnb.png';
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { axiosWithAuth } from "../miscellaneous/axiosWithAuth";
 import ProductChecklistView from "../products/ProductChecklistView";

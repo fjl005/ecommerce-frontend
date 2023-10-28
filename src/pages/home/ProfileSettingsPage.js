@@ -1,11 +1,11 @@
-import NavbarApp from '../components/navbar/NavbarApp';
+import NavbarApp from '../../components/navbar/NavbarApp';
 import { Container, Row, Col, Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import { useEffect, useState } from 'react';
-import { useLoginContext } from '../components/login/LoginContext';
-import { axiosWithAuth } from '../components/miscellaneous/axiosWithAuth';
+import { useLoginContext } from '../../components/login/LoginContext';
+import { axiosWithAuth } from '../../components/miscellaneous/axiosWithAuth';
 
 const ProfileSettingsPage = () => {
-    const { username, checkUser } = useLoginContext();
+    const { username, checkUser, admin } = useLoginContext();
 
     const [newUsername, setNewUsername] = useState('');
     const [currentPW, setCurrentPW] = useState('');
@@ -74,6 +74,9 @@ const ProfileSettingsPage = () => {
     };
 
     const deleteAccount = async () => {
+        if (admin) {
+            return alert("The admin account cannot be deleted. Sorry, you're stuck here forever!");
+        }
         const userConfirmed = window.confirm("Are you sure you want to delete your account? This action cannot be undone.");
 
         if (userConfirmed) {
@@ -159,7 +162,11 @@ const ProfileSettingsPage = () => {
 
                 <Row>
                     <Col style={{ textAlign: 'center' }}>
-                        <Button className='bg-danger' onClick={() => deleteAccount()}>Delete Account</Button>
+                        <Button
+                            className='bg-danger'
+                            onClick={() => deleteAccount()}
+                            style={{ border: 'none' }}
+                        >Delete Account</Button>
                     </Col>
                 </Row>
             </Container>

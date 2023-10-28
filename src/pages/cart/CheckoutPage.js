@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react'
-import NavbarApp from '../components/navbar/NavbarApp';
+import NavbarApp from '../../components/navbar/NavbarApp';
 import { Container, Row, Col } from 'reactstrap';
 import { Form, FormGroup, Label, Input, Button } from 'reactstrap';
-import CartItem from '../components/cart/CartItem';
-import { useCartContext } from '../components/cart/CartContext';
-import { useLoginContext } from '../components/login/LoginContext';
-import { axiosWithAuth } from '../components/miscellaneous/axiosWithAuth';
+import CartItem from '../../components/cart/CartItem';
+import { useCartContext } from '../../components/cart/CartContext';
+import { useLoginContext } from '../../components/login/LoginContext';
+import { axiosWithAuth } from '../../components/miscellaneous/axiosWithAuth';
 
 
 const CheckoutPage = () => {

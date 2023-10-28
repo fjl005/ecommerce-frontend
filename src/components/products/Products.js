@@ -4,9 +4,12 @@ import { useEffect, useState } from "react";
 import fetsyEcommerceLogo from '../../img/fetsyEcommerceLogo.png';
 import { axiosNoAuth, axiosWithAuth } from "../miscellaneous/axios";
 import LoadingOverlay from "../miscellaneous/LoadingOverlay";
+import { useProductContext } from "../../components/products/ProductContext";
 
 
-const Products = ({ adminPage, itemSelectedIdArr, setItemSelectedIdArr, reloadProducts }) => {
+const Products = ({ adminPage, itemSelectedIdArr, setItemSelectedIdArr, reloadProducts, }) => {
+
+    const { searchQuery } = useProductContext();
 
     const [productsDB, setProductsDB] = useState([]);
     const [fetchDone, setFetchDone] = useState(false);
@@ -14,11 +17,15 @@ const Products = ({ adminPage, itemSelectedIdArr, setItemSelectedIdArr, reloadPr
 
     useEffect(() => {
         fetchProducts();
-    }, [reloadProducts]);
+    }, [reloadProducts, searchQuery]);
 
     const fetchProducts = async () => {
         try {
-            const response = await axiosNoAuth.get('/products');
+            let endTerm = '';
+            if (searchQuery) {
+                endTerm = `/search/${searchQuery}`
+            }
+            const response = await axiosNoAuth.get(`/products${endTerm}`);
             setProductsDB(response.data);
             setFetchDone(true);
         } catch (error) {

@@ -1,5 +1,4 @@
-import { Container, Row, Col, Button } from 'reactstrap';
-import twoPageAirbnb from '../../img/twoPageAirbnb.png';
+import { Row, Col, Button } from 'reactstrap';
 import fetsyEcommerceLogo from '../../img/fetsyEcommerceLogo.png';
 import { Link } from 'react-router-dom';
 import FiveStarGenerator from '../reviews/FiveStarGenerator';
@@ -8,7 +7,7 @@ import { useState, useEffect } from 'react';
 import { axiosWithAuth } from '../miscellaneous/axiosWithAuth';
 import SpinningIcon from '../miscellaneous/SpinningIcon';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCloudArrowDown, faPaperclip } from '@fortawesome/free-solid-svg-icons';
+import { faCloudArrowDown, faPaperclip, faX, faCartPlus } from '@fortawesome/free-solid-svg-icons';
 
 
 const ProductChecklistView = ({
@@ -107,17 +106,20 @@ const ProductChecklistView = ({
                 <>
                     <Row style={{ paddingTop: '10px', marginBottom: '10px', }}>
                         <Col xs='12' sm='4' md='3'>
-                            <img
-                                src={
-                                    (productItem.pictures && productItem.pictures.length > 0) ? productItem.pictures[0].url : fetsyEcommerceLogo
-                                }
-                                alt={`image for ${productItem.name}`}
-                                style={{
-                                    width: '100%',
-                                    marginBottom: '20px'
-                                }}
-                            />
+                            {productItem.pictures && (
+                                <img
+                                    src={
+                                        (productItem.pictures.length > 0) ? productItem.pictures[0].url : fetsyEcommerceLogo
+                                    }
+                                    alt={`image for ${productItem.name}`}
+                                    style={{
+                                        width: '100%',
+                                        marginBottom: '20px'
+                                    }}
+                                />
+                            )}
                         </Col>
+
                         <Col xs='12' sm='8' md='6'>
                             <div className='d-flex flex-column'>
                                 <h3 className='product-title'>{productItem.name}</h3>
@@ -129,11 +131,11 @@ const ProductChecklistView = ({
                                 }}>
 
                                     <p>
-                                        <FontAwesomeIcon icon={faCloudArrowDown} className='icon-margin-align' />
+                                        <FontAwesomeIcon icon={faCloudArrowDown} className='product-info-icon-align' />
                                         {productItem.productType}
                                     </p>
                                     <p>
-                                        <FontAwesomeIcon icon={faPaperclip} className='icon-margin-align' />
+                                        <FontAwesomeIcon icon={faPaperclip} className='product-info-icon-align' />
                                         1 PDF Included
                                     </p>
 
@@ -218,7 +220,7 @@ const ProductChecklistView = ({
                                             className='cart-remove-save-btn'
                                             onClick={() => removeSavedItem(productItem._id)}
                                         >
-                                            <i class="fa-solid fa-x" style={{ marginRight: '10px' }}></i>
+                                            <FontAwesomeIcon icon={faX} className='product-info-icon-align' />
                                             Remove
                                         </span>
                                         <span
@@ -226,7 +228,7 @@ const ProductChecklistView = ({
                                             style={{ marginLeft: '10px' }}
                                             onClick={() => moveBackToCart(productItem._id)}
                                         >
-                                            <i class="fa-solid fa-cart-plus" style={{ marginRight: '10px' }}></i>
+                                            <FontAwesomeIcon icon={faCartPlus} className='product-info-icon-align' />
                                             Move to Cart
                                         </span>
                                     </>
@@ -236,7 +238,7 @@ const ProductChecklistView = ({
                                             className='cart-remove-save-btn'
                                             onClick={() => removeCartItem(productItem._id)}
                                         >
-                                            <i class="fa-solid fa-x" style={{ marginRight: '10px' }}></i>
+                                            <FontAwesomeIcon icon={faX} className='product-info-icon-align' />
                                             Remove
                                         </span>
                                         <span
@@ -259,14 +261,14 @@ const ProductChecklistView = ({
                                     className='cart-remove-save-btn'
                                     onClick={() => removeFavoritesItem(productItem._id)}
                                 >
-                                    <i class="fa-solid fa-x" style={{ marginRight: '10px' }}></i>
+                                    <FontAwesomeIcon icon={faX} className='font-awesome-margin' />
                                     Remove From Favorites
                                 </span>
                                 <span
                                     className='cart-remove-save-btn'
                                     onClick={() => addCartFromFavorites(productItem._id)}
                                 >
-                                    <i class="fa-solid fa-cart-plus" style={{ marginRight: '10px' }}></i>
+                                    <FontAwesomeIcon icon={faCartPlus} className='font-awesome-margin' />
                                     Add to Cart
                                 </span>
                             </Col>

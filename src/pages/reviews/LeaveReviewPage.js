@@ -1,12 +1,11 @@
 import { Col, Container, Row, Form, FormGroup, Label, Input, Button } from "reactstrap";
-import NavbarApp from "../components/navbar/NavbarApp";
+import NavbarApp from "../../components/navbar/NavbarApp";
 import { useParams, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { axiosWithAuth } from "../components/miscellaneous/axiosWithAuth";
-import twoPageAirbnb from '../img/twoPageAirbnb.png';
-import fetsyEcommerceLogo from '../img/fetsyEcommerceLogo.png';
-import { useLoginContext } from "../components/login/LoginContext";
-import FiveStarGenerator from "../components/reviews/FiveStarGenerator";
+import { axiosWithAuth } from "../../components/miscellaneous/axiosWithAuth";
+import fetsyEcommerceLogo from '../../img/fetsyEcommerceLogo.png';
+import { useLoginContext } from "../../components/login/LoginContext";
+import FiveStarGenerator from "../../components/reviews/FiveStarGenerator";
 
 const LeaveReviewPage = () => {
     const { purchasedItemId } = useParams();

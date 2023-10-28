@@ -1,6 +1,6 @@
-import NavbarApp from "../components/navbar/NavbarApp";
+import NavbarApp from "../../components/navbar/NavbarApp";
 import { Container, Row, Col } from "reactstrap";
-import { useCartContext } from "../components/cart/CartContext";
+import { useCartContext } from "../../components/cart/CartContext";
 
 const OrderCompletedRedirectPage = () => {
     const { setCartLength } = useCartContext();

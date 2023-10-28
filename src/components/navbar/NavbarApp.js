@@ -23,7 +23,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCartShopping } from '@fortawesome/free-solid-svg-icons';
 
 
-const NavbarApp = ({ isCheckout, currentPage }) => {
+const NavbarApp = ({ isCheckout, currentPage, }) => {
     // CONTEXTS
     const {
         cartLength,
@@ -46,7 +46,9 @@ const NavbarApp = ({ isCheckout, currentPage }) => {
     };
 
     // Nav Items that appear once signed in (to the left of the search bar)
-    const signedInNavItems = ['Orders', 'Favorites', 'Reviews']
+    const signedInNavItems = ['Orders', 'Favorites', 'Reviews'];
+
+
 
     return (
         <Navbar color="light" light expand="lg">

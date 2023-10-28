@@ -1,4 +1,4 @@
-import NavbarApp from "../components/navbar/NavbarApp";
+import NavbarApp from "../../components/navbar/NavbarApp";
 import {
     Container,
     Row,
@@ -7,20 +7,22 @@ import {
     Tooltip,
 } from "reactstrap";
 import { useParams } from "react-router-dom";
-import ProductImgCarousel from "../components/products/ProductImgCarousel";
-import ReviewsInSingleProductPage from "../components/reviews/ReviewsInSingleProductPage";
-import ProductDescription from "../components/products/ProductDescription";
+import ProductImgCarousel from "../../components/products/ProductImgCarousel";
+import ReviewsInSingleProductPage from "../../components/reviews/ReviewsInSingleProductPage";
+import ProductDescription from "../../components/products/ProductDescription";
 import { useState, useEffect } from "react";
-import RightColToggle from "../components/products/RightColToggle";
-import { useCartContext } from "../components/cart/CartContext";
-import { axiosWithAuth } from "../components/miscellaneous/axios";
+import RightColToggle from "../../components/products/RightColToggle";
+import { useCartContext } from "../../components/cart/CartContext";
+import { axiosWithAuth } from "../../components/miscellaneous/axios";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faPaperclip, faCloudArrowDown } from '@fortawesome/free-solid-svg-icons';
 
 const SingleProductPage = () => {
 
     const { addItemToCart, tooltipAddCartSignin, tooltipAddCartSuccess } = useCartContext();
+
     const { productId } = useParams();
+
     const [fetchDone, setFetchDone] = useState(false);
     const [selectedProduct, setSelectedProduct] = useState({});
     const [tooltipAddFavorite, setTooltipAddFavorite] = useState(false);
