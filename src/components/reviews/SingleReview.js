@@ -6,6 +6,8 @@ import { useEffect, useState } from "react";
 import { axiosWithAuth } from "../miscellaneous/axiosWithAuth";
 import { Link } from "react-router-dom";
 import SpinningIcon from "../miscellaneous/SpinningIcon";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCloudArrowDown, faPaperclip } from '@fortawesome/free-solid-svg-icons';
 
 const SingleReview = ({ productId, purchasedItemId, starRating, ratingDescription, dateOfReview, username, adminPage }) => {
 
@@ -83,17 +85,12 @@ const SingleReview = ({ productId, purchasedItemId, starRating, ratingDescriptio
                                 padding: '15px',
                             }}>
                                 <h4>Product Details</h4>
-
                                 <p>
-                                    <div className='icon-margin-align'>
-                                        <i class="fa-solid fa-cloud-arrow-down"></i>
-                                    </div>
+                                    <FontAwesomeIcon icon={faCloudArrowDown} className='product-info-icon-align' />
                                     {productData.productType}
                                 </p>
                                 <p>
-                                    <div className='icon-margin-align'>
-                                        <i class="fa-solid fa-paperclip"></i>
-                                    </div>
+                                    <FontAwesomeIcon icon={faPaperclip} className='product-info-icon-align' />
                                     1 PDF Included
                                 </p>
                             </div>

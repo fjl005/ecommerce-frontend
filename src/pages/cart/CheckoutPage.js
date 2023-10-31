@@ -88,7 +88,7 @@ const CheckoutPage = () => {
             lastName: 'Smith',
             streetAddress: '1234 SomeStreet Ave',
             aptNumOptional: 'Apt. 311',
-            city: 'Sann Francisco',
+            city: 'San Francisco',
             state: 'CA',
             zipCode: 98765,
         });
@@ -154,7 +154,7 @@ const CheckoutPage = () => {
                             <p style={{ marginBottom: '0px' }}>If this becomes a legitimate site, then I would implement actual payment verification. However, because I am not running this with a secure connection, I do not want ANY payment or identification information to be sent.</p>
                             <span>With that said, for the checkout to work, please click the autofill button here: </span>
                             <Button onClick={autofill} className='bg-primary'>Auto-fill</Button>
-                            <Button onClick={clear}>Clear</Button>
+                            <Button onClick={clear} style={{ marginLeft: '10px' }}>Clear</Button>
 
                         </Col>
                     </Row>

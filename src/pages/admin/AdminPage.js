@@ -112,7 +112,7 @@ const AdminPage = () => {
                         <Row>
                             <Col>
                                 <h3>Finances:</h3>
-                                <p>Add Sale</p>
+                                <p>Add Sale - Feature coming soon.</p>
                                 <p>
                                     <Link to='/admin/billing'>
                                         View Billing
@@ -125,8 +125,8 @@ const AdminPage = () => {
                         <Row>
                             <Col>
                                 <h3>Settings:</h3>
-                                <p>Temporarily Close Shop</p>
-                                <p>Delete Shop</p>
+                                <p>Temporarily Close Shop - Feature coming soon.</p>
+                                <p>Delete Shop - Feature coming soon.</p>
                             </Col>
                         </Row>
                     </>

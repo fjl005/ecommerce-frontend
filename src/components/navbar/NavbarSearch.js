@@ -18,14 +18,12 @@ const NavbarSearch = () => {
     const handleSearchSubmit = (event) => {
         event.preventDefault();
         setSearchQuery(presubmitSearch);
-    };
-
-    useEffect(() => {
-        if (searchQuery) {
-            navigate(`/search/${searchQuery}`);
+        if (presubmitSearch) {
+            navigate(`/search/${presubmitSearch}`);
+        } else {
+            navigate(`/`);
         }
-    }, [searchQuery]);
-
+    };
 
     return (
         <div className='d-flex'>

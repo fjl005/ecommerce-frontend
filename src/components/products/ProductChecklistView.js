@@ -96,7 +96,6 @@ const ProductChecklistView = ({
     return (
         <>
             {loadingProduct ? (
-
                 <Row>
                     <Col>
                         <SpinningIcon size='2x' />

@@ -7,7 +7,7 @@ import LoadingOverlay from "../miscellaneous/LoadingOverlay";
 import { useProductContext } from "../../components/products/ProductContext";
 
 
-const Products = ({ adminPage, itemSelectedIdArr, setItemSelectedIdArr, reloadProducts, }) => {
+const Products = ({ adminPage, itemSelectedIdArr, setItemSelectedIdArr, reloadProducts, searchTerm }) => {
 
     const { searchQuery } = useProductContext();
 
@@ -22,9 +22,11 @@ const Products = ({ adminPage, itemSelectedIdArr, setItemSelectedIdArr, reloadPr
     const fetchProducts = async () => {
         try {
             let endTerm = '';
-            if (searchQuery) {
+            if (searchTerm) {
                 endTerm = `/search/${searchQuery}`
             }
+
+            console.log('end term: ', endTerm);
             const response = await axiosNoAuth.get(`/products${endTerm}`);
             setProductsDB(response.data);
             setFetchDone(true);

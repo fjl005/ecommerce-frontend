@@ -18,6 +18,7 @@ import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { useLoginContext } from '../login/LoginContext';
 import { useCartContext } from '../cart/CartContext';
+import { useProductContext } from '../products/ProductContext';
 import fetsyNavbarBrand from '../../img/fetsyNavbarBrand.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCartShopping } from '@fortawesome/free-solid-svg-icons';
@@ -37,6 +38,8 @@ const NavbarApp = ({ isCheckout, currentPage, }) => {
         triggerLogout,
         admin
     } = useLoginContext();
+
+    const { searchQuery, setSearchQuery } = useProductContext();
 
     // NAVBAR TOGGLE
     const [isOpen, setIsOpen] = useState(false);
@@ -68,7 +71,7 @@ const NavbarApp = ({ isCheckout, currentPage, }) => {
                 {isCheckout ? (
                     <Nav navbar>
                         <NavItem>
-                            <NavLink tag={Link} to={`/cart`}>
+                            <NavLink tag={Link} to={`/cart`} className='navbar-hover'>
                                 Back to Cart
                             </NavLink>
                         </NavItem>

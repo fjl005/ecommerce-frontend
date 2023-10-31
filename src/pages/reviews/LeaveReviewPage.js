@@ -17,6 +17,29 @@ const LeaveReviewPage = () => {
     const starRatingPrev = location.state ? location.state.starRatingPrev : '';
     const ratingDescriptionPrev = location.state ? location.state.ratingDescriptionPrev : '';
     const orderId = location.state ? location.state.orderId : '';
+    const [imgURL, setImgURL] = useState('');
+    const [loadingImg, setLoadingImg] = useState(true);
+
+    console.log('product id: ', productId);
+
+    useEffect(() => {
+        findPicURL();
+    }, []);
+
+    const findPicURL = async () => {
+        try {
+            const response = await axiosWithAuth.get(`/products/${productId}`);
+            console.log('res: ', response);
+            const imgData = response.data.pictures;
+            if (imgData.length > 0) {
+                setImgURL(imgData[0].url);
+            }
+        } catch (error) {
+            console.log('error: ', error);
+        } finally {
+            setLoadingImg(false);
+        }
+    };
 
     const isEditRoute = location.pathname.includes('/edit/');
 
@@ -118,16 +141,19 @@ const LeaveReviewPage = () => {
                             margin: '0 auto',
                             width: '50%'
                         }}>
-                            <img
-                                src={
-                                    // (productName.pictures && product.pictures.length > 0) ? productName.pictures[0].url : fetsyEcommerceLogo
-                                    fetsyEcommerceLogo
-                                }
-                                alt={`image for ${productName}`}
-                                style={{
-                                    width: '100%',
-                                }}
-                            />
+                            {!loadingImg && (
+                                <img
+                                    src={
+                                        imgURL ? imgURL : fetsyEcommerceLogo
+                                        // fetsyEcommerceLogo
+                                    }
+                                    alt={`image for ${productName}`}
+                                    style={{
+                                        width: '100%',
+                                    }}
+                                />
+                            )}
+
                         </div>
                     </Col>
                 </Row>

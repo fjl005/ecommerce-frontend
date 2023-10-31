@@ -3,13 +3,31 @@ import { useParams, useNavigate } from "react-router-dom";
 import NavbarApp from '../../components/navbar/NavbarApp';
 import Products from "../../components/products/Products";
 import welcomeBanner from '../../img/welcomeBanner.png';
-import { useState } from 'react';
+import { useEffect } from 'react';
 import { useProductContext } from '../../components/products/ProductContext';
 
 const HomePage = () => {
     const { searchTerm } = useParams();
-    const { setSearchQuery } = useProductContext();
+    const { searchQuery, setSearchQuery } = useProductContext();
     const navigate = useNavigate();
+
+    // useEffect(() => {
+    //     if (searchTerm) {
+    //         setSearchQuery(searchTerm);
+    //         console.log('here');
+    //     } else {
+    //         setSearchQuery('');
+    //     }
+    // }, [searchQuery]);
+
+    if (searchTerm) {
+        setSearchQuery(searchTerm);
+        console.log('here');
+    } else {
+        console.log('now im here');
+        setSearchQuery('');
+    }
+
 
     return (
         <>
@@ -43,7 +61,8 @@ const HomePage = () => {
                     </Row>
                 </Container>
             )}
-            <Products />
+
+            <Products searchTerm={searchTerm} />
         </>
     )
 }
