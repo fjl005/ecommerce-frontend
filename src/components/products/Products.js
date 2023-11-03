@@ -102,26 +102,16 @@ const Products = ({ adminPage, itemSelectedIdArr, setItemSelectedIdArr, reloadPr
                                     padding: '10px 5px 0px 5px'
                                 }}
                             >
-                                {product.pictures.length > 0 ? (
-                                    <img
-                                        src={product.pictures[0].url}
-                                        alt='image of product'
-                                        style={{
-                                            width: '100%',
-                                            height: 'auto'
-                                        }}
-                                    />
-                                ) : (
-                                    <img
-                                        src={fetsyEcommerceLogo}
-                                        alt='image of product'
-                                        style={{
-                                            width: '100%',
-                                            height: 'auto'
-                                        }}
-                                    />
-                                )
-                                }
+                                <img
+                                    src={product.pictures && product.pictures.length > 0 ? product.pictures[0].url : fetsyEcommerceLogo}
+                                    alt='image of product'
+                                    style={{
+                                        width: '300px',
+                                        height: '300px',
+                                        objectFit: 'cover',
+                                        // objectPosition: 'center center',
+                                    }}
+                                />
 
                                 <h6
                                     style={{

@@ -3,12 +3,11 @@ import { axiosWithAuth } from "../miscellaneous/axiosWithAuth";
 import { useEffect, useState } from "react";
 import twoPageAirbnb from '../../img/twoPageAirbnb.png';
 import fetsyEcommerceLogo from '../../img/fetsyEcommerceLogo.png';
-import { Link } from 'react-router-dom';
+
 
 const ReviewsChecklistView = ({ starRating, ratingDescription, productId, username, dateOfReview }) => {
 
     const [productData, setProductData] = useState({});
-    console.log('date of review: ', dateOfReview)
 
     useEffect(() => {
         fetchProduct();
@@ -48,15 +47,15 @@ const ReviewsChecklistView = ({ starRating, ratingDescription, productId, userna
             <FiveStarGenerator starRating={starRating} />
             <p>{ratingDescription}</p>
 
-            <Link
-                to={`/products/${productData._id}`}
+            <div
                 style={{
                     display: 'flex',
                     alignItems: 'center',
                     marginBottom: '20px',
-                    textDecoration: 'none',
                     color: 'black',
+                    cursor: 'pointer',
                 }}
+                onClick={() => window.location.href = `/products/${productData._id}`}
             >
                 <img
                     src={productData.pictures && productData.pictures.length > 0 ? productData.pictures[0].url : fetsyEcommerceLogo}
@@ -66,9 +65,7 @@ const ReviewsChecklistView = ({ starRating, ratingDescription, productId, userna
                     }}
                 />
                 <h4 style={{ marginLeft: '20px' }}>{productData.name}</h4>
-            </Link>
-
-
+            </div>
 
             <div className='line-between-reviews'></div>
         </>

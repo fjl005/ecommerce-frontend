@@ -58,7 +58,6 @@ const ProductImgCarousel = ({ selectedProduct }) => {
                             style={{
                                 opacity: currImg === idx ? '1' : '0.5',
                                 border: currImg === idx ? '1px solid black' : 'none',
-
                             }}
                             onClick={() => setCurrImg(idx)}
                         />
@@ -67,7 +66,7 @@ const ProductImgCarousel = ({ selectedProduct }) => {
             </div>
 
             <div className='d-flex align-items-center' style={{ flex: '1' }}>
-                {imgURLArray.length > 1 && (
+                {imgURLArray.length > 1 ? (
                     <div className='circle-product-carousel-nav'>
                         <FontAwesomeIcon
                             icon={faAngleLeft}
@@ -75,7 +74,7 @@ const ProductImgCarousel = ({ selectedProduct }) => {
                             style={{ fontSize: '24px' }}
                         />
                     </div>
-                )}
+                ) : <div style={{ width: '24px', margin: '0 12px' }}></div>}
 
                 <Carousel
                     activeIndex={currImg}
@@ -108,7 +107,7 @@ const ProductImgCarousel = ({ selectedProduct }) => {
                     ))}
                 </Carousel>
 
-                {imgURLArray.length > 1 && (
+                {imgURLArray.length > 1 ? (
                     <div className='circle-product-carousel-nav'>
                         <FontAwesomeIcon
                             icon={faAngleRight}
@@ -116,7 +115,8 @@ const ProductImgCarousel = ({ selectedProduct }) => {
                             style={{ fontSize: '24px' }}
                         />
                     </div>
-                )}
+                ) : <div style={{ width: '24px', margin: '0 12px' }}></div>
+                }
             </div>
         </div>
     );

@@ -50,7 +50,7 @@ const LeaveReviewPage = () => {
 
 
     const handleSubmit = async (event) => {
-        const currentDate = new Date();
+        const reviewDate = new Date();
 
         event.preventDefault();
         if (isEditRoute) {
@@ -60,7 +60,7 @@ const LeaveReviewPage = () => {
                     productId,
                     starRating,
                     ratingDescription,
-                    currentDate,
+                    reviewDate,
                     purchasedItemId,
                     orderId
                 });
@@ -79,7 +79,7 @@ const LeaveReviewPage = () => {
                     productId,
                     starRating,
                     ratingDescription,
-                    currentDate,
+                    reviewDate,
                     purchasedItemId,
                     orderId
                 });

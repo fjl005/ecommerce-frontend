@@ -412,70 +412,107 @@ const PostProductPage = () => {
                         >
                             {/* This callback function disables the submit button when submitting. 'isSubmitting' is automatically provided by Formik. */}
                             {({ isSubmitting }) => (
-                                <Form>
+                                <Form className='post-product-form'>
                                     <Col>
-                                        <Label for='product-title'>
+                                        <Label
+                                            for='product-title'
+                                            className='post-product-admin-label'
+                                        >
                                             <h4>Product Title</h4>
                                         </Label>
-                                        <Field type='text' name='productTitle' id='product-title' as={Input} />
-                                        <ErrorMessage name='productTitle' component='div' className='text-danger' />
-
+                                        <Field
+                                            type='text'
+                                            name='productTitle'
+                                            id='product-title'
+                                            as={Input}
+                                        />
+                                        <ErrorMessage
+                                            name='productTitle'
+                                            component='div'
+                                            className='text-danger'
+                                        />
                                     </Col>
-                                    <Col>
-                                        <Label for='product-price'>
-                                            <h4>Price</h4>
-                                        </Label>
-                                        <div className='d-flex align-items-center'>
-                                            <span style={{ fontSize: '25px' }}>$</span>
-                                            <Field type='text' name='productPrice' id='product-price' as={Input} style={{ width: '200px' }} />
-                                        </div>
-                                        <ErrorMessage name='productPrice' component='div' className='text-danger' />
 
-                                    </Col>
+                                    <Row>
+                                        <Col xs='6'>
+                                            <Label
+                                                for='product-price'
+                                                className='post-product-admin-label'
+                                            >
+                                                <h4>Price</h4>
+                                            </Label>
+
+                                            <div className='d-flex align-items-center'>
+                                                <span style={{ fontSize: '25px' }}>$</span>
+                                                <Field
+                                                    type='text'
+                                                    name='productPrice'
+                                                    id='product-price'
+                                                    as={Input}
+                                                />
+                                            </div>
+                                            <ErrorMessage
+                                                name='productPrice'
+                                                component='div'
+                                                className='text-danger'
+                                            />
+                                        </Col>
+
+                                        <Col xs='6'>
+                                            <Label
+                                                for='product-type'
+                                                className='post-product-admin-label'
+                                            >
+                                                <h4>Product Type</h4>
+                                            </Label>
+
+                                            <Field
+                                                type='select'
+                                                name='productType'
+                                                id='product-type'
+                                                as={Input}
+                                            >
+                                                <option value='' disabled>Select</option>
+                                                <option value='Digital Download'>Digital Download</option>
+                                                <option value='Physical Item'>Physical Item</option>
+                                            </Field>
+                                            <ErrorMessage
+                                                name='productType'
+                                                component='div'
+                                                className='text-danger'
+                                            />
+                                        </Col>
+                                    </Row>
+
                                     <Col>
-                                        <Label for='product-description'>
+                                        <Label
+                                            for='product-description'
+                                            className='post-product-admin-label'
+                                        >
                                             <h4>Product Description</h4>
                                         </Label>
-                                        <Field type='textarea' name='productDescription' id='product-description' as={Input} />
-                                        <ErrorMessage name='productDescription' component='div' className='text-danger' />
 
-                                    </Col>
-                                    <Col>
-                                        <Label for='product-type' style={{ margin: '0' }}>
-                                            <h4 style={{ marginBottom: '0' }}>Product Type</h4>
-                                        </Label>
                                         <Field
-                                            type='select'
-                                            name='productType'
-                                            id='product-type'
+                                            type='textarea'
+                                            name='productDescription'
+                                            id='product-description'
                                             as={Input}
-                                            style={{ width: '200px' }}
-                                        >
-                                            <option value='' disabled>Select</option>
-                                            <option value='Digital Download'>Digital Download</option>
-                                            <option value='Physical Item'>Physical Item</option>
-                                        </Field>
-                                        <ErrorMessage name='productType' component='div' className='text-danger' />
+                                        />
+                                        <ErrorMessage
+                                            name='productDescription'
+                                            component='div'
+                                            className='text-danger'
+                                        />
                                     </Col>
-
 
                                     <Col>
                                         {itemSelectedIdArr ? (
                                             <h4>Currently, images cannot be updated when editing multiple products</h4>
                                         ) : (
                                             <>
-                                                <div
-                                                    style={{
-                                                        display: 'flex',
-                                                        alignItems: 'center',
-                                                        marginTop: '20px'
-                                                    }}
-                                                >
-                                                    <h4
-                                                        style={{
-                                                            margin: '0px 10px 0px 0px'
-                                                        }}
-                                                    >Images (max. 10)</h4>
+
+                                                <Label className='post-product-admin-label d-flex align-items-center'>
+                                                    <h4 style={{ marginRight: '10px' }}>Images (max. 10)</h4>
                                                     {newlyUploadedImageFiles.length + existingImagesURLs.length < 10 && (
                                                         <>
                                                             <Button
@@ -483,9 +520,6 @@ const PostProductPage = () => {
                                                                 style={{
                                                                     margin: '0px',
                                                                     padding: '0px',
-                                                                    textAlign: 'center',
-                                                                    display: 'flex',
-                                                                    alignItems: 'center',
                                                                 }}
                                                             >
                                                                 <Label
@@ -506,20 +540,19 @@ const PostProductPage = () => {
                                                                 accept='image/*'
                                                                 multiple
                                                                 onChange={handleImageChange}
-                                                                style={{ fontSize: 0, display: 'none' }} // Set font-size to 0 to hide the text
-                                                            // disabled={} 
+                                                                style={{ fontSize: 0, display: 'none' }}
                                                             />
                                                         </>
-
                                                     )}
+                                                    <p style={{ margin: '0px auto 0px 10px' }}>Recommended picture dimensions are 2000 x 2000 px.</p>
+                                                </Label>
 
-                                                    <h5
-                                                        style={{
-                                                            margin: '0 0 0 10px',
-                                                            color: 'red'
-                                                        }}
-                                                    >{fileErrorMsg}</h5>
-                                                </div>
+                                                <h5
+                                                    style={{
+                                                        margin: '0 0 0 10px',
+                                                        color: 'red'
+                                                    }}
+                                                >{fileErrorMsg}</h5>
 
                                                 {(productId || (itemSelectedIdArr && itemSelectedIdArr.length > 0)) && (
                                                     <>
@@ -547,14 +580,13 @@ const PostProductPage = () => {
                                                             )) : (
                                                                 <p>None or all deleted.</p>
                                                             )}
-
                                                         <h6>Newly Uploaded</h6>
                                                     </>
                                                 )}
 
                                                 {newlyUploadedImageURLs
                                                     && newlyUploadedImageURLs.length === 0 ? (
-                                                    <p>None.</p>
+                                                    <h5>None.</h5>
                                                 ) : (
                                                     newlyUploadedImageURLs.map((url, idx) => (
                                                         <div
@@ -577,17 +609,14 @@ const PostProductPage = () => {
                                                         </div>
                                                     ))
                                                 )}
-
                                             </>
-
                                         )}
-
-
-
-
                                     </Col>
 
-                                    <div className='d-flex align-items-center'>
+                                    <div
+                                        className='d-flex align-items-center'
+                                        style={{ marginTop: '30px' }}
+                                    >
                                         <Button
                                             type='submit'
                                             className='bg-primary'

@@ -48,7 +48,7 @@ const ReviewsPage = () => {
                                         purchasedItemId={review.purchasedItemId}
                                         starRating={review.starRating}
                                         ratingDescription={review.ratingDescription}
-                                        dateOfReview={review.currentDate}
+                                        dateOfReview={review.reviewDate}
                                     />
                                 ))}
                             </>

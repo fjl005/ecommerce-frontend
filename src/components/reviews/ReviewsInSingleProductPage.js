@@ -123,7 +123,7 @@ const ReviewsInSingleProductPage = () => {
                             starRating={review.starRating}
                             ratingDescription={review.ratingDescription}
                             productId={review.productId}
-                            dateOfReview={review.currentDate}
+                            dateOfReview={review.reviewDate}
                             username={review.username}
                         />
                     ))}
