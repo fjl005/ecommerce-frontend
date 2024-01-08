@@ -258,7 +258,7 @@
 /* Admin */
 .post-product-form .post-product-admin-label {
     margin: 20px auto 5px auto;
-    color: #8C52FF;
+    /* color: #8C52FF; */
 }
 
 .post-product-admin-label h4 {

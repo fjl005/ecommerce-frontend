@@ -1,8 +1,9 @@
-import { Col, Container, Row, Table } from "reactstrap";
+import { CarouselItem, Col, Container, Row, Table } from "reactstrap";
 import NavbarAdmin from "../../components/admin/NavbarAdmin";
 import twoPageAirbnb from '../../img/twoPageAirbnb.png';
 import { useState, useEffect } from "react";
 import { axiosWithAuth } from "../../components/miscellaneous/axiosWithAuth";
+import fetsyEcommerceLogo from '../../img/fetsyEcommerceLogo.png';
 
 const BillingPage = () => {
     const [allOrders, setAllOrders] = useState([]);
@@ -74,7 +75,13 @@ const BillingPage = () => {
                                         return (
                                             <tr key={item._id}>
                                                 <td>
-                                                    <img src={twoPageAirbnb} alt='listing image' style={{ width: '100%' }} />
+                                                    {/* <img src={twoPageAirbnb} alt='listing image' style={{ width: '100%' }} /> */}
+
+                                                    <img
+                                                        src={(item.pictures && item.pictures.length > 0) ? item.pictures[0].url : fetsyEcommerceLogo}
+                                                        alt='listing image'
+                                                        style={{ width: '100%' }}
+                                                    />
                                                 </td>
                                                 <td style={{ verticalAlign: 'middle' }}>{formattedDate}</td>
                                                 <td style={{ verticalAlign: 'middle' }}>{item.productType}</td>

@@ -43,7 +43,7 @@ const AllReviewsPage = () => {
                                 purchasedItemId={review.purchasedItemId}
                                 starRating={review.starRating}
                                 ratingDescription={review.ratingDescription}
-                                dateOfReview={review.currentDate}
+                                reviewDate={review.reviewDate}
                                 username={review.username}
                                 adminPage={true}
                             />

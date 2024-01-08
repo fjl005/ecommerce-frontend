@@ -1,4 +1,4 @@
-import { Row, Col, Button } from 'reactstrap';
+import { Row, Col, Button, Tooltip } from 'reactstrap';
 import fetsyEcommerceLogo from '../../img/fetsyEcommerceLogo.png';
 import { Link } from 'react-router-dom';
 import FiveStarGenerator from '../reviews/FiveStarGenerator';
@@ -27,6 +27,13 @@ const ProductChecklistView = ({
     const [ratingDescription, setRatingDescription] = useState('');
     const [loadingProduct, setLoadingProduct] = useState(true);
     const [reviewDate, setReviewDate] = useState('');
+    const [downloadToolTipOpen, setDownloadToolTipOpen] = useState({});
+    const downloadToolTipToggle = (productId) => {
+        setDownloadToolTipOpen(prevState => ({
+            ...prevState,
+            [productId]: !prevState[productId]
+        }));
+    };
 
     const downloadClick = (orderId) => {
         console.log('order ID: ', orderId);
@@ -50,7 +57,7 @@ const ProductChecklistView = ({
             setStarRating(data.starRating);
             setRatingDescription(data.ratingDescription);
 
-            const date = new Date(data.currentDate);
+            const date = new Date(data.reviewDate);
 
             const year = date.getFullYear();
             const month = date.getMonth() + 1; // Month is 0-based, so add 1
@@ -140,12 +147,26 @@ const ProductChecklistView = ({
 
 
                                     {inOrderJs && (
-                                        <span
-                                            onClick={() => downloadClick(orderId)}
-                                            style={{ color: 'blue', textDecoration: 'underline', cursor: 'pointer' }}
-                                        >
-                                            Click to Download
-                                        </span>
+                                        <>
+                                            <span
+                                                onMouseEnter={() => downloadToolTipToggle(productItem._id)}
+                                                onMouseLeave={() => downloadToolTipToggle(productItem._id)}
+                                                style={{ color: 'blue', textDecoration: 'underline', cursor: 'pointer' }}
+                                                id={`downloadToolTip-${productItem._id}`}
+                                                onClick={() => downloadClick(orderId)}
+                                            >
+                                                Click to Download
+                                            </span>
+                                            <Tooltip
+                                                isOpen={downloadToolTipOpen[productItem._id]}
+                                                target={`downloadToolTip-${productItem._id}`}
+                                                toggle={() => downloadToolTipToggle(productItem._id)}
+                                                placement="bottom"
+                                            >
+                                                Sorry, downloads are currently unavailable!
+                                            </Tooltip>
+                                        </>
+
                                     )}
                                 </div>
                             </div>

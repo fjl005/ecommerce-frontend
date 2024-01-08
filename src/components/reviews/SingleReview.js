@@ -9,7 +9,7 @@ import SpinningIcon from "../miscellaneous/SpinningIcon";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCloudArrowDown, faPaperclip } from '@fortawesome/free-solid-svg-icons';
 
-const SingleReview = ({ productId, purchasedItemId, starRating, ratingDescription, dateOfReview, username, adminPage }) => {
+const SingleReview = ({ productId, purchasedItemId, starRating, ratingDescription, reviewDate, username, adminPage }) => {
 
     const [productData, setProductData] = useState({});
     const [loadingReview, setLoadingReview] = useState(true);
@@ -71,7 +71,9 @@ const SingleReview = ({ productId, purchasedItemId, starRating, ratingDescriptio
                             />
                         </Col>
                         <Col md='6'>
-                            <h4>Review placed on: {formatDate(new Date(dateOfReview))}</h4>
+                            <h4>
+                                Review placed on: {formatDate(new Date(reviewDate))}
+                            </h4>
 
                             <FiveStarGenerator starRating={starRating} />
                             <p>{ratingDescription}</p>
