@@ -9,7 +9,7 @@ import { axiosWithAuth } from '../../components/miscellaneous/axiosWithAuth';
 
 
 const CheckoutPage = () => {
-    const { totalCost, cartItemsArrayId, fetchCart, fetchSaved, determineTotalCost, cartLength } = useCartContext();
+    const { totalCost, cartItemsArrayId, fetchCart, fetchSaved, determineTotalCost, cartLength, setCartLength } = useCartContext();
     const { checkUser } = useLoginContext();
 
     // const [formData, setFormData] = useState({});
@@ -63,8 +63,9 @@ const CheckoutPage = () => {
                     'Content-Type': 'application/json',
                 }
             });
-            if (response.data == 'All card information matched') {
-                window.location.href = `/ordercompleted`;
+            if (response.data.message == 'All card information matched') {
+                setCartLength(0);
+                window.location.href = `/ordercompleted/${response.data.orderId}`;
             }
 
         } catch (error) {

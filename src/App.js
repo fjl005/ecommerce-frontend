@@ -92,7 +92,7 @@ function App() {
                     <Route path='/cart' element={<CartPage />} />
                     <Route path='/cart/checkout' element={<CheckoutPage />} />
                     <Route path='/orders' element={<OrdersPage />} />
-                    <Route path='/ordercompleted' element={<OrderCompletedRedirectPage />} />
+                    <Route path='/ordercompleted/:orderId' element={<OrderCompletedRedirectPage />} />
                     <Route path='/favorites' element={<FavoritesPage />} />
                     <Route path='/review/:purchasedItemId' element={<LeaveReviewPage />} />
                     <Route path='/review/edit/:purchasedItemId' element={<LeaveReviewPage />} />

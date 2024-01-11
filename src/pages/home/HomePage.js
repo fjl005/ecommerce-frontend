@@ -7,27 +7,8 @@ import { useEffect } from 'react';
 import { useProductContext } from '../../components/products/ProductContext';
 
 const HomePage = () => {
-    const { searchTerm } = useParams();
     const { searchQuery, setSearchQuery } = useProductContext();
     const navigate = useNavigate();
-
-    // useEffect(() => {
-    //     if (searchTerm) {
-    //         setSearchQuery(searchTerm);
-    //         console.log('here');
-    //     } else {
-    //         setSearchQuery('');
-    //     }
-    // }, [searchQuery]);
-
-    if (searchTerm) {
-        setSearchQuery(searchTerm);
-        console.log('here');
-    } else {
-        console.log('now im here');
-        setSearchQuery('');
-    }
-
 
     return (
         <>
@@ -41,11 +22,11 @@ const HomePage = () => {
                 }}
             />
 
-            {searchTerm && (
+            {searchQuery && (
                 <Container className='text-center'>
                     <Row>
                         <Col>
-                            <h4>Search Term: {searchTerm}</h4>
+                            <h4>Search Term: {searchQuery}</h4>
                             <span
                                 style={{
                                     color: 'blue',
@@ -62,7 +43,7 @@ const HomePage = () => {
                 </Container>
             )}
 
-            <Products searchTerm={searchTerm} />
+            <Products />
         </>
     )
 }

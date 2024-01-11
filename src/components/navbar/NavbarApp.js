@@ -179,7 +179,7 @@ const NavbarApp = ({ isCheckout, currentPage, }) => {
                                         {admin && (
                                             <NavItem style={{ marginRight: '20px' }}>
                                                 <NavLink tag={Link} to="/admin">
-                                                    <Button>Admin</Button>
+                                                    <Button className='bg-dark'>Admin</Button>
                                                 </NavLink>
                                             </NavItem>
                                         )}

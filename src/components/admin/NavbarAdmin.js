@@ -98,7 +98,7 @@ const NavbarAdmin = () => {
                                 {admin && (
                                     <NavItem>
                                         <NavLink tag={Link} to="/">
-                                            <Button>User</Button>
+                                            <Button className='bg-light' style={{ color: 'black' }}>User</Button>
                                         </NavLink>
                                     </NavItem>
                                 )}

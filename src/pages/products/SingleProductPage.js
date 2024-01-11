@@ -205,22 +205,6 @@ const SingleProductPage = () => {
                             <ReviewsInSingleProductPage />
                         </div>
                     </Row>
-                    <Row>
-                        <Col>
-                            <h3>More from this shop</h3>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col>
-                            <p>Listed on Jun 9, 2023</p>
-                            <Button>Report this item</Button>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col>
-                            <p>Breadcrumbs</p>
-                        </Col>
-                    </Row>
                 </Container>
             )}
         </>

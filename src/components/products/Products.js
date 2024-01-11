@@ -7,7 +7,7 @@ import LoadingOverlay from "../miscellaneous/LoadingOverlay";
 import { useProductContext } from "../../components/products/ProductContext";
 
 
-const Products = ({ adminPage, itemSelectedIdArr, setItemSelectedIdArr, reloadProducts, searchTerm }) => {
+const Products = ({ adminPage, itemSelectedIdArr, setItemSelectedIdArr, reloadProducts }) => {
 
     const { searchQuery } = useProductContext();
 
@@ -22,7 +22,7 @@ const Products = ({ adminPage, itemSelectedIdArr, setItemSelectedIdArr, reloadPr
     const fetchProducts = async () => {
         try {
             let endTerm = '';
-            if (searchTerm) {
+            if (searchQuery) {
                 endTerm = `/search/${searchQuery}`
             }
 
@@ -78,6 +78,9 @@ const Products = ({ adminPage, itemSelectedIdArr, setItemSelectedIdArr, reloadPr
             <Row>
                 <Col>
                     <h1>Products</h1>
+                    {(fetchDone && productsDB.length < 1) && (
+                        <h4>No Products Found.</h4>
+                    )}
                 </Col>
             </Row>
             <Row>

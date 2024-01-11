@@ -166,10 +166,10 @@
 
 .cart-remove-save-btn {
     height: 40px;
+    color: #4314a2;
     padding: 5px 15px;
     border-radius: 25px;
     background-color: white;
-    color: black;
 }
 
 .cart-remove-save-btn:hover {
@@ -185,6 +185,10 @@
 .icon-text-div {
     margin-bottom: 10px;
     display: flex;
+}
+
+.icon-margin-align {
+    width: 35px;
 }
 
 .outer-buttons-div .cart-top-button {
@@ -239,6 +243,7 @@
 .navbar-hover:hover {
     background-color: #d8d8d8;
 }
+
 
 
 

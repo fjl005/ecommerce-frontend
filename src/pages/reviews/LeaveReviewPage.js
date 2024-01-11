@@ -6,6 +6,9 @@ import { axiosWithAuth } from "../../components/miscellaneous/axiosWithAuth";
 import fetsyEcommerceLogo from '../../img/fetsyEcommerceLogo.png';
 import { useLoginContext } from "../../components/login/LoginContext";
 import FiveStarGenerator from "../../components/reviews/FiveStarGenerator";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
+
 
 const LeaveReviewPage = () => {
     const { purchasedItemId } = useParams();
@@ -209,8 +212,20 @@ const LeaveReviewPage = () => {
                             </FormGroup>
                             {isEditRoute ? (
                                 <>
-                                    <Button type='submit' color='primary'>Edit Review</Button>
-                                    <Button onClick={() => deleteReview()} style={{ marginLeft: '20px' }}>Delete Review</Button>
+                                    <Button
+                                        type='submit'
+                                        color='primary'
+                                    >
+                                        Edit Review
+                                    </Button>
+
+                                    <Button
+                                        onClick={() => deleteReview()}
+                                        style={{ marginLeft: '20px' }}
+                                        className='bg-danger'
+                                    >
+                                        <FontAwesomeIcon icon={faTrash} /> Review
+                                    </Button>
                                 </>
                             ) : (
                                 <Button type='submit' color='primary'>Submit Review</Button>
