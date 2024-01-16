@@ -1,9 +1,8 @@
-import { Col, Container, Row } from 'reactstrap';
-import { useParams, useNavigate } from "react-router-dom";
+import { Container, Row, Col } from 'reactstrap';
+import { useNavigate } from "react-router-dom";
 import NavbarApp from '../../components/navbar/NavbarApp';
 import Products from "../../components/products/Products";
 import welcomeBanner from '../../img/welcomeBanner.png';
-import { useEffect } from 'react';
 import { useProductContext } from '../../components/products/ProductContext';
 
 const HomePage = () => {
@@ -18,7 +17,6 @@ const HomePage = () => {
                 alt={'Fetsy page banner'}
                 style={{
                     width: '100%',
-                    height: 'auto'
                 }}
             />
 
@@ -37,7 +35,9 @@ const HomePage = () => {
                                     setSearchQuery('');
                                     navigate('/');
                                 }}
-                            >Click to clear</span>
+                            >
+                                Click to clear
+                            </span>
                         </Col>
                     </Row>
                 </Container>

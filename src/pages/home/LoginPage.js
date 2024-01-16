@@ -1,41 +1,35 @@
 // import LoginForm from '../components/login/LoginForm';
 import NavbarApp from '../../components/navbar/NavbarApp';
 import { useCartContext } from "../../components/cart/CartContext";
-import { Container, Row, Col, Form, FormGroup, Label, Input, Button } from 'reactstrap';
-import { useState, useEffect } from 'react';
+import {
+    Container,
+    Row,
+    Col,
+    Form,
+    FormGroup,
+    Label,
+    Input,
+    Button
+} from 'reactstrap';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useLoginContext } from '../../components/login/LoginContext';
 import { axiosWithAuth } from '../../components/miscellaneous/axiosWithAuth';
 
 
 const LoginPage = () => {
-    const {
-        cartLength,
-        setCartLength,
-        setSavedLength } = useCartContext();
+    const { setCartLength } = useCartContext();
 
     const {
         loggedIn,
         setLoggedIn,
-        triggerLogoutSign,
         loginMsg,
         setLoginMsg,
         setUsername,
         username,
         setAdmin } = useLoginContext();
 
-    // Login states
     const [password, setPassword] = useState('');
-    // const [loginMsg, setLoginMsg] = useState('');
-    const [initialRender, setInitialRender] = useState(true);
-
-    // Axios configuration. Need credentials to send cookies.
-    // const axiosWithAuth = axios.create({
-    //     baseURL: 'http://localhost:5000/',
-    //     withCredentials: true,
-    // });
-
-
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -46,7 +40,6 @@ const LoginPage = () => {
             });
             const data = response.data.user;
             setCartLength(data.cart.length);
-
             setLoggedIn(true);
             setAdmin(response.data.user.admin);
             setUsername(response.data.user.username);

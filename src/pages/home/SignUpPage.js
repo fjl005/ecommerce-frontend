@@ -1,4 +1,13 @@
-import { Container, Row, Col, Form, FormGroup, Label, Input, Button } from "reactstrap";
+import {
+    Container,
+    Row,
+    Col,
+    Form,
+    FormGroup,
+    Label,
+    Input,
+    Button
+} from "reactstrap";
 import { useState } from "react";
 import NavbarApp from "../../components/navbar/NavbarApp";
 import { axiosWithAuth } from "../../components/miscellaneous/axiosWithAuth";
@@ -16,7 +25,6 @@ const SignUpPage = () => {
 
         event.preventDefault();
         if (messageTimeout) {
-            console.log('pre clear: messageTimeout: ', messageTimeout);
             clearTimeout(messageTimeout);
             setMessageTimeout('');
         }
@@ -30,6 +38,7 @@ const SignUpPage = () => {
                 username: newUserUsername,
                 password: newUserPassword
             });
+
             setMessageOnScreen('');
             setSetupComplete(true);
 
@@ -38,7 +47,6 @@ const SignUpPage = () => {
             setMessageOnScreen(error.response.data);
             const timeoutId = setTimeout(() => setMessageOnScreen(''), 3000);
             setMessageTimeout(timeoutId);
-            setTimeout(() => setMessageTimeout(''), 3000);
         }
     }
 

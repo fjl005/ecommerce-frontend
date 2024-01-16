@@ -57,10 +57,12 @@ const OrderCompletedRedirectPage = () => {
                 </Row>
 
                 <Row>
-                    <ItemsInOrder
-                        order={recentOrder}
-                        orderId={recentOrder._id}
-                    />
+                    {recentOrder && recentOrder._id && (
+                        <ItemsInOrder
+                            order={recentOrder}
+                            orderId={recentOrder._id}
+                        />
+                    )}
                 </Row>
             </Container>
         </>

@@ -7,8 +7,9 @@ import fetsyEcommerceLogo from '../../img/fetsyEcommerceLogo.png';
 
 const ProductImgCarousel = ({ selectedProduct }) => {
     const imgObjArray = selectedProduct.pictures;
-    const carouselRef = useRef(null);
     const imgURLArray = [];
+    const [currImg, setCurrImg] = useState(0);
+
 
     if (imgObjArray.length === 0) {
         imgURLArray.push(null);
@@ -18,7 +19,6 @@ const ProductImgCarousel = ({ selectedProduct }) => {
         }
     }
 
-    const [currImg, setCurrImg] = useState(0);
 
     const next = () => {
         const nextIndex = (currImg + 1) % imgURLArray.length;
@@ -33,39 +33,23 @@ const ProductImgCarousel = ({ selectedProduct }) => {
 
     return (
         <div className='d-flex'>
-            <div
-                className='product-img-array'
-                style={{
-                    width: '80px',
-                    marginRight: '10px',
-                    overflowY: 'scroll',
-                    position: 'relative',
-                }}>
-
-                <div style={{
-                    position: 'absolute',
-                    width: '100%',
-                    top: '0px',
-                    left: '0px',
-                }}>
-
+            <div className='product-img-array'>
+                <div className='product-img-array-outer'>
                     {imgURLArray.map((image, idx) => (
                         <img
                             key={idx}
+                            className={
+                                `product-img-array-thumbnail
+                                ${currImg === idx ? 'product-img-array-thumbnail-active' : ''}`}
                             src={image === null ? fetsyEcommerceLogo : image}
                             alt={selectedProduct.name}
-                            className='product-img-array-image-thumbnail'
-                            style={{
-                                opacity: currImg === idx ? '1' : '0.5',
-                                border: currImg === idx ? '1px solid black' : 'none',
-                            }}
                             onClick={() => setCurrImg(idx)}
                         />
                     ))}
                 </div>
             </div>
 
-            <div className='d-flex align-items-center' style={{ flex: '1' }}>
+            <div className='d-flex align-items-center justify-content-between' style={{ flex: '1' }}>
                 {imgURLArray.length > 1 ? (
                     <div className='circle-product-carousel-nav'>
                         <FontAwesomeIcon
@@ -74,38 +58,23 @@ const ProductImgCarousel = ({ selectedProduct }) => {
                             style={{ fontSize: '24px' }}
                         />
                     </div>
-                ) : <div style={{ width: '24px', margin: '0 12px' }}></div>}
+                ) : <div className='no-carousel-nav'></div>}
 
-                <Carousel
-                    activeIndex={currImg}
-                    next={next}
-                    previous={previous}
-                    interval={null}
-                    style={{
-                        flex: '1',
-                    }}
-                    slide={false}
-                    fade={false}
-                    ref={carouselRef}
-                >
-                    {imgURLArray.map((image, idx) => (
-                        <CarouselItem
-                            key={idx}
-                        >
-                            <div className='d-flex align-items-center'>
-                                <img
-                                    src={image === null ? fetsyEcommerceLogo : image}
-                                    alt={selectedProduct.name}
-                                    style={{
-                                        width: '100%',
-                                        objectFit: 'cover',
-                                        borderRadius: '8px',
-                                    }}
-                                />
-                            </div>
-                        </CarouselItem>
-                    ))}
-                </Carousel>
+                {imgURLArray.map((image, idx) => (
+                    currImg === idx && (
+                        <div key={idx} style={{ width: '90%' }}>
+                            <img
+                                key={idx}
+                                src={image === null ? fetsyEcommerceLogo : image}
+                                alt={selectedProduct.name}
+                                style={{
+                                    width: '100%',
+                                }}
+                            />
+                        </div>
+
+                    )
+                ))}
 
                 {imgURLArray.length > 1 ? (
                     <div className='circle-product-carousel-nav'>
@@ -115,8 +84,7 @@ const ProductImgCarousel = ({ selectedProduct }) => {
                             style={{ fontSize: '24px' }}
                         />
                     </div>
-                ) : <div style={{ width: '24px', margin: '0 12px' }}></div>
-                }
+                ) : <div className='no-carousel-nav'></div>}
             </div>
         </div>
     );

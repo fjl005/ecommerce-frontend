@@ -5,24 +5,11 @@ import { Link } from 'react-router-dom';
 import { useEffect, useState } from "react";
 import { axiosWithAuth } from "../miscellaneous/axiosWithAuth";
 import ProductChecklistView from "../products/ProductChecklistView";
+import { formatDate } from "../miscellaneous/formatDate";
 
-const OrderItem = ({ order, orderId, adminPage, buyer }) => {
+const ItemsInOrder = ({ order, orderId, adminPage, buyer }) => {
 
     const [editUrl, setEditUrl] = useState('');
-
-    const formatDate = (date) => {
-        const options = {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-            hour: 'numeric',
-            minute: 'numeric',
-            hour12: true
-        };
-
-        return new Intl.DateTimeFormat('en-US', options).format(date);
-    };
-
 
     return (
         <Container className='cart-container'>
@@ -67,4 +54,4 @@ const OrderItem = ({ order, orderId, adminPage, buyer }) => {
     )
 }
 
-export default OrderItem;
+export default ItemsInOrder;

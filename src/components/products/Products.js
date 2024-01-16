@@ -10,7 +10,6 @@ import { useProductContext } from "../../components/products/ProductContext";
 const Products = ({ adminPage, itemSelectedIdArr, setItemSelectedIdArr, reloadProducts }) => {
 
     const { searchQuery } = useProductContext();
-
     const [productsDB, setProductsDB] = useState([]);
     const [fetchDone, setFetchDone] = useState(false);
     const [isDeleting, setIsDeleting] = useState(false);
@@ -26,7 +25,6 @@ const Products = ({ adminPage, itemSelectedIdArr, setItemSelectedIdArr, reloadPr
                 endTerm = `/search/${searchQuery}`
             }
 
-            console.log('end term: ', endTerm);
             const response = await axiosNoAuth.get(`/products${endTerm}`);
             setProductsDB(response.data);
             setFetchDone(true);
@@ -78,11 +76,12 @@ const Products = ({ adminPage, itemSelectedIdArr, setItemSelectedIdArr, reloadPr
             <Row>
                 <Col>
                     <h1>Products</h1>
-                    {(fetchDone && productsDB.length < 1) && (
+                    {fetchDone && productsDB.length < 1 && (
                         <h4>No Products Found.</h4>
                     )}
                 </Col>
             </Row>
+
             <Row>
                 {isDeleting ? (
                     <LoadingOverlay />
@@ -91,7 +90,11 @@ const Products = ({ adminPage, itemSelectedIdArr, setItemSelectedIdArr, reloadPr
                     <Col
                         key={idx} xs='6' md='4' lg='3'
                         className='product-item-homepage'
-                        style={{ border: itemSelectedIdArr ? (itemSelectedIdArr.includes(product._id) ? '1px solid black' : '') : '' }}
+                        style={{
+                            border: itemSelectedIdArr
+                                ? (itemSelectedIdArr.includes(product._id) ? '1px solid black' : '')
+                                : ''
+                        }}
                     >
                         <Link to={adminPage ? `/admin/updateproduct/${product._id}` : `/products/${product._id}`}
                             style={{
@@ -106,13 +109,16 @@ const Products = ({ adminPage, itemSelectedIdArr, setItemSelectedIdArr, reloadPr
                                 }}
                             >
                                 <img
-                                    src={product.pictures && product.pictures.length > 0 ? product.pictures[0].url : fetsyEcommerceLogo}
+                                    src={
+                                        (product.pictures && product.pictures.length > 0)
+                                            ? product.pictures[0].url
+                                            : fetsyEcommerceLogo
+                                    }
                                     alt='image of product'
                                     style={{
                                         width: '300px',
                                         height: '300px',
                                         objectFit: 'cover',
-                                        // objectPosition: 'center center',
                                     }}
                                 />
 
@@ -122,7 +128,10 @@ const Products = ({ adminPage, itemSelectedIdArr, setItemSelectedIdArr, reloadPr
                                         overflow: 'hidden',
                                         textOverflow: 'ellipsis'
                                     }}
-                                >{product.name}</h6>
+                                >
+                                    {product.name}
+                                </h6>
+
                                 <h4>${product.price.toFixed(2)}</h4>
                             </div>
                         </Link>
@@ -148,7 +157,8 @@ const Products = ({ adminPage, itemSelectedIdArr, setItemSelectedIdArr, reloadPr
                                     className='bg-danger'
                                     onClick={() => handleDelete(product)}
                                 >
-                                    Delete </Button>
+                                    Delete
+                                </Button>
                             </div>
                         )}
                     </Col>

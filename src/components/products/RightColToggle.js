@@ -6,7 +6,7 @@ const RightColToggle = ({ section, toggleState, toggleStateFxn }) => {
     return (
         <div
             className='product-page-toggle-button'
-            onClick={toggleStateFxn}
+            onClick={() => toggleStateFxn(!toggleState)}
         >
             <h3>{section}</h3>
             {toggleState ? (
