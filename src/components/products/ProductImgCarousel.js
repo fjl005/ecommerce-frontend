@@ -1,5 +1,4 @@
-import { Carousel, CarouselItem } from 'reactstrap';
-import { useState, useRef } from 'react';
+import { useState, } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import fetsyEcommerceLogo from '../../img/fetsyEcommerceLogo.png';
@@ -19,16 +18,13 @@ const ProductImgCarousel = ({ selectedProduct }) => {
         }
     }
 
-
     const next = () => {
-        const nextIndex = (currImg + 1) % imgURLArray.length;
-        setCurrImg(nextIndex);
+        // (prevImg) represents the previous state value of currImg.
+        setCurrImg((prevImg) => (prevImg + 1) % imgURLArray.length);
     };
 
     const previous = () => {
-        // Similar concept to the next function, but we add the length to prevent any negative numbers (in case the currImg is at 0).
-        const prevIndex = (currImg - 1 + imgURLArray.length) % imgURLArray.length;
-        setCurrImg(prevIndex);
+        setCurrImg((prevImg) => (prevImg - 1 + imgURLArray.length) % imgURLArray.length);
     };
 
     return (

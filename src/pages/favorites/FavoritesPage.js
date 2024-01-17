@@ -1,6 +1,5 @@
 import { Container, Row, Col } from "reactstrap";
 import NavbarApp from "../../components/navbar/NavbarApp";
-import { useCartContext } from "../../components/cart/CartContext";
 import { axiosWithAuth } from "../../components/miscellaneous/axiosWithAuth";
 import { useLoginContext } from "../../components/login/LoginContext";
 import FavoriteItem from "../../components/favorites/FavoriteItem";
@@ -9,9 +8,7 @@ import LoadingOverlay from "../../components/miscellaneous/LoadingOverlay";
 import SpinningIcon from "../../components/miscellaneous/SpinningIcon";
 
 const FavoritesPage = () => {
-    const { cartLength } = useCartContext();
     const { loggedIn } = useLoginContext();
-
     const [favoritesData, setFavoritesData] = useState({});
     const [favoritesLength, setFavoritesLength] = useState(0);
     const [loadingFavoritesPage, setLoadingFavoritesPage] = useState(true);
@@ -24,6 +21,7 @@ const FavoritesPage = () => {
             fetchAllFavorites();
         }
     }, [favoritesLoadingOverlay]);
+
 
     const fetchAllFavorites = async () => {
         try {

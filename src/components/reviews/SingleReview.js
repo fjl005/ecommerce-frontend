@@ -1,5 +1,4 @@
 import { Container, Row, Col, Button } from "reactstrap";
-import twoPageAirbnb from '../../img/twoPageAirbnb.png';
 import fetsyEcommerceLogo from '../../img/fetsyEcommerceLogo.png';
 import FiveStarGenerator from "./FiveStarGenerator";
 import { useEffect, useState } from "react";
@@ -8,8 +7,18 @@ import { Link } from "react-router-dom";
 import SpinningIcon from "../miscellaneous/SpinningIcon";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCloudArrowDown, faPaperclip } from '@fortawesome/free-solid-svg-icons';
+import { formatDate } from "../miscellaneous/formatDate";
+import DigitalProduct from "../products/DigitalProduct";
 
-const SingleReview = ({ productId, purchasedItemId, starRating, ratingDescription, reviewDate, username, adminPage }) => {
+const SingleReview = ({
+    productId,
+    purchasedItemId,
+    starRating,
+    ratingDescription,
+    reviewDate,
+    username,
+    adminPage
+}) => {
 
     const [productData, setProductData] = useState({});
     const [loadingReview, setLoadingReview] = useState(true);
@@ -30,18 +39,6 @@ const SingleReview = ({ productId, purchasedItemId, starRating, ratingDescriptio
         }
     }
 
-    const formatDate = (date) => {
-        const options = {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-            hour: 'numeric',
-            minute: 'numeric',
-            hour12: true
-        };
-
-        return new Intl.DateTimeFormat('en-US', options).format(date);
-    };
 
     return (
         <Container className='cart-container'>
@@ -54,13 +51,13 @@ const SingleReview = ({ productId, purchasedItemId, starRating, ratingDescriptio
             ) : (
                 <>
                     <Row>
-                        <Col style={{ textAlign: 'center' }}>
+                        <Col className='text-center'>
                             <h2>{productData.name}</h2>
                         </Col>
                     </Row>
 
                     <Row>
-                        <Col md='3'>
+                        <Col sm='12' md='3'>
                             <img
                                 src={
                                     (productData.pictures && productData.pictures.length > 0) ? productData.pictures[0].url : fetsyEcommerceLogo}
@@ -70,31 +67,21 @@ const SingleReview = ({ productId, purchasedItemId, starRating, ratingDescriptio
                                 }}
                             />
                         </Col>
-                        <Col md='6'>
+                        <Col sm='12' md='6'>
                             <h4>
                                 Review placed on: {formatDate(new Date(reviewDate))}
                             </h4>
 
                             <FiveStarGenerator starRating={starRating} />
                             <p>{ratingDescription}</p>
-
                         </Col>
-                        <Col md='3'>
-                            <div style={{
-                                backgroundColor: 'rgb(240, 240, 240)',
-                                width: '100%',
-                                borderRadius: '10px',
-                                padding: '15px',
-                            }}>
+
+                        <Col sm='12' md='3'>
+                            <div className='product-gray-background'>
                                 <h4>Product Details</h4>
-                                <p>
-                                    <FontAwesomeIcon icon={faCloudArrowDown} className='product-info-icon-align' />
-                                    {productData.productType}
-                                </p>
-                                <p>
-                                    <FontAwesomeIcon icon={faPaperclip} className='product-info-icon-align' />
-                                    1 PDF Included
-                                </p>
+                                {productData.productType === 'Digital Download' && (
+                                    <DigitalProduct />
+                                )}
                             </div>
                             <div style={{ textAlign: 'center', margin: '20px 0px' }}>
                                 {!adminPage && (

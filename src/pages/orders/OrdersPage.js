@@ -1,7 +1,6 @@
 import NavbarApp from "../../components/navbar/NavbarApp";
 import { Container, Row, Col } from "reactstrap";
 import { useState, useEffect } from "react";
-import { useCartContext } from "../../components/cart/CartContext";
 import { useLoginContext } from "../../components/login/LoginContext";
 import ItemsInOrder from "../../components/orders/ItemsInOrder";
 import { axiosWithAuth } from "../../components/miscellaneous/axiosWithAuth";
@@ -9,9 +8,8 @@ import SpinningIcon from "../../components/miscellaneous/SpinningIcon";
 
 
 const OrdersPage = () => {
-    const { cartLength } = useCartContext();
-    const { loggedIn, setLoggedIn, checkUser } = useLoginContext();
 
+    const { loggedIn, setLoggedIn, checkUser } = useLoginContext();
     const [ordersData, setOrdersData] = useState([]);
     const [loadingPage, setLoadingPage] = useState(true);
 
@@ -19,10 +17,6 @@ const OrdersPage = () => {
         checkUser();
         fetchOrders();
     }, []);
-
-    useEffect(() => {
-        setTimeout(() => setLoadingPage(false), 1000);
-    }, [loggedIn]);
 
     const fetchOrders = async () => {
         try {
