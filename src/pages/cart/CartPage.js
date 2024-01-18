@@ -35,7 +35,6 @@ const CartPage = () => {
     } = useCartContext();
 
     const { loggedIn, checkUser } = useLoginContext();
-
     const [loadingPage, setLoadingPage] = useState(true);
 
     useEffect(() => {
@@ -54,8 +53,7 @@ const CartPage = () => {
 
         if (userConfirmed) {
             try {
-                const response = await axiosWithAuth.delete('/cart');
-                const data = response.data;
+                await axiosWithAuth.delete('/cart');
                 fetchCart();
             } catch (error) {
                 console.log('Error in deleteAllCart() in CartPage.js: ', error);
@@ -134,21 +132,31 @@ const CartPage = () => {
                                     <Button
                                         onClick={() => moveAllToSaved()}
                                         className='cart-top-button'
-                                    >Cart <FontAwesomeIcon icon={faArrowRight} /> Saved</Button>
+                                    >
+                                        Cart
+                                        <FontAwesomeIcon icon={faArrowRight} />
+                                        Saved
+                                    </Button>
+
                                     <Button
                                         onClick={() => deleteAllCart()}
                                         className='bg-danger cart-top-button'
-                                    > <FontAwesomeIcon icon={faTrash} /> Cart</Button>
-                                    <Link
-                                        to={{
-                                            pathname: `/cart/checkout`,
-                                        }}
-                                        style={{
-                                            textDecoration: 'none',
-                                            color: 'black'
-                                        }}
                                     >
-                                        <Button className='bg-success' style={{ border: 'none' }}> <FontAwesomeIcon icon={faMoneyCheckDollar} /> Checkout</Button>
+                                        <FontAwesomeIcon icon={faTrash} />
+                                        Cart
+                                    </Button>
+
+                                    <Link
+                                        to={{ pathname: `/cart/checkout` }}
+                                        className='black-normal-text'
+                                    >
+                                        <Button
+                                            className='bg-success'
+                                            style={{ border: 'none' }}
+                                        >
+                                            <FontAwesomeIcon icon={faMoneyCheckDollar} />
+                                            Checkout
+                                        </Button>
                                     </Link>
                                 </div>
                             </div>

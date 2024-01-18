@@ -5,8 +5,6 @@ import { useEffect, useState } from "react";
 import { axiosWithAuth } from "../miscellaneous/axiosWithAuth";
 import { Link } from "react-router-dom";
 import SpinningIcon from "../miscellaneous/SpinningIcon";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCloudArrowDown, faPaperclip } from '@fortawesome/free-solid-svg-icons';
 import { formatDate } from "../miscellaneous/formatDate";
 import DigitalProduct from "../products/DigitalProduct";
 
@@ -37,7 +35,7 @@ const SingleReview = ({
             console.log('error with fetching product in SingleReview.js: ', error);
             setLoadingReview(false);
         }
-    }
+    };
 
 
     return (
@@ -60,13 +58,14 @@ const SingleReview = ({
                         <Col sm='12' md='3'>
                             <img
                                 src={
-                                    (productData.pictures && productData.pictures.length > 0) ? productData.pictures[0].url : fetsyEcommerceLogo}
-                                alt='alt text'
-                                style={{
-                                    width: '100%'
-                                }}
+                                    productData.pictures && productData.pictures.length > 0
+                                        ? productData.pictures[0].url
+                                        : fetsyEcommerceLogo}
+                                alt={`image for ${productData.name}`}
+                                style={{ width: '100%' }}
                             />
                         </Col>
+
                         <Col sm='12' md='6'>
                             <h4>
                                 Review placed on: {formatDate(new Date(reviewDate))}
@@ -86,33 +85,22 @@ const SingleReview = ({
                             <div style={{ textAlign: 'center', margin: '20px 0px' }}>
                                 {!adminPage && (
                                     <Link
-                                        to={{
-                                            pathname: `/review/edit/${purchasedItemId}`,
-                                        }}
+                                        className='black-normal-text'
+                                        to={{ pathname: `/review/edit/${purchasedItemId}` }}
                                         state={{
                                             name: productData.name,
                                             productId: productId,
-                                            // orderId: orderId,
                                             starRatingPrev: starRating,
                                             ratingDescriptionPrev: ratingDescription
-                                        }}
-                                        style={{
-                                            textDecoration: 'none',
-                                            color: 'black',
-                                            textAlign: 'center',
-                                            margin: '20px 0px'
                                         }}
                                     >
                                         <Button>Edit Review</Button>
                                     </Link>
                                 )}
                             </div>
+
                             {username && (
-                                <div style={{
-                                    overflow: 'hidden',
-                                    whiteSpace: 'nowrap',
-                                    textOverflow: 'ellipsis',
-                                }}>
+                                <div className='no-overflow-text'>
                                     <h5>Purchased by {username}</h5>
                                 </div>
                             )}

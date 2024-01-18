@@ -6,28 +6,22 @@ import CartItem from '../../components/cart/CartItem';
 import { useCartContext } from '../../components/cart/CartContext';
 import { useLoginContext } from '../../components/login/LoginContext';
 import { axiosWithAuth } from '../../components/miscellaneous/axiosWithAuth';
+import SpinningIcon from '../../components/miscellaneous/SpinningIcon';
 
 
 const CheckoutPage = () => {
-    const { totalCost, cartItemsArrayId, fetchCart, fetchSaved, determineTotalCost, cartLength, setCartLength } = useCartContext();
+    const {
+        totalCost,
+        cartItemsArrayId,
+        fetchCart,
+        fetchSaved,
+        determineTotalCost,
+        loadingCost,
+        cartLength,
+        setCartLength
+    } = useCartContext();
+
     const { checkUser } = useLoginContext();
-
-    // const [formData, setFormData] = useState({});
-
-    // const {
-    //     email,
-    //     cardNumber,
-    //     cardExpiresMonth,
-    //     cardExpiresYear,
-    //     cardCVC,
-    //     firstName,
-    //     lastName,
-    //     streetAddress,
-    //     aptNumOptional,
-    //     city,
-    //     state,
-    //     zipCode
-    // } = formData;
 
     const [formData, setFormData] = useState({
         email: '',
@@ -433,7 +427,17 @@ const CheckoutPage = () => {
                     </Row>
                     <Row>
                         <Col>
-                            <h1>Total Cost: ${totalCost.toFixed(2)}</h1>
+                            <h1>
+                                Total Cost:
+                                {loadingCost ? (
+                                    <div style={{ marginLeft: '10px', display: 'inline-block' }}>
+                                        <SpinningIcon size='1x' />
+                                    </div>
+                                ) : (
+                                    <span> ${totalCost.toFixed(2)}</span>
+                                )}
+                            </h1>
+
                         </Col>
                     </Row>
                     <Button color="primary" type="submit">

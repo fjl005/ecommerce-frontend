@@ -1,11 +1,13 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import axios from 'axios';
 import { axiosWithAuth } from '../miscellaneous/axios';
+import { useLoginContext } from '../login/LoginContext';
 
 // Create a new context named CartContext using the createContext, which will store and share cart-related data and functions.
 const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
+
+    const { loggedIn } = useLoginContext();
 
     // Tooltip States (when clicking "add to cart")
     const [tooltipAddCartSignin, setTooltipAddCartSignin] = useState(false);
@@ -25,6 +27,7 @@ export const CartProvider = ({ children }) => {
     // Loading States
     const [loadingCartAndSaved, setLoadingCartAndSaved] = useState(false);
     const [loadingCost, setLoadingCost] = useState(true);
+
 
 
     const fetchCart = async () => {
@@ -54,13 +57,13 @@ export const CartProvider = ({ children }) => {
     }
 
     const determineTotalCost = async () => {
-        console.log('determine cost')
         try {
             setLoadingCost(true);
             let total = 0;
+
             if (cartItemsArrayId.length > 0) {
-                for (let item of cartItemsArrayId) {
-                    const response = await axiosWithAuth.get(`/products/${item}`);
+                for (let itemId of cartItemsArrayId) {
+                    const response = await axiosWithAuth.get(`/products/${itemId}`);
                     const itemPrice = response.data.price;
                     total += itemPrice;
                 }
@@ -78,8 +81,10 @@ export const CartProvider = ({ children }) => {
     }
 
     useEffect(() => {
-        fetchCart();
-    }, []);
+        if (loggedIn) {
+            fetchCart();
+        }
+    }, [loggedIn]);
 
     useEffect(() => {
         determineTotalCost();

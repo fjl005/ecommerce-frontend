@@ -118,7 +118,6 @@
 
 .product-gray-background {
     background-color: rgb(240, 240, 240);
-    width: 80%;
     border-radius: 10px;
     padding: 10px;
 }
@@ -244,7 +243,6 @@
 .cart-header-buttons {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     align-items: center;
 }
 

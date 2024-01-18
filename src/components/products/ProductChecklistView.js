@@ -227,7 +227,11 @@ const ProductChecklistView = ({
                             <Col style={{ marginBottom: '10px' }}>
                                 <span
                                     className='cart-remove-save-btn'
-                                    onClick={() => removeSavedItem(productItem._id)}
+                                    onClick={() => {
+                                        isSaved
+                                            ? removeSavedItem(productItem._id)
+                                            : removeCartItem(productItem._id)
+                                    }}
                                 >
                                     <FontAwesomeIcon icon={faX} className='product-info-icon-align' />
                                     Remove

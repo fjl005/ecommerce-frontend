@@ -1,4 +1,4 @@
-import { Container, Row, Col, Button } from "reactstrap";
+import { Container, Row, Col } from "reactstrap";
 import NavbarApp from "../../components/navbar/NavbarApp";
 import SingleReview from "../../components/reviews/SingleReview";
 import { axiosWithAuth } from "../../components/miscellaneous/axiosWithAuth";
