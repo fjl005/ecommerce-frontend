@@ -29,20 +29,18 @@ const ProductImgCarousel = ({ selectedProduct }) => {
 
     return (
         <div className='d-flex'>
-            <div className='product-img-array'>
-                <div className='product-img-array-outer'>
-                    {imgURLArray.map((image, idx) => (
-                        <img
-                            key={idx}
-                            className={
-                                `product-img-array-thumbnail
+            <div className='product-img-carousel-container'>
+                {imgURLArray.map((image, idx) => (
+                    <img
+                        key={idx}
+                        className={
+                            `product-img-carousel product-img-array-thumbnail
                                 ${currImg === idx ? 'product-img-array-thumbnail-active' : ''}`}
-                            src={image === null ? fetsyEcommerceLogo : image}
-                            alt={selectedProduct.name}
-                            onClick={() => setCurrImg(idx)}
-                        />
-                    ))}
-                </div>
+                        src={image === null ? fetsyEcommerceLogo : image}
+                        alt={selectedProduct.name}
+                        onClick={() => setCurrImg(idx)}
+                    />
+                ))}
             </div>
 
             <div className='d-flex align-items-center justify-content-between' style={{ flex: '1' }}>

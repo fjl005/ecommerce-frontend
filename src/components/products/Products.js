@@ -27,6 +27,7 @@ const Products = ({ adminPage, itemSelectedIdArr, setItemSelectedIdArr, reloadPr
 
             const response = await axiosNoAuth.get(`/products${endTerm}`);
             setProductsDB(response.data);
+            console.log('products db: ', productsDB);
             setFetchDone(true);
         } catch (error) {
             console.log('Error in fetchProducts() in Products.js', error);
@@ -96,39 +97,24 @@ const Products = ({ adminPage, itemSelectedIdArr, setItemSelectedIdArr, reloadPr
                                 : ''
                         }}
                     >
-                        <Link to={adminPage ? `/admin/updateproduct/${product._id}` : `/products/${product._id}`}
-                            style={{
-                                textDecoration: 'none',
-                                color: 'black',
-                            }}
+                        <Link
+                            to={adminPage ? `/admin/updateproduct/${product._id}` : `/products/${product._id}`}
+                            className='black-normal-text'
                         >
-                            <div
-                                style={{
-                                    width: '100%',
-                                    padding: '10px 5px 0px 5px'
-                                }}
-                            >
-                                <img
-                                    src={
-                                        (product.pictures && product.pictures.length > 0)
-                                            ? product.pictures[0].url
-                                            : fetsyEcommerceLogo
-                                    }
-                                    alt='image of product'
-                                    style={{
-                                        width: '300px',
-                                        height: '300px',
-                                        objectFit: 'cover',
-                                    }}
-                                />
+                            <div style={{ padding: '10px', width: '100%' }}>
+                                <div style={{ position: 'relative', width: '100%', paddingBottom: '100%' }}>
+                                    <img
+                                        src={
+                                            (product.pictures && product.pictures.length > 0)
+                                                ? product.pictures[0].url
+                                                : fetsyEcommerceLogo
+                                        }
+                                        alt={`Image for ${product.name}`}
+                                        className='product-img-abs'
+                                    />
+                                </div>
 
-                                <h6
-                                    style={{
-                                        whiteSpace: 'nowrap',
-                                        overflow: 'hidden',
-                                        textOverflow: 'ellipsis'
-                                    }}
-                                >
+                                <h6 className='no-overflow-text' style={{ marginTop: '10px' }}>
                                     {product.name}
                                 </h6>
 

@@ -26,11 +26,7 @@ const HomePage = () => {
                         <Col>
                             <h4>Search Term: {searchQuery}</h4>
                             <span
-                                style={{
-                                    color: 'blue',
-                                    textDecoration: 'underline',
-                                    cursor: 'pointer',
-                                }}
+                                className='blue-hyperlink-text'
                                 onClick={() => {
                                     setSearchQuery('');
                                     navigate('/');
