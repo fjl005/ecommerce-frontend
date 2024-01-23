@@ -9,7 +9,7 @@ import CartInSummarySection from '../summaryview/CartInSummarySection';
 import FavoriteInSummarySection from '../summaryview/FavoriteInSummarySection';
 
 
-const ProductChecklistView = ({
+const ProductSummaryView = ({
     adminPage,
     inOrderJs,
     inFavoritesJs,
@@ -41,8 +41,7 @@ const ProductChecklistView = ({
     const addCartFromFavorites = async (productId) => {
         try {
             setFavoritesLoadingOverlay(true);
-            const response = await axiosWithAuth.post(`/favorites/cart/${productId}`);
-            const data = response.data;
+            await axiosWithAuth.post(`/favorites/cart/${productId}`);
             setFavoritesLoadingOverlay(false);
             fetchCart();
         } catch (error) {
@@ -131,4 +130,4 @@ const ProductChecklistView = ({
     )
 };
 
-export default ProductChecklistView
+export default ProductSummaryView

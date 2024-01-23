@@ -1,7 +1,7 @@
 import { Container } from "reactstrap";
 import { useEffect, useState } from 'react';
 import { axiosWithAuth } from "../miscellaneous/axiosWithAuth";
-import ProductChecklistView from "../products/ProductChecklistView";
+import ProductSummaryView from "../products/ProductSummaryView";
 
 
 const CartItem = ({ productId, isSaved, inCartJs }) => {
@@ -24,7 +24,7 @@ const CartItem = ({ productId, isSaved, inCartJs }) => {
 
     return (
         <Container className='cart-container'>
-            <ProductChecklistView
+            <ProductSummaryView
                 productItem={productData}
                 inCartJs={inCartJs}
                 isSaved={isSaved}

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { axiosWithAuth } from "../miscellaneous/axiosWithAuth";
-import ProductChecklistView from "../products/ProductChecklistView";
+import ProductSummaryView from "../products/ProductSummaryView";
 import { Container } from "reactstrap";
 
 const FavoriteItem = ({ productId, setFavoritesLoadingOverlay }) => {
@@ -24,7 +24,7 @@ const FavoriteItem = ({ productId, setFavoritesLoadingOverlay }) => {
 
     return (
         <Container className='cart-container'>
-            <ProductChecklistView
+            <ProductSummaryView
                 productItem={favoriteItem}
                 inFavoritesJs={true}
                 setFavoritesLoadingOverlay={setFavoritesLoadingOverlay}

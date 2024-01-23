@@ -10,20 +10,28 @@ import { useLoginContext } from '../../components/login/LoginContext';
 import { axiosWithAuth } from "../../components/miscellaneous/axiosWithAuth";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight, faTrash, faMoneyCheckDollar } from "@fortawesome/free-solid-svg-icons";
+import { useSavedItemContext } from "../../components/cart/SavedItemContext";
 
 const CartPage = () => {
 
     const {
+        fetchSaved,
+        savedItemsArrayId,
+        savedLength,
+
+    } = useSavedItemContext();
+
+    const {
         // Fetch functions
         fetchCart,
-        fetchSaved,
+        // fetchSaved,
 
         // Array ID's
         cartItemsArrayId,
-        savedItemsArrayId,
+        // savedItemsArrayId,
 
         // Lengths
-        savedLength,
+        // savedLength,
         cartLength,
 
         // Total Cost

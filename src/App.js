@@ -54,20 +54,9 @@ function App() {
         }
     };
 
-    // const fetchData = async () => {
-    //     try {
-    //         await checkUser();
-    //         setPageLoading(false);
-    //     } catch (error) {
-    //         setPageLoading(false);
-    //     }
-    // };
 
     // Initiate checkLogin and checkAdmin at initial page render. Once completed, setPageLoading to false to make the Spinner disappear.
     useEffect(() => {
-
-
-        // fetchData();
 
         // Create a setTimeout to rerun fetchData after 1 Hour, the duration of the cookie.
         const timerId = setTimeout(() => {

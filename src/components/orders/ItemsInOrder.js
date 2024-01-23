@@ -1,6 +1,5 @@
 import { Container, Row, Col } from "reactstrap";
-import { Button } from "reactstrap";
-import ProductChecklistView from "../products/ProductChecklistView";
+import ProductSummaryView from "../products/ProductSummaryView";
 import { formatDate } from "../miscellaneous/formatDate";
 
 const ItemsInOrder = ({ order, orderId, adminPage, buyer }) => {
@@ -26,7 +25,7 @@ const ItemsInOrder = ({ order, orderId, adminPage, buyer }) => {
             </Row>
             {
                 order.items.map((purchasedItem, idx) => (
-                    <ProductChecklistView
+                    <ProductSummaryView
                         key={idx}
                         productItem={purchasedItem}
                         inOrderJs={true}

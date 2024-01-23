@@ -1,17 +1,14 @@
 import React from 'react'
 import { useCartContext } from '../cart/CartContext';
+import { useSavedItemContext } from '../cart/SavedItemContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faX, faCartPlus } from '@fortawesome/free-solid-svg-icons';
 
 
 const CartInSummarySection = ({ isSaved, productItem }) => {
-    const {
-        saveLaterCartItem,
-        removeCartItem,
-        moveBackToCart,
-        removeSavedItem,
-        fetchCart
-    } = useCartContext();
+    const { removeCartItem } = useCartContext();
+
+    const { saveLaterCartItem, removeSavedItem, moveBackToCart } = useSavedItemContext();
 
     return (
         <>

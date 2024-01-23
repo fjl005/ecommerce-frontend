@@ -9,7 +9,7 @@ import SpinningIcon from "../../components/miscellaneous/SpinningIcon";
 
 const FavoritesPage = () => {
     const { loggedIn } = useLoginContext();
-    const [favoritesData, setFavoritesData] = useState({});
+    const [allFavoritesID, setAllFavoritesID] = useState({});
     const [favoritesLength, setFavoritesLength] = useState(0);
     const [loadingFavoritesPage, setLoadingFavoritesPage] = useState(true);
     const [favoritesLoadingOverlay, setFavoritesLoadingOverlay] = useState(false);
@@ -27,7 +27,7 @@ const FavoritesPage = () => {
         try {
             const response = await axiosWithAuth.get(`/favorites`);
             const data = response.data;
-            setFavoritesData(data.favorites);
+            setAllFavoritesID(data.favorites);
             setFavoritesLength(data.favorites.length);
             setLoadingFavoritesPage(false);
         } catch (error) {
@@ -48,14 +48,14 @@ const FavoritesPage = () => {
                             <SpinningIcon size='2x' />
                         ) : !loggedIn ? (
                             <h1>You must log in to view your Favorites.</h1>
-                        ) : favoritesData.length > 0 ? (
+                        ) : allFavoritesID.length > 0 ? (
                             <>
                                 <h1>
                                     {favoritesLength === 1
                                         ? `${favoritesLength} item in your Favorites`
                                         : `${favoritesLength} items in your Favorites`}
                                 </h1>
-                                {favoritesData.map((productId, idx) => (
+                                {allFavoritesID.map((productId, idx) => (
                                     <FavoriteItem
                                         key={idx}
                                         productId={productId}

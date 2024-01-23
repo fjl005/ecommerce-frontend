@@ -5,6 +5,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { CartProvider } from './components/cart/CartContext';
 import { LoginProvider } from './components/login/LoginContext';
+import { SavedItemProvider } from './components/cart/SavedItemContext';
 import { ProductProvider } from './components/products/ProductContext';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
@@ -14,11 +15,12 @@ root.render(
     <React.StrictMode>
         <LoginProvider>
             <CartProvider>
-                <ProductProvider>
-                    <App />
-                </ProductProvider>
+                <SavedItemProvider>
+                    <ProductProvider>
+                        <App />
+                    </ProductProvider>
+                </SavedItemProvider>
             </CartProvider>
-
         </LoginProvider>
     </React.StrictMode>
 );
