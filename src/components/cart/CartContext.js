@@ -10,10 +10,6 @@ export const CartProvider = ({ children }) => {
 
     const { loggedIn } = useLoginContext();
 
-    // Tooltip States (when clicking "add to cart")
-    const [tooltipAddCartSignin, setTooltipAddCartSignin] = useState(false);
-    const [tooltipAddCartSuccess, setTooltipAddCartSuccess] = useState(false);
-
     // Cart States
     const [cartItemsArrayId, setCartItemsArrayId] = useState([]);
     const [cartLength, setCartLength] = useState(0);
@@ -75,24 +71,28 @@ export const CartProvider = ({ children }) => {
     }, [cartItemsArrayId]);
 
 
-    const addItemToCart = async (productId) => {
-        try {
-            await axiosWithAuth.post(`/cart/${productId}`);
-            setTooltipAddCartSuccess(true);
-            setTimeout(() => {
-                setTooltipAddCartSuccess(false);
-            }, 3000);
-            fetchCart();
-        } catch (error) {
-            console.log('error: ', error);
-            if (error.response.data === 'You must log in before accessing this page') {
-                setTooltipAddCartSignin(true);
-                setTimeout(() => {
-                    setTooltipAddCartSignin(false);
-                }, 3000);
-            }
-        }
-    };
+    // const addItemToCart = async (productId) => {
+    //     try {
+    //         await axiosWithAuth.post(`/cart/${productId}`);
+    //         fetchCart();
+    //         return true;
+    //         setTooltipAddCartSuccess(true);
+    //         setTimeout(() => {
+    //             setTooltipAddCartSuccess(false);
+    //         }, 3000);
+    //     } catch (error) {
+    //         console.log('error: ', error);
+    //         return false;
+
+    //         if (error.response.data === 'You must log in before accessing this page') {
+    //             setTooltipAddCartSignin(true);
+    //             setTimeout(() => {
+    //                 setTooltipAddCartSignin(false);
+    //             }, 3000);
+    //         }
+    //     }
+    // };
+
 
 
     const removeCartItem = async (cartItemId) => {
@@ -120,12 +120,8 @@ export const CartProvider = ({ children }) => {
             cartLength,
             setCartLength,
 
-            // Tooltips
-            tooltipAddCartSignin,
-            tooltipAddCartSuccess,
-
             // Cart Item Actions
-            addItemToCart,
+            // addItemToCart,
             removeCartItem,
 
             // Total Cost

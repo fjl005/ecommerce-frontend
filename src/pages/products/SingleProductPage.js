@@ -15,14 +15,14 @@ import { useCartContext } from "../../components/cart/CartContext";
 import { axiosWithAuth } from "../../components/miscellaneous/axios";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faPaperclip, faCloudArrowDown } from '@fortawesome/free-solid-svg-icons';
+import SpinningIcon from "../../components/miscellaneous/SpinningIcon";
 
 const SingleProductPage = () => {
 
-    const { addItemToCart, tooltipAddCartSignin, tooltipAddCartSuccess } = useCartContext();
+    const { fetchCart } = useCartContext();
     const { productId } = useParams();
-    const [fetchDone, setFetchDone] = useState(false);
     const [selectedProduct, setSelectedProduct] = useState({});
-    const [tooltipAddFavorite, setTooltipAddFavorite] = useState(false);
+    const [loadingPage, setLoadingPage] = useState(true);
 
     useEffect(() => {
         fetchProductData();
@@ -33,43 +33,139 @@ const SingleProductPage = () => {
             const response = await axiosWithAuth.get(`/products/${productId}`);
             const data = response.data;
             setSelectedProduct(data);
-            setFetchDone(true);
+            setLoadingPage(false);
         } catch (error) {
             console.log('error: ', error);
-            setFetchDone(true);
+            setLoadingPage(false);
             setSelectedProduct(null);
         }
     };
 
-    const addItemToFavorites = async (productId) => {
-        try {
-            await axiosWithAuth.post(`/favorites`, { productId });
-            setTooltipAddFavorite(true);
-            setTimeout(() => {
-                setTooltipAddFavorite(false);
-            }, 3000);
-        } catch (error) {
-            console.log('error: ', error);
-        }
-    };
 
+    // Right Col Toggle States
     const [showHighlight, setShowHighlight] = useState(true);
     const [showDescription, setShowDescription] = useState(true);
     const [showDelivery, setShowDelivery] = useState(true);
     const [showSeller, setShowSeller] = useState(true);
 
 
+    // Add to Cart Click
+    const [tooltipAddCartSuccess, setTooltipAddCartSuccess] = useState(false);
+    const [tooltipAddCartSignin, setTooltipAddCartSignin] = useState(false);
+    const [tooltipCartTimeout, setTooltipCartTimeout] = useState(null);
+
+    const addToCartClick = async (productId) => {
+        if (tooltipCartTimeout) {
+            clearTimeout(tooltipCartTimeout);
+        }
+
+        try {
+            await axiosWithAuth.post(`/cart/${productId}`);
+            fetchCart();
+            setTooltipAddCartSuccess(true);
+
+            const newTimeout = setTimeout(() => {
+                setTooltipAddCartSuccess(false);
+            }, 3000);
+
+            setTooltipCartTimeout(newTimeout);
+        } catch (error) {
+            console.log('error: ', error);
+            if (error.response.data === 'You must log in before accessing this page') {
+                setTooltipAddCartSignin(true);
+
+                const newTimeout = setTimeout(() => {
+                    setTooltipAddCartSignin(false);
+                }, 3000);
+
+                setTooltipCartTimeout(newTimeout);
+            }
+        }
+    };
+
+    // Add to Favorites Click
+    const [tooltipAddFavoriteSuccess, setTooltipAddFavoriteSuccess] = useState(false);
+    const [tooltipAddFavoriteSignin, setTooltipAddFavoriteSignin] = useState(false);
+    const [tooltipFavoriteTimeout, setTooltipFavoriteTimeout] = useState(null);
+
+    const addToFavoritesClick = async (productId) => {
+        if (tooltipFavoriteTimeout) {
+            clearTimeout(tooltipFavoriteTimeout);
+        }
+
+        try {
+            await axiosWithAuth.post(`/favorites`, { productId });
+            setTooltipAddFavoriteSuccess(true);
+
+            const newTimeout = setTimeout(() => {
+                setTooltipAddFavoriteSuccess(false);
+            }, 3000);
+
+            setTooltipFavoriteTimeout(newTimeout);
+            console.log('successfully added to favorites');
+
+        } catch (error) {
+            console.log('error: ', error);
+
+            if (error.response.data === 'You must log in before accessing this page') {
+
+                // Update the code below to apply for favorite, not cart.
+
+                setTooltipAddFavoriteSignin(true);
+                const newTimeout = setTimeout(() => {
+                    setTooltipAddFavoriteSignin(false);
+                }, 3000);
+
+                setTooltipFavoriteTimeout(newTimeout);
+            }
+        }
+    };
+
+    const tooltipArr = [
+        {
+            tooltip: tooltipAddCartSignin,
+            target: 'addCart',
+            message: 'You must sign in to add items to your cart.',
+            placement: 'top',
+        },
+        {
+            tooltip: tooltipAddCartSuccess,
+            target: 'addCart',
+            message: 'Item added to Cart!',
+            placement: 'top',
+        },
+        {
+            tooltip: tooltipAddFavoriteSignin,
+            target: 'addFavorite',
+            message: 'You must sign in to add items to your Favorite.',
+            placement: 'bottom'
+        },
+        {
+            tooltip: tooltipAddFavoriteSuccess,
+            target: 'addFavorite',
+            message: 'Item added to Favorites!',
+            placement: 'bottom'
+        },
+    ];
+
+
     return (
         <>
             <NavbarApp />
-            {fetchDone && (
+            {loadingPage ? (
+                <Container>
+                    <Row>
+                        <Col>
+                            <SpinningIcon size='2x' />
+                        </Col>
+                    </Row>
+                </Container>
+            ) : (
                 <Container className='product-page-container'>
                     {selectedProduct ? (
                         <Row>
                             <Col sm='12' xl='8' style={{ marginBottom: '20px' }}>
                                 <ProductImgCarousel selectedProduct={selectedProduct} />
-
-                                {/* d-none makes the display none on all viewport sizes, but d-xl-block applies the display: block to xl+ viewport sizes, making it visible at xl+. */}
                                 <div className="d-none d-xl-block" style={{ marginTop: '20px' }}>
                                     <ReviewsInSingleProductPage />
                                 </div>
@@ -80,31 +176,18 @@ const SingleProductPage = () => {
                                     <h1 style={{ fontWeight: 'bold' }}>${selectedProduct.price.toFixed(2)}</h1>
                                     <h5 className='product-title'>{selectedProduct.name}</h5>
                                     <div
-                                        id='addToCart'
+                                        id='addCart'
                                         className='product-page-add-to-cart'
-                                        onClick={() => addItemToCart(selectedProduct._id)}
+                                        // onClick={() => addItemToCart(selectedProduct._id)}
+                                        onClick={() => addToCartClick(selectedProduct._id)}
                                     >
                                         Add to cart
                                     </div>
 
-                                    <Tooltip
-                                        isOpen={tooltipAddCartSignin}
-                                        target='addToCart'
-                                    >
-                                        You must sign in to add items to your cart.
-                                    </Tooltip>
-
-                                    <Tooltip
-                                        isOpen={tooltipAddCartSuccess}
-                                        target='addToCart'
-                                    >
-                                        Item added to cart!
-                                    </Tooltip>
-
                                     <div
                                         className='product-page-add-to-collection'
                                         id='addFavorite'
-                                        onClick={() => addItemToFavorites(selectedProduct._id)}
+                                        onClick={() => addToFavoritesClick(selectedProduct._id)}
                                     >
                                         <FontAwesomeIcon
                                             icon={faHeart}
@@ -113,13 +196,16 @@ const SingleProductPage = () => {
                                         Add to Favorites
                                     </div>
 
-                                    <Tooltip
-                                        isOpen={tooltipAddFavorite}
-                                        target='addFavorite'
-                                        placement='bottom'
-                                    >
-                                        Item added to Favorites!
-                                    </Tooltip>
+                                    {tooltipArr.map((tooltipObj, idx) => (
+                                        <Tooltip
+                                            key={idx}
+                                            isOpen={tooltipObj.tooltip}
+                                            target={tooltipObj.target}
+                                            placement={tooltipObj.placement}
+                                        >
+                                            {tooltipObj.message}
+                                        </Tooltip>
+                                    ))}
 
                                     <div>
                                         <RightColToggle
@@ -204,6 +290,7 @@ const SingleProductPage = () => {
                 </Container>
             )}
         </>
+
     );
 };
 

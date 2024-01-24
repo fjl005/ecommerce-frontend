@@ -2,7 +2,7 @@
 
 const FiveStarGenerator = ({ starRating, editRating, setStarRating }) => {
     const starRatingValues = [1, 2, 3, 4, 5];
-    console.log('star rating: ', starRating);
+    // console.log('star rating: ', starRating);
 
     const starArray = Array(5).fill(null);
 

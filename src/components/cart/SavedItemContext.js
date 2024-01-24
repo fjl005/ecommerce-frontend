@@ -8,6 +8,8 @@ import { axiosWithAuth } from "../miscellaneous/axios";
 
     Provider: a component that, using the Context API, supplies the values to the context and allows its descendants to consume those values.
 
+    Think of it like this: you can create the context and have a child component use the context, BUT you need to 'provide' it so that React knows where to grab the context for you. If you don't provide the context, React will use the default value specified in createContext(). Currently in our code, there is no defined default value (just empty parenthesis).
+
 */
 
 // FIRST, create the Context, which will contain all the "values" you want the app to access, such as functions and variables.
@@ -97,3 +99,5 @@ export const SavedItemProvider = ({ children }) => {
 
 // Third, export the useContext line for providing the actual syntax that following components can use. Exporting useContext itself will save us the trouble of having to write useContext(SavedItemContext) every time. 
 export const useSavedItemContext = () => useContext(SavedItemContext);
+
+// Also, for clarity, useContext tells React that the given component wants to read the SavedItemContext. 

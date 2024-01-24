@@ -5,6 +5,7 @@ import fetsyEcommerceLogo from '../../img/fetsyEcommerceLogo.png';
 import { axiosNoAuth, axiosWithAuth } from "../miscellaneous/axios";
 import LoadingOverlay from "../miscellaneous/LoadingOverlay";
 import { useProductContext } from "../../components/products/ProductContext";
+import SpinningIcon from "../miscellaneous/SpinningIcon";
 
 
 const Products = ({ adminPage, itemSelectedIdArr, setItemSelectedIdArr, reloadProducts }) => {
@@ -12,6 +13,7 @@ const Products = ({ adminPage, itemSelectedIdArr, setItemSelectedIdArr, reloadPr
     const { searchQuery } = useProductContext();
     const [productsDB, setProductsDB] = useState([]);
     const [fetchDone, setFetchDone] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [isDeleting, setIsDeleting] = useState(false);
 
     useEffect(() => {
@@ -24,13 +26,16 @@ const Products = ({ adminPage, itemSelectedIdArr, setItemSelectedIdArr, reloadPr
             if (searchQuery) {
                 endTerm = `/search/${searchQuery}`
             }
+            console.log('loading products?')
 
             const response = await axiosNoAuth.get(`/products${endTerm}`);
             setProductsDB(response.data);
             console.log('products db: ', productsDB);
+            setLoading(false);
             setFetchDone(true);
         } catch (error) {
             console.log('Error in fetchProducts() in Products.js', error);
+            setLoading(false);
         }
     };
 
@@ -77,7 +82,9 @@ const Products = ({ adminPage, itemSelectedIdArr, setItemSelectedIdArr, reloadPr
             <Row>
                 <Col>
                     <h1>Products</h1>
-                    {fetchDone && productsDB.length < 1 && (
+                    {loading ? (
+                        <SpinningIcon size='2x' />
+                    ) : productsDB.length < 1 && (
                         <h4>No Products Found.</h4>
                     )}
                 </Col>
@@ -86,7 +93,7 @@ const Products = ({ adminPage, itemSelectedIdArr, setItemSelectedIdArr, reloadPr
             <Row>
                 {isDeleting ? (
                     <LoadingOverlay />
-                ) : fetchDone && productsDB.length > 0 &&
+                ) : !loading && productsDB.length > 0 &&
                 productsDB.map((product, idx) => (
                     <Col
                         key={idx} xs='6' md='4' lg='3'

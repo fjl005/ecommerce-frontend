@@ -1,6 +1,6 @@
 import NavbarApp from '../../components/navbar/NavbarApp';
 import { Container, Row, Col, Button, Form, FormGroup, Label, Input } from 'reactstrap';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useLoginContext } from '../../components/login/LoginContext';
 import { axiosWithAuth } from '../../components/miscellaneous/axiosWithAuth';
 

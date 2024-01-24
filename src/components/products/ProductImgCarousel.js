@@ -21,10 +21,13 @@ const ProductImgCarousel = ({ selectedProduct }) => {
     const next = () => {
         // (prevImg) represents the previous state value of currImg.
         setCurrImg((prevImg) => (prevImg + 1) % imgURLArray.length);
+        console.log('clicked next.')
     };
 
     const previous = () => {
         setCurrImg((prevImg) => (prevImg - 1 + imgURLArray.length) % imgURLArray.length);
+        console.log('clicked prev.')
+
     };
 
     return (
@@ -34,8 +37,8 @@ const ProductImgCarousel = ({ selectedProduct }) => {
                     <img
                         key={idx}
                         className={
-                            `product-img-carousel product-img-array-thumbnail
-                                ${currImg === idx ? 'product-img-array-thumbnail-active' : ''}`}
+                            `product-img-carousel product-img-thumbnail
+                                ${currImg === idx ? 'product-img-thumbnail-active' : ''}`}
                         src={image === null ? fetsyEcommerceLogo : image}
                         alt={selectedProduct.name}
                         onClick={() => setCurrImg(idx)}
@@ -45,10 +48,12 @@ const ProductImgCarousel = ({ selectedProduct }) => {
 
             <div className='d-flex align-items-center justify-content-between' style={{ flex: '1' }}>
                 {imgURLArray.length > 1 ? (
-                    <div className='circle-product-carousel-nav'>
+                    <div
+                        className='circle-product-carousel-nav'
+                        onClick={() => previous()}
+                    >
                         <FontAwesomeIcon
                             icon={faAngleLeft}
-                            onClick={previous}
                             style={{ fontSize: '24px' }}
                         />
                     </div>
@@ -61,20 +66,18 @@ const ProductImgCarousel = ({ selectedProduct }) => {
                                 key={idx}
                                 src={image === null ? fetsyEcommerceLogo : image}
                                 alt={selectedProduct.name}
-                                style={{
-                                    width: '100%',
-                                }}
+                                style={{ width: '100%', }}
                             />
                         </div>
-
                     )
                 ))}
 
                 {imgURLArray.length > 1 ? (
-                    <div className='circle-product-carousel-nav'>
+                    <div className='circle-product-carousel-nav'
+                        onClick={() => next()}
+                    >
                         <FontAwesomeIcon
                             icon={faAngleRight}
-                            onClick={next}
                             style={{ fontSize: '24px' }}
                         />
                     </div>

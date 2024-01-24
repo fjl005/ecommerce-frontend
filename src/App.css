@@ -31,7 +31,7 @@
 .product-img-carousel-container {
     width: 80px;
     margin-right: 10px;
-    overflow-y: scroll;
+    /* overflow-y: scroll; */
 }
 
 .product-img-carousel {
@@ -53,19 +53,20 @@
     background: transparent;
 }
 
-.product-img-array-thumbnail {
+.product-img-thumbnail {
     margin-bottom: 10px;
     width: 100%;
+    object-fit: cover;
     border-radius: 8px;
     opacity: 0.5;
 }
 
-.product-img-array-thumbnail:hover {
+.product-img-thumbnail:hover {
     opacity: 1;
     cursor: pointer;
 }
 
-.product-img-array-thumbnail-active {
+.product-img-thumbnail-active {
     opacity: 1;
     border: 1px solid black;
 }

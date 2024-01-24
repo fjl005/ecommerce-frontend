@@ -18,6 +18,7 @@ import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { useLoginContext } from '../login/LoginContext';
 import { useCartContext } from '../cart/CartContext';
+import { useSavedItemContext } from '../cart/SavedItemContext';
 import { useProductContext } from '../products/ProductContext';
 import fetsyNavbarBrand from '../../img/fetsyNavbarBrand.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -29,8 +30,9 @@ const NavbarApp = ({ isCheckout, currentPage, }) => {
     const {
         cartLength,
         setCartLength,
-        setSavedLength
     } = useCartContext();
+
+    const { setSavedLength } = useSavedItemContext();
 
     const {
         loggedIn,
