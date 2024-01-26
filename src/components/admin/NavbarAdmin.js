@@ -75,18 +75,8 @@ const NavbarAdmin = () => {
                                         </NavLink>
                                     </NavItem>
                                     <NavItem>
-                                        <NavLink style={{ color: 'white' }}>
-                                            Add Sale
-                                        </NavLink>
-                                    </NavItem>
-                                    <NavItem>
                                         <NavLink tag={Link} to="/admin/billing" style={{ color: 'white' }}>
                                             Billing
-                                        </NavLink>
-                                    </NavItem>
-                                    <NavItem>
-                                        <NavLink style={{ color: 'white' }}>
-                                            Shop Settings
                                         </NavLink>
                                     </NavItem>
                                 </Nav>

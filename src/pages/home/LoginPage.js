@@ -57,7 +57,7 @@ const LoginPage = () => {
 
     return (
         <>
-            <NavbarApp />
+            <NavbarApp currentPage='Login' />
             <Container>
                 <Row>
                     <Col>

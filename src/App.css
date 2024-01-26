@@ -11,6 +11,12 @@
     z-index: 9999;
 }
 
+.purple-line-break {
+    background-color: #8C52FF;
+    color: #8C52FF;
+    height: 4px;
+}
+
 .product-item-homepage:hover {
     /* box-shadow: [horizontal offset] [vertical offset] [blur radius] [spread radius] [color];
  */
@@ -71,7 +77,9 @@
     border: 1px solid black;
 }
 
-
+.cart-top-button .cart-font-awesome {
+    margin: 0px 5px;
+}
 
 .product-page-add-to-cart {
     margin: 5px auto;
@@ -292,7 +300,6 @@
 .navbar-hover:hover {
     background-color: #d8d8d8;
 }
-
 
 
 

@@ -1,13 +1,13 @@
 import FiveStarGenerator from "./FiveStarGenerator";
 import { axiosWithAuth } from "../miscellaneous/axiosWithAuth";
 import { useEffect, useState } from "react";
-import twoPageAirbnb from '../../img/twoPageAirbnb.png';
 import fetsyEcommerceLogo from '../../img/fetsyEcommerceLogo.png';
 
 
 const ReviewsChecklistView = ({ starRating, ratingDescription, productId, username, dateOfReview }) => {
 
     const [productData, setProductData] = useState({});
+    console.log('accessing reviews checklist view');
 
     useEffect(() => {
         fetchProduct();
@@ -17,7 +17,6 @@ const ReviewsChecklistView = ({ starRating, ratingDescription, productId, userna
         try {
             const response = await axiosWithAuth.get(`/products/${productId}`);
             const data = response.data;
-            console.log('data: ', data);
             setProductData(data);
         } catch (error) {
             console.log('error with fetchProduct in ReviewsChecklistView.js: ', error);

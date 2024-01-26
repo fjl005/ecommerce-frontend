@@ -55,8 +55,10 @@ export const SavedItemProvider = ({ children }) => {
             await axiosWithAuth.post(`/cart/saved/${cartItemId}`);
             await fetchSaved();
             await fetchCart();
+            setLoadingCartAndSaved(false);
         } catch (error) {
             console.log('error: ', error);
+            setLoadingCartAndSaved(false);
         }
     };
 

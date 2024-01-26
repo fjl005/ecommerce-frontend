@@ -71,37 +71,12 @@ export const CartProvider = ({ children }) => {
     }, [cartItemsArrayId]);
 
 
-    // const addItemToCart = async (productId) => {
-    //     try {
-    //         await axiosWithAuth.post(`/cart/${productId}`);
-    //         fetchCart();
-    //         return true;
-    //         setTooltipAddCartSuccess(true);
-    //         setTimeout(() => {
-    //             setTooltipAddCartSuccess(false);
-    //         }, 3000);
-    //     } catch (error) {
-    //         console.log('error: ', error);
-    //         return false;
-
-    //         if (error.response.data === 'You must log in before accessing this page') {
-    //             setTooltipAddCartSignin(true);
-    //             setTimeout(() => {
-    //                 setTooltipAddCartSignin(false);
-    //             }, 3000);
-    //         }
-    //     }
-    // };
-
-
-
     const removeCartItem = async (cartItemId) => {
         try {
             setLoadingCartAndSaved(true);
             await axiosWithAuth.delete(`/cart/${cartItemId}`);
             await fetchCart();
             setLoadingCartAndSaved(false);
-
         } catch (error) {
             console.log('error: ', error);
         }

@@ -26,7 +26,7 @@ const ReviewsPage = () => {
             console.log('error with fetching reviews in ReviewsPage.js: ', error);
             setLoadingReviewsPage(false);
         }
-    }
+    };
 
     return (
         <>

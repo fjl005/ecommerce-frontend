@@ -15,9 +15,7 @@ const HomePage = () => {
             <img
                 src={welcomeBanner}
                 alt={'Fetsy page banner'}
-                style={{
-                    width: '100%',
-                }}
+                className='w-100'
             />
 
             {searchQuery && (

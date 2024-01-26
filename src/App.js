@@ -1,5 +1,4 @@
 import './App.css';
-
 import LoginPage from './pages/home/LoginPage';
 import SignUpPage from './pages/home/SignUpPage';
 import HomePage from './pages/home/HomePage';
@@ -19,55 +18,9 @@ import EditProductsPage from './pages/admin/EditProductsPage';
 import AllReviewsPage from './pages/admin/AllReviewsPage';
 import AllOrdersPage from './pages/admin/AllOrdersPage';
 import BillingPage from './pages/admin/BillingPage';
-
-
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { useState, useEffect } from 'react';
-import { useLoginContext } from './components/login/LoginContext';
-import axios from 'axios';
-
 
 function App() {
-    const {
-        username,
-        setUsername,
-        admin,
-        setAdmin,
-    } = useLoginContext();
-    // const [username, setUsername] = useState('');
-    // const [admin, setAdmin] = useState(false);
-    const [pageLoading, setPageLoading] = useState(true);
-
-    const axiosWithAuth = axios.create({
-        baseURL: 'http://localhost:5000/',
-        withCredentials: true,
-    });
-
-    const checkUser = async () => {
-        try {
-            const response = await axiosWithAuth.get('/users');
-            console.log('response: ', response);
-            setUsername(response.data.username);
-            setAdmin(response.data.admin)
-        } catch (error) {
-            console.error(error);
-        }
-    };
-
-
-    // Initiate checkLogin and checkAdmin at initial page render. Once completed, setPageLoading to false to make the Spinner disappear.
-    useEffect(() => {
-
-        // Create a setTimeout to rerun fetchData after 1 Hour, the duration of the cookie.
-        const timerId = setTimeout(() => {
-            checkUser();
-        }, 1000 * 60 * 60);
-
-        // Clean up the timeout when the component unmounts
-        return () => {
-            clearTimeout(timerId);
-        };
-    }, []);
 
     return (
         <>
@@ -96,7 +49,6 @@ function App() {
                     <Route path='/admin/allreviews' element={<AllReviewsPage />} />
                     <Route path='/admin/allorders' element={<AllOrdersPage />} />
                     <Route path='/admin/billing' element={<BillingPage />} />
-
                 </Routes>
             </BrowserRouter>
         </>

@@ -7,6 +7,7 @@ import { useCartContext } from '../../components/cart/CartContext';
 import { useLoginContext } from '../../components/login/LoginContext';
 import { axiosWithAuth } from '../../components/miscellaneous/axiosWithAuth';
 import SpinningIcon from '../../components/miscellaneous/SpinningIcon';
+import { useSavedItemContext } from '../../components/cart/SavedItemContext';
 
 
 const CheckoutPage = () => {
@@ -14,12 +15,13 @@ const CheckoutPage = () => {
         totalCost,
         cartItemsArrayId,
         fetchCart,
-        fetchSaved,
         determineTotalCost,
         loadingCost,
         cartLength,
         setCartLength
     } = useCartContext();
+
+    const { fetchSaved } = useSavedItemContext();
 
     const { checkUser } = useLoginContext();
 
@@ -189,7 +191,7 @@ const CheckoutPage = () => {
 
                     <Row style={{ marginBottom: '10px' }}>
                         <Col>
-                            <hr style={{ color: 'black', backgroundColor: 'black', height: 2, }} />
+                            <hr className='purple-line-break' />
                         </Col>
                     </Row>
 
@@ -274,13 +276,14 @@ const CheckoutPage = () => {
                                 <h5>
                                     Please do NOT put in actual card information. This is just a fictional site. For the checkout to work, please click the 'autofill' button below to auto-populate the info that will allow payment.
                                 </h5>
+
                             </Col>
                         </Row>
                     </FormGroup>
 
                     <Row style={{ marginBottom: '10px' }}>
                         <Col>
-                            <hr style={{ color: 'black', backgroundColor: 'black', height: 2, }} />
+                            <hr className='purple-line-break' />
                         </Col>
                     </Row>
 
@@ -398,7 +401,7 @@ const CheckoutPage = () => {
 
                     <Row style={{ marginBottom: '10px' }}>
                         <Col>
-                            <hr style={{ color: 'black', backgroundColor: 'black', height: 4, }} />
+                            <hr className='purple-line-break' />
                         </Col>
                     </Row>
 

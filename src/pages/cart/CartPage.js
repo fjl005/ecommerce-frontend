@@ -18,26 +18,13 @@ const CartPage = () => {
         fetchSaved,
         savedItemsArrayId,
         savedLength,
-
     } = useSavedItemContext();
 
     const {
-        // Fetch functions
         fetchCart,
-        // fetchSaved,
-
-        // Array ID's
         cartItemsArrayId,
-        // savedItemsArrayId,
-
-        // Lengths
-        // savedLength,
         cartLength,
-
-        // Total Cost
         totalCost,
-
-        // Loading
         loadingCartAndSaved,
         loadingCost,
     } = useCartContext();
@@ -114,6 +101,21 @@ const CartPage = () => {
         }
     };
 
+    const moveAllToFavorites = async () => {
+        const userConfirmed = window.confirm("Are you sure you want to move all Cart Items to your Favorites?");
+
+        if (userConfirmed) {
+            try {
+                await axiosWithAuth.put('/cart/allToFav');
+                fetchCart();
+                fetchSaved();
+            } catch (error) {
+                console.log('Error in moveAllToSaved() in CartPage.js: ', error);
+                alert('There was an error in moving all Cart items to your Favorites.');
+            }
+        }
+    };
+
 
     return (
         <>
@@ -127,30 +129,47 @@ const CartPage = () => {
                         ) : !loggedIn ? (
                             <h1>You must log in to access your Cart.</h1>
                         ) : cartLength === 0 ? (
-                            <h1 className='text-center'>Your cart is empty</h1>
+                            <h1 className='text-center'>Your Cart is Empty</h1>
                         ) : (
                             <div className='cart-header-buttons'>
                                 <h1>
                                     {cartLength === 1
-                                        ? `${cartLength} item in your Cart`
-                                        : `${cartLength} items in your Cart`}
+                                        ? `${cartLength} Item in your Cart`
+                                        : `${cartLength} Items in your Cart`}
                                 </h1>
 
                                 <div className='outer-buttons-div'>
                                     <Button
                                         onClick={() => moveAllToSaved()}
-                                        className='cart-top-button'
+                                        className='cart-top-button bg-primary'
                                     >
                                         Cart
-                                        <FontAwesomeIcon icon={faArrowRight} />
+                                        <FontAwesomeIcon
+                                            icon={faArrowRight}
+                                            className='cart-font-awesome'
+                                        />
                                         Saved
+                                    </Button>
+
+                                    <Button
+                                        onClick={() => moveAllToFavorites()}
+                                        className='cart-top-button bg-primary'
+                                    >
+                                        Cart
+                                        <FontAwesomeIcon
+                                            icon={faArrowRight}
+                                            className='cart-font-awesome'
+                                        />
+                                        Favorites
                                     </Button>
 
                                     <Button
                                         onClick={() => deleteAllCart()}
                                         className='bg-danger cart-top-button'
                                     >
-                                        <FontAwesomeIcon icon={faTrash} />
+                                        <FontAwesomeIcon icon={faTrash}
+                                            className='cart-font-awesome'
+                                        />
                                         Cart
                                     </Button>
 
@@ -159,10 +178,12 @@ const CartPage = () => {
                                         className='black-normal-text'
                                     >
                                         <Button
-                                            className='bg-success'
-                                            style={{ border: 'none' }}
+                                            className='bg-success cart-top-button'
                                         >
-                                            <FontAwesomeIcon icon={faMoneyCheckDollar} />
+                                            <FontAwesomeIcon
+                                                icon={faMoneyCheckDollar}
+                                                className='cart-font-awesome'
+                                            />
                                             Checkout
                                         </Button>
                                     </Link>
@@ -211,16 +232,33 @@ const CartPage = () => {
                         ) : savedLength > 0 ? (
                             <>
                                 <div className='cart-header-buttons'>
-                                    <h1>Items Saved for Later</h1>
+                                    <h1>
+                                        {savedLength === 1
+                                            ? `${savedLength} Item Saved for Later`
+                                            : `${savedLength} Items Saved for Later`}
+                                    </h1>
                                     <div className='outer-buttons-div'>
                                         <Button
                                             onClick={() => deleteAllSaved()}
                                             className='bg-danger cart-top-button'
-                                        ><FontAwesomeIcon icon={faTrash} /> Saved</Button>
+                                        >
+                                            <FontAwesomeIcon
+                                                icon={faTrash}
+                                                className='cart-font-awesome'
+                                            />
+                                            Saved
+                                        </Button>
                                         <Button
-                                            style={{ marginRight: '20px', border: 'none' }}
+                                            className='cart-top-button'
                                             onClick={() => moveAllToCart()}
-                                        >Saved <FontAwesomeIcon icon={faArrowRight} /> Cart</Button>
+                                        >
+                                            Saved
+                                            <FontAwesomeIcon
+                                                icon={faArrowRight}
+                                                className='cart-font-awesome'
+                                            />
+                                            Cart
+                                        </Button>
                                     </div>
 
                                 </div>

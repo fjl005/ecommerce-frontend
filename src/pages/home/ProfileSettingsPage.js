@@ -125,7 +125,6 @@ const ProfileSettingsPage = () => {
                 <Row>
                     <Col>
                         <h3 style={{ textAlign: 'center' }}>Change Password</h3>
-                        <Button onClick={() => updatePasswordType()}>{buttonPWName}</Button>
                         <Form onSubmit={newPasswordSubmit}>
                             <FormGroup>
                                 <Label for='currentPW'>Enter Current Password:</Label>
@@ -155,20 +154,27 @@ const ProfileSettingsPage = () => {
                                 />
                             </FormGroup>
                             <p>{passwordMessage}</p>
+                            <Button
+                                onClick={() => updatePasswordType()}
+                                style={{ marginRight: '10px' }}
+                            >{buttonPWName}</Button>
                             <Button type='submit' color='primary'>Save New Password</Button>
                         </Form>
                     </Col>
                 </Row>
 
-                <Row>
-                    <Col style={{ textAlign: 'center' }}>
-                        <Button
-                            className='bg-danger'
-                            onClick={() => deleteAccount()}
-                            style={{ border: 'none' }}
-                        >Delete Account</Button>
-                    </Col>
-                </Row>
+                {!admin && (
+                    <Row>
+                        <Col style={{ textAlign: 'center' }}>
+                            <Button
+                                className='bg-danger'
+                                onClick={() => deleteAccount()}
+                                style={{ border: 'none' }}
+                            >Delete Account</Button>
+                        </Col>
+                    </Row>
+                )}
+
             </Container>
         </>
     )

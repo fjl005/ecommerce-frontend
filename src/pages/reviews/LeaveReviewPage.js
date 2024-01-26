@@ -23,7 +23,6 @@ const LeaveReviewPage = () => {
     const [imgURL, setImgURL] = useState('');
     const [loadingImg, setLoadingImg] = useState(true);
 
-    console.log('product id: ', productId);
 
     useEffect(() => {
         findPicURL();
@@ -32,7 +31,6 @@ const LeaveReviewPage = () => {
     const findPicURL = async () => {
         try {
             const response = await axiosWithAuth.get(`/products/${productId}`);
-            console.log('res: ', response);
             const imgData = response.data.pictures;
             if (imgData.length > 0) {
                 setImgURL(imgData[0].url);
@@ -146,14 +144,9 @@ const LeaveReviewPage = () => {
                         }}>
                             {!loadingImg && (
                                 <img
-                                    src={
-                                        imgURL ? imgURL : fetsyEcommerceLogo
-                                        // fetsyEcommerceLogo
-                                    }
+                                    src={imgURL ? imgURL : fetsyEcommerceLogo}
                                     alt={`image for ${productName}`}
-                                    style={{
-                                        width: '100%',
-                                    }}
+                                    className='w-100'
                                 />
                             )}
 
@@ -177,8 +170,12 @@ const LeaveReviewPage = () => {
                                 ) : (
                                     <p>No Description.</p>
                                 )}
+
+                                <hr className='purple-line-break' />
+
                             </Col>
                         </Row>
+
 
                         <Row>
                             <Col>

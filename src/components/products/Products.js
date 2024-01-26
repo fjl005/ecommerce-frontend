@@ -12,13 +12,14 @@ const Products = ({ adminPage, itemSelectedIdArr, setItemSelectedIdArr, reloadPr
 
     const { searchQuery } = useProductContext();
     const [productsDB, setProductsDB] = useState([]);
-    const [fetchDone, setFetchDone] = useState(false);
     const [loading, setLoading] = useState(true);
     const [isDeleting, setIsDeleting] = useState(false);
+
 
     useEffect(() => {
         fetchProducts();
     }, [reloadProducts, searchQuery]);
+
 
     const fetchProducts = async () => {
         try {
@@ -26,13 +27,10 @@ const Products = ({ adminPage, itemSelectedIdArr, setItemSelectedIdArr, reloadPr
             if (searchQuery) {
                 endTerm = `/search/${searchQuery}`
             }
-            console.log('loading products?')
 
             const response = await axiosNoAuth.get(`/products${endTerm}`);
             setProductsDB(response.data);
-            console.log('products db: ', productsDB);
             setLoading(false);
-            setFetchDone(true);
         } catch (error) {
             console.log('Error in fetchProducts() in Products.js', error);
             setLoading(false);
@@ -42,11 +40,9 @@ const Products = ({ adminPage, itemSelectedIdArr, setItemSelectedIdArr, reloadPr
     const handleCheckbox = (productId) => {
         if (itemSelectedIdArr) {
             if (itemSelectedIdArr.includes(productId)) {
-                // Deselected item, remove from array since it was previously checkmarked.
                 const updatedArr = itemSelectedIdArr.filter((id) => id !== productId);
                 setItemSelectedIdArr(updatedArr);
             } else {
-                // Otherwise, add item to array
                 setItemSelectedIdArr([...itemSelectedIdArr, productId]);
             }
         }
@@ -61,6 +57,7 @@ const Products = ({ adminPage, itemSelectedIdArr, setItemSelectedIdArr, reloadPr
 
     const deleteProduct = async (product) => {
         setIsDeleting(true);
+
         try {
             for (let imgObj of product.pictures) {
                 await axiosWithAuth.delete(`/cloudinary/${imgObj.publicId}`);
@@ -76,6 +73,7 @@ const Products = ({ adminPage, itemSelectedIdArr, setItemSelectedIdArr, reloadPr
             setIsDeleting(false);
         }
     };
+
 
     return (
         <Container>
@@ -100,12 +98,14 @@ const Products = ({ adminPage, itemSelectedIdArr, setItemSelectedIdArr, reloadPr
                         className='product-item-homepage'
                         style={{
                             border: itemSelectedIdArr
-                                ? (itemSelectedIdArr.includes(product._id) ? '1px solid black' : '')
-                                : ''
+                                && (itemSelectedIdArr.includes(product._id) ? '1px solid black' : '')
                         }}
                     >
                         <Link
-                            to={adminPage ? `/admin/updateproduct/${product._id}` : `/products/${product._id}`}
+                            to={
+                                adminPage
+                                    ? `/admin/updateproduct/${product._id}`
+                                    : `/products/${product._id}`}
                             className='black-normal-text'
                         >
                             <div style={{ padding: '10px', width: '100%' }}>
@@ -132,8 +132,6 @@ const Products = ({ adminPage, itemSelectedIdArr, setItemSelectedIdArr, reloadPr
                         {adminPage && (
                             <div
                                 style={{
-                                    marginTop: '0px',
-                                    width: '100%',
                                     padding: '0px 5px 10px 5px',
                                     display: 'flex',
                                     justifyContent: 'space-between',
@@ -147,8 +145,9 @@ const Products = ({ adminPage, itemSelectedIdArr, setItemSelectedIdArr, reloadPr
                                     onChange={() => handleCheckbox(product._id)}
                                 />
                                 <Button
-                                    className='bg-danger'
+                                    className='bg-danger no-border-btn'
                                     onClick={() => handleDelete(product)}
+                                    style={{ border: 'none' }}
                                 >
                                     Delete
                                 </Button>
