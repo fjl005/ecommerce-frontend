@@ -6,7 +6,7 @@ import { axiosWithAuth } from "../miscellaneous/axiosWithAuth";
 import { Link } from "react-router-dom";
 import SpinningIcon from "../miscellaneous/SpinningIcon";
 import { formatDate } from "../miscellaneous/formatDate";
-import DigitalProduct from "../products/DigitalProduct";
+import ProductTypeIcons from "../products/ProductTypeIcons";
 
 const SingleReview = ({
     productId,
@@ -61,7 +61,7 @@ const SingleReview = ({
                                     productData.pictures && productData.pictures.length > 0
                                         ? productData.pictures[0].url
                                         : fetsyEcommerceLogo}
-                                alt={`image for ${productData.name}`}
+                                alt={productData.name}
                                 style={{ width: '100%' }}
                             />
                         </Col>
@@ -78,9 +78,7 @@ const SingleReview = ({
                         <Col sm='12' md='3'>
                             <div className='product-gray-background'>
                                 <h4>Product Details</h4>
-                                {productData.productType === 'Digital Download' && (
-                                    <DigitalProduct />
-                                )}
+                                <ProductTypeIcons productType={productData.productType} />
                             </div>
                             <div style={{ textAlign: 'center', margin: '20px 0px' }}>
                                 {!adminPage && (

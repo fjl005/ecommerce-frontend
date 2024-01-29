@@ -1,25 +1,12 @@
 
 import NavbarAdmin from "../../components/admin/NavbarAdmin";
-import {
-    Container,
-    Row,
-    Col,
-    Table,
-    UncontrolledDropdown,
-    DropdownToggle,
-    DropdownMenu,
-    DropdownItem
-} from "reactstrap";
+import { Container, Row, Col, } from "reactstrap";
 import { Link } from "react-router-dom";
-import { useState } from "react";
 import { useLoginContext } from "../../components/login/LoginContext";
 
 const AdminPage = () => {
 
     const { admin } = useLoginContext();
-    const statsDates = ['Yesterday', 'Today', 'Last 7 Days', 'Last Month', 'This Year', 'Last Year', 'All Time'];
-    const [statsRangeSelected, setStatsRangeSelected] = useState('Today');
-
 
     return (
         <>
@@ -29,53 +16,11 @@ const AdminPage = () => {
                     <>
                         <Row>
                             <Col>
-                                <h1 style={{ textAlign: 'center' }}>Admin Page</h1>
+                                <h1 className='h1-admin'>
+                                    Admin Page
+                                </h1>
                             </Col>
                         </Row>
-
-                        {/* <Row>
-                            <Col>
-                                <div style={{ display: 'flex', alignItems: 'center' }}>
-                                    <h3 style={{ marginBottom: '0' }}>
-                                        Stats overview for:
-                                    </h3>
-
-                                    <UncontrolledDropdown style={{ marginLeft: '15px' }}>
-                                        <DropdownToggle caret>
-                                            {statsRangeSelected}
-                                        </DropdownToggle>
-
-                                        <DropdownMenu>
-                                            {statsDates.map((item, idx) => (
-                                                <DropdownItem
-                                                    key={idx}
-                                                    onClick={() => setStatsRangeSelected(item)}
-                                                >
-                                                    {item}
-                                                </DropdownItem>
-                                            ))}
-                                        </DropdownMenu>
-                                    </UncontrolledDropdown>
-                                </div>
-
-                                <Table bordered style={{ textAlign: 'center' }}>
-                                    <thead>
-                                        <tr>
-                                            <th>Total Views</th>
-                                            <th>Total Orders</th>
-                                            <th>Total Views</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>0</td>
-                                            <td>0</td>
-                                            <td>0</td>
-                                        </tr>
-                                    </tbody>
-                                </Table>
-                            </Col>
-                        </Row> */}
 
                         <Row>
                             <Col>
@@ -112,7 +57,7 @@ const AdminPage = () => {
                         <Row>
                             <Col>
                                 <h3>Finances:</h3>
-                                <p>Add Sale - Feature coming soon.</p>
+                                {/* <p>Add Sale - Feature coming soon.</p> */}
                                 <p>
                                     <Link to='/admin/billing'>
                                         View Billing
@@ -122,13 +67,13 @@ const AdminPage = () => {
                             </Col>
                         </Row>
 
-                        <Row>
+                        {/* <Row>
                             <Col>
                                 <h3>Settings:</h3>
                                 <p>Temporarily Close Shop - Feature coming soon.</p>
                                 <p>Delete Shop - Feature coming soon.</p>
                             </Col>
-                        </Row>
+                        </Row> */}
                     </>
                 ) : (
                     <Row>

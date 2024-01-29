@@ -1,10 +1,5 @@
 import NavbarApp from "../../components/navbar/NavbarApp";
-import {
-    Container,
-    Row,
-    Col,
-    Tooltip,
-} from "reactstrap";
+import { Container, Row, Col, Tooltip, } from "reactstrap";
 import { useParams } from "react-router-dom";
 import ProductImgCarousel from "../../components/products/ProductImgCarousel";
 import ReviewsInSingleProductPage from "../../components/reviews/ReviewsInSingleProductPage";
@@ -14,8 +9,11 @@ import RightColToggle from "../../components/products/RightColToggle";
 import { useCartContext } from "../../components/cart/CartContext";
 import { axiosWithAuth } from "../../components/miscellaneous/axios";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart, faPaperclip, faCloudArrowDown } from '@fortawesome/free-solid-svg-icons';
+import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import SpinningIcon from "../../components/miscellaneous/SpinningIcon";
+import ProductTypeIcons from "../../components/products/ProductTypeIcons";
+import DeliveryDetails from "../../components/products/DeliveryDetails";
+import MeetTheSeller from "../../components/products/MeetTheSeller";
 
 const SingleProductPage = () => {
 
@@ -43,7 +41,7 @@ const SingleProductPage = () => {
 
 
     // Right Col Toggle States
-    const [showHighlight, setShowHighlight] = useState(true);
+    const [showDetails, setShowDetails] = useState(true);
     const [showDescription, setShowDescription] = useState(true);
     const [showDelivery, setShowDelivery] = useState(true);
     const [showSeller, setShowSeller] = useState(true);
@@ -108,8 +106,6 @@ const SingleProductPage = () => {
             console.log('error: ', error);
 
             if (error.response.data === 'You must log in before accessing this page') {
-
-                // Update the code below to apply for favorite, not cart.
 
                 setTooltipAddFavoriteSignin(true);
                 const newTimeout = setTimeout(() => {
@@ -178,7 +174,6 @@ const SingleProductPage = () => {
                                     <div
                                         id='addCart'
                                         className='product-page-add-to-cart'
-                                        // onClick={() => addItemToCart(selectedProduct._id)}
                                         onClick={() => addToCartClick(selectedProduct._id)}
                                     >
                                         Add to cart
@@ -209,26 +204,15 @@ const SingleProductPage = () => {
 
                                     <div>
                                         <RightColToggle
-                                            section='Highlights'
-                                            toggleState={showHighlight}
-                                            toggleStateFxn={setShowHighlight}
+                                            section='Details'
+                                            toggleState={showDetails}
+                                            toggleStateFxn={setShowDetails}
                                         />
 
-                                        {showHighlight && (
-                                            <>
-                                                <div className='icon-text-div'>
-                                                    <div className='icon-margin-align'>
-                                                        <FontAwesomeIcon icon={faCloudArrowDown} />
-                                                    </div>
-                                                    <p>{selectedProduct.productType}</p>
-                                                </div>
-                                                <div className='icon-text-div'>
-                                                    <div className='icon-margin-align'>
-                                                        <FontAwesomeIcon icon={faPaperclip} />
-                                                    </div>
-                                                    <p>Digital File Type(s): 1 PDF</p>
-                                                </div>
-                                            </>
+                                        {showDetails && (
+                                            <div className='right-col-toggle-text-align'>
+                                                <ProductTypeIcons productType={selectedProduct.productType} />
+                                            </div>
                                         )}
                                     </div>
 
@@ -239,9 +223,9 @@ const SingleProductPage = () => {
                                             toggleStateFxn={setShowDescription}
                                         />
                                         {showDescription && (
-                                            <ProductDescription
-                                                description={selectedProduct.description}
-                                            />
+                                            <div className='right-col-toggle-text-align'>
+                                                <ProductDescription description={selectedProduct.description} />
+                                            </div>
                                         )}
                                     </div>
 
@@ -252,11 +236,10 @@ const SingleProductPage = () => {
                                             toggleStateFxn={setShowDelivery}
                                         />
 
-                                        {showDelivery && selectedProduct.productType === 'Digital Download' && (
-                                            <>
-                                                <h5>Instant Download</h5>
-                                                <p> Your files will be available to download once payment is confirmed. Instant download items don't accept returns, exchanges, or cancellations. Please contact the seller about any problems with your order.</p>
-                                            </>
+                                        {showDelivery && (
+                                            <div className='right-col-toggle-text-align'>
+                                                <DeliveryDetails productType={selectedProduct.productType} />
+                                            </div>
                                         )}
                                     </div>
 
@@ -267,10 +250,9 @@ const SingleProductPage = () => {
                                             toggleStateFxn={setShowSeller}
                                         />
                                         {showSeller && (
-                                            <>
-                                                <h5>Frank Lee</h5>
-                                                <p>Owner of Fetsy</p>
-                                            </>
+                                            <div className='right-col-toggle-text-align'>
+                                                <MeetTheSeller />
+                                            </div>
                                         )}
                                     </div>
                                 </div>

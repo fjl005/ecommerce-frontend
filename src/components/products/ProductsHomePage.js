@@ -4,13 +4,12 @@ import { useEffect, useState } from "react";
 import fetsyEcommerceLogo from '../../img/fetsyEcommerceLogo.png';
 import { axiosNoAuth, axiosWithAuth } from "../miscellaneous/axios";
 import LoadingOverlay from "../miscellaneous/LoadingOverlay";
-import { useProductContext } from "../../components/products/ProductContext";
 import SpinningIcon from "../miscellaneous/SpinningIcon";
+import { useProductSearchContext } from "./ProductSearchContext";
 
+const ProductsHomePage = ({ adminPage, itemsSelectedIdArr, setItemsSelectedIdArr, reloadProducts }) => {
 
-const Products = ({ adminPage, itemSelectedIdArr, setItemSelectedIdArr, reloadProducts }) => {
-
-    const { searchQuery } = useProductContext();
+    const { searchQuery } = useProductSearchContext();
     const [productsDB, setProductsDB] = useState([]);
     const [loading, setLoading] = useState(true);
     const [isDeleting, setIsDeleting] = useState(false);
@@ -38,12 +37,12 @@ const Products = ({ adminPage, itemSelectedIdArr, setItemSelectedIdArr, reloadPr
     };
 
     const handleCheckbox = (productId) => {
-        if (itemSelectedIdArr) {
-            if (itemSelectedIdArr.includes(productId)) {
-                const updatedArr = itemSelectedIdArr.filter((id) => id !== productId);
-                setItemSelectedIdArr(updatedArr);
+        if (itemsSelectedIdArr) {
+            if (itemsSelectedIdArr.includes(productId)) {
+                const updatedArr = itemsSelectedIdArr.filter((id) => id !== productId);
+                setItemsSelectedIdArr(updatedArr);
             } else {
-                setItemSelectedIdArr([...itemSelectedIdArr, productId]);
+                setItemsSelectedIdArr([...itemsSelectedIdArr, productId]);
             }
         }
     };
@@ -65,7 +64,7 @@ const Products = ({ adminPage, itemSelectedIdArr, setItemSelectedIdArr, reloadPr
 
             await axiosWithAuth.delete(`/products/${product._id}`);
             alert('Product has been deleted');
-            setItemSelectedIdArr([]);
+            setItemsSelectedIdArr([]);
             fetchProducts();
         } catch (error) {
             console.log('Error in deleteProduct() in Products.js', error);
@@ -97,8 +96,8 @@ const Products = ({ adminPage, itemSelectedIdArr, setItemSelectedIdArr, reloadPr
                         key={idx} xs='6' md='4' lg='3'
                         className='product-item-homepage'
                         style={{
-                            border: itemSelectedIdArr
-                                && (itemSelectedIdArr.includes(product._id) ? '1px solid black' : '')
+                            border: itemsSelectedIdArr
+                                && (itemsSelectedIdArr.includes(product._id) ? '1px solid black' : '')
                         }}
                     >
                         <Link
@@ -116,7 +115,7 @@ const Products = ({ adminPage, itemSelectedIdArr, setItemSelectedIdArr, reloadPr
                                                 ? product.pictures[0].url
                                                 : fetsyEcommerceLogo
                                         }
-                                        alt={`Image for ${product.name}`}
+                                        alt={product.name}
                                         className='product-img-abs'
                                     />
                                 </div>
@@ -141,7 +140,7 @@ const Products = ({ adminPage, itemSelectedIdArr, setItemSelectedIdArr, reloadPr
                                 <Input
                                     type="checkbox"
                                     style={{ width: '25px', height: '25px' }}
-                                    checked={itemSelectedIdArr.includes(product._id)}
+                                    checked={itemsSelectedIdArr.includes(product._id)}
                                     onChange={() => handleCheckbox(product._id)}
                                 />
                                 <Button
@@ -160,4 +159,4 @@ const Products = ({ adminPage, itemSelectedIdArr, setItemSelectedIdArr, reloadPr
     );
 };
 
-export default Products;
+export default ProductsHomePage;

@@ -8,6 +8,7 @@ import { useLoginContext } from '../../components/login/LoginContext';
 import { axiosWithAuth } from '../../components/miscellaneous/axiosWithAuth';
 import SpinningIcon from '../../components/miscellaneous/SpinningIcon';
 import { useSavedItemContext } from '../../components/cart/SavedItemContext';
+import CheckoutPageBreak from '../../components/cart/CheckoutPageBreak';
 
 
 const CheckoutPage = () => {
@@ -22,24 +23,24 @@ const CheckoutPage = () => {
     } = useCartContext();
 
     const { fetchSaved } = useSavedItemContext();
-
     const { checkUser } = useLoginContext();
 
-    const [formData, setFormData] = useState({
+    const defaultFormData = {
         email: '',
-        cardNumber: 0,
-        cardExpiresMonth: 0,
-        cardExpiresYear: 0,
-        cardCVC: 0,
+        cardNumber: '',
+        cardExpiresMonth: '',
+        cardExpiresYear: '',
+        cardCVC: '',
         firstName: '',
         lastName: '',
         streetAddress: '',
         aptNumOptional: '',
         city: '',
         state: '',
-        zipCode: 0,
-    });
+        zipCode: '',
+    }
 
+    const [formData, setFormData] = useState(defaultFormData);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -91,30 +92,13 @@ const CheckoutPage = () => {
         });
     };
 
-    const clear = () => {
-        setFormData({
-            email: '',
-            cardNumber: 0,
-            cardExpiresMonth: 0,
-            cardExpiresYear: 0,
-            cardCVC: 0,
-            firstName: '',
-            lastName: '',
-            streetAddress: '',
-            aptNumOptional: '',
-            city: '',
-            state: '',
-            zipCode: 0,
-        })
-    }
-
     const cardExpMonthArray = [
         1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12
-    ]
+    ];
 
     const cardExpYearArray = [
         2023, 2024, 2025, 2026, 2027, 2028, 2029, 2030, 2031, 2032
-    ]
+    ];
 
     const stateAbbreviations = [
         'AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA',
@@ -147,12 +131,26 @@ const CheckoutPage = () => {
                         </Col>
                     </Row>
                     <Row>
-                        <Col style={{ marginBottom: '10px' }}>
-                            <p style={{ marginBottom: '0px' }}>If this becomes a legitimate site, then I would implement actual payment verification. However, because I am not running this with a secure connection, I do not want ANY payment or identification information to be sent.</p>
-                            <span>With that said, for the checkout to work, please click the autofill button here: </span>
-                            <Button onClick={autofill} className='bg-primary'>Auto-fill</Button>
-                            <Button onClick={clear} style={{ marginLeft: '10px' }}>Clear</Button>
+                        <Col style={{ marginBottom: '30px' }}>
+                            <h5>
+                                If this becomes a legitimate site, then I would implement actual payment verification. However, because I am not running this with a secure connection, I do not want ANY payment or identification information to be sent.
+                            </h5>
 
+                            <h6 style={{ marginTop: '20px' }}>
+                                With that said, for the checkout to work, please click the autofill button here:
+                            </h6>
+                            <Button
+                                onClick={(event) => autofill(event)}
+                                className='bg-primary'
+                            >
+                                Auto-fill
+                            </Button>
+                            <Button
+                                onClick={() => setFormData(defaultFormData)}
+                                style={{ marginLeft: '10px' }}
+                            >
+                                Clear
+                            </Button>
                         </Col>
                     </Row>
 
@@ -160,14 +158,10 @@ const CheckoutPage = () => {
                     <FormGroup>
                         <Row>
                             <Col xs='1' style={{ maxWidth: '75px' }}>
-                                <h3>
-                                    1
-                                </h3>
+                                <h3 className='checkout-step-number'>1</h3>
                             </Col>
                             <Col xs='11'>
-                                <h3>
-                                    Enter Email Address.
-                                </h3>
+                                <h3>Enter Email Address.</h3>
                             </Col>
                         </Row>
 
@@ -182,30 +176,19 @@ const CheckoutPage = () => {
                                     required
                                     onChange={handleInputChange}
                                 />
-                                <h5 style={{ marginBottom: '0px' }}>
-                                    Please do NOT put in your actual email. This is just a fictional site. Otherwise, the email is used for sending the receipt and the template (though the template should also be available in the Orders section after purchase).
-                                </h5>
                             </Col>
                         </Row>
                     </FormGroup>
 
-                    <Row style={{ marginBottom: '10px' }}>
-                        <Col>
-                            <hr className='purple-line-break' />
-                        </Col>
-                    </Row>
+                    <CheckoutPageBreak />
 
                     <FormGroup>
                         <Row>
                             <Col xs='1' style={{ maxWidth: '75px' }}>
-                                <h3>
-                                    2
-                                </h3>
+                                <h3 className='checkout-step-number'> 2</h3>
                             </Col>
                             <Col xs='11'>
-                                <h3>
-                                    Enter Payment Information.
-                                </h3>
+                                <h3>Enter Payment Information.</h3>
                             </Col>
                         </Row>
 
@@ -270,34 +253,17 @@ const CheckoutPage = () => {
                                 />
                             </Col>
                         </Row>
-                        <Row>
-                            <Col xs='1' style={{ maxWidth: '75px' }}></Col>
-                            <Col xs='11'>
-                                <h5>
-                                    Please do NOT put in actual card information. This is just a fictional site. For the checkout to work, please click the 'autofill' button below to auto-populate the info that will allow payment.
-                                </h5>
-
-                            </Col>
-                        </Row>
                     </FormGroup>
 
-                    <Row style={{ marginBottom: '10px' }}>
-                        <Col>
-                            <hr className='purple-line-break' />
-                        </Col>
-                    </Row>
+                    <CheckoutPageBreak />
 
                     <FormGroup>
                         <Row>
                             <Col xs='1' style={{ maxWidth: '75px' }}>
-                                <h3>
-                                    3
-                                </h3>
+                                <h3 className='checkout-step-number'>3</h3>
                             </Col>
                             <Col xs='11'>
-                                <h3>
-                                    Enter Billing Address.
-                                </h3>
+                                <h3>Enter Billing Address.</h3>
                             </Col>
                         </Row>
 
@@ -367,14 +333,20 @@ const CheckoutPage = () => {
                             <Col md='3'>
                                 <Label for="state">State</Label>
                                 <Input
-                                    type="text"
+                                    type="select"
                                     id="state"
                                     name="state"
                                     value={formData.state}
-                                    placeholder='CA'
                                     required
                                     onChange={handleInputChange}
-                                />
+                                >
+                                    <option value="">-- Select State --</option>
+                                    {stateAbbreviations.map((state, idx) => (
+                                        <option key={idx} value={state}>{state}</option>
+                                    ))}
+                                </Input>
+
+
                             </Col>
                             <Col md='3'>
                                 <Label for="zipCode">Zip Code</Label>
@@ -389,30 +361,16 @@ const CheckoutPage = () => {
                                 />
                             </Col>
                         </Row>
-                        <Row>
-                            <Col xs='1' style={{ maxWidth: '75px' }}></Col>
-                            <Col xs='11'>
-                                <h5>
-                                    Please do NOT put in actual card information. This is just a fictional site. For the checkout to work, please click the 'autofill' button below to auto-populate the info that will allow payment.
-                                </h5>
-                            </Col>
-                        </Row>
                     </FormGroup>
 
-                    <Row style={{ marginBottom: '10px' }}>
-                        <Col>
-                            <hr className='purple-line-break' />
-                        </Col>
-                    </Row>
+                    <CheckoutPageBreak />
 
                     <Row>
                         <Col xs='1' style={{ maxWidth: '75px' }}>
-                            <h3>4</h3>
+                            <h3 className='checkout-step-number'>4</h3>
                         </Col>
                         <Col xs='11'>
-                            <h3>
-                                Final Review of Products
-                            </h3>
+                            <h3>Final Review of Products</h3>
                         </Col>
                     </Row>
                     <Row>
@@ -428,6 +386,9 @@ const CheckoutPage = () => {
                             }
                         </Col>
                     </Row>
+
+                    <CheckoutPageBreak />
+
                     <Row>
                         <Col>
                             <h1>
@@ -440,12 +401,15 @@ const CheckoutPage = () => {
                                     <span> ${totalCost.toFixed(2)}</span>
                                 )}
                             </h1>
-
                         </Col>
                     </Row>
                     <Button color="primary" type="submit">
                         Submit
                     </Button>
+
+                    <h5>
+                        By clicking submit, you acknowledge that you did NOT put in actual card information. Because this shop is not live, there is no secure network connection to protect your data. Additionally, the checkout will not work unless the 'autofill' is selected (see top of page for this button).
+                    </h5>
                 </Form>
             </Container>
         </>

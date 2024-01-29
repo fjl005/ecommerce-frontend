@@ -4,7 +4,6 @@ import { useParams, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { axiosWithAuth } from "../../components/miscellaneous/axiosWithAuth";
 import fetsyEcommerceLogo from '../../img/fetsyEcommerceLogo.png';
-import { useLoginContext } from "../../components/login/LoginContext";
 import FiveStarGenerator from "../../components/reviews/FiveStarGenerator";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
@@ -12,7 +11,6 @@ import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
 const LeaveReviewPage = () => {
     const { purchasedItemId } = useParams();
-    const { username } = useLoginContext();
 
     const location = useLocation();
     const productName = location.state ? location.state.name : '';
@@ -20,8 +18,11 @@ const LeaveReviewPage = () => {
     const starRatingPrev = location.state ? location.state.starRatingPrev : '';
     const ratingDescriptionPrev = location.state ? location.state.ratingDescriptionPrev : '';
     const orderId = location.state ? location.state.orderId : '';
+
     const [imgURL, setImgURL] = useState('');
     const [loadingImg, setLoadingImg] = useState(true);
+    const [ratingDescription, setRatingDescription] = useState('');
+    const [starRating, setStarRating] = useState(5);
 
 
     useEffect(() => {
@@ -43,11 +44,6 @@ const LeaveReviewPage = () => {
     };
 
     const isEditRoute = location.pathname.includes('/edit/');
-
-    // States
-    const [ratingDescription, setRatingDescription] = useState('');
-    const [starRating, setStarRating] = useState(5);
-    const [postSubmitMsg, setPostSubmitMsg] = useState('');
 
 
     const handleSubmit = async (event) => {
@@ -209,31 +205,28 @@ const LeaveReviewPage = () => {
                             </FormGroup>
                             {isEditRoute ? (
                                 <>
-                                    <Button
-                                        type='submit'
-                                        color='primary'
-                                    >
+                                    <Button type='submit' color='primary'>
                                         Edit Review
                                     </Button>
 
                                     <Button
                                         onClick={() => deleteReview()}
-                                        style={{ marginLeft: '20px' }}
+                                        style={{ marginLeft: '20px', border: 'none' }}
                                         className='bg-danger'
                                     >
                                         <FontAwesomeIcon icon={faTrash} /> Review
                                     </Button>
                                 </>
                             ) : (
-                                <Button type='submit' color='primary'>Submit Review</Button>
+                                <Button
+                                    type='submit'
+                                    color='primary'
+                                    style={{ border: 'none' }}
+                                >
+                                    Submit Review
+                                </Button>
                             )}
                         </Form>
-                    </Col>
-                </Row>
-
-                <Row>
-                    <Col>
-                        {postSubmitMsg}
                     </Col>
                 </Row>
             </Container>

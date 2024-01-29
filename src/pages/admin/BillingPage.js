@@ -1,6 +1,5 @@
-import { CarouselItem, Col, Container, Row, Table } from "reactstrap";
+import { Col, Container, Row, Table } from "reactstrap";
 import NavbarAdmin from "../../components/admin/NavbarAdmin";
-import twoPageAirbnb from '../../img/twoPageAirbnb.png';
 import { useState, useEffect } from "react";
 import { axiosWithAuth } from "../../components/miscellaneous/axiosWithAuth";
 import fetsyEcommerceLogo from '../../img/fetsyEcommerceLogo.png';
@@ -33,7 +32,7 @@ const BillingPage = () => {
             <Container>
                 <Row style={{ marginBottom: '20px' }}>
                     <Col>
-                        <h1>Billing</h1>
+                        <h1 className='h1-admin'>Billing</h1>
                         <h4>Net Balance: ${totalBalance.toFixed(2)}</h4>
                     </Col>
                 </Row>

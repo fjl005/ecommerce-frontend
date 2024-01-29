@@ -1,12 +1,12 @@
 import { Container, Row, Col } from 'reactstrap';
 import { useNavigate } from "react-router-dom";
 import NavbarApp from '../../components/navbar/NavbarApp';
-import Products from "../../components/products/Products";
 import welcomeBanner from '../../img/welcomeBanner.png';
-import { useProductContext } from '../../components/products/ProductContext';
+import { useProductSearchContext } from '../../components/products/ProductSearchContext';
+import ProductsHomePage from '../../components/products/ProductsHomePage';
 
 const HomePage = () => {
-    const { searchQuery, setSearchQuery } = useProductContext();
+    const { searchQuery, setSearchQuery } = useProductSearchContext();
     const navigate = useNavigate();
 
     return (
@@ -14,7 +14,7 @@ const HomePage = () => {
             <NavbarApp />
             <img
                 src={welcomeBanner}
-                alt={'Fetsy page banner'}
+                alt='Fetsy page banner'
                 className='w-100'
             />
 
@@ -37,7 +37,7 @@ const HomePage = () => {
                 </Container>
             )}
 
-            <Products />
+            <ProductsHomePage />
         </>
     )
 }

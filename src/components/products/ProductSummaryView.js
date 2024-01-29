@@ -2,11 +2,11 @@ import { Row, Col } from 'reactstrap';
 import fetsyEcommerceLogo from '../../img/fetsyEcommerceLogo.png';
 import { useCartContext } from '../cart/CartContext';
 import { axiosWithAuth } from '../miscellaneous/axiosWithAuth';
-import DigitalProduct from './DigitalProduct';
 import DownloadLinkInSummary from '../summaryview/DownloadInSummarySection';
 import ReviewInSummarySection from '../summaryview/ReviewInSummarySection';
 import CartInSummarySection from '../summaryview/CartInSummarySection';
 import FavoriteInSummarySection from '../summaryview/FavoriteInSummarySection';
+import ProductTypeIcons from './ProductTypeIcons';
 
 
 const ProductSummaryView = ({
@@ -50,6 +50,8 @@ const ProductSummaryView = ({
         }
     };
 
+    console.log('product item pictures: ', productItem.pictures);
+
 
     return (
         <>
@@ -60,7 +62,8 @@ const ProductSummaryView = ({
                             src={
                                 (productItem.pictures.length > 0) ? productItem.pictures[0].url : fetsyEcommerceLogo
                             }
-                            alt={`image for ${productItem.name}`}
+                            // src={fetsyEcommerceLogo}
+                            alt={`Image for ${productItem.name}`}
                             style={{
                                 width: '100%',
                                 marginBottom: '20px'
@@ -73,9 +76,7 @@ const ProductSummaryView = ({
                     <div className='d-flex flex-column'>
                         <h3 className='product-title'>{productItem.name}</h3>
                         <div className='product-gray-background'>
-                            {productItem.productType === 'Digital Download' && (
-                                <DigitalProduct />
-                            )}
+                            <ProductTypeIcons productType={productItem.productType} />
 
                             {inOrderJs && (
                                 <DownloadLinkInSummary

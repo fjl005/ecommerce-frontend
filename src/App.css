@@ -17,6 +17,15 @@
     height: 4px;
 }
 
+.checkout-line-break-margin {
+    margin-bottom: 20px;
+}
+
+.checkout-step-number {
+    color: #8C52FF;
+    font-weight: bold;
+}
+
 .product-item-homepage:hover {
     /* box-shadow: [horizontal offset] [vertical offset] [blur radius] [spread radius] [color];
  */
@@ -117,6 +126,10 @@
     cursor: pointer;
 }
 
+.right-col-toggle-text-align {
+    margin-left: 20px
+}
+
 .circle-product-carousel-nav {
     display: flex;
     align-items: center;
@@ -163,6 +176,12 @@
     background-color: lightgray;
     margin: 8px 0;
 }
+
+.star-reviews-span-text {
+    font-size: 20px;
+}
+
+
 
 .product-page-toggle-button {
     background-color: white;
@@ -279,6 +298,18 @@
     /* Add more styles for small screens here */
 }
 
+@media (max-width: 1350px) {
+    .single-product-stars-reviews {
+        flex-direction: column;
+    }
+
+    .star-reviews-bracket {
+        display: none;
+    }
+
+    /* Add more styles for small screens here */
+}
+
 /* Define styles for screens with a minimum width of 769 pixels (medium screens and above) */
 @media (min-width: 768px) {
     .order-item-price-review {
@@ -324,4 +355,19 @@
 
 .post-product-admin-label h4 {
     margin-bottom: 0px;
+}
+
+.h1-admin {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.image-upload-border-admin {
+    display: inline-block;
+    width: 200px;
+    height: 200px;
+    border: 1px solid black;
+    margin: 10px 20px 10px 0px;
+    position: relative;
+    background-color: #eee;
 }

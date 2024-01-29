@@ -31,7 +31,7 @@ const AllReviewsPage = () => {
             <Container>
                 <Row>
                     <Col>
-                        <h1>All Reviews</h1>
+                        <h1 className='h1-admin'>All Reviews</h1>
                     </Col>
                 </Row>
                 <Row>

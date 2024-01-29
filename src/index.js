@@ -6,7 +6,7 @@ import reportWebVitals from './reportWebVitals';
 import { CartProvider } from './components/cart/CartContext';
 import { LoginProvider } from './components/login/LoginContext';
 import { SavedItemProvider } from './components/cart/SavedItemContext';
-import { ProductProvider } from './components/products/ProductContext';
+import { ProductSearchProvider } from './components/products/ProductSearchContext';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
@@ -16,9 +16,9 @@ root.render(
         <LoginProvider>
             <CartProvider>
                 <SavedItemProvider>
-                    <ProductProvider>
+                    <ProductSearchProvider>
                         <App />
-                    </ProductProvider>
+                    </ProductSearchProvider>
                 </SavedItemProvider>
             </CartProvider>
         </LoginProvider>

@@ -3,7 +3,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import fetsyEcommerceLogo from '../../img/fetsyEcommerceLogo.png';
 
-
 const ProductImgCarousel = ({ selectedProduct }) => {
     const imgObjArray = selectedProduct.pictures;
     const imgURLArray = [];

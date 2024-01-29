@@ -1,56 +1,62 @@
-import { Col, Container, Row, FormGroup, Label, Input, Button, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from "reactstrap";
-import NavbarAdmin from "../../components/admin/NavbarAdmin";
+import {
+    Container,
+    Row,
+    Col,
+    Label,
+    Input,
+    Button,
+} from "reactstrap";
 import { useEffect, useState } from "react";
-import { Formik, Field, Form, ErrorMessage } from 'formik';
+import {
+    Formik,
+    Field,
+    Form,
+    ErrorMessage
+} from 'formik';
 import * as Yup from 'yup';
 import { axiosWithAuth } from "../../components/miscellaneous/axiosWithAuth";
 import { useLoginContext } from "../../components/login/LoginContext";
-import ProductSubmitted from "../../components/admin/ProductSubmitted";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import axios from "axios";
-import { useLocation } from "react-router-dom";
 import SpinningIcon from "../../components/miscellaneous/SpinningIcon";
 import ImageUpload from "../../components/admin/ImageUpload";
+import NavbarAdmin from "../../components/admin/NavbarAdmin";
+
 
 const PostProductPage = () => {
 
     const { admin } = useLoginContext();
     const { productId } = useParams();
 
-    /* 
-        -useLocation: allows us to access info about the current URL, including the query parameters.
-        -location.search is a property of the location object that contains the query string portion of the URL (including the ?). 
-        -URLSearchParams is a built-in JS class that allows you to work with query parameters
-        -We are retrieving the value associated with the key 'items' from the query parameters
-        -Then convert the JSON string into a JS array.
-    */
-
+    // Access info from URL of items that may have been passed (if editing products)
     const location = useLocation();
     const searchParams = new URLSearchParams(location.search);
-    const itemStr = searchParams.get('items');
-    const itemSelectedIdArr = JSON.parse(itemStr);
+    const itemsStr = searchParams.get('items');
+    const itemsSelectedIdArr = JSON.parse(itemsStr);
 
-
-    // States regarding the files and images
+    // Error will appear when upload error occurs (such as: uploading more than 10 images).
     const [fileErrorMsg, setFileErrorMsg] = useState('');
+
+    // Newly uploaded files: the files that you just uploaded. 
     const [newlyUploadedImageFiles, setNewlyUploadedImageFiles] = useState([]);
     const [newlyUploadedImageURLs, setNewlyUploadedImageURLs] = useState([]);
-    const [existingImagesURLs, setExistingImagesURLs] = useState([]);
-    const [imageUploadNum, setImageUploadNum] = useState(0);
 
+    // Existing image URLs: if editing an existing product, these URLs are for the pictures that already exist.
+    const [existingImagesURLs, setExistingImagesURLs] = useState([]);
+
+    // Number of images uploaded (will update as you post the data).
+    const [imageUploadNum, setImageUploadNum] = useState(0);
 
     // States for the form
     const [title, setTitle] = useState('');
-    const [price, setPrice] = useState(0);
+    const [price, setPrice] = useState('');
     const [productType, setProductType] = useState('');
     const [description, setDescription] = useState('');
+
     const [fetchedImgData, setFetchedImgData] = useState([]);
 
-
-    // Image Functions
-
     // When images are uploaded, run handleImageChange
-    const handleImageChange = (event) => {
+    const handleImageChange = async (event) => {
         const maxImageCount = 10;
         const files = event.target.files
         const filesArray = Array.from(files);
@@ -60,47 +66,18 @@ const PostProductPage = () => {
             return;
         }
 
-        let newImageURLs = [...newlyUploadedImageURLs];
+        // updatedNewImgURLs is a clone of newlyUploadedImageURLs. We will update updatedNewImgURLs to then 
+        let updatedNewImgURLs = [...newlyUploadedImageURLs];
 
         for (let i = 0; i < filesArray.length; i++) {
             const file = filesArray[i];
             const url = URL.createObjectURL(file);
-            newImageURLs.push(url);
+            updatedNewImgURLs.push(url);
         }
 
         setNewlyUploadedImageFiles([...newlyUploadedImageFiles, ...filesArray]);
-        setNewlyUploadedImageURLs(newImageURLs);
+        setNewlyUploadedImageURLs(updatedNewImgURLs);
         setFileErrorMsg('');
-    };
-
-
-    const imgUpload = async (imageFiles, uploadNum, imgDataArray, updatedInfo) => {
-
-        const uploadPromises = imageFiles.map(async (imageFile, index) => {
-            const formDataImg = new FormData();
-            formDataImg.append('file', imageFile);
-            formDataImg.append('upload_preset', process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET);
-
-            const cloudinaryRes = await axios.post(`https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/image/upload`, formDataImg);
-
-            const cloudinaryData = cloudinaryRes.data;
-            const imgData = {
-                url: cloudinaryData.secure_url,
-                publicId: cloudinaryData.public_id,
-                position: index,
-            };
-
-            imgDataArray.push(imgData);
-            uploadNum++;
-            setImageUploadNum(uploadNum);
-        });
-
-        await Promise.all(uploadPromises);
-        imgDataArray.sort((a, b) => a.position - b.position);
-
-        const newImageData = imgDataArray.map(({ url, publicId }) => ({ url, publicId }));
-        return newImageData;
-
     };
 
     const deleteImgUpload = (urlToDelete, idx, existing) => {
@@ -117,6 +94,34 @@ const PostProductPage = () => {
     };
 
 
+    const imgUpload = async (imageFiles, uploadNum, imgDataArray,) => {
+
+        const uploadPromises = imageFiles.map(async (imageFile, index) => {
+            const formDataImg = new FormData();
+            formDataImg.append('file', imageFile);
+            formDataImg.append('upload_preset', process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET);
+
+            const cloudinaryRes = await axios.post(`https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/image/upload`, formDataImg);
+            const cloudinaryData = cloudinaryRes.data;
+
+            const imgData = {
+                url: cloudinaryData.secure_url,
+                publicId: cloudinaryData.public_id,
+                position: index,
+            };
+
+            imgDataArray.push(imgData);
+            uploadNum++;
+            setImageUploadNum(uploadNum);
+        });
+
+        await Promise.all(uploadPromises);
+        imgDataArray.sort((a, b) => a.position - b.position);
+
+        return imgDataArray.map(({ url, publicId }) => ({ url, publicId }));
+    };
+
+
     // Form validation
     const validationSchema = Yup.object({
         productTitle: Yup.string().required('Title is required'),
@@ -126,16 +131,6 @@ const PostProductPage = () => {
             .test(
                 'is-decimal',
                 'Price must have up to two decimal places',
-                /* 
-                    ^: notes the start of the string
-                    \d*: any number of digits
-                    \.: a literal period
-                    \d{1,2}: followed by either 1 or 2 digits
-                    |: or
-                    \d+: any number of digits without a period.
-
-                    (not used) [^]: means anything that's NOT.
-                */
                 (value) => /^(\d*\.\d{1,2}|\d+)$/.test(value)
             ),
         productDescription: Yup.string().required('Description is required'),
@@ -145,7 +140,8 @@ const PostProductPage = () => {
     // Form submission
     const handleSubmit = async (values, { setSubmitting }) => {
         const { productType, productTitle, productPrice, productDescription } = values;
-        const updatedInfo = {
+
+        const uploadInfo = {
             name: productTitle,
             price: productPrice,
             description: productDescription,
@@ -153,17 +149,16 @@ const PostProductPage = () => {
         };
 
         let uploadNum = 0;
-        let imgDataArray = [];
-        let deletePublicIdArr = [];
+        const imgDataArray = [];
+        const deletePublicIdArr = [];
 
         try {
             // First, check the server. Don't upload photos if the server is down.
             await axiosWithAuth.get('/cloudinary');
 
-
-            // SCENARIO ONE: POST operation on new listing.
-            if (!itemSelectedIdArr && !productId) {
-                // First, upload images to Cloudinary.
+            // CASE ONE: posting a brand new product.
+            console.log('newly uploaded image files: ', newlyUploadedImageFiles);
+            if (!itemsSelectedIdArr && !productId) {
                 if (newlyUploadedImageFiles.length > 0) {
                     try {
                         await imgUpload(newlyUploadedImageFiles, uploadNum, imgDataArray);
@@ -172,26 +167,21 @@ const PostProductPage = () => {
                     }
                 }
 
-                // Then, post to server.
-                updatedInfo.pictures = imgDataArray;
-                const response = await axiosWithAuth.post('/products', {
-                    updatedInfo
-                });
-
-                switchPage(response.data.product);
+                uploadInfo.pictures = imgDataArray;
+                console.log('updated info: ', uploadInfo);
+                const response = await axiosWithAuth.post('/products', { uploadInfo });
+                // switchPage(response.data.product);
             }
 
-            // Otherwise, if there is an itemSelectedIdArr or a productId, then we will be updating an existing(s) product(s). But in either case, we will need to update the images anyway. 
+            // Else, either itemsSelectedIdArr or productId exists, which means we will be updating an existing product.
             else {
-
-                // Find images missing in exiting imageURLs from original fetchedImgData.
+                // Find images missing in existing imageURLs from original fetchedImgData; they will be deleted.
                 let deleteImagesObj = [];
                 for (let image of fetchedImgData) {
                     if (!existingImagesURLs.includes(image.url)) {
                         deleteImagesObj.push(image);
                     }
                 }
-
                 // If images should be deleted, first delete from Cloudinary via their public id.
                 if (deleteImagesObj.length > 0) {
                     try {
@@ -199,124 +189,37 @@ const PostProductPage = () => {
                             deletePublicIdArr.push(image.publicId);
                             await axiosWithAuth.delete(`/cloudinary/${image.publicId}`);
                         });
-
                         await Promise.all(deletePromises);
-
-                        // Include deletePublicIdArr as a property for updatedInfo, so these can also be deleted from our server.
-                        updatedInfo.deletePublicIdArr = deletePublicIdArr;
-                    } catch (error) {
-                        console.log('Error deleting images:', error);
-                    }
+                        uploadInfo.deletePublicIdArr = deletePublicIdArr;
+                    } catch (error) { console.log('Error deleting images:', error); }
                 }
-
                 // After existing images are deleted, upload any newly uploaded images to Cloudinary.
                 if (newlyUploadedImageFiles.length > 0) {
-                    const newImages = await imgUpload(newlyUploadedImageFiles, uploadNum, imgDataArray, updatedInfo);
-                    updatedInfo.newImageData = newImages;
+                    const newImages = await imgUpload(newlyUploadedImageFiles, uploadNum, imgDataArray,);
+                    uploadInfo.newImageData = newImages;
                 }
 
-                // With the images now taken care of, let's now go through the possible scenarios again.
-
-                // SCENARIO TWO: PUT operation for an existing SINGLE product.
-                if (productId && !itemSelectedIdArr) {
+                // Now, the images have been taken care of. Let's revisit the possible cases again.
+                // CASE TWO: PUT operation for an existing SINGLE product.
+                if (productId && !itemsSelectedIdArr) {
                     const response = await axiosWithAuth.put(`/products/${productId}`, {
-                        updatedInfo
+                        uploadInfo
                     });
                     switchPage(response.data);
                 }
 
                 // SCENARIO THREE: PUT operation for updating existing MULTIPLE products
-                else if (itemSelectedIdArr && itemSelectedIdArr.length > 0) {
+                else if (itemsSelectedIdArr && itemsSelectedIdArr.length > 0) {
                     const response = await axiosWithAuth.put(`/products/multiple/items`, {
-                        itemSelectedIdArr,
-                        updatedInfo
+                        itemsSelectedIdArr,
+                        uploadInfo
                     });
                     switchPage(response.data);
                 }
-
             }
-
-
-            /*
-
-            // SCENARIO ONE: PUT operation for updating existing MULTIPLE products
-            if (itemSelectedIdArr && !productId) {
-                // Attach image data to updatedInfo
-                const response = await axiosWithAuth.put(`/products/multiple/items`, {
-                    productIds: itemSelectedIdArr,
-                    updatedInfo
-                });
-                switchPage(response.data);
-            }
-
-            // SCENARIO TWO: PUT operation for updating an existing SINGLE product
-            else if (productId) {
-                let deleteImagesObj = [];
-
-                // Find images missing in current imageURLs from original fetchedImgData.
-                for (let image of fetchedImgData) {
-                    if (!existingImagesURLs.includes(image.url)) {
-                        deleteImagesObj.push(image);
-                    }
-                }
-
-                // If images should be deleted, first delete from Cloudinary via their public id.
-                if (deleteImagesObj.length > 0) {
-                    try {
-                        const deleteImgPublicIdArr = [];
-                        const deletePromises = deleteImagesObj.map(async (image) => {
-                            deleteImgPublicIdArr.push(image.publicId);
-                            await axiosWithAuth.delete(`/cloudinary/${image.publicId}`);
-                        });
-
-                        await Promise.all(deletePromises);
-
-                        // Include deletePublicIdArr as a property for updatedInfo, so these can be deleted from our server.
-                        updatedInfo.deletePublicIdArr = deleteImgPublicIdArr;
-                    } catch (error) {
-                        console.log('Error deleting images:', error);
-                    }
-                }
-
-                // After existing images are deleted, upload any newly uploaded images to Cloudinary.
-                if (newlyUploadedImageFiles.length > 0) {
-                    const newImages = await imgUpload(newlyUploadedImageFiles, uploadNum, imgDataArray, updatedInfo);
-                    updatedInfo.newImageData = newImages;
-                }
-
-                const response = await axiosWithAuth.put(`/products/${productId}`, {
-                    updatedInfo
-                });
-                switchPage(response.data);
-
-            }
-
-            // SCENARIO THREE: POST operation for posting NEW product
-            else {
-                // First, upload images to Cloudinary.
-                if (newlyUploadedImageFiles.length > 0) {
-                    try {
-                        await imgUpload(newlyUploadedImageFiles, uploadNum, imgDataArray);
-                    } catch (error) {
-                        console.log('Error with Cloudinary:', error);
-                    }
-                }
-
-                // Then, post to server.
-                updatedInfo.pictures = imgDataArray;
-                const response = await axiosWithAuth.post('/products', {
-                    updatedInfo
-                });
-
-                switchPage(response.data.product);
-            }
-            
-            */
-        } catch (error) {
-            console.log('Error in handleSubmit() in PostProduct.js: ', error);
-        } finally {
-            setSubmitting(false);
         }
+        catch (error) { console.log('Error in handleSubmit() in PostProduct.js: ', error); }
+        finally { setSubmitting(false); }
     };
 
     // After form submission
@@ -324,8 +227,8 @@ const PostProductPage = () => {
         let thumbnailURL = '';
         let itemsLength = 0;
 
-        if (itemSelectedIdArr && itemSelectedIdArr.length > 0) {
-            itemsLength = itemSelectedIdArr.length;
+        if (itemsSelectedIdArr && itemsSelectedIdArr.length > 0) {
+            itemsLength = itemsSelectedIdArr.length;
         }
 
         if (data.pictures.length > 0) {
@@ -346,12 +249,13 @@ const PostProductPage = () => {
         window.location.href = `/admin/addnewproduct/submitted?${queryString}`;
     };
 
+
     // Fetch Products if editing existing product(s)
     useEffect(() => {
         if (productId) {
             fetchProduct(productId);
-        } else if (itemSelectedIdArr) {
-            fetchProduct(itemSelectedIdArr[0]);
+        } else if (itemsSelectedIdArr) {
+            fetchProduct(itemsSelectedIdArr[0]);
         }
     }, []);
 
@@ -365,291 +269,283 @@ const PostProductPage = () => {
             setDescription(data.description);
             setFetchedImgData(data.pictures);
 
-            let fetchedImgURLs = [];
+            const fetchedImgURLs = [];
 
             if (data.pictures && data.pictures.length > 0) {
                 for (let imgObj of data.pictures) {
                     fetchedImgURLs.push(imgObj.url);
                 }
             }
-
             setExistingImagesURLs(fetchedImgURLs);
-
-        } catch (error) {
-            console.log('error in fetch product in PostProduct.js: ', error);
-        }
+        } catch (error) { console.log('error in fetch product in PostProduct.js: ', error); }
     };
 
 
     return (
         <>
-            <NavbarAdmin />
             {admin ? (
-                <Container>
-                    <Row>
-                        <Col>
-                            {itemSelectedIdArr ? (
-                                <h1>Update {itemSelectedIdArr.length} listings</h1>
-                            ) :
-                                productId ? (
-                                    <h1>Update Existing Product</h1>
-                                ) : (
-                                    <h1>Add New Product</h1>
-                                )}
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Formik
-                            enableReinitialize={true}
-                            initialValues={{
-                                productType: productType,
-                                productTitle: title,
-                                productPrice: price,
-                                productDescription: description,
-                            }}
-                            validationSchema={validationSchema}
-                            onSubmit={handleSubmit}
-                        >
-                            {/* This callback function disables the submit button when submitting. 'isSubmitting' is automatically provided by Formik. */}
-                            {({ isSubmitting }) => (
-                                <Form className='post-product-form'>
-                                    <Col>
-                                        <Label
-                                            for='product-title'
-                                            className='post-product-admin-label'
-                                        >
-                                            <h4>Product Title</h4>
-                                        </Label>
-                                        <Field
-                                            type='text'
-                                            name='productTitle'
-                                            id='product-title'
-                                            as={Input}
-                                        />
-                                        <ErrorMessage
-                                            name='productTitle'
-                                            component='div'
-                                            className='text-danger'
-                                        />
-                                    </Col>
-
-                                    <Row>
-                                        <Col xs='6'>
+                <>
+                    <NavbarAdmin />
+                    <Container>
+                        <Row>
+                            <Col>
+                                {itemsSelectedIdArr ? (
+                                    <h1 className='h1-admin'>Update {itemsSelectedIdArr.length} listings</h1>
+                                ) :
+                                    productId ? (
+                                        <h1 className='h1-admin'>Update Existing Product</h1>
+                                    ) : (
+                                        <h1 className='h1-admin'>Add New Product</h1>
+                                    )}
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Formik
+                                enableReinitialize={true}
+                                initialValues={{
+                                    productType: productType,
+                                    productTitle: title,
+                                    productPrice: price,
+                                    productDescription: description,
+                                }}
+                                validationSchema={validationSchema}
+                                onSubmit={handleSubmit}
+                            >
+                                {/* This callback function disables the submit button when submitting. 'isSubmitting' is automatically provided by Formik. */}
+                                {({ isSubmitting }) => (
+                                    <Form className='post-product-form'>
+                                        <Col>
                                             <Label
-                                                for='product-price'
+                                                for='product-title'
                                                 className='post-product-admin-label'
                                             >
-                                                <h4>Price</h4>
-                                            </Label>
-
-                                            <div className='d-flex align-items-center'>
-                                                <span style={{ fontSize: '25px' }}>$</span>
-                                                <Field
-                                                    type='text'
-                                                    name='productPrice'
-                                                    id='product-price'
-                                                    as={Input}
-                                                />
-                                            </div>
-                                            <ErrorMessage
-                                                name='productPrice'
-                                                component='div'
-                                                className='text-danger'
-                                            />
-                                        </Col>
-
-                                        <Col xs='6'>
-                                            <Label
-                                                for='product-type'
-                                                className='post-product-admin-label'
-                                            >
-                                                <h4>Product Type</h4>
+                                                <h4>Product Title</h4>
                                             </Label>
 
                                             <Field
-                                                type='select'
-                                                name='productType'
-                                                id='product-type'
+                                                type='text'
+                                                name='productTitle'
+                                                id='product-title'
                                                 as={Input}
-                                            >
-                                                <option value='' disabled>Select</option>
-                                                <option value='Digital Download'>Digital Download</option>
-                                                <option value='Physical Item'>Physical Item</option>
-                                            </Field>
+                                            />
                                             <ErrorMessage
-                                                name='productType'
+                                                name='productTitle'
                                                 component='div'
                                                 className='text-danger'
                                             />
                                         </Col>
-                                    </Row>
 
-                                    <Col>
-                                        <Label
-                                            for='product-description'
-                                            className='post-product-admin-label'
-                                        >
-                                            <h4>Product Description</h4>
-                                        </Label>
-
-                                        <Field
-                                            type='textarea'
-                                            name='productDescription'
-                                            id='product-description'
-                                            as={Input}
-                                        />
-                                        <ErrorMessage
-                                            name='productDescription'
-                                            component='div'
-                                            className='text-danger'
-                                        />
-                                    </Col>
-
-                                    <Col>
-                                        {itemSelectedIdArr ? (
-                                            <h4>Currently, images cannot be updated when editing multiple products</h4>
-                                        ) : (
-                                            <>
-
-                                                <Label className='post-product-admin-label d-flex align-items-center'>
-                                                    <h4 style={{ marginRight: '10px' }}>Images (max. 10)</h4>
-                                                    {newlyUploadedImageFiles.length + existingImagesURLs.length < 10 && (
-                                                        <>
-                                                            <Button
-                                                                type='button'
-                                                                style={{
-                                                                    margin: '0px',
-                                                                    padding: '0px',
-                                                                }}
-                                                            >
-                                                                <Label
-                                                                    htmlFor="img"
-                                                                    style={{
-                                                                        cursor: 'pointer',
-                                                                        padding: '5px',
-                                                                        margin: '0px'
-                                                                    }}
-                                                                >
-                                                                    Choose Files
-                                                                </Label>
-                                                            </Button>
-                                                            <Input
-                                                                name='productImg'
-                                                                id='img'
-                                                                type='file'
-                                                                accept='image/*'
-                                                                multiple
-                                                                onChange={handleImageChange}
-                                                                style={{ fontSize: 0, display: 'none' }}
-                                                            />
-                                                        </>
-                                                    )}
-                                                    <p style={{ margin: '0px auto 0px 10px' }}>Recommended picture dimensions are 2000 x 2000 px.</p>
+                                        <Row>
+                                            <Col xs='6'>
+                                                <Label
+                                                    for='product-price'
+                                                    className='post-product-admin-label'
+                                                >
+                                                    <h4>Price</h4>
                                                 </Label>
 
-                                                <h5
-                                                    style={{
-                                                        margin: '0 0 0 10px',
-                                                        color: 'red'
-                                                    }}
-                                                >{fileErrorMsg}</h5>
+                                                <div className='d-flex align-items-center'>
+                                                    <span style={{ fontSize: '25px' }}>$</span>
+                                                    <Field
+                                                        type='text'
+                                                        name='productPrice'
+                                                        id='product-price'
+                                                        as={Input}
+                                                    />
+                                                </div>
+                                                <ErrorMessage
+                                                    name='productPrice'
+                                                    component='div'
+                                                    className='text-danger'
+                                                />
+                                            </Col>
 
-                                                {(productId || (itemSelectedIdArr && itemSelectedIdArr.length > 0)) && (
-                                                    <>
-                                                        <h6>Previously Uploaded</h6>
-                                                        {existingImagesURLs && existingImagesURLs.length > 0 ?
-                                                            existingImagesURLs.map((url, idx) => (
+                                            <Col xs='6'>
+                                                <Label
+                                                    for='product-type'
+                                                    className='post-product-admin-label'
+                                                >
+                                                    <h4>Product Type</h4>
+                                                </Label>
+
+                                                <Field
+                                                    type='select'
+                                                    name='productType'
+                                                    id='product-type'
+                                                    as={Input}
+                                                >
+                                                    <option value='' disabled>Select</option>
+                                                    <option value='Digital Download'>Digital Download</option>
+                                                    <option value='Physical Item'>Physical Item</option>
+                                                </Field>
+                                                <ErrorMessage
+                                                    name='productType'
+                                                    component='div'
+                                                    className='text-danger'
+                                                />
+                                            </Col>
+                                        </Row>
+
+                                        <Col>
+                                            <Label
+                                                for='product-description'
+                                                className='post-product-admin-label'
+                                            >
+                                                <h4>Product Description</h4>
+                                            </Label>
+
+                                            <Field
+                                                type='textarea'
+                                                name='productDescription'
+                                                id='product-description'
+                                                as={Input}
+                                            />
+                                            <ErrorMessage
+                                                name='productDescription'
+                                                component='div'
+                                                className='text-danger'
+                                            />
+                                        </Col>
+
+                                        <Col>
+                                            {itemsSelectedIdArr ? (
+                                                <h4>Currently, images cannot be updated when editing multiple products</h4>
+                                            ) : (
+                                                <>
+                                                    <Label className='post-product-admin-label d-flex align-items-center'>
+                                                        <h4 style={{ marginRight: '10px' }}>Images</h4>
+                                                        {newlyUploadedImageFiles.length + existingImagesURLs.length < 10 && (
+                                                            <>
+                                                                <Button
+                                                                    type='button'
+                                                                    style={{
+                                                                        margin: '0px',
+                                                                        padding: '0px',
+                                                                    }}
+                                                                >
+                                                                    <Label
+                                                                        htmlFor="img"
+                                                                        style={{
+                                                                            cursor: 'pointer',
+                                                                            padding: '5px',
+                                                                            margin: '0px'
+                                                                        }}
+                                                                    >
+                                                                        Choose Files
+                                                                    </Label>
+                                                                </Button>
+                                                                <Input
+                                                                    name='productImg'
+                                                                    id='img'
+                                                                    type='file'
+                                                                    accept='image/*'
+                                                                    multiple
+                                                                    onChange={handleImageChange}
+                                                                    style={{ fontSize: 0, display: 'none' }}
+                                                                />
+                                                            </>
+                                                        )}
+                                                        <p style={{ margin: '0px auto 0px 10px' }}>Recommended picture dimensions are 2000 x 2000 px.</p>
+                                                    </Label>
+
+
+                                                    <h5
+                                                        style={{
+                                                            margin: '0 0 0 10px',
+                                                            color: 'red'
+                                                        }}
+                                                    >
+                                                        {fileErrorMsg}
+                                                    </h5>
+
+                                                    {(productId || (itemsSelectedIdArr && itemsSelectedIdArr.length > 0)) && (
+                                                        <>
+                                                            <h6>
+                                                                Previously Uploaded:
+                                                                {existingImagesURLs.length === 0 && (
+                                                                    <span> None or all deleted.</span>
+                                                                )}
+                                                            </h6>
+
+                                                            {existingImagesURLs && existingImagesURLs.length > 0 &&
+                                                                existingImagesURLs.map((url, idx) => (
+                                                                    <div
+                                                                        key={idx}
+                                                                        className='image-upload-border-admin'
+                                                                    >
+                                                                        <ImageUpload
+                                                                            url={url}
+                                                                            idx={idx}
+                                                                            existing={true}
+                                                                            deleteImgUpload={deleteImgUpload}
+                                                                        />
+                                                                    </div>
+                                                                ))}
+                                                            <h6 style={{ marginTop: '50px' }}>Newly Uploaded:</h6>
+                                                        </>
+                                                    )}
+
+                                                    {newlyUploadedImageURLs
+                                                        && newlyUploadedImageURLs.length > 0 && (
+                                                            newlyUploadedImageURLs.map((url, idx) => (
                                                                 <div
                                                                     key={idx}
-                                                                    style={{
-                                                                        display: 'inline-block',
-                                                                        width: '200px',
-                                                                        height: '200px',
-                                                                        border: '1px solid black',
-                                                                        margin: '10px 20px 10px 0px',
-                                                                        position: 'relative'
-                                                                    }}
+                                                                    className='image-upload-border-admin'
                                                                 >
                                                                     <ImageUpload
                                                                         url={url}
                                                                         idx={idx}
-                                                                        existing={true}
+                                                                        existing={false}
                                                                         deleteImgUpload={deleteImgUpload}
                                                                     />
                                                                 </div>
-                                                            )) : (
-                                                                <p>None or all deleted.</p>
-                                                            )}
-                                                        <h6>Newly Uploaded</h6>
-                                                    </>
-                                                )}
+                                                            ))
+                                                        )
+                                                    }
 
-                                                {newlyUploadedImageURLs
-                                                    && newlyUploadedImageURLs.length === 0 ? (
-                                                    <h5>None.</h5>
-                                                ) : (
-                                                    newlyUploadedImageURLs.map((url, idx) => (
-                                                        <div
-                                                            key={idx}
-                                                            style={{
-                                                                display: 'inline-block',
-                                                                width: '200px',
-                                                                height: '200px',
-                                                                border: '1px solid black',
-                                                                margin: '10px 20px 10px 0px',
-                                                                position: 'relative'
-                                                            }}
-                                                        >
-                                                            <ImageUpload
-                                                                url={url}
-                                                                idx={idx}
-                                                                existing={false}
-                                                                deleteImgUpload={deleteImgUpload}
-                                                            />
-                                                        </div>
-                                                    ))
-                                                )}
-                                            </>
-                                        )}
-                                    </Col>
+                                                    <h6>This product has {newlyUploadedImageFiles.length + existingImagesURLs.length} images (max. 10 allowed).</h6>
+                                                </>
+                                            )}
+                                        </Col>
 
-                                    <div
-                                        className='d-flex align-items-center'
-                                        style={{ marginTop: '30px' }}
-                                    >
-                                        <Button
-                                            type='submit'
-                                            className='bg-primary'
-                                            disabled={isSubmitting}
-                                            style={{ marginRight: '10px' }}
+                                        <div
+                                            className='d-flex align-items-center'
+                                            style={{ marginTop: '30px' }}
                                         >
-                                            {isSubmitting ? 'Submitting...' : 'Submit'}
-                                        </Button>
-                                        {isSubmitting &&
-                                            <>
-                                                <SpinningIcon style={{ margin: '0px 20px 0px 20px' }} size='xl' />
-                                                <span style={{
-                                                    marginLeft: '10px'
-                                                }}>
-                                                    This may take a moment, and may take longer if you are uploading multiple images.
-                                                </span>
-                                                <span
-                                                    style={{
-                                                        color: 'blue',
-                                                        fontWeight: 'bold',
-                                                        margin: '0px 10px 0px 10px'
-                                                    }}
-                                                >
-                                                    Uploaded {imageUploadNum} of {newlyUploadedImageFiles.length} images.
-                                                </span>
-                                            </>
-                                        }
-                                    </div>
-                                </Form>
-                            )}
-                        </Formik>
-                    </Row>
-                </Container>
+                                            <Button
+                                                type='submit'
+                                                className='bg-primary'
+                                                disabled={isSubmitting}
+                                                style={{ marginRight: '10px' }}
+                                            >
+                                                {isSubmitting ? 'Submitting...' : 'Submit'}
+                                            </Button>
+
+
+                                            {isSubmitting &&
+                                                <>
+                                                    <SpinningIcon style={{ margin: '0px 20px 0px 20px' }} size='xl' />
+                                                    <span style={{ marginLeft: '10px' }}>
+                                                        This may take a moment, and may take longer if you are uploading multiple images.
+                                                    </span>
+                                                    <span
+                                                        style={{
+                                                            color: 'blue',
+                                                            fontWeight: 'bold',
+                                                            margin: '0px 10px 0px 10px'
+                                                        }}
+                                                    >
+                                                        Uploaded {imageUploadNum} of {newlyUploadedImageFiles.length} images.
+                                                    </span>
+                                                </>
+                                            }
+                                        </div>
+                                    </Form>
+                                )}
+                            </Formik>
+                        </Row>
+                    </Container>
+                </>
             ) : (
                 <Container>
                     <Row>

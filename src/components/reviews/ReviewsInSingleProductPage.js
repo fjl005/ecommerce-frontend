@@ -1,4 +1,3 @@
-// import { averageRating } from "./reviewsData";
 import { useState, useEffect } from "react";
 import { axiosWithAuth } from '../miscellaneous/axiosWithAuth';
 import SpinningIcon from "../miscellaneous/SpinningIcon";
@@ -98,23 +97,14 @@ const ReviewsInSingleProductPage = () => {
             ) : (
                 <>
                     <h2
-                        className='d-flex align-items-center'
-                        style={{
-                            marginBottom: '30px'
-                        }}>
-                        Other Reviews from this shop
-                        <span style={{
-                            fontSize: '20px',
-                            margin: '0px 10px'
-                        }}> | </span>
-                        <span style={{
-                            fontSize: '20px',
-                            marginRight: '10px'
-                        }}> {averageRating} </span>
+                        className='d-flex single-product-stars-reviews align-items-center'
+                        style={{ margin: '30px auto 30px auto' }}
+                    >
+                        Reviews for the Shop
+                        <span className='star-reviews-span-text star-reviews-bracket' style={{ fontSize: '20px', margin: '0px 10px' }}> | </span>
+                        <span style={{ fontSize: '20px', marginRight: '10px' }}> {averageRating} </span>
                         <FiveStarGenerator starRating={averageRating} />
-                        <span style={{
-                            fontSize: '20px'
-                        }}> ({reviewsData.length}) </span>
+                        <span style={{ fontSize: '20px', marginLeft: '10px' }}> ({reviewsData.length} reviews)</span>
                     </h2>
 
                     {reviewsData.length > 0 && reviewsData.slice(startReviewIdx, endReviewIdx).map((review, idx) => (

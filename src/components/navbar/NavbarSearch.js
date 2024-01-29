@@ -1,14 +1,14 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { Form, Input, Button } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
-import { useProductContext } from '../products/ProductContext';
+import { useProductSearchContext } from '../products/ProductSearchContext';
 
 const NavbarSearch = () => {
 
     const [presubmitSearch, setPresubmitSearch] = useState('');
-    const { searchQuery, setSearchQuery } = useProductContext();
+    const { setSearchQuery } = useProductSearchContext();
     const navigate = useNavigate();
 
     const handlePresubmitChange = (event) => {

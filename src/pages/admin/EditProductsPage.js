@@ -2,32 +2,32 @@ import NavbarAdmin from "../../components/admin/NavbarAdmin";
 import { Container, Row, Col, Button } from 'reactstrap';
 import { axiosWithAuth } from "../../components/miscellaneous/axiosWithAuth";
 import { useState, useEffect } from 'react'
-import Products from "../../components/products/Products";
 import { useLoginContext } from "../../components/login/LoginContext";
 import { Link } from "react-router-dom";
+import ProductsHomePage from "../../components/products/ProductsHomePage";
 
 const EditProductsPage = () => {
 
     const { admin } = useLoginContext();
 
     // States
-    const [allProducts, setAllProducts] = useState([]);
-    const [itemSelectedIdArr, setItemSelectedIdArr] = useState([]);
+    // const [allProducts, setAllProducts] = useState([]);
+    const [itemsSelectedIdArr, setItemsSelectedIdArr] = useState([]);
     const [reloadProducts, setReloadProducts] = useState(false);
 
-    useEffect(() => {
-        fetchProducts();
-    }, []);
+    // useEffect(() => {
+    //     fetchProducts();
+    // }, []);
 
-    const fetchProducts = async () => {
-        const response = await axiosWithAuth.get('/products');
-        const data = response.data;
-        console.log('data: ', data);
-        setAllProducts(data);
-    };
+    // const fetchProducts = async () => {
+    //     const response = await axiosWithAuth.get('/products');
+    //     const data = response.data;
+    //     console.log('data: ', data);
+    //     setAllProducts(data);
+    // };
 
     const handleEditClick = () => {
-        console.log('editing the following listings: ', itemSelectedIdArr);
+        console.log('editing the following listings: ', itemsSelectedIdArr);
     };
 
     const handleDeleteClick = () => {
@@ -41,11 +41,11 @@ const EditProductsPage = () => {
         try {
             setReloadProducts(true);
             const response = await axiosWithAuth.delete(`/products/multiple/items`, {
-                data: itemSelectedIdArr
+                data: itemsSelectedIdArr
             });
             console.log('response: ', response);
             alert('Products have been deleted');
-            fetchProducts();
+            // fetchProducts();
         } catch (error) {
             console.log('Error in deleteProduct() in Products.js', error);
         } finally {
@@ -61,20 +61,20 @@ const EditProductsPage = () => {
                     <Container>
                         <Row>
                             <Col>
-                                <h1>Edit Products</h1>
+                                <h1 className='h1-admin'>Edit Products</h1>
                                 <h4>Click on an individual item to edit the listing. To edit or delete multiple listings at once, then click on the corresponding checkboxes.</h4>
                             </Col>
                         </Row>
                         <Row>
                             <Col>
-                                {itemSelectedIdArr.length > 0 && (
+                                {itemsSelectedIdArr.length > 0 && (
                                     <>
-                                        <Link to={itemSelectedIdArr.length === 1 ? `/admin/updateproduct/${itemSelectedIdArr[0]}` : `/admin/updateproduct?items=${JSON.stringify(itemSelectedIdArr)}`}>
+                                        <Link to={itemsSelectedIdArr.length === 1 ? `/admin/updateproduct/${itemsSelectedIdArr[0]}` : `/admin/updateproduct?items=${JSON.stringify(itemsSelectedIdArr)}`}>
 
                                             <Button
                                                 onClick={() => handleEditClick()}
                                             >
-                                                Edit {itemSelectedIdArr.length} Listings
+                                                Edit {itemsSelectedIdArr.length} Listings
                                             </Button>
                                         </Link>
 
@@ -84,17 +84,17 @@ const EditProductsPage = () => {
                                             className='bg-danger'
                                             style={{ marginLeft: '20px' }}
                                         >
-                                            Delete {itemSelectedIdArr.length} Listings
+                                            Delete {itemsSelectedIdArr.length} Listings
                                         </Button>
                                     </>
                                 )}
                             </Col>
                         </Row>
                     </Container>
-                    <Products
+                    <ProductsHomePage
                         adminPage={true}
-                        itemSelectedIdArr={itemSelectedIdArr}
-                        setItemSelectedIdArr={setItemSelectedIdArr}
+                        itemsSelectedIdArr={itemsSelectedIdArr}
+                        setItemsSelectedIdArr={setItemsSelectedIdArr}
                         reloadProducts={reloadProducts}
                     />
                 </>
