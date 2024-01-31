@@ -3,8 +3,6 @@ import { faCloudArrowDown, faGift, faPaperclip, faTruck } from '@fortawesome/fre
 import { useState, useEffect } from 'react';
 
 const ProductTypeIcons = ({ productType }) => {
-
-
     const productTypeIcon = new Map();
     productTypeIcon.set('Digital Download', faCloudArrowDown);
     productTypeIcon.set('Physical Item', faGift);
@@ -23,25 +21,27 @@ const ProductTypeIcons = ({ productType }) => {
         }
     }, [productType]);
 
-
     return (
         <>
             <div className='icon-text-div'>
-                <div className='icon-margin-align'>
-                    <FontAwesomeIcon icon={productTypeIcon.get(productType)} />
-                </div>
+                {productTypeIcon.has(productType) && (
+                    <div className='icon-margin-align'>
+                        <FontAwesomeIcon icon={productTypeIcon.get(productType)} />
+                    </div>
+                )}
                 <p style={{ marginBottom: '0px' }}>{productType}</p>
             </div>
 
-
             <div className='icon-text-div'>
-                <div className='icon-margin-align'>
-                    <FontAwesomeIcon icon={productContentIcon.get(productType)} />
-                </div>
+                {productContentIcon.has(productType) && (
+                    <div className='icon-margin-align'>
+                        <FontAwesomeIcon icon={productContentIcon.get(productType)} />
+                    </div>
+                )}
                 <p style={{ marginBottom: '0px' }}>{productContent}</p>
             </div>
         </>
-    )
-}
+    );
+};
 
 export default ProductTypeIcons;

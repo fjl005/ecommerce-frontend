@@ -1,6 +1,6 @@
 import NavbarAdmin from "../../components/admin/NavbarAdmin";
 import { Container, Row, Col, Button } from 'reactstrap';
-import { axiosWithAuth } from "../../components/miscellaneous/axiosWithAuth";
+import { axiosWithAuth } from "../../components/miscellaneous/axios";
 import { useState, useEffect } from 'react'
 import { useLoginContext } from "../../components/login/LoginContext";
 import { Link } from "react-router-dom";

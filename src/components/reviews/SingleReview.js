@@ -2,7 +2,7 @@ import { Container, Row, Col, Button } from "reactstrap";
 import fetsyEcommerceLogo from '../../img/fetsyEcommerceLogo.png';
 import FiveStarGenerator from "./FiveStarGenerator";
 import { useEffect, useState } from "react";
-import { axiosWithAuth } from "../miscellaneous/axiosWithAuth";
+import { axiosWithAuth } from "../miscellaneous/axios";
 import { Link } from "react-router-dom";
 import SpinningIcon from "../miscellaneous/SpinningIcon";
 import { formatDate } from "../miscellaneous/formatDate";

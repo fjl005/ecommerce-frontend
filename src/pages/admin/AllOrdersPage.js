@@ -1,6 +1,6 @@
 import { Col, Container, Row } from "reactstrap";
 import { useEffect, useState } from "react";
-import { axiosWithAuth } from "../../components/miscellaneous/axiosWithAuth";
+import { axiosWithAuth } from "../../components/miscellaneous/axios";
 import ItemsInOrder from '../../components/orders/ItemsInOrder';
 import NavbarAdmin from "../../components/admin/NavbarAdmin";
 

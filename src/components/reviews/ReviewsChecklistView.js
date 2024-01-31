@@ -1,5 +1,5 @@
 import FiveStarGenerator from "./FiveStarGenerator";
-import { axiosWithAuth } from "../miscellaneous/axiosWithAuth";
+import { axiosWithAuth } from "../miscellaneous/axios";
 import { useEffect, useState } from "react";
 import fetsyEcommerceLogo from '../../img/fetsyEcommerceLogo.png';
 

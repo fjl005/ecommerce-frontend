@@ -1,7 +1,7 @@
 import { Col, Container, Row } from "reactstrap";
 import { useEffect, useState } from "react";
 import NavbarAdmin from "../../components/admin/NavbarAdmin";
-import { axiosWithAuth } from "../../components/miscellaneous/axiosWithAuth";
+import { axiosWithAuth } from "../../components/miscellaneous/axios";
 import SingleReview from "../../components/reviews/SingleReview";
 
 const AllReviewsPage = () => {

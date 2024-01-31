@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { axiosWithAuth } from '../miscellaneous/axiosWithAuth';
+import { axiosWithAuth } from '../miscellaneous/axios';
 import SpinningIcon from "../miscellaneous/SpinningIcon";
 import FiveStarGenerator from './FiveStarGenerator';
 import ReviewsChecklistView from "./ReviewsChecklistView";

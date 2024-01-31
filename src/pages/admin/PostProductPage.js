@@ -14,7 +14,7 @@ import {
     ErrorMessage
 } from 'formik';
 import * as Yup from 'yup';
-import { axiosWithAuth } from "../../components/miscellaneous/axiosWithAuth";
+import { axiosWithAuth } from "../../components/miscellaneous/axios";
 import { useLoginContext } from "../../components/login/LoginContext";
 import { useParams, useLocation } from "react-router-dom";
 import axios from "axios";

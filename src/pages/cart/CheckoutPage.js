@@ -5,7 +5,7 @@ import { Form, FormGroup, Label, Input, Button } from 'reactstrap';
 import CartItem from '../../components/cart/CartItem';
 import { useCartContext } from '../../components/cart/CartContext';
 import { useLoginContext } from '../../components/login/LoginContext';
-import { axiosWithAuth } from '../../components/miscellaneous/axiosWithAuth';
+import { axiosWithAuth } from '../../components/miscellaneous/axios';
 import SpinningIcon from '../../components/miscellaneous/SpinningIcon';
 import { useSavedItemContext } from '../../components/cart/SavedItemContext';
 import CheckoutPageBreak from '../../components/cart/CheckoutPageBreak';

@@ -1,7 +1,7 @@
 import { Row, Col } from 'reactstrap';
 import fetsyEcommerceLogo from '../../img/fetsyEcommerceLogo.png';
 import { useCartContext } from '../cart/CartContext';
-import { axiosWithAuth } from '../miscellaneous/axiosWithAuth';
+import { axiosWithAuth } from '../miscellaneous/axios';
 import DownloadLinkInSummary from '../summaryview/DownloadInSummarySection';
 import ReviewInSummarySection from '../summaryview/ReviewInSummarySection';
 import CartInSummarySection from '../summaryview/CartInSummarySection';

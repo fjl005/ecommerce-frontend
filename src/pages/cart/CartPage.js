@@ -7,7 +7,7 @@ import LoadingOverlay from "../../components/miscellaneous/LoadingOverlay";
 import SpinningIcon from "../../components/miscellaneous/SpinningIcon";
 import { useCartContext } from "../../components/cart/CartContext";
 import { useLoginContext } from '../../components/login/LoginContext';
-import { axiosWithAuth } from "../../components/miscellaneous/axiosWithAuth";
+import { axiosWithAuth } from "../../components/miscellaneous/axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight, faTrash, faMoneyCheckDollar } from "@fortawesome/free-solid-svg-icons";
 import { useSavedItemContext } from "../../components/cart/SavedItemContext";

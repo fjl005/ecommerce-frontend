@@ -14,7 +14,8 @@ import {
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useLoginContext } from '../../components/login/LoginContext';
-import { axiosWithAuth } from '../../components/miscellaneous/axiosWithAuth';
+import { axiosWithAuth } from '../../components/miscellaneous/axios';
+import LoginInstructions from '../../components/login/LoginInstructions';
 
 
 const LoginPage = () => {
@@ -34,6 +35,14 @@ const LoginPage = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
+            // const response = await axiosWithAuth.post('/users/login', {
+            //     username,
+            //     password
+            // });
+
+            // console.log('response: ', response);
+
+            // document.cookie = `myCookie=${response.data.sessionId}`;
             const response = await axiosWithAuth.post('/users/login', {
                 username,
                 password
@@ -105,6 +114,12 @@ const LoginPage = () => {
                                 <p>{loginMsg}</p>
                             </>
                         )}
+                    </Col>
+                </Row>
+
+                <Row>
+                    <Col>
+                        <LoginInstructions />
                     </Col>
                 </Row>
             </Container>

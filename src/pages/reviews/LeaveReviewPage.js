@@ -2,7 +2,7 @@ import { Col, Container, Row, Form, FormGroup, Label, Input, Button } from "reac
 import NavbarApp from "../../components/navbar/NavbarApp";
 import { useParams, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { axiosWithAuth } from "../../components/miscellaneous/axiosWithAuth";
+import { axiosWithAuth } from "../../components/miscellaneous/axios";
 import fetsyEcommerceLogo from '../../img/fetsyEcommerceLogo.png';
 import FiveStarGenerator from "../../components/reviews/FiveStarGenerator";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

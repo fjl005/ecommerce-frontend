@@ -16,7 +16,14 @@ export const LoginProvider = ({ children }) => {
 
     // Check if user is logged in. If so, set the username, admin, loggedIn
     const checkUser = async () => {
+        console.log('cookie: ', document.cookie.split('=')[1]);
+        const myCookie = document.cookie.split('=')[1];
+
         try {
+            // const response = await axiosWithAuth.post('/users', {
+            //     cookie: myCookie
+            // });
+
             const response = await axiosWithAuth.get('/users');
             setLoggedIn(true);
             setUsername(response.data.username);

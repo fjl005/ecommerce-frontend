@@ -10,7 +10,7 @@ import {
 } from "reactstrap";
 import { useState } from "react";
 import NavbarApp from "../../components/navbar/NavbarApp";
-import { axiosWithAuth } from "../../components/miscellaneous/axiosWithAuth";
+import { axiosWithAuth } from "../../components/miscellaneous/axios";
 
 const SignUpPage = () => {
 

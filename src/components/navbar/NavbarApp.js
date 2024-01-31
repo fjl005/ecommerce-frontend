@@ -91,20 +91,39 @@ const NavbarApp = ({ isCheckout, currentPage, }) => {
                                     ))
                                 }
 
+                                {!loggedIn && (
+                                    <NavItem
+                                        className={
+                                            currentPage === 'Signup'
+                                                ? 'selected-navbar-background'
+                                                : 'navbar-hover'
+                                        }
+                                    >
+                                        <NavLink tag={Link} to="/signup"
+                                            style={{
+                                                whiteSpace: 'nowrap',
+                                                color: currentPage === 'Signup' ? 'white' : 'black'
+                                            }}
+                                        >
+                                            Sign Up
+                                        </NavLink>
+                                    </NavItem>
+                                )}
+
                                 <NavItem
                                     className={
-                                        currentPage === 'Signup'
+                                        currentPage === 'About'
                                             ? 'selected-navbar-background'
                                             : 'navbar-hover'
                                     }
                                 >
-                                    <NavLink tag={Link} to="/signup"
+                                    <NavLink tag={Link} to="/about"
                                         style={{
                                             whiteSpace: 'nowrap',
-                                            color: currentPage === 'Signup' ? 'white' : 'black'
+                                            color: currentPage === 'About' ? 'white' : 'black'
                                         }}
                                     >
-                                        Sign Up
+                                        About
                                     </NavLink>
                                 </NavItem>
                             </Nav>
@@ -207,6 +226,10 @@ const NavbarApp = ({ isCheckout, currentPage, }) => {
                                                             Settings
                                                         </DropdownItem>
 
+                                                        <DropdownItem tag={Link} to='/signup'>
+                                                            Make a New Account
+                                                        </DropdownItem>
+
                                                         <DropdownItem tag={Link} to='/login'
                                                             onClick={() => {
                                                                 triggerLogout();
@@ -227,7 +250,7 @@ const NavbarApp = ({ isCheckout, currentPage, }) => {
                     </>
                 )}
             </Container>
-        </Navbar >
+        </Navbar>
     );
 };
 

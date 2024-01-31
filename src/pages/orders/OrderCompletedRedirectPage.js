@@ -1,16 +1,15 @@
 import NavbarApp from "../../components/navbar/NavbarApp";
 import { Container, Row, Col } from "reactstrap";
-import { useCartContext } from "../../components/cart/CartContext";
 import { useLoginContext } from "../../components/login/LoginContext";
 import ItemsInOrder from '../../components/orders/ItemsInOrder';
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { axiosWithAuth } from "../../components/miscellaneous/axiosWithAuth";
+import { axiosWithAuth } from "../../components/miscellaneous/axios";
 
 const OrderCompletedRedirectPage = () => {
     const { orderId } = useParams();
 
-    const { loggedIn, setLoggedIn, checkUser } = useLoginContext();
+    const { checkUser } = useLoginContext();
     const [recentOrder, setRecentOrder] = useState({});
     // const [loadingPage, setLoadingPage] = useState(true);
 

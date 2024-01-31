@@ -1,7 +1,7 @@
 import { Col, Container, Row, Table } from "reactstrap";
 import NavbarAdmin from "../../components/admin/NavbarAdmin";
 import { useState, useEffect } from "react";
-import { axiosWithAuth } from "../../components/miscellaneous/axiosWithAuth";
+import { axiosWithAuth } from "../../components/miscellaneous/axios";
 import fetsyEcommerceLogo from '../../img/fetsyEcommerceLogo.png';
 
 const BillingPage = () => {

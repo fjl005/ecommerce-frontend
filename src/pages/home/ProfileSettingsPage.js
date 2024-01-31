@@ -2,7 +2,7 @@ import NavbarApp from '../../components/navbar/NavbarApp';
 import { Container, Row, Col, Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import { useState } from 'react';
 import { useLoginContext } from '../../components/login/LoginContext';
-import { axiosWithAuth } from '../../components/miscellaneous/axiosWithAuth';
+import { axiosWithAuth } from '../../components/miscellaneous/axios';
 
 const ProfileSettingsPage = () => {
     const { username, checkUser, admin } = useLoginContext();

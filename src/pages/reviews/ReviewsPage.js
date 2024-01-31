@@ -1,7 +1,7 @@
 import { Container, Row, Col } from "reactstrap";
 import NavbarApp from "../../components/navbar/NavbarApp";
 import SingleReview from "../../components/reviews/SingleReview";
-import { axiosWithAuth } from "../../components/miscellaneous/axiosWithAuth";
+import { axiosWithAuth } from "../../components/miscellaneous/axios";
 import { useEffect, useState } from "react";
 import { useLoginContext } from "../../components/login/LoginContext";
 import SpinningIcon from "../../components/miscellaneous/SpinningIcon";

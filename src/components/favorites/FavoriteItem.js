@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { axiosWithAuth } from "../miscellaneous/axiosWithAuth";
+import { axiosWithAuth } from "../miscellaneous/axios";
 import ProductSummaryView from "../products/ProductSummaryView";
 import { Container } from "reactstrap";
 

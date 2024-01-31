@@ -1,6 +1,6 @@
 import { Container, Row, Col, Button } from "reactstrap";
 import NavbarApp from "../../components/navbar/NavbarApp";
-import { axiosWithAuth } from "../../components/miscellaneous/axiosWithAuth";
+import { axiosWithAuth } from "../../components/miscellaneous/axios";
 import { useLoginContext } from "../../components/login/LoginContext";
 import FavoriteItem from "../../components/favorites/FavoriteItem";
 import { useState, useEffect } from "react";

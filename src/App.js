@@ -18,6 +18,8 @@ import EditProductsPage from './pages/admin/EditProductsPage';
 import AllReviewsPage from './pages/admin/AllReviewsPage';
 import AllOrdersPage from './pages/admin/AllOrdersPage';
 import BillingPage from './pages/admin/BillingPage';
+import AboutPage from './pages/home/AboutPage';
+
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 function App() {
@@ -29,6 +31,7 @@ function App() {
                 <Route path='/search/:searchTerm' element={<HomePage />} />
                 <Route path='/login' element={<LoginPage />} />
                 <Route path='/signup' element={<SignUpPage />} />
+                <Route path='/about' element={<AboutPage />} />
                 <Route path='/products/:productId' element={<SingleProductPage />} />
                 <Route path='/cart' element={<CartPage />} />
                 <Route path='/cart/checkout' element={<CheckoutPage />} />
