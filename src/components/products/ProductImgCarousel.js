@@ -53,7 +53,7 @@ const ProductImgCarousel = ({ selectedProduct }) => {
                     >
                         <FontAwesomeIcon
                             icon={faAngleLeft}
-                            style={{ fontSize: '24px' }}
+                            style={{ fontSize: '1.5rem' }}
                         />
                     </div>
                 ) : <div className='no-carousel-nav'></div>}
@@ -77,7 +77,7 @@ const ProductImgCarousel = ({ selectedProduct }) => {
                     >
                         <FontAwesomeIcon
                             icon={faAngleRight}
-                            style={{ fontSize: '24px' }}
+                            style={{ fontSize: '1.5rem' }}
                         />
                     </div>
                 ) : <div className='no-carousel-nav'></div>}

@@ -2,7 +2,6 @@ import NavbarAdmin from "./NavbarAdmin";
 import { Container, Row, Col } from "reactstrap";
 import { useEffect, useState } from "react";
 import { useLoginContext } from "../login/LoginContext";
-import twoPageAirbnb from '../../img/twoPageAirbnb.png';
 
 const ProductSubmitted = () => {
 

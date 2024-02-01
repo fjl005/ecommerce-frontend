@@ -1,3 +1,13 @@
+/* GENERAL PAGE */
+html {
+    font-size: 14px;
+}
+
+body {
+    font-size: 1rem;
+    margin: 1rem;
+}
+
 .loading-page-overlay {
     position: fixed;
     top: 0;
@@ -17,40 +27,30 @@
     height: 4px;
 }
 
-.checkout-line-break-margin {
-    margin-bottom: 20px;
+
+/* ---------------------------- */
+
+/* SINGLE PRODUCT PAGE */
+.product-page-toggle-button {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 2rem;
 }
 
-.checkout-step-number {
-    color: #8C52FF;
-    font-weight: bold;
-}
 
-.product-item-homepage:hover {
-    /* box-shadow: [horizontal offset] [vertical offset] [blur radius] [spread radius] [color];
- */
-    box-shadow: 0 0 10px 2px rgb(180, 180, 180);
-    /* Add a black box-shadow effect */
-    border-radius: 5px;
-    /* Add rounded corners */
-    transition: box-shadow 0.3s ease;
-}
 
-.product-page-container {
-    /* !important is used to override the default bootstrap css styling */
-    margin-top: 25px;
-    width: 70% !important;
-    max-width: 2000px !important;
-}
 
+
+
+/* ---------------------------- */
+
+/* PRODUCT IMAGE CAROUSEL (SINGLE PRODUCT PAGE */
 .product-img-carousel-container {
-    width: 80px;
-    margin-right: 10px;
-    /* overflow-y: scroll; */
-}
-
-.product-img-carousel {
-    height: 80px;
+    width: 4rem;
+    height: 4rem;
+    margin-right: 1rem;
 }
 
 .product-img-abs {
@@ -62,17 +62,16 @@
     left: 0px;
 }
 
-
 .product-img-array::-webkit-scrollbar {
     width: 0;
     background: transparent;
 }
 
 .product-img-thumbnail {
-    margin-bottom: 10px;
+    margin-bottom: 1rem;
     width: 100%;
     object-fit: cover;
-    border-radius: 8px;
+    border-radius: 0.5rem;
     opacity: 0.5;
 }
 
@@ -85,6 +84,98 @@
     opacity: 1;
     border: 1px solid black;
 }
+
+@media (max-width: 786px) {
+    .product-img-carousel-container {
+        display: none;
+    }
+}
+
+
+/* ---------------------------- */
+
+/* NAVBAR */
+@media (max-width: 576px) {
+    .navbar-fetsy-logo {
+        display: none;
+    }
+}
+
+
+/* ---------------------------- */
+
+/* REVIEWS */
+.star-reviews-bracket {
+    font-size: 2rem;
+}
+
+.reviews-span-margin {
+    margin: 1rem 0;
+}
+
+.star-reviews-bracket {
+    font-size: 2rem;
+    margin: 0 1rem;
+}
+
+.star-reviews-rating {
+    font-size: 1.5rem;
+    margin-right: 1rem;
+}
+
+.star-reviews-num {
+    font-size: 1.5rem;
+    margin-left: 1rem;
+}
+
+@media (max-width: 1350px) {
+    .single-product-stars-reviews {
+        flex-direction: column;
+    }
+
+    .star-reviews-bracket {
+        display: none;
+    }
+
+    .star-reviews-rating {
+        margin-right: 0.5rem;
+    }
+
+    .star-reviews-num {
+        margin-left: 0;
+    }
+}
+
+
+/* ---------------------------- */
+
+
+
+
+
+
+
+
+
+
+
+.checkout-line-break-margin {
+    margin-bottom: 20px;
+}
+
+.checkout-step-number {
+    color: #8C52FF;
+    font-weight: bold;
+}
+
+.product-item-homepage:hover {
+    box-shadow: 0 0 10px 2px rgb(180, 180, 180);
+    border-radius: 5px;
+    transition: box-shadow 0.3s ease;
+}
+
+
+
 
 .cart-top-button .cart-font-awesome {
     margin: 0px 5px;
@@ -134,8 +225,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 50px;
-    height: 50px;
+    width: 3rem;
+    height: 3rem;
     border-radius: 50%;
     background-color: white;
     cursor: pointer;
@@ -177,9 +268,7 @@
     margin: 8px 0;
 }
 
-.star-reviews-span-text {
-    font-size: 20px;
-}
+
 
 
 
@@ -298,17 +387,7 @@
     /* Add more styles for small screens here */
 }
 
-@media (max-width: 1350px) {
-    .single-product-stars-reviews {
-        flex-direction: column;
-    }
 
-    .star-reviews-bracket {
-        display: none;
-    }
-
-    /* Add more styles for small screens here */
-}
 
 /* Define styles for screens with a minimum width of 769 pixels (medium screens and above) */
 @media (min-width: 768px) {

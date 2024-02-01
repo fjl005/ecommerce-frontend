@@ -20,6 +20,7 @@ import { useLoginContext } from '../login/LoginContext';
 import { useCartContext } from '../cart/CartContext';
 import { useSavedItemContext } from '../cart/SavedItemContext';
 import fetsyNavbarBrand from '../../img/fetsyNavbarBrand.png';
+import fetsyBagLogo from '../../img/fetsyBagLogo.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCartShopping } from '@fortawesome/free-solid-svg-icons';
 
@@ -49,14 +50,16 @@ const NavbarApp = ({ isCheckout, currentPage, }) => {
     return (
         <Navbar color="light" light expand="lg">
             <Container className='d-flex align-items-center'>
-                <NavbarToggler onClick={toggleNavbar} style={{ marginRight: '20px' }} />
                 <NavbarBrand tag={Link} to="/" >
                     <img
                         src={fetsyNavbarBrand}
                         alt="Fetsy Navbar Logo"
-                        style={{ width: '100px' }}
+                        style={{ width: '4rem' }}
                     />
                 </NavbarBrand>
+
+                <NavbarToggler onClick={toggleNavbar} style={{ marginRight: '1rem' }} />
+
 
                 {isCheckout ? (
                     <Nav navbar>
@@ -129,9 +132,11 @@ const NavbarApp = ({ isCheckout, currentPage, }) => {
                             </Nav>
                         </Collapse>
 
-                        <div style={{ width: '100%', margin: '0px 25px' }}>
-                            <NavbarSearch />
-                        </div>
+                        {!isOpen && (
+                            <div style={{ width: '100%', margin: '0px 25px' }}>
+                                <NavbarSearch />
+                            </div>
+                        )}
 
                         <Nav navbar
                             className='d-flex align-items-center justify-content-between'

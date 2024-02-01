@@ -6,14 +6,14 @@ const MeetTheSeller = () => {
         <div className='d-flex align-items-center'>
             <img
                 src={frankPhoto}
-                alt='Image of Frank'
+                alt='Frank the Seller'
                 style={{
-                    width: '100px',
-                    height: '100px',
+                    width: '5rem',
+                    height: '5rem',
                     objectFit: 'cover',
                 }}
             />
-            <div className='d-flex flex-column' style={{ marginLeft: '20px' }}>
+            <div className='d-flex flex-column' style={{ marginLeft: '1rem' }}>
                 <h5>Frank Lee</h5>
                 <h6 style={{ marginBottom: '0px' }}>Owner of Fetsy</h6>
             </div>

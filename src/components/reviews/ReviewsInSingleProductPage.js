@@ -101,10 +101,13 @@ const ReviewsInSingleProductPage = () => {
                         style={{ margin: '30px auto 30px auto' }}
                     >
                         Reviews for the Shop
-                        <span className='star-reviews-span-text star-reviews-bracket' style={{ fontSize: '20px', margin: '0px 10px' }}> | </span>
-                        <span style={{ fontSize: '20px', marginRight: '10px' }}> {averageRating} </span>
-                        <FiveStarGenerator starRating={averageRating} />
-                        <span style={{ fontSize: '20px', marginLeft: '10px' }}> ({reviewsData.length} reviews)</span>
+                        <span className='star-reviews-bracket'> | </span>
+                        <div className='d-flex align-items-center'>
+                            <span className='star-reviews-rating'> {averageRating} </span>
+                            <FiveStarGenerator starRating={averageRating} />
+                        </div>
+
+                        <span className='star-reviews-num'> ({reviewsData.length} reviews)</span>
                     </h2>
 
                     {reviewsData.length > 0 && reviewsData.slice(startReviewIdx, endReviewIdx).map((review, idx) => (

@@ -157,12 +157,12 @@ const SingleProductPage = () => {
                     </Row>
                 </Container>
             ) : (
-                <Container className='product-page-container'>
+                <Container style={{ marginTop: '1rem' }}>
                     {selectedProduct ? (
                         <Row>
-                            <Col sm='12' xl='8' style={{ marginBottom: '20px' }}>
+                            <Col sm='12' xl='8' style={{ marginBottom: '1rem' }}>
                                 <ProductImgCarousel selectedProduct={selectedProduct} />
-                                <div className="d-none d-xl-block" style={{ marginTop: '20px' }}>
+                                <div className="d-none d-xl-block" style={{ marginTop: '1rem' }}>
                                     <ReviewsInSingleProductPage />
                                 </div>
                             </Col>
@@ -186,7 +186,7 @@ const SingleProductPage = () => {
                                     >
                                         <FontAwesomeIcon
                                             icon={faHeart}
-                                            style={{ color: '#8B0000', marginRight: '5px' }}
+                                            style={{ color: '#8B0000', marginRight: '0.5rem' }}
                                         />
                                         Add to Favorites
                                     </div>
