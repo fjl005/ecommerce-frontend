@@ -100,14 +100,11 @@ const SingleProductPage = () => {
             }, 3000);
 
             setTooltipFavoriteTimeout(newTimeout);
-            console.log('successfully added to favorites');
-
         } catch (error) {
             console.log('error: ', error);
-
             if (error.response.data === 'You must log in before accessing this page') {
-
                 setTooltipAddFavoriteSignin(true);
+
                 const newTimeout = setTimeout(() => {
                     setTooltipAddFavoriteSignin(false);
                 }, 3000);
@@ -148,129 +145,130 @@ const SingleProductPage = () => {
     return (
         <>
             <NavbarApp />
-            {loadingPage ? (
-                <Container>
+            <Container className='m-top-1'>
+                {loadingPage ? (
                     <Row>
                         <Col>
                             <SpinningIcon size='2x' />
+
                         </Col>
                     </Row>
-                </Container>
-            ) : (
-                <Container style={{ marginTop: '1rem' }}>
-                    {selectedProduct ? (
-                        <Row>
-                            <Col sm='12' xl='8' style={{ marginBottom: '1rem' }}>
-                                <ProductImgCarousel selectedProduct={selectedProduct} />
-                                <div className="d-none d-xl-block" style={{ marginTop: '1rem' }}>
+                ) : (
+                    <>
+                        {selectedProduct ? (
+                            <Row>
+                                <Col sm='12' lg='8' className='m-bot-1'>
+                                    <ProductImgCarousel selectedProduct={selectedProduct} />
+                                    <div className="d-none d-lg-block m-top-1">
+                                        <ReviewsInSingleProductPage />
+                                    </div>
+                                </Col>
+
+                                <Col sm='12' lg='4'>
+                                    <div className='d-flex flex-column'>
+                                        <h1 className='bold-text'>${selectedProduct.price.toFixed(2)}</h1>
+                                        <h5 className='product-title'>{selectedProduct.name}</h5>
+                                        <div
+                                            id='addCart'
+                                            className='product-page-add-button product-page-add-to-cart'
+                                            onClick={() => addToCartClick(selectedProduct._id)}
+                                        >
+                                            Add to cart
+                                        </div>
+
+                                        <div
+                                            className='product-page-add-button product-page-add-to-collection'
+                                            id='addFavorite'
+                                            onClick={() => addToFavoritesClick(selectedProduct._id)}
+                                        >
+                                            <FontAwesomeIcon
+                                                icon={faHeart}
+                                                style={{ color: '#8B0000', marginRight: '0.5rem' }}
+                                            />
+                                            Add to Favorites
+                                        </div>
+
+                                        {tooltipArr.map((tooltipObj, idx) => (
+                                            <Tooltip
+                                                key={idx}
+                                                isOpen={tooltipObj.tooltip}
+                                                target={tooltipObj.target}
+                                                placement={tooltipObj.placement}
+                                            >
+                                                {tooltipObj.message}
+                                            </Tooltip>
+                                        ))}
+
+                                        <div>
+                                            <RightColToggle
+                                                section='Details'
+                                                toggleState={showDetails}
+                                                toggleStateFxn={setShowDetails}
+                                            />
+
+                                            {showDetails && (
+                                                <div className='right-col-toggle-text-align'>
+                                                    <ProductTypeIcons productType={selectedProduct.productType} />
+                                                </div>
+                                            )}
+                                        </div>
+
+                                        <div>
+                                            <RightColToggle
+                                                section='Description'
+                                                toggleState={showDescription}
+                                                toggleStateFxn={setShowDescription}
+                                            />
+                                            {showDescription && (
+                                                <div className='right-col-toggle-text-align'>
+                                                    <ProductDescription description={selectedProduct.description} />
+                                                </div>
+                                            )}
+                                        </div>
+
+                                        <div>
+                                            <RightColToggle
+                                                section='Delivery'
+                                                toggleState={showDelivery}
+                                                toggleStateFxn={setShowDelivery}
+                                            />
+
+                                            {showDelivery && (
+                                                <div className='right-col-toggle-text-align'>
+                                                    <DeliveryDetails productType={selectedProduct.productType} />
+                                                </div>
+                                            )}
+                                        </div>
+
+                                        <div>
+                                            <RightColToggle
+                                                section='Meet Your Seller'
+                                                toggleState={showSeller}
+                                                toggleStateFxn={setShowSeller}
+                                            />
+                                            {showSeller && (
+                                                <div className='right-col-toggle-text-align'>
+                                                    <MeetTheSeller />
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+                                </Col>
+
+                                <div className="d-lg-none">
                                     <ReviewsInSingleProductPage />
                                 </div>
-                            </Col>
-
-                            <Col sm='12' xl='4'>
-                                <div className='d-flex flex-column'>
-                                    <h1 style={{ fontWeight: 'bold' }}>${selectedProduct.price.toFixed(2)}</h1>
-                                    <h5 className='product-title'>{selectedProduct.name}</h5>
-                                    <div
-                                        id='addCart'
-                                        className='product-page-add-to-cart'
-                                        onClick={() => addToCartClick(selectedProduct._id)}
-                                    >
-                                        Add to cart
-                                    </div>
-
-                                    <div
-                                        className='product-page-add-to-collection'
-                                        id='addFavorite'
-                                        onClick={() => addToFavoritesClick(selectedProduct._id)}
-                                    >
-                                        <FontAwesomeIcon
-                                            icon={faHeart}
-                                            style={{ color: '#8B0000', marginRight: '0.5rem' }}
-                                        />
-                                        Add to Favorites
-                                    </div>
-
-                                    {tooltipArr.map((tooltipObj, idx) => (
-                                        <Tooltip
-                                            key={idx}
-                                            isOpen={tooltipObj.tooltip}
-                                            target={tooltipObj.target}
-                                            placement={tooltipObj.placement}
-                                        >
-                                            {tooltipObj.message}
-                                        </Tooltip>
-                                    ))}
-
-                                    <div>
-                                        <RightColToggle
-                                            section='Details'
-                                            toggleState={showDetails}
-                                            toggleStateFxn={setShowDetails}
-                                        />
-
-                                        {showDetails && (
-                                            <div className='right-col-toggle-text-align'>
-                                                <ProductTypeIcons productType={selectedProduct.productType} />
-                                            </div>
-                                        )}
-                                    </div>
-
-                                    <div>
-                                        <RightColToggle
-                                            section='Description'
-                                            toggleState={showDescription}
-                                            toggleStateFxn={setShowDescription}
-                                        />
-                                        {showDescription && (
-                                            <div className='right-col-toggle-text-align'>
-                                                <ProductDescription description={selectedProduct.description} />
-                                            </div>
-                                        )}
-                                    </div>
-
-                                    <div>
-                                        <RightColToggle
-                                            section='Delivery'
-                                            toggleState={showDelivery}
-                                            toggleStateFxn={setShowDelivery}
-                                        />
-
-                                        {showDelivery && (
-                                            <div className='right-col-toggle-text-align'>
-                                                <DeliveryDetails productType={selectedProduct.productType} />
-                                            </div>
-                                        )}
-                                    </div>
-
-                                    <div>
-                                        <RightColToggle
-                                            section='Meet Your Seller'
-                                            toggleState={showSeller}
-                                            toggleStateFxn={setShowSeller}
-                                        />
-                                        {showSeller && (
-                                            <div className='right-col-toggle-text-align'>
-                                                <MeetTheSeller />
-                                            </div>
-                                        )}
-                                    </div>
-                                </div>
-                            </Col>
-
-                            <div className="d-xl-none">
-                                <ReviewsInSingleProductPage />
-                            </div>
-                        </Row>
-                    ) : (
-                        <Row>
-                            <Col>
-                                <h1 className='text-center'>Product #{productId} doesn't exist.</h1>
-                            </Col>
-                        </Row>
-                    )}
-                </Container>
-            )}
+                            </Row>
+                        ) : (
+                            <Row>
+                                <Col>
+                                    <h1 className='text-center'>Product #{productId} doesn't exist.</h1>
+                                </Col>
+                            </Row>
+                        )}
+                    </>
+                )}
+            </Container>
         </>
 
     );

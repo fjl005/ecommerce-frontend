@@ -8,7 +8,6 @@ const ProductImgCarousel = ({ selectedProduct }) => {
     const imgURLArray = [];
     const [currImg, setCurrImg] = useState(0);
 
-
     if (imgObjArray.length === 0) {
         imgURLArray.push(null);
     } else {
@@ -18,15 +17,11 @@ const ProductImgCarousel = ({ selectedProduct }) => {
     }
 
     const next = () => {
-        // (prevImg) represents the previous state value of currImg.
         setCurrImg((prevImg) => (prevImg + 1) % imgURLArray.length);
-        console.log('clicked next.')
     };
 
     const previous = () => {
         setCurrImg((prevImg) => (prevImg - 1 + imgURLArray.length) % imgURLArray.length);
-        console.log('clicked prev.')
-
     };
 
     return (
@@ -36,7 +31,7 @@ const ProductImgCarousel = ({ selectedProduct }) => {
                     <img
                         key={idx}
                         className={
-                            `product-img-carousel product-img-thumbnail
+                            `product-img-thumbnail
                                 ${currImg === idx ? 'product-img-thumbnail-active' : ''}`}
                         src={image === null ? fetsyEcommerceLogo : image}
                         alt={selectedProduct.name}

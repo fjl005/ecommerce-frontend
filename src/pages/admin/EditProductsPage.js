@@ -1,4 +1,4 @@
-import NavbarAdmin from "../../components/admin/NavbarAdmin";
+import NavbarAdmin from "../../components/navbar/NavbarAdmin";
 import { Container, Row, Col, Button } from 'reactstrap';
 import { axiosWithAuth } from "../../components/miscellaneous/axios";
 import { useState, useEffect } from 'react'

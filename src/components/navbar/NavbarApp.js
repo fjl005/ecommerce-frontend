@@ -37,7 +37,6 @@ const NavbarApp = ({ isCheckout, currentPage, }) => {
         admin
     } = useLoginContext();
 
-    // NAVBAR TOGGLE
     const [isOpen, setIsOpen] = useState(false);
     const toggleNavbar = () => {
         setIsOpen(!isOpen);
@@ -58,7 +57,7 @@ const NavbarApp = ({ isCheckout, currentPage, }) => {
                     />
                 </NavbarBrand>
 
-                <NavbarToggler onClick={toggleNavbar} style={{ marginRight: '1rem' }} />
+                <NavbarToggler onClick={toggleNavbar} className='mr-3' />
 
 
                 {isCheckout ? (
@@ -133,14 +132,12 @@ const NavbarApp = ({ isCheckout, currentPage, }) => {
                         </Collapse>
 
                         {!isOpen && (
-                            <div style={{ width: '100%', margin: '0px 25px' }}>
+                            <div style={{ width: '100%', margin: '0px 2rem' }}>
                                 <NavbarSearch />
                             </div>
                         )}
 
-                        <Nav navbar
-                            className='d-flex align-items-center justify-content-between'
-                        >
+                        <Nav navbar className='d-flex align-items-center justify-content-between'>
                             {!loggedIn ? (
                                 <NavItem className={
                                     currentPage === 'Login'
@@ -162,15 +159,15 @@ const NavbarApp = ({ isCheckout, currentPage, }) => {
                                                 ? 'selected-navbar-background-cart'
                                                 : 'navbar-hover'
                                         }
-                                        style={{ marginRight: '20px' }}
+                                        style={{ marginRight: '2rem' }}
                                     >
                                         <NavLink tag={Link} to="/cart"
                                             style={{ position: 'relative' }}
                                         >
                                             <FontAwesomeIcon icon={faCartShopping}
                                                 style={{
-                                                    fontSize: '35px',
-                                                    padding: '5px',
+                                                    fontSize: '2rem',
+                                                    padding: '0.5rem',
                                                 }}
                                             />
 
@@ -180,8 +177,8 @@ const NavbarApp = ({ isCheckout, currentPage, }) => {
                                                         position: 'absolute',
                                                         top: 0,
                                                         right: 0,
-                                                        width: '25px',
-                                                        height: '25px',
+                                                        width: '1.5rem',
+                                                        height: '1.5rem',
                                                         backgroundColor: 'red',
                                                         borderRadius: '50%',
                                                     }}
@@ -191,7 +188,7 @@ const NavbarApp = ({ isCheckout, currentPage, }) => {
                                                             display: 'flex',
                                                             alignItems: 'center',
                                                             justifyContent: 'center',
-                                                            fontSize: '15px',
+                                                            fontSize: '1rem',
                                                             fontWeight: 'bold',
                                                             color: 'white',
                                                             width: '100%',
@@ -207,7 +204,7 @@ const NavbarApp = ({ isCheckout, currentPage, }) => {
 
                                     <Collapse isOpen={isOpen} navbar>
                                         {admin && (
-                                            <NavItem style={{ marginRight: '20px' }}>
+                                            <NavItem style={{ marginRight: '2rem' }}>
                                                 <NavLink tag={Link} to="/admin">
                                                     <Button
                                                         className='bg-dark'

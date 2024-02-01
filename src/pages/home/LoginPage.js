@@ -1,4 +1,3 @@
-// import LoginForm from '../components/login/LoginForm';
 import NavbarApp from '../../components/navbar/NavbarApp';
 import { useCartContext } from "../../components/cart/CartContext";
 import {
@@ -35,14 +34,6 @@ const LoginPage = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            // const response = await axiosWithAuth.post('/users/login', {
-            //     username,
-            //     password
-            // });
-
-            // console.log('response: ', response);
-
-            // document.cookie = `myCookie=${response.data.sessionId}`;
             const response = await axiosWithAuth.post('/users/login', {
                 username,
                 password

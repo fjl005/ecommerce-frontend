@@ -20,7 +20,7 @@ import { useParams, useLocation } from "react-router-dom";
 import axios from "axios";
 import SpinningIcon from "../../components/miscellaneous/SpinningIcon";
 import ImageUpload from "../../components/admin/ImageUpload";
-import NavbarAdmin from "../../components/admin/NavbarAdmin";
+import NavbarAdmin from "../../components/navbar/NavbarAdmin";
 
 
 const PostProductPage = () => {

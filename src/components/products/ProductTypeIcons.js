@@ -29,7 +29,7 @@ const ProductTypeIcons = ({ productType }) => {
                         <FontAwesomeIcon icon={productTypeIcon.get(productType)} />
                     </div>
                 )}
-                <p style={{ marginBottom: '0px' }}>{productType}</p>
+                <p className='m-bot-0'>{productType}</p>
             </div>
 
             <div className='icon-text-div'>
@@ -38,7 +38,7 @@ const ProductTypeIcons = ({ productType }) => {
                         <FontAwesomeIcon icon={productContentIcon.get(productType)} />
                     </div>
                 )}
-                <p style={{ marginBottom: '0px' }}>{productContent}</p>
+                <p className='m-bot-0'>{productContent}</p>
             </div>
         </>
     );

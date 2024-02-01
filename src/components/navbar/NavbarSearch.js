@@ -33,9 +33,7 @@ const NavbarSearch = () => {
                     placeholder="Search Product..."
                     value={presubmitSearch}
                     onChange={handlePresubmitChange}
-                    style={{
-                        marginRight: '8px',
-                    }}
+                    style={{ marginRight: '0.5rem' }}
                 />
                 <Button type="submit" className='navbar-search-button'>
                     <FontAwesomeIcon icon={faMagnifyingGlass} />

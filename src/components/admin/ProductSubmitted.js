@@ -1,7 +1,6 @@
-import NavbarAdmin from "./NavbarAdmin";
+import NavbarAdmin from "../navbar/NavbarAdmin";
 import { Container, Row, Col } from "reactstrap";
 import { useEffect, useState } from "react";
-import { useLoginContext } from "../login/LoginContext";
 
 const ProductSubmitted = () => {
 

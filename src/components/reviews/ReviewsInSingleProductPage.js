@@ -76,12 +76,10 @@ const ReviewsInSingleProductPage = () => {
             setStartReviewIdx(0);
             setEndReviewIdx(5);
         } else {
-            // First, check if the length is divisible by 5. If it is, then we subtract 5 and that will be our first num. 
             if (!(reviewsData.length % 5)) {
                 setStartReviewIdx(Math.floor(reviewsData.length - 5));
                 setEndReviewIdx(reviewsData.length);
             } else {
-                // Otherwise, let's grab the lowest, closest number that's divisible by 5, plus 1. For example, if the length is 19, then we want the lowest, closest number divisible by 5 (15) then add 1 (16). But, since the number is the index, there is no need to add 1 since this is already accounted for in the array index.
                 setStartReviewIdx(Math.floor(reviewsData.length / 5) * 5);
                 setEndReviewIdx(reviewsData.length);
             }
@@ -98,7 +96,7 @@ const ReviewsInSingleProductPage = () => {
                 <>
                     <h2
                         className='d-flex single-product-stars-reviews align-items-center'
-                        style={{ margin: '30px auto 30px auto' }}
+                        style={{ margin: '2rem auto' }}
                     >
                         Reviews for the Shop
                         <span className='star-reviews-bracket'> | </span>
@@ -151,7 +149,7 @@ const ReviewsInSingleProductPage = () => {
 
                         {/* ... Part 1 */}
                         {currentPage > 2 && (
-                            <p style={{ fontSize: '25px' }}>...</p>
+                            <p style={{ fontSize: '2rem' }}>...</p>
                         )}
 
                         {/* Mid Button */}
@@ -168,7 +166,7 @@ const ReviewsInSingleProductPage = () => {
 
                         {/* ... Part 2 */}
                         {midBtn + 1 < totalPages && (
-                            <p style={{ fontSize: '25px' }}>...</p>
+                            <p style={{ fontSize: '2rem' }}>...</p>
                         )}
 
                         {/* Last Page */}
@@ -196,7 +194,9 @@ const ReviewsInSingleProductPage = () => {
                                         setMidBtn(currentPage + 1);
                                     }
                                 }}
-                            >Next</div>
+                            >
+                                Next
+                            </div>
                         )}
 
                     </div>

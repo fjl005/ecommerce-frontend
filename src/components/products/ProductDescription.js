@@ -1,44 +1,32 @@
 import { useState, useRef, useEffect } from 'react';
-import { Button } from 'reactstrap';
 
 const ProductDescription = ({ description }) => {
-    /* STATES AND REFS */
     const [expanded, setExpanded] = useState(false);
     const [showSeeMoreButton, setShowSeeMoreButton] = useState(false);
-    // We will need the viewport width to track responsiveness and then determine whether a 'see more' button is needed for the description.
     const [viewportWidth, setViewportWidth] = useState(window.innerWidth);
-
-    // useRef is used to access the height of the description p-element. UseRef does not trigger re-renders when the value changes (aka the height changes).
     const descriptionRef = useRef(null);
 
-
-    /* FUNCTIONS */
     const toggleExpanded = () => {
         setExpanded(!expanded);
     };
 
     const doesTextOverflow = () => {
-        // Grab the height of the p element's height, and see if it's greater than 100 px. If it is, then we will create a 'see more' button.
         return descriptionRef.current.clientHeight > 100;
     };
 
-    /* USE EFFECTS */
     useEffect(() => {
-        // Update the viewportWidth state when the window is resized
         const handleResize = () => {
             setViewportWidth(window.innerWidth);
         };
 
         window.addEventListener('resize', handleResize);
 
-        // Clean up the event listener when the component unmounts or a re-render occurs
         return () => {
             window.removeEventListener('resize', handleResize);
         };
     }, []);
 
     useEffect(() => {
-        // Check if the text overflows whenever the viewport width changes
         setShowSeeMoreButton(doesTextOverflow());
     }, [viewportWidth]);
 
@@ -53,11 +41,8 @@ const ProductDescription = ({ description }) => {
                     maxWidth: '100%',
                     wordWrap: 'break-word',
                 }}>
-                <p
-                    ref={descriptionRef}
-                >
-                    {description}
-                </p>
+
+                <p ref={descriptionRef}>{description}</p>
             </div>
 
             {showSeeMoreButton && !expanded &&
@@ -65,9 +50,8 @@ const ProductDescription = ({ description }) => {
                     <span
                         className='see-more-less-button'
                         onClick={toggleExpanded}
-                        style={{ color: 'gray' }}
                     >
-                        See More
+                        {'<-- See More -->'}
                     </span>
                 </div>
             }
@@ -77,9 +61,8 @@ const ProductDescription = ({ description }) => {
                     <span
                         className='see-more-less-button'
                         onClick={toggleExpanded}
-                        style={{ color: 'gray' }}
                     >
-                        See Less
+                        {'<-- See Less -->'}
                     </span>
                 </div>
             }

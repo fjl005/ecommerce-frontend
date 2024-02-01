@@ -56,21 +56,22 @@ const SingleReview = ({
 
                     <Row>
                         <Col sm='12' md='3'>
-                            <img
-                                src={
-                                    productData.pictures && productData.pictures.length > 0
-                                        ? productData.pictures[0].url
-                                        : fetsyEcommerceLogo}
-                                alt={productData.name}
-                                style={{ width: '100%' }}
-                            />
+                            <div className='d-flex'>
+                                <img
+                                    src={
+                                        productData.pictures && productData.pictures.length > 0
+                                            ? productData.pictures[0].url
+                                            : fetsyEcommerceLogo}
+                                    alt={productData.name}
+                                    className='mx-auto'
+                                    style={{ width: '70%' }}
+                                />
+                            </div>
+
                         </Col>
 
                         <Col sm='12' md='6'>
-                            <h4>
-                                Review placed on: {formatDate(new Date(reviewDate))}
-                            </h4>
-
+                            <h4>Review placed on: {formatDate(new Date(reviewDate))}</h4>
                             <FiveStarGenerator starRating={starRating} />
                             <p>{ratingDescription}</p>
                         </Col>
@@ -80,7 +81,7 @@ const SingleReview = ({
                                 <h4>Product Details</h4>
                                 <ProductTypeIcons productType={productData.productType} />
                             </div>
-                            <div style={{ textAlign: 'center', margin: '20px 0px' }}>
+                            <div className='text-center' style={{ margin: '1.5rem 0 0.5rem 0' }}>
                                 {!adminPage && (
                                     <Link
                                         className='black-normal-text'

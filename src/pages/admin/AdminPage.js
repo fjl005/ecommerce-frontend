@@ -1,5 +1,5 @@
 
-import NavbarAdmin from "../../components/admin/NavbarAdmin";
+import NavbarAdmin from "../../components/navbar/NavbarAdmin";
 import { Container, Row, Col, } from "reactstrap";
 import { Link } from "react-router-dom";
 import { useLoginContext } from "../../components/login/LoginContext";

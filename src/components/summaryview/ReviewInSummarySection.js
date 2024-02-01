@@ -33,13 +33,12 @@ const ReviewInSummarySection = ({ productItem, orderId, }) => {
 
             const date = new Date(data.reviewDate);
             const year = date.getFullYear();
-            const month = date.getMonth() + 1; // Month is 0-based, so add 1
+            const month = date.getMonth() + 1;
             const day = date.getDate();
             const formattedDate = `${month}/${day}/${year}`;
 
             setReviewDate(formattedDate);
             setLoadingReview(false);
-            console.log('made it to loading product')
         } catch (error) {
             console.log('error: ', error);
             setLoadingReview(false);
@@ -53,6 +52,16 @@ const ReviewInSummarySection = ({ productItem, orderId, }) => {
                 <SpinningIcon size='2x' />
             ) : (
                 <>
+                    {hasReview && (
+                        <>
+                            <h4 className='m-top-1'>Review: ({reviewDate})</h4>
+                            <FiveStarGenerator starRating={starRating} />
+                            <p className='no-overflow-text'>
+                                {ratingDescription}
+                            </p>
+                        </>
+                    )}
+
                     <Link
                         className='black-normal-text'
                         to={{ pathname: `/review/${hasReview ? 'edit/' : ''}${productItem._id}` }}
@@ -66,18 +75,8 @@ const ReviewInSummarySection = ({ productItem, orderId, }) => {
                             }),
                         }}
                     >
-                        <Button style={{ marginBottom: '10px' }}>{hasReview ? 'Edit Review' : 'Leave a Review'}</Button>
+                        <Button>{hasReview ? 'Edit Review' : 'Leave a Review'}</Button>
                     </Link>
-
-                    {hasReview && (
-                        <>
-                            <h4>Review: ({reviewDate})</h4>
-                            <FiveStarGenerator starRating={starRating} />
-                            <p className='no-overflow-text'>
-                                {ratingDescription}
-                            </p>
-                        </>
-                    )}
                 </>
             )}
 

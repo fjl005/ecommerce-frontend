@@ -16,15 +16,14 @@ import {
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useLoginContext } from '../login/LoginContext';
-import LoadingOverlay from '../miscellaneous/LoadingOverlay';
 import { useCartContext } from '../cart/CartContext';
 import adminNavbarBrand from '../../img/adminNavbarBrand.png';
 
 
 const NavbarAdmin = () => {
     const { loggedIn, showLoginButton, triggerLogout, admin } = useLoginContext();
-    const { cartLength, setCartLength, setSavedLength } = useCartContext();
-    const [isOpen, setIsOpen] = useState(false); // Add state for Navbar toggling
+    const { setCartLength, setSavedLength } = useCartContext();
+    const [isOpen, setIsOpen] = useState(false);
 
     const toggleNavbar = () => {
         setIsOpen(!isOpen);
@@ -33,23 +32,18 @@ const NavbarAdmin = () => {
     return (
         <>
             {admin && (
-                <Navbar color='dark' expand="xl">
-                    <Container
-                        className='d-flex flex-row align-items-center justify-content-between'
-                    >
+                <Navbar color='dark' expand="md">
+                    <Container className='d-flex flex-row align-items-center justify-content-between'>
                         <div className='d-flex flex-row align-items-center'>
-                            <NavbarToggler onClick={toggleNavbar} style={{ marginRight: '20px', backgroundColor: 'white' }} />
-
                             <NavbarBrand tag={Link} to="/admin" style={{ color: 'white' }}>
                                 <img
                                     src={adminNavbarBrand}
                                     alt="Fetsy Admin Navbar Logo"
-                                    style={{
-                                        width: '75px',
-                                        height: 'auto',
-                                    }}
+                                    style={{ width: '4rem', }}
                                 />
                             </NavbarBrand>
+
+                            <NavbarToggler onClick={toggleNavbar} style={{ marginRight: '2rem', backgroundColor: 'white' }} />
 
                             <Collapse isOpen={isOpen} navbar>
 

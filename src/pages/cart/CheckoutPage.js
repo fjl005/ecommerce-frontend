@@ -130,34 +130,23 @@ const CheckoutPage = () => {
                             </h1>
                         </Col>
                     </Row>
-                    <Row>
-                        <Col style={{ marginBottom: '30px' }}>
-                            <h5>
-                                If this becomes a legitimate site, then I would implement actual payment verification. However, because I am not running this with a secure connection, I do not want ANY payment or identification information to be sent.
-                            </h5>
 
-                            <h6 style={{ marginTop: '20px' }}>
-                                With that said, for the checkout to work, please click the autofill button here:
-                            </h6>
-                            <Button
-                                onClick={(event) => autofill(event)}
-                                className='bg-primary'
-                            >
+                    <Row>
+                        <Col style={{ marginBottom: '2rem' }}>
+                            <h5>If this becomes a legitimate site, then I would implement actual payment verification. However, because I am not running this with a secure connection, I do not want ANY payment or identification information to be sent.</h5>
+                            <h6 className='m-top-1'>With that said, for the checkout to work, please click the autofill button here:</h6>
+                            <Button onClick={(event) => autofill(event)} className='bg-primary'>
                                 Auto-fill
                             </Button>
-                            <Button
-                                onClick={() => setFormData(defaultFormData)}
-                                style={{ marginLeft: '10px' }}
-                            >
+                            <Button onClick={() => setFormData(defaultFormData)} className='m-left-1'>
                                 Clear
                             </Button>
                         </Col>
                     </Row>
 
-
                     <FormGroup>
-                        <Row>
-                            <Col xs='1' style={{ maxWidth: '75px' }}>
+                        <Row className='m-top-1'>
+                            <Col xs='1' className='checkout-num-width'>
                                 <h3 className='checkout-step-number'>1</h3>
                             </Col>
                             <Col xs='11'>
@@ -166,7 +155,7 @@ const CheckoutPage = () => {
                         </Row>
 
                         <Row>
-                            <Col xs='1' style={{ maxWidth: '75px' }}></Col>
+                            <Col xs='1' className='checkout-num-width'></Col>
                             <Col xs='11'>
                                 <Input
                                     type="email"
@@ -184,7 +173,7 @@ const CheckoutPage = () => {
 
                     <FormGroup>
                         <Row>
-                            <Col xs='1' style={{ maxWidth: '75px' }}>
+                            <Col xs='1' className='checkout-num-width'>
                                 <h3 className='checkout-step-number'> 2</h3>
                             </Col>
                             <Col xs='11'>
@@ -193,8 +182,8 @@ const CheckoutPage = () => {
                         </Row>
 
                         <Row>
-                            <Col xs='1' style={{ maxWidth: '75px' }}></Col>
-                            <Col xs='5'>
+                            <Col xs='1' className='checkout-num-width'></Col>
+                            <Col xs='12' md='5' className='mb-3'>
                                 <Label for="cardNumber">Card Number (no dashes):</Label>
                                 <Input
                                     type="text"
@@ -206,7 +195,7 @@ const CheckoutPage = () => {
                                     onChange={handleInputChange}
                                 />
                             </Col>
-                            <Col xs='2'>
+                            <Col xs='3' md='2' className='mb-3'>
                                 <Label for="cardExpiresMonth">Expires (Month)</Label>
                                 <Input
                                     type="select"
@@ -222,9 +211,8 @@ const CheckoutPage = () => {
                                     ))}
                                 </Input>
                             </Col>
-                            <Col xs='2'>
+                            <Col xs='3' md='2' className='mb-3'>
                                 <Label for="cardExpiresYear">Expires (Year)</Label>
-
                                 <Input
                                     type="select"
                                     id="cardExpiresYear"
@@ -240,7 +228,7 @@ const CheckoutPage = () => {
                                 </Input>
 
                             </Col>
-                            <Col xs='2'>
+                            <Col xs='3' md='2' className='mb-3'>
                                 <Label for="cardCVC">CVC</Label>
                                 <Input
                                     type="text"
@@ -259,7 +247,7 @@ const CheckoutPage = () => {
 
                     <FormGroup>
                         <Row>
-                            <Col xs='1' style={{ maxWidth: '75px' }}>
+                            <Col xs='1' className='checkout-num-width'>
                                 <h3 className='checkout-step-number'>3</h3>
                             </Col>
                             <Col xs='11'>
@@ -268,8 +256,8 @@ const CheckoutPage = () => {
                         </Row>
 
                         <Row>
-                            <Col xs='1' style={{ maxWidth: '75px' }}></Col>
-                            <Col md='5'>
+                            <Col xs='1' className='checkout-num-width mb-3'></Col>
+                            <Col md='5' className='mb-3'>
                                 <Label for="firstName">First Name</Label>
                                 <Input
                                     type="text"
@@ -281,7 +269,7 @@ const CheckoutPage = () => {
                                     onChange={handleInputChange}
                                 />
                             </Col>
-                            <Col md='6'>
+                            <Col md='6' className='mb-3'>
                                 <Label for="lastName">Last Name</Label>
                                 <Input
                                     type="text"
@@ -293,8 +281,8 @@ const CheckoutPage = () => {
                                     onChange={handleInputChange}
                                 />
                             </Col>
-                            <Col xs='1' style={{ maxWidth: '75px' }}></Col>
-                            <Col md='7'>
+                            <Col xs='1' className='checkout-num-width'></Col>
+                            <Col md='7' className='mb-3'>
                                 <Label for="streetAddress">Street Address</Label>
                                 <Input
                                     type="text"
@@ -306,7 +294,7 @@ const CheckoutPage = () => {
                                     onChange={handleInputChange}
                                 />
                             </Col>
-                            <Col md='4'>
+                            <Col md='4' className='mb-3'>
                                 <Label for="aptNumOptional">Apt., Ste., Bldg (Optional)</Label>
                                 <Input
                                     type="text"
@@ -317,8 +305,8 @@ const CheckoutPage = () => {
                                     onChange={handleInputChange}
                                 />
                             </Col>
-                            <Col xs='1' style={{ maxWidth: '75px' }}></Col>
-                            <Col md='5'>
+                            <Col xs='1' className='checkout-num-width'></Col>
+                            <Col md='5' className='mb-3'>
                                 <Label for="city">City</Label>
                                 <Input
                                     type="text"
@@ -330,7 +318,7 @@ const CheckoutPage = () => {
                                     onChange={handleInputChange}
                                 />
                             </Col>
-                            <Col md='3'>
+                            <Col md='3' className='mb-3'>
                                 <Label for="state">State</Label>
                                 <Input
                                     type="select"
@@ -348,7 +336,7 @@ const CheckoutPage = () => {
 
 
                             </Col>
-                            <Col md='3'>
+                            <Col md='3' className='mb-3'>
                                 <Label for="zipCode">Zip Code</Label>
                                 <Input
                                     type="text"
@@ -366,7 +354,7 @@ const CheckoutPage = () => {
                     <CheckoutPageBreak />
 
                     <Row>
-                        <Col xs='1' style={{ maxWidth: '75px' }}>
+                        <Col xs='1' className='checkout-num-width'>
                             <h3 className='checkout-step-number'>4</h3>
                         </Col>
                         <Col xs='11'>
@@ -374,7 +362,7 @@ const CheckoutPage = () => {
                         </Col>
                     </Row>
                     <Row>
-                        <Col xs='1' style={{ maxWidth: '75px' }}></Col>
+                        <Col xs='1' className='checkout-num-width'></Col>
                         <Col>
                             {cartItemsArrayId.length > 0 &&
                                 cartItemsArrayId.map((productId, idx) => (
@@ -394,7 +382,7 @@ const CheckoutPage = () => {
                             <h1>
                                 Total Cost:
                                 {loadingCost ? (
-                                    <div style={{ marginLeft: '10px', display: 'inline-block' }}>
+                                    <div className='m-left-1 d-inline-block'>
                                         <SpinningIcon size='1x' />
                                     </div>
                                 ) : (
@@ -403,13 +391,16 @@ const CheckoutPage = () => {
                             </h1>
                         </Col>
                     </Row>
+
+                    <h5 style={{ color: 'red' }}>
+                        By clicking submit, you acknowledge that you did NOT put in actual card information. Because this shop is not live, there is no secure network connection to protect your data. Additionally, the checkout will not work unless the 'autofill' is selected (see top of page for this button).
+                    </h5>
+
                     <Button color="primary" type="submit">
                         Submit
                     </Button>
 
-                    <h5>
-                        By clicking submit, you acknowledge that you did NOT put in actual card information. Because this shop is not live, there is no secure network connection to protect your data. Additionally, the checkout will not work unless the 'autofill' is selected (see top of page for this button).
-                    </h5>
+
                 </Form>
             </Container>
         </>

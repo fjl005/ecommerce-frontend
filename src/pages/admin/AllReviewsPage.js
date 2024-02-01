@@ -1,6 +1,6 @@
 import { Col, Container, Row } from "reactstrap";
 import { useEffect, useState } from "react";
-import NavbarAdmin from "../../components/admin/NavbarAdmin";
+import NavbarAdmin from "../../components/navbar/NavbarAdmin";
 import { axiosWithAuth } from "../../components/miscellaneous/axios";
 import SingleReview from "../../components/reviews/SingleReview";
 

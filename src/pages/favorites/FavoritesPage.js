@@ -18,10 +18,8 @@ const FavoritesPage = () => {
     const [loadingFavoritesPage, setLoadingFavoritesPage] = useState(true);
     const [favoritesLoadingOverlay, setFavoritesLoadingOverlay] = useState(false);
 
-    // Performed whenever an item is removed from Favorites or added to Cart.
     useEffect(() => {
         if (!favoritesLoadingOverlay) {
-            // When this is set to false, the function is completed and so we can fetch all favorites. 
             fetchFavorites();
         }
     }, [favoritesLoadingOverlay]);
@@ -67,10 +65,7 @@ const FavoritesPage = () => {
                 console.log('Error: ', error);
             }
         }
-
     };
-
-
 
     return (
         <>

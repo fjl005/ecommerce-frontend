@@ -78,11 +78,11 @@ const ProductsHomePage = ({ adminPage, itemsSelectedIdArr, setItemsSelectedIdArr
         <Container>
             <Row>
                 <Col>
-                    <h1>Products</h1>
+                    <h1 className='m-left-1'>Products</h1>
                     {loading ? (
                         <SpinningIcon size='2x' />
                     ) : productsDB.length < 1 && (
-                        <h4>No Products Found.</h4>
+                        <h4 className='m-left-1'>No Products Found.</h4>
                     )}
                 </Col>
             </Row>
@@ -101,14 +101,13 @@ const ProductsHomePage = ({ adminPage, itemsSelectedIdArr, setItemsSelectedIdArr
                         }}
                     >
                         <Link
-                            to={
-                                adminPage
-                                    ? `/admin/updateproduct/${product._id}`
-                                    : `/products/${product._id}`}
+                            to={adminPage
+                                ? `/admin/updateproduct/${product._id}`
+                                : `/products/${product._id}`}
                             className='black-normal-text'
                         >
-                            <div style={{ padding: '10px', width: '100%' }}>
-                                <div style={{ position: 'relative', width: '100%', paddingBottom: '100%' }}>
+                            <div className='w-100' style={{ padding: '1rem', }}>
+                                <div className='w-100' style={{ position: 'relative', paddingBottom: '100%' }}>
                                     <img
                                         src={
                                             (product.pictures && product.pictures.length > 0)
@@ -120,10 +119,7 @@ const ProductsHomePage = ({ adminPage, itemsSelectedIdArr, setItemsSelectedIdArr
                                     />
                                 </div>
 
-                                <h6 className='no-overflow-text' style={{ marginTop: '10px' }}>
-                                    {product.name}
-                                </h6>
-
+                                <h6 className='no-overflow-text m-top-1'>{product.name}</h6>
                                 <h4>${product.price.toFixed(2)}</h4>
                             </div>
                         </Link>
@@ -139,7 +135,7 @@ const ProductsHomePage = ({ adminPage, itemsSelectedIdArr, setItemsSelectedIdArr
                             >
                                 <Input
                                     type="checkbox"
-                                    style={{ width: '25px', height: '25px' }}
+                                    style={{ width: '2rem', height: '2rem' }}
                                     checked={itemsSelectedIdArr.includes(product._id)}
                                     onChange={() => handleCheckbox(product._id)}
                                 />
