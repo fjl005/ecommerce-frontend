@@ -34,26 +34,18 @@ const PostProductPage = () => {
     const itemsStr = searchParams.get('items');
     const itemsSelectedIdArr = JSON.parse(itemsStr);
 
-    // Error will appear when upload error occurs (such as: uploading more than 10 images).
     const [fileErrorMsg, setFileErrorMsg] = useState('');
-
-    // Newly uploaded files: the files that you just uploaded. 
     const [newlyUploadedImageFiles, setNewlyUploadedImageFiles] = useState([]);
     const [newlyUploadedImageURLs, setNewlyUploadedImageURLs] = useState([]);
-
-    // Existing image URLs: if editing an existing product, these URLs are for the pictures that already exist.
     const [existingImagesURLs, setExistingImagesURLs] = useState([]);
-
-    // Number of images uploaded (will update as you post the data).
     const [imageUploadNum, setImageUploadNum] = useState(0);
+    const [fetchedImgData, setFetchedImgData] = useState([]);
 
     // States for the form
     const [title, setTitle] = useState('');
     const [price, setPrice] = useState('');
     const [productType, setProductType] = useState('');
     const [description, setDescription] = useState('');
-
-    const [fetchedImgData, setFetchedImgData] = useState([]);
 
     // When images are uploaded, run handleImageChange
     const handleImageChange = async (event) => {
@@ -66,12 +58,11 @@ const PostProductPage = () => {
             return;
         }
 
-        // updatedNewImgURLs is a clone of newlyUploadedImageURLs. We will update updatedNewImgURLs to then 
+        // updatedNewImgURLs is a clone of newlyUploadedImageURLs. Since we want to push URLs into the array, we will do so outside of state.
         let updatedNewImgURLs = [...newlyUploadedImageURLs];
 
         for (let i = 0; i < filesArray.length; i++) {
-            const file = filesArray[i];
-            const url = URL.createObjectURL(file);
+            const url = URL.createObjectURL(filesArray[i]);
             updatedNewImgURLs.push(url);
         }
 
@@ -170,7 +161,7 @@ const PostProductPage = () => {
                 uploadInfo.pictures = imgDataArray;
                 console.log('updated info: ', uploadInfo);
                 const response = await axiosWithAuth.post('/products', { uploadInfo });
-                // switchPage(response.data.product);
+                switchPage(response.data.product);
             }
 
             // Else, either itemsSelectedIdArr or productId exists, which means we will be updating an existing product.
@@ -222,6 +213,7 @@ const PostProductPage = () => {
         finally { setSubmitting(false); }
     };
 
+
     // After form submission
     const switchPage = (data) => {
         let thumbnailURL = '';
@@ -261,7 +253,7 @@ const PostProductPage = () => {
 
     const fetchProduct = async (id) => {
         try {
-            const response = await axios.get(`http://localhost:5000/products/${id}`);
+            const response = await axiosWithAuth.get(`/products/${id}`);
             const data = response.data;
             setTitle(data.name);
             setPrice(data.price);
@@ -345,7 +337,7 @@ const PostProductPage = () => {
                                                 </Label>
 
                                                 <div className='d-flex align-items-center'>
-                                                    <span style={{ fontSize: '25px' }}>$</span>
+                                                    <span style={{ fontSize: '1.5rem' }}>$</span>
                                                     <Field
                                                         type='text'
                                                         name='productPrice'
@@ -418,18 +410,11 @@ const PostProductPage = () => {
                                                             <>
                                                                 <Button
                                                                     type='button'
-                                                                    style={{
-                                                                        margin: '0px',
-                                                                        padding: '0px',
-                                                                    }}
+                                                                    style={{ margin: '0px', padding: '0px', }}
                                                                 >
                                                                     <Label
                                                                         htmlFor="img"
-                                                                        style={{
-                                                                            cursor: 'pointer',
-                                                                            padding: '5px',
-                                                                            margin: '0px'
-                                                                        }}
+                                                                        style={{ cursor: 'pointer', padding: '5px', margin: '0px' }}
                                                                     >
                                                                         Choose Files
                                                                     </Label>
@@ -449,12 +434,7 @@ const PostProductPage = () => {
                                                     </Label>
 
 
-                                                    <h5
-                                                        style={{
-                                                            margin: '0 0 0 10px',
-                                                            color: 'red'
-                                                        }}
-                                                    >
+                                                    <h5 style={{ margin: '0 0 0 10px', color: 'red' }}>
                                                         {fileErrorMsg}
                                                     </h5>
 
@@ -481,7 +461,7 @@ const PostProductPage = () => {
                                                                         />
                                                                     </div>
                                                                 ))}
-                                                            <h6 style={{ marginTop: '50px' }}>Newly Uploaded:</h6>
+                                                            <h6 style={{ marginTop: '4rem' }}>Newly Uploaded:</h6>
                                                         </>
                                                     )}
 
@@ -510,29 +490,28 @@ const PostProductPage = () => {
 
                                         <div
                                             className='d-flex align-items-center'
-                                            style={{ marginTop: '30px' }}
+                                            style={{ marginTop: '3rem' }}
                                         >
                                             <Button
                                                 type='submit'
-                                                className='bg-primary'
+                                                className='bg-primary m-right-1'
                                                 disabled={isSubmitting}
-                                                style={{ marginRight: '10px' }}
+                                            // style={{ marginRight: '1rem' }}
                                             >
                                                 {isSubmitting ? 'Submitting...' : 'Submit'}
                                             </Button>
 
-
                                             {isSubmitting &&
                                                 <>
-                                                    <SpinningIcon style={{ margin: '0px 20px 0px 20px' }} size='xl' />
-                                                    <span style={{ marginLeft: '10px' }}>
+                                                    <SpinningIcon style={{ margin: '0 1.5rem' }} size='xl' />
+                                                    <span className='ml-3'>
                                                         This may take a moment, and may take longer if you are uploading multiple images.
                                                     </span>
                                                     <span
                                                         style={{
                                                             color: 'blue',
                                                             fontWeight: 'bold',
-                                                            margin: '0px 10px 0px 10px'
+                                                            margin: '0 1rem'
                                                         }}
                                                     >
                                                         Uploaded {imageUploadNum} of {newlyUploadedImageFiles.length} images.

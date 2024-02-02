@@ -12,11 +12,9 @@ const BillingPage = () => {
         fetchAllOrders();
     }, []);
 
-    // Trying new format since I've been doing arrow functions all day.
     async function fetchAllOrders() {
         try {
             const response = await axiosWithAuth('/orders');
-            console.log('response: ', response.data);
             setAllOrders(response.data.orders);
             setTotalBalance(response.data.totalBalance);
         } catch (error) {
@@ -38,7 +36,7 @@ const BillingPage = () => {
                 </Row>
                 <Row>
                     <Col>
-                        <Table style={{ textAlign: 'center' }}>
+                        <Table className='text-center'>
                             <thead>
                                 <tr>
                                     <th style={{ width: '8%' }}></th>
@@ -46,8 +44,6 @@ const BillingPage = () => {
                                     <th style={{ width: '20%' }}>Type</th>
                                     <th style={{ width: '40%' }}>Description</th>
                                     <th style={{ width: '10%' }}>Amount</th>
-                                    {/* <th style={{ width: '10%' }}>Fee and Tax</th>
-                                    <th style={{ width: '10%' }}>Net</th> */}
                                     <th style={{ width: '10%' }}>Balance</th>
                                 </tr>
                             </thead>
@@ -62,6 +58,7 @@ const BillingPage = () => {
                                     const formattedDate = `${dateParts[0]} ${dateParts[1]} ${dateParts[2]}`;
 
                                     return order.items.map((item, itemIdx) => {
+
                                         let netBalance = total - item.price;
                                         total = total - item.price;
 
@@ -74,12 +71,10 @@ const BillingPage = () => {
                                         return (
                                             <tr key={item._id}>
                                                 <td>
-                                                    {/* <img src={twoPageAirbnb} alt='listing image' style={{ width: '100%' }} /> */}
-
                                                     <img
                                                         src={(item.pictures && item.pictures.length > 0) ? item.pictures[0].url : fetsyEcommerceLogo}
-                                                        alt='listing image'
-                                                        style={{ width: '100%' }}
+                                                        alt={item.name}
+                                                        className='w-100'
                                                     />
                                                 </td>
                                                 <td style={{ verticalAlign: 'middle' }}>{formattedDate}</td>
@@ -88,8 +83,6 @@ const BillingPage = () => {
                                                     {item.name}
                                                 </td>
                                                 <td style={{ verticalAlign: 'middle' }}>${item.price.toFixed(2)}</td>
-                                                {/* <td style={{ verticalAlign: 'middle' }}>${(item.price * 0.0775).toFixed(2)}</td>
-                                            <td style={{ verticalAlign: 'middle' }}>${(item.price - item.price * 0.0775).toFixed(2)}</td> */}
                                                 <td style={{ verticalAlign: 'middle' }}>
                                                     ${netBalance.toFixed(2)}
                                                 </td>
@@ -97,18 +90,6 @@ const BillingPage = () => {
                                         )
                                     })
                                 })}
-                                {/* <tr>
-                                    <td>
-                                        <img src={twoPageAirbnb} alt='listing image' style={{ width: '100%' }} />
-                                    </td>
-                                    <td style={{ verticalAlign: 'middle' }}>date</td>
-                                    <td style={{ verticalAlign: 'middle' }}>type</td>
-                                    <td style={{ verticalAlign: 'middle' }}>description</td>
-                                    <td style={{ verticalAlign: 'middle' }}>amount</td>
-                                    <td style={{ verticalAlign: 'middle' }}>fee and tax (7.5%, no fee)</td>
-                                    <td style={{ verticalAlign: 'middle' }}>net (amount - fee/tax)</td>
-                                    <td style={{ verticalAlign: 'middle' }}>balance (total + net) </td>
-                                </tr> */}
                             </tbody>
                         </Table>
                     </Col>

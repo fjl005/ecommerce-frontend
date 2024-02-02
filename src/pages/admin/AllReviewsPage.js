@@ -16,7 +16,6 @@ const AllReviewsPage = () => {
         try {
             const response = await axiosWithAuth.get(`/reviews`);
             const data = response.data;
-            console.log('data: ', data);
             setReviewsData(data);
             setLoadingReviewsPage(false);
         } catch (error) {

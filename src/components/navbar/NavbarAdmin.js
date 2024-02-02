@@ -21,7 +21,12 @@ import adminNavbarBrand from '../../img/adminNavbarBrand.png';
 
 
 const NavbarAdmin = () => {
-    const { loggedIn, showLoginButton, triggerLogout, admin } = useLoginContext();
+    const {
+        loggedIn,
+        showLoginButton,
+        triggerLogout,
+        admin
+    } = useLoginContext();
     const { setCartLength, setSavedLength } = useCartContext();
     const [isOpen, setIsOpen] = useState(false);
 
@@ -35,11 +40,11 @@ const NavbarAdmin = () => {
                 <Navbar color='dark' expand="md">
                     <Container className='d-flex flex-row align-items-center justify-content-between'>
                         <div className='d-flex flex-row align-items-center'>
-                            <NavbarBrand tag={Link} to="/admin" style={{ color: 'white' }}>
+                            <NavbarBrand tag={Link} to="/admin">
                                 <img
                                     src={adminNavbarBrand}
                                     alt="Fetsy Admin Navbar Logo"
-                                    style={{ width: '4rem', }}
+                                    className='navbar-brand-width'
                                 />
                             </NavbarBrand>
 
@@ -49,27 +54,27 @@ const NavbarAdmin = () => {
 
                                 <Nav className='ml-auto'>
                                     <NavItem>
-                                        <NavLink tag={Link} to="/admin/addnewproduct" style={{ color: 'white' }}>
+                                        <NavLink tag={Link} to="/admin/addnewproduct" className='navbar-admin-text'>
                                             Add Product
                                         </NavLink>
                                     </NavItem>
                                     <NavItem>
-                                        <NavLink tag={Link} to="/admin/editproductspage" style={{ color: 'white' }}>
+                                        <NavLink tag={Link} to="/admin/editproductspage" className='navbar-admin-text'>
                                             Edit Products
                                         </NavLink>
                                     </NavItem>
                                     <NavItem>
-                                        <NavLink tag={Link} to="/admin/allorders" style={{ color: 'white' }}>
+                                        <NavLink tag={Link} to="/admin/allorders" className='navbar-admin-text'>
                                             All Orders
                                         </NavLink>
                                     </NavItem>
                                     <NavItem>
-                                        <NavLink tag={Link} to="/admin/allreviews" style={{ color: 'white' }}>
+                                        <NavLink tag={Link} to="/admin/allreviews" className='navbar-admin-text'>
                                             All Reviews
                                         </NavLink>
                                     </NavItem>
                                     <NavItem>
-                                        <NavLink tag={Link} to="/admin/billing" style={{ color: 'white' }}>
+                                        <NavLink tag={Link} to="/admin/billing" className='navbar-admin-text'>
                                             Billing
                                         </NavLink>
                                     </NavItem>
@@ -87,44 +92,36 @@ const NavbarAdmin = () => {
                                     </NavItem>
                                 )}
                                 <NavItem>
-                                    {showLoginButton && (
-                                        loggedIn ? (
-                                            <UncontrolledDropdown>
-                                                <DropdownToggle color='primary' caret>
-                                                    Profile
-                                                </DropdownToggle>
-                                                <DropdownMenu>
-                                                    <DropdownItem
-                                                        tag={Link}
-                                                        to='/profilesettings'
-                                                    >
-                                                        Settings
-                                                    </DropdownItem>
-                                                    <DropdownItem tag={Link} to='/login'
-                                                        onClick={() => {
-                                                            triggerLogout();
-                                                            setCartLength(0);
-                                                            setSavedLength(0);
-                                                        }}
-                                                    >
-                                                        Logout
-                                                    </DropdownItem>
-                                                </DropdownMenu>
-                                            </UncontrolledDropdown>
-                                        ) : (
-                                            <NavLink tag={Link} to='/login' style={{ marginTop: '1px' }}>
-                                                Login
-                                            </NavLink>
-                                        )
+                                    {showLoginButton && loggedIn && (
+                                        <UncontrolledDropdown>
+                                            <DropdownToggle color='primary' caret>
+                                                Profile
+                                            </DropdownToggle>
+                                            <DropdownMenu>
+                                                <DropdownItem
+                                                    tag={Link}
+                                                    to='/profilesettings'
+                                                >
+                                                    Settings
+                                                </DropdownItem>
+                                                <DropdownItem tag={Link} to='/login'
+                                                    onClick={() => {
+                                                        triggerLogout();
+                                                        setCartLength(0);
+                                                        setSavedLength(0);
+                                                    }}
+                                                >
+                                                    Logout
+                                                </DropdownItem>
+                                            </DropdownMenu>
+                                        </UncontrolledDropdown>
                                     )}
                                 </NavItem>
                             </div>
-
                         </Nav>
                     </Container>
                 </Navbar>
-            )
-            }
+            )}
         </>
     )
 }

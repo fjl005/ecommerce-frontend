@@ -53,7 +53,7 @@ const NavbarApp = ({ isCheckout, currentPage, }) => {
                     <img
                         src={fetsyNavbarBrand}
                         alt="Fetsy Navbar Logo"
-                        style={{ width: '4rem' }}
+                        className='navbar-brand-width'
                     />
                 </NavbarBrand>
 

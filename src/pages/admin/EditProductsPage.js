@@ -1,7 +1,7 @@
 import NavbarAdmin from "../../components/navbar/NavbarAdmin";
 import { Container, Row, Col, Button } from 'reactstrap';
 import { axiosWithAuth } from "../../components/miscellaneous/axios";
-import { useState, useEffect } from 'react'
+import { useState, } from 'react'
 import { useLoginContext } from "../../components/login/LoginContext";
 import { Link } from "react-router-dom";
 import ProductsHomePage from "../../components/products/ProductsHomePage";
@@ -11,24 +11,8 @@ const EditProductsPage = () => {
     const { admin } = useLoginContext();
 
     // States
-    // const [allProducts, setAllProducts] = useState([]);
     const [itemsSelectedIdArr, setItemsSelectedIdArr] = useState([]);
     const [reloadProducts, setReloadProducts] = useState(false);
-
-    // useEffect(() => {
-    //     fetchProducts();
-    // }, []);
-
-    // const fetchProducts = async () => {
-    //     const response = await axiosWithAuth.get('/products');
-    //     const data = response.data;
-    //     console.log('data: ', data);
-    //     setAllProducts(data);
-    // };
-
-    const handleEditClick = () => {
-        console.log('editing the following listings: ', itemsSelectedIdArr);
-    };
 
     const handleDeleteClick = () => {
         const confirmed = window.confirm("Are you sure you want to delete the selected items?");
@@ -43,9 +27,7 @@ const EditProductsPage = () => {
             const response = await axiosWithAuth.delete(`/products/multiple/items`, {
                 data: itemsSelectedIdArr
             });
-            console.log('response: ', response);
             alert('Products have been deleted');
-            // fetchProducts();
         } catch (error) {
             console.log('Error in deleteProduct() in Products.js', error);
         } finally {
@@ -69,20 +51,20 @@ const EditProductsPage = () => {
                             <Col>
                                 {itemsSelectedIdArr.length > 0 && (
                                     <>
-                                        <Link to={itemsSelectedIdArr.length === 1 ? `/admin/updateproduct/${itemsSelectedIdArr[0]}` : `/admin/updateproduct?items=${JSON.stringify(itemsSelectedIdArr)}`}>
-
-                                            <Button
-                                                onClick={() => handleEditClick()}
-                                            >
-                                                Edit {itemsSelectedIdArr.length} Listings
-                                            </Button>
+                                        <Link
+                                            to={itemsSelectedIdArr.length === 1
+                                                ? `/admin/updateproduct/${itemsSelectedIdArr[0]}`
+                                                : `/admin/updateproduct?items=${JSON.stringify(itemsSelectedIdArr)}`
+                                            }
+                                        >
+                                            <Button> Edit {itemsSelectedIdArr.length} Listings</Button>
                                         </Link>
 
 
                                         <Button
                                             onClick={() => handleDeleteClick()}
                                             className='bg-danger'
-                                            style={{ marginLeft: '20px' }}
+                                            style={{ marginLeft: '2rem' }}
                                         >
                                             Delete {itemsSelectedIdArr.length} Listings
                                         </Button>

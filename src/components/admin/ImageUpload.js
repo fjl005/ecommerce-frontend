@@ -16,9 +16,8 @@ const ImageUpload = ({ url, idx, deleteImgUpload, existing }) => {
             <img
                 src={url}
                 alt='uploaded image by user'
+                className='w-100 h-100'
                 style={{
-                    width: '100%',
-                    height: '100%',
                     objectFit: 'cover',
                     display: loading ? 'none' : 'inline',
                 }}
@@ -43,16 +42,16 @@ const ImageUpload = ({ url, idx, deleteImgUpload, existing }) => {
                         style={{
                             position: 'relative',
                             display: 'inline-block',
-                            width: '20px',
-                            height: '20px',
+                            width: '1.5rem',
+                            height: '1.5rem',
                             borderRadius: '50%',
                             backgroundColor: 'white',
                             textAlign: 'center',
-                            lineHeight: '20px',
+                            lineHeight: '1.5rem',
                             cursor: 'pointer',
                         }}
                     >
-                        <FontAwesomeIcon icon={faCircleXmark} size="lg" />
+                        <FontAwesomeIcon icon={faCircleXmark} size="xl" />
                     </div>
                 </div>
             )}
