@@ -1,13 +1,19 @@
 import { useState, useEffect } from 'react'
 import NavbarApp from '../../components/navbar/NavbarApp';
 import { Container, Row, Col } from 'reactstrap';
-import { Form, FormGroup, Label, Input, Button } from 'reactstrap';
+import {
+    Form,
+    FormGroup,
+    Label,
+    Input,
+    Button
+} from 'reactstrap';
 import CartItem from '../../components/cart/CartItem';
-import { useCartContext } from '../../components/cart/CartContext';
-import { useLoginContext } from '../../components/login/LoginContext';
+import { useCartContext } from '../../contexts/CartContext';
+import { useLoginContext } from '../../contexts/LoginContext';
 import { axiosWithAuth } from '../../components/miscellaneous/axios';
 import SpinningIcon from '../../components/miscellaneous/SpinningIcon';
-import { useSavedItemContext } from '../../components/cart/SavedItemContext';
+import { useSavedItemContext } from '../../contexts/SavedItemContext';
 import CheckoutPageBreak from '../../components/cart/CheckoutPageBreak';
 
 
@@ -134,18 +140,18 @@ const CheckoutPage = () => {
                     <Row>
                         <Col style={{ marginBottom: '2rem' }}>
                             <h5>If this becomes a legitimate site, then I would implement actual payment verification. However, because I am not running this with a secure connection, I do not want ANY payment or identification information to be sent.</h5>
-                            <h6 className='m-top-1'>With that said, for the checkout to work, please click the autofill button here:</h6>
+                            <h6 className='mt-3'>With that said, for the checkout to work, please click the autofill button here:</h6>
                             <Button onClick={(event) => autofill(event)} className='bg-primary'>
                                 Auto-fill
                             </Button>
-                            <Button onClick={() => setFormData(defaultFormData)} className='m-left-1'>
+                            <Button onClick={() => setFormData(defaultFormData)} className='ml-3'>
                                 Clear
                             </Button>
                         </Col>
                     </Row>
 
                     <FormGroup>
-                        <Row className='m-top-1'>
+                        <Row className='mt-3'>
                             <Col xs='1' className='checkout-num-width'>
                                 <h3 className='checkout-step-number'>1</h3>
                             </Col>
@@ -382,7 +388,7 @@ const CheckoutPage = () => {
                             <h1>
                                 Total Cost:
                                 {loadingCost ? (
-                                    <div className='m-left-1 d-inline-block'>
+                                    <div className='ml-3 d-inline-block'>
                                         <SpinningIcon size='1x' />
                                     </div>
                                 ) : (

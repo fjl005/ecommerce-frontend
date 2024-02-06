@@ -3,7 +3,7 @@ import NavbarApp from "../../components/navbar/NavbarApp";
 import SingleReview from "../../components/reviews/SingleReview";
 import { axiosWithAuth } from "../../components/miscellaneous/axios";
 import { useEffect, useState } from "react";
-import { useLoginContext } from "../../components/login/LoginContext";
+import { useLoginContext } from "../../contexts/LoginContext";
 import SpinningIcon from "../../components/miscellaneous/SpinningIcon";
 
 const ReviewsPage = () => {

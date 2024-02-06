@@ -1,6 +1,6 @@
 import React from 'react'
-import { useCartContext } from '../cart/CartContext';
-import { useSavedItemContext } from '../cart/SavedItemContext';
+import { useCartContext } from '../../contexts/CartContext';
+import { useSavedItemContext } from '../../contexts/SavedItemContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faX, faCartPlus } from '@fortawesome/free-solid-svg-icons';
 import { axiosWithAuth } from '../miscellaneous/axios';
@@ -37,7 +37,7 @@ const CartInSummarySection = ({ isSaved, productItem }) => {
     return (
         <>
             <span
-                className='cart-remove-save-btn'
+                className='product-summary-fxn-btn'
                 onClick={() => {
                     isSaved
                         ? removeSavedItem(productItem._id)
@@ -49,7 +49,7 @@ const CartInSummarySection = ({ isSaved, productItem }) => {
             </span>
 
             <span
-                className='cart-remove-save-btn'
+                className='product-summary-fxn-btn'
                 style={{ marginLeft: '10px' }}
                 onClick={() => {
                     isSaved
@@ -68,7 +68,7 @@ const CartInSummarySection = ({ isSaved, productItem }) => {
             </span>
 
             <span
-                className='cart-remove-save-btn'
+                className='product-summary-fxn-btn'
                 style={{ marginLeft: '10px' }}
                 onClick={() => {
                     isSaved

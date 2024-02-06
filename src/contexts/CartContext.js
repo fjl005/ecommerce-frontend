@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { axiosWithAuth } from '../miscellaneous/axios';
-import { useLoginContext } from '../login/LoginContext';
+import { axiosWithAuth } from '../components/miscellaneous/axios';
+import { useLoginContext } from './LoginContext';
 
 // Create a new context named CartContext using the createContext, which will store and share cart-related data and functions.
 const CartContext = createContext();
@@ -86,7 +86,6 @@ export const CartProvider = ({ children }) => {
     return (
         // CartContext.Provider is a special component provided by React's Context API. Its primary purpose is to "provide" the context values to its descendant components (defined in index.js).
         <CartContext.Provider value={{
-
             // Fetch
             fetchCart,
             cartItemsArrayId,

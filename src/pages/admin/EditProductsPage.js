@@ -2,7 +2,7 @@ import NavbarAdmin from "../../components/navbar/NavbarAdmin";
 import { Container, Row, Col, Button } from 'reactstrap';
 import { axiosWithAuth } from "../../components/miscellaneous/axios";
 import { useState, } from 'react'
-import { useLoginContext } from "../../components/login/LoginContext";
+import { useLoginContext } from "../../contexts/LoginContext";
 import { Link } from "react-router-dom";
 import ProductsHomePage from "../../components/products/ProductsHomePage";
 
@@ -24,7 +24,7 @@ const EditProductsPage = () => {
     const deleteProducts = async () => {
         try {
             setReloadProducts(true);
-            const response = await axiosWithAuth.delete(`/products/multiple/items`, {
+            await axiosWithAuth.delete(`/products/multiple/items`, {
                 data: itemsSelectedIdArr
             });
             alert('Products have been deleted');
@@ -57,14 +57,14 @@ const EditProductsPage = () => {
                                                 : `/admin/updateproduct?items=${JSON.stringify(itemsSelectedIdArr)}`
                                             }
                                         >
-                                            <Button> Edit {itemsSelectedIdArr.length} Listings</Button>
+                                            <Button className='btn-border-none'> Edit {itemsSelectedIdArr.length} Listings</Button>
                                         </Link>
 
 
                                         <Button
                                             onClick={() => handleDeleteClick()}
-                                            className='bg-danger'
-                                            style={{ marginLeft: '2rem' }}
+                                            className='bg-danger btn-border-none'
+                                            style={{ marginLeft: '2rem', }}
                                         >
                                             Delete {itemsSelectedIdArr.length} Listings
                                         </Button>

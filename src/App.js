@@ -13,16 +13,24 @@ import ReviewsPage from './pages/reviews/ReviewsPage';
 import ProfileSettingsPage from './pages/home/ProfileSettingsPage';
 import AdminPage from './pages/admin/AdminPage';
 import PostProductPage from './pages/admin/PostProductPage';
-import ProductSubmitted from './components/admin/ProductSubmitted';
+import ProductSubmittedPage from './pages/admin/ProductSubmittedPage';
 import EditProductsPage from './pages/admin/EditProductsPage';
 import AllReviewsPage from './pages/admin/AllReviewsPage';
 import AllOrdersPage from './pages/admin/AllOrdersPage';
 import BillingPage from './pages/admin/BillingPage';
 import AboutPage from './pages/home/AboutPage';
+import { useLoginContext } from './contexts/LoginContext';
 
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { useEffect } from 'react';
 
 function App() {
+
+    const { checkUser } = useLoginContext();
+
+    useEffect(() => {
+        checkUser();
+    }, []);
 
     return (
         <BrowserRouter>
@@ -44,7 +52,7 @@ function App() {
                 <Route path='/profilesettings' element={<ProfileSettingsPage />} />
                 <Route path='/admin' element={<AdminPage />} />
                 <Route path='/admin/addnewproduct' element={<PostProductPage />} />
-                <Route path='/admin/addnewproduct/submitted' element={<ProductSubmitted />} />
+                <Route path='/admin/addnewproduct/submitted' element={<ProductSubmittedPage />} />
                 <Route path='/admin/updateproduct' element={<PostProductPage />} />
                 <Route path='/admin/updateproduct/:productId' element={<PostProductPage />} />
                 <Route path='/admin/editproductspage' element={<EditProductsPage />} />

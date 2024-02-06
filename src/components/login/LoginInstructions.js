@@ -16,12 +16,10 @@ const LoginInstructions = () => {
         setShowPW(!showPW);
     }
 
-
-
     return (
         <>
-            <h2 className='text-center' style={{ marginTop: '20px' }}>Different Sign In Options:</h2>
-            <h3 className='h3-about-page'>(1) Admin</h3>
+            <h2 className='text-center h2-about-m-top'>Different Sign In Options:</h2>
+            <h3 className='h3-about-page-top'>(1) Admin</h3>
             <h5>The admin can do everything a user can, plus the following:</h5>
             <ul>
                 <li>Add a new product, posting most of its data to MongoDB and the images to Cloudinary.</li>
@@ -42,13 +40,13 @@ const LoginInstructions = () => {
 
 
             <h3 className='h3-about-page'>(2) Pre-existing User</h3>
-            <h5>This user already has orders, reviews, and items in their Favorites and Cart.</h5>
+            <h5>This user already has orders, reviews, and items in their Favorites and Cart. These features are unavailable for a user not logged in.</h5>
             <h6>Username: </h6>
             <h6>Password: </h6>
 
 
             <h3 className='h3-about-page'>(3) User that you created!</h3>
-            <p>Use the login information that you created. Unfortunately, I do not have a "forgot username" or "forgot password" function yet, but I hope to do so in the future!</p>
+            <p>Use the login information that you created. Currently, I do not have a "forgot username" or "forgot password" function yet, but I hope to do so in the future!</p>
             <h3 className='h3-about-page'>(4) Not logged in user.</h3>
             <p>They can still access the products, but cannot add anything to their cart or favorites. And therefore, they cannot have any orders or reviews. To do so, you must sign up!</p>
         </>

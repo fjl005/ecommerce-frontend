@@ -1,6 +1,6 @@
 import { Row, Col } from 'reactstrap';
 import fetsyEcommerceLogo from '../../img/fetsyEcommerceLogo.png';
-import { useCartContext } from '../cart/CartContext';
+import { useCartContext } from '../../contexts/CartContext';
 import { axiosWithAuth } from '../miscellaneous/axios';
 import DownloadLinkInSummary from '../summaryview/DownloadInSummarySection';
 import ReviewInSummarySection from '../summaryview/ReviewInSummarySection';
@@ -55,7 +55,7 @@ const ProductSummaryView = ({
             {idx > 0 && (
                 <div className='gray-line-break mb-3'></div>
             )}
-            <Row className='m-bot-1' style={{ paddingTop: '10px' }}>
+            <Row className='mb-3' style={{ paddingTop: '10px' }}>
                 <Col xs='12' sm='3'>
                     {productItem.pictures && (
                         <div className='d-flex'>
@@ -63,7 +63,7 @@ const ProductSummaryView = ({
                                 src={(productItem.pictures.length > 0) ? productItem.pictures[0].url : fetsyEcommerceLogo}
                                 alt={`${productItem.name}`}
                                 style={{ width: '70%' }}
-                                className='mx-auto m-bot-1'
+                                className='mx-auto mb-3'
                             />
                         </div>
                     )}
@@ -99,7 +99,7 @@ const ProductSummaryView = ({
                     </div>
                 </Col>
 
-                <Col xs='12' sm='2' className='order-item-price-review'>
+                <Col xs='12' sm='2' className='product-summary-price-align'>
                     <div className='d-flex flex-column'>
                         {productItem.price && (
                             <h3 className='product-price-margin-top'>${productItem.price.toFixed(2)}</h3>
@@ -120,7 +120,7 @@ const ProductSummaryView = ({
 
             {inCartJs && (
                 <Row>
-                    <Col className='m-bot-1'>
+                    <Col className='mb-3'>
                         <CartInSummarySection
                             isSaved={isSaved}
                             productItem={productItem}
@@ -131,7 +131,7 @@ const ProductSummaryView = ({
 
             {inFavoritesJs && (
                 <Row>
-                    <Col className='m-bot-1'>
+                    <Col className='mb-3'>
                         <FavoriteInSummarySection
                             productItem={productItem}
                             removeFavoritesItem={removeFavoritesItem}

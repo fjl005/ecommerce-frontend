@@ -6,18 +6,18 @@ const FavoriteInSummarySection = ({ productItem, removeFavoritesItem, addCartFro
     return (
         <>
             <span
-                className='cart-remove-save-btn'
+                className='product-summary-fxn-btn'
                 onClick={() => removeFavoritesItem(productItem._id)}
             >
-                <FontAwesomeIcon icon={faX} className='font-awesome-margin' />
+                <FontAwesomeIcon icon={faX} className='product-info-icon-align' />
                 Remove From Favorites
             </span>
 
             <span
-                className='cart-remove-save-btn'
+                className='product-summary-fxn-btn'
                 onClick={() => addCartFromFavorites(productItem._id)}
             >
-                <FontAwesomeIcon icon={faCartPlus} className='font-awesome-margin' />
+                <FontAwesomeIcon icon={faCartPlus} className='product-info-icon-align' />
                 Add to Cart
             </span>
         </>

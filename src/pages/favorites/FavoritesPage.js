@@ -1,14 +1,14 @@
 import { Container, Row, Col, Button } from "reactstrap";
 import NavbarApp from "../../components/navbar/NavbarApp";
 import { axiosWithAuth } from "../../components/miscellaneous/axios";
-import { useLoginContext } from "../../components/login/LoginContext";
+import { useLoginContext } from "../../contexts/LoginContext";
 import FavoriteItem from "../../components/favorites/FavoriteItem";
 import { useState, useEffect } from "react";
 import LoadingOverlay from "../../components/miscellaneous/LoadingOverlay";
 import SpinningIcon from "../../components/miscellaneous/SpinningIcon";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight, faTrash } from "@fortawesome/free-solid-svg-icons";
-import { useCartContext } from "../../components/cart/CartContext";
+import { useCartContext } from "../../contexts/CartContext";
 
 const FavoritesPage = () => {
     const { loggedIn } = useLoginContext();

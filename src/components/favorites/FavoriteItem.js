@@ -1,34 +1,32 @@
 import { useState, useEffect } from "react";
-import { axiosWithAuth } from "../miscellaneous/axios";
 import ProductSummaryView from "../products/ProductSummaryView";
-import { Container } from "reactstrap";
+import { Container, Row, Col } from "reactstrap";
+import { useProductSearchContext } from "../../contexts/ProductSearchContext";
 
 const FavoriteItem = ({ productId, setFavoritesLoadingOverlay }) => {
 
     const [favoriteItem, setFavoriteItem] = useState({});
+    const { fetchProduct } = useProductSearchContext();
 
     useEffect(() => {
-        fetchFavorite();
+        fetchProduct(productId, setFavoriteItem, () => null, `/favorites/${productId}`);
     }, []);
-
-    const fetchFavorite = async () => {
-        try {
-            const response = await axiosWithAuth.get(`/products/${productId}`);
-            const data = response.data;
-            setFavoriteItem(data);
-        } catch (error) {
-            console.log('error: ', error);
-        }
-    };
-
 
     return (
         <Container className='cart-container'>
-            <ProductSummaryView
-                productItem={favoriteItem}
-                inFavoritesJs={true}
-                setFavoritesLoadingOverlay={setFavoritesLoadingOverlay}
-            />
+            {favoriteItem && favoriteItem.name === 'Product Deleted' ? (
+                <Row>
+                    <Col>
+                        <h3 className='text-center'>Product Deleted</h3>
+                    </Col>
+                </Row>
+            ) : (
+                <ProductSummaryView
+                    productItem={favoriteItem}
+                    inFavoritesJs={true}
+                    setFavoritesLoadingOverlay={setFavoritesLoadingOverlay}
+                />
+            )}
         </Container>
     )
 }

@@ -15,7 +15,7 @@ import {
 } from 'formik';
 import * as Yup from 'yup';
 import { axiosWithAuth } from "../../components/miscellaneous/axios";
-import { useLoginContext } from "../../components/login/LoginContext";
+import { useLoginContext } from "../../contexts/LoginContext";
 import { useParams, useLocation } from "react-router-dom";
 import axios from "axios";
 import SpinningIcon from "../../components/miscellaneous/SpinningIcon";
@@ -148,7 +148,6 @@ const PostProductPage = () => {
             await axiosWithAuth.get('/cloudinary');
 
             // CASE ONE: posting a brand new product.
-            console.log('newly uploaded image files: ', newlyUploadedImageFiles);
             if (!itemsSelectedIdArr && !productId) {
                 if (newlyUploadedImageFiles.length > 0) {
                     try {
@@ -159,7 +158,6 @@ const PostProductPage = () => {
                 }
 
                 uploadInfo.pictures = imgDataArray;
-                console.log('updated info: ', uploadInfo);
                 const response = await axiosWithAuth.post('/products', { uploadInfo });
                 switchPage(response.data.product);
             }
@@ -494,9 +492,8 @@ const PostProductPage = () => {
                                         >
                                             <Button
                                                 type='submit'
-                                                className='bg-primary m-right-1'
+                                                className='bg-primary mr-3'
                                                 disabled={isSubmitting}
-                                            // style={{ marginRight: '1rem' }}
                                             >
                                                 {isSubmitting ? 'Submitting...' : 'Submit'}
                                             </Button>

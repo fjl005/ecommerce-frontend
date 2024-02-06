@@ -3,10 +3,10 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { CartProvider } from './components/cart/CartContext';
-import { LoginProvider } from './components/login/LoginContext';
-import { SavedItemProvider } from './components/cart/SavedItemContext';
-import { ProductSearchProvider } from './components/products/ProductSearchContext';
+import { CartProvider } from './contexts/CartContext';
+import { LoginProvider } from './contexts/LoginContext';
+import { SavedItemProvider } from './contexts/SavedItemContext';
+import { ProductSearchProvider } from './contexts/ProductSearchContext';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 

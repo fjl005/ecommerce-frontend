@@ -7,7 +7,7 @@ const RightColToggle = ({ section, toggleState, toggleStateFxn }) => {
             className='product-page-toggle-button'
             onClick={() => toggleStateFxn(!toggleState)}
         >
-            <h3 className='m-bot-0'>{section}</h3>
+            <h3 className='mb-0'>{section}</h3>
             {toggleState ? (
                 <FontAwesomeIcon icon={faAngleUp} />
             ) : (

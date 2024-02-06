@@ -11,8 +11,8 @@ const ItemsInOrder = ({ order, orderId, adminPage, buyer }) => {
     return (
         <Container className='cart-container'>
             <Row>
-                <Col className='m-top-1' xs='12' md='10'>
-                    <h4 className='m-top-1'>
+                <Col className='mt-3' xs='12' md='10'>
+                    <h4 className='mt-3'>
                         Order placed on: {formatDate(new Date(order.orderDate))}
                     </h4>
                 </Col>

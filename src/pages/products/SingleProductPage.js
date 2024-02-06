@@ -6,7 +6,7 @@ import ReviewsInSingleProductPage from "../../components/reviews/ReviewsInSingle
 import ProductDescription from "../../components/products/ProductDescription";
 import { useState, useEffect } from "react";
 import RightColToggle from "../../components/products/RightColToggle";
-import { useCartContext } from "../../components/cart/CartContext";
+import { useCartContext } from "../../contexts/CartContext";
 import { axiosWithAuth } from "../../components/miscellaneous/axios";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
@@ -145,7 +145,7 @@ const SingleProductPage = () => {
     return (
         <>
             <NavbarApp />
-            <Container className='m-top-1'>
+            <Container className='mt-3'>
                 {loadingPage ? (
                     <Row>
                         <Col>
@@ -157,9 +157,9 @@ const SingleProductPage = () => {
                     <>
                         {selectedProduct ? (
                             <Row>
-                                <Col sm='12' lg='8' className='m-bot-1'>
+                                <Col sm='12' lg='8' className='mb-3'>
                                     <ProductImgCarousel selectedProduct={selectedProduct} />
-                                    <div className="d-none d-lg-block m-top-1">
+                                    <div className="d-none d-lg-block mt-3">
                                         <ReviewsInSingleProductPage />
                                     </div>
                                 </Col>
@@ -207,7 +207,7 @@ const SingleProductPage = () => {
                                             />
 
                                             {showDetails && (
-                                                <div className='right-col-toggle-text-align'>
+                                                <div className='ml-3'>
                                                     <ProductTypeIcons productType={selectedProduct.productType} />
                                                 </div>
                                             )}
@@ -220,7 +220,7 @@ const SingleProductPage = () => {
                                                 toggleStateFxn={setShowDescription}
                                             />
                                             {showDescription && (
-                                                <div className='right-col-toggle-text-align'>
+                                                <div className='ml-3'>
                                                     <ProductDescription description={selectedProduct.description} />
                                                 </div>
                                             )}
@@ -234,7 +234,7 @@ const SingleProductPage = () => {
                                             />
 
                                             {showDelivery && (
-                                                <div className='right-col-toggle-text-align'>
+                                                <div className='ml-3'>
                                                     <DeliveryDetails productType={selectedProduct.productType} />
                                                 </div>
                                             )}
@@ -247,7 +247,7 @@ const SingleProductPage = () => {
                                                 toggleStateFxn={setShowSeller}
                                             />
                                             {showSeller && (
-                                                <div className='right-col-toggle-text-align'>
+                                                <div className='ml-3'>
                                                     <MeetTheSeller />
                                                 </div>
                                             )}

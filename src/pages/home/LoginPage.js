@@ -1,5 +1,5 @@
 import NavbarApp from '../../components/navbar/NavbarApp';
-import { useCartContext } from "../../components/cart/CartContext";
+import { useCartContext } from "../../contexts/CartContext";
 import {
     Container,
     Row,
@@ -12,7 +12,7 @@ import {
 } from 'reactstrap';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useLoginContext } from '../../components/login/LoginContext';
+import { useLoginContext } from '../../contexts/LoginContext';
 import { axiosWithAuth } from '../../components/miscellaneous/axios';
 import LoginInstructions from '../../components/login/LoginInstructions';
 

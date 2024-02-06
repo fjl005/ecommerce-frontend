@@ -1,7 +1,7 @@
 import NavbarApp from "../../components/navbar/NavbarApp";
 import { Container, Row, Col } from "reactstrap";
 import { useState, useEffect } from "react";
-import { useLoginContext } from "../../components/login/LoginContext";
+import { useLoginContext } from "../../contexts/LoginContext";
 import ItemsInOrder from "../../components/orders/ItemsInOrder";
 import { axiosWithAuth } from "../../components/miscellaneous/axios";
 import SpinningIcon from "../../components/miscellaneous/SpinningIcon";
@@ -27,7 +27,7 @@ const OrdersPage = () => {
                 setLoadingPage(false);
             }
         } catch (error) {
-            if (error.response.data == "You must log in before accessing this page") {
+            if (error.response.data === "You must log in before accessing this page") {
                 setLoadingPage(false);
                 setLoggedIn(false);
             }

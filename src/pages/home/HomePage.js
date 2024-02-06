@@ -2,7 +2,7 @@ import { Container, Row, Col } from 'reactstrap';
 import { useNavigate } from "react-router-dom";
 import NavbarApp from '../../components/navbar/NavbarApp';
 import welcomeBanner from '../../img/welcomeBanner.png';
-import { useProductSearchContext } from '../../components/products/ProductSearchContext';
+import { useProductSearchContext } from '../../contexts/ProductSearchContext';
 import ProductsHomePage from '../../components/products/ProductsHomePage';
 
 const HomePage = () => {

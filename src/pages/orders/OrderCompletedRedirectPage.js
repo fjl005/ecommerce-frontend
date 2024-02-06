@@ -1,6 +1,6 @@
 import NavbarApp from "../../components/navbar/NavbarApp";
 import { Container, Row, Col } from "reactstrap";
-import { useLoginContext } from "../../components/login/LoginContext";
+import { useLoginContext } from "../../contexts/LoginContext";
 import ItemsInOrder from '../../components/orders/ItemsInOrder';
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";

@@ -26,19 +26,25 @@ const ProductImgCarousel = ({ selectedProduct }) => {
 
     return (
         <div className='d-flex'>
-            <div className='product-img-carousel-container'>
-                {imgURLArray.map((image, idx) => (
-                    <img
-                        key={idx}
-                        className={
-                            `product-img-thumbnail
+            {imgURLArray.length > 1 && (
+                <>
+                    <div className='product-img-carousel-container'>
+                        {imgURLArray.map((image, idx) => (
+                            <img
+                                key={idx}
+                                className={
+                                    `product-img-thumbnail
                                 ${currImg === idx ? 'product-img-thumbnail-active' : ''}`}
-                        src={image === null ? fetsyEcommerceLogo : image}
-                        alt={selectedProduct.name}
-                        onClick={() => setCurrImg(idx)}
-                    />
-                ))}
-            </div>
+                                src={image === null ? fetsyEcommerceLogo : image}
+                                alt={selectedProduct.name}
+                                onClick={() => setCurrImg(idx)}
+                            />
+                        ))}
+                    </div>
+                </>
+
+            )}
+
 
             <div className='d-flex align-items-center justify-content-between' style={{ flex: '1' }}>
                 {imgURLArray.length > 1 ? (
@@ -55,7 +61,7 @@ const ProductImgCarousel = ({ selectedProduct }) => {
 
                 {imgURLArray.map((image, idx) => (
                     currImg === idx && (
-                        <div key={idx} style={{ width: '90%' }}>
+                        <div key={idx} style={{ width: '90%' }} className='text-center'>
                             <img
                                 key={idx}
                                 src={image === null ? fetsyEcommerceLogo : image}

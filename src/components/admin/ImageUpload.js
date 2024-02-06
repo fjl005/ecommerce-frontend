@@ -8,7 +8,6 @@ const ImageUpload = ({ url, idx, deleteImgUpload, existing }) => {
 
     const handleOnload = () => {
         setLoading(false);
-        console.log('loaded');
     }
 
     return (
@@ -17,11 +16,7 @@ const ImageUpload = ({ url, idx, deleteImgUpload, existing }) => {
                 src={url}
                 alt='uploaded image by user'
                 className='w-100 h-100'
-                style={{
-                    objectFit: 'cover',
-                    display: loading ? 'none' : 'inline',
-                }}
-
+                style={{ objectFit: 'cover', display: loading ? 'none' : 'inline', }}
                 onLoad={handleOnload}
                 onError={handleOnload}
             />

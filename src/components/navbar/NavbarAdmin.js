@@ -15,8 +15,8 @@ import {
 } from 'reactstrap';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useLoginContext } from '../login/LoginContext';
-import { useCartContext } from '../cart/CartContext';
+import { useLoginContext } from '../../contexts/LoginContext';
+import { useCartContext } from '../../contexts/CartContext';
 import adminNavbarBrand from '../../img/adminNavbarBrand.png';
 
 

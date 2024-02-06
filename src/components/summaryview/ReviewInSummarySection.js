@@ -54,7 +54,7 @@ const ReviewInSummarySection = ({ productItem, orderId, }) => {
                 <>
                     {hasReview && (
                         <>
-                            <h4 className='m-top-1'>Review: ({reviewDate})</h4>
+                            <h4 className='mt-3'>Review: ({reviewDate})</h4>
                             <FiveStarGenerator starRating={starRating} />
                             <p className='no-overflow-text'>
                                 {ratingDescription}

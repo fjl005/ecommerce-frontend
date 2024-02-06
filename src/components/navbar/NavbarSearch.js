@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Form, Input, Button } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
-import { useProductSearchContext } from '../products/ProductSearchContext';
+import { useProductSearchContext } from '../../contexts/ProductSearchContext';
 
 const NavbarSearch = () => {
 

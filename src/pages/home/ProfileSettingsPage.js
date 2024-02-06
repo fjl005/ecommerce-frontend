@@ -1,7 +1,16 @@
 import NavbarApp from '../../components/navbar/NavbarApp';
-import { Container, Row, Col, Button, Form, FormGroup, Label, Input } from 'reactstrap';
+import {
+    Container,
+    Row,
+    Col,
+    Button,
+    Form,
+    FormGroup,
+    Label,
+    Input,
+} from 'reactstrap';
 import { useState } from 'react';
-import { useLoginContext } from '../../components/login/LoginContext';
+import { useLoginContext } from '../../contexts/LoginContext';
 import { axiosWithAuth } from '../../components/miscellaneous/axios';
 
 const ProfileSettingsPage = () => {
@@ -14,19 +23,21 @@ const ProfileSettingsPage = () => {
     const [passwordType, setPasswordType] = useState('password');
     const [buttonPWName, setButtonPWName] = useState('Show Passwords');
 
-    const [usernameMessage, setUsernameMessage] = useState('');
-    const [passwordMessage, setPasswordMessage] = useState('');
-
 
     const newUsernameSubmit = async (event) => {
         event.preventDefault();
         try {
-            console.log('new username: ', newUsername);
             const test = await axiosWithAuth.get('/users');
-
-            const response = await axiosWithAuth.post('/users/updateUsername', {
+            const currUsername = test.data.username;
+            await axiosWithAuth.put('/reviews', {
+                currUsername,
                 newUsername
             });
+
+            await axiosWithAuth.post('/users/updateUsername', {
+                newUsername
+            });
+
             alert('Your username has been updated');
             checkUser();
         } catch (error) {
@@ -34,6 +45,8 @@ const ProfileSettingsPage = () => {
 
             if (error.response && error.response.data === 'Username already exists') {
                 alert('Username already exists. Pick a different username');
+            } else if (!newUsername) {
+                alert('A username must be entered to change username.');
             } else {
                 alert('There was an error updating the username. Please try again.');
             }
@@ -82,7 +95,6 @@ const ProfileSettingsPage = () => {
         if (userConfirmed) {
             try {
                 const deleteResponse = await axiosWithAuth.delete(`/users/${username}`);
-                console.log('deleteResponse: ', deleteResponse);
                 alert(`Account with username ${username} has been deleted. You will be redirected to the Home Page after this.`);
                 await axiosWithAuth.post('/users/logout');
                 window.location.href = `/`;
@@ -115,8 +127,6 @@ const ProfileSettingsPage = () => {
                                 value={newUsername}
                                 onChange={(event) => setNewUsername(event.target.value)}
                             />
-
-                            <p>{usernameMessage}</p>
                             <Button type='submit' color='primary'>Save New Username</Button>
                         </Form>
                     </Col>
@@ -153,7 +163,6 @@ const ProfileSettingsPage = () => {
                                     onChange={(event) => setReEnterPW(event.target.value)}
                                 />
                             </FormGroup>
-                            <p>{passwordMessage}</p>
                             <Button
                                 onClick={() => updatePasswordType()}
                                 style={{ marginRight: '10px' }}
@@ -167,9 +176,8 @@ const ProfileSettingsPage = () => {
                     <Row>
                         <Col style={{ textAlign: 'center' }}>
                             <Button
-                                className='bg-danger'
+                                className='bg-danger btn-border-none'
                                 onClick={() => deleteAccount()}
-                                style={{ border: 'none' }}
                             >Delete Account</Button>
                         </Col>
                     </Row>

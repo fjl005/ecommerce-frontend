@@ -5,7 +5,7 @@ import fetsyEcommerceLogo from '../../img/fetsyEcommerceLogo.png';
 import { axiosNoAuth, axiosWithAuth } from "../miscellaneous/axios";
 import LoadingOverlay from "../miscellaneous/LoadingOverlay";
 import SpinningIcon from "../miscellaneous/SpinningIcon";
-import { useProductSearchContext } from "./ProductSearchContext";
+import { useProductSearchContext } from "../../contexts/ProductSearchContext";
 
 const ProductsHomePage = ({ adminPage, itemsSelectedIdArr, setItemsSelectedIdArr, reloadProducts }) => {
 
@@ -78,11 +78,11 @@ const ProductsHomePage = ({ adminPage, itemsSelectedIdArr, setItemsSelectedIdArr
         <Container>
             <Row>
                 <Col>
-                    <h1 className='m-left-1'>Products</h1>
+                    <h1 className='ml-3'>Products</h1>
                     {loading ? (
                         <SpinningIcon size='2x' />
                     ) : productsDB.length < 1 && (
-                        <h4 className='m-left-1'>No Products Found.</h4>
+                        <h4 className='ml-3'>No Products Found.</h4>
                     )}
                 </Col>
             </Row>
@@ -119,7 +119,7 @@ const ProductsHomePage = ({ adminPage, itemsSelectedIdArr, setItemsSelectedIdArr
                                     />
                                 </div>
 
-                                <h6 className='no-overflow-text m-top-1'>{product.name}</h6>
+                                <h6 className='no-overflow-text mt-3'>{product.name}</h6>
                                 <h4>${product.price.toFixed(2)}</h4>
                             </div>
                         </Link>
@@ -140,9 +140,8 @@ const ProductsHomePage = ({ adminPage, itemsSelectedIdArr, setItemsSelectedIdArr
                                     onChange={() => handleCheckbox(product._id)}
                                 />
                                 <Button
-                                    className='bg-danger no-border-btn'
+                                    className='bg-danger btn-border-none'
                                     onClick={() => handleDelete(product)}
-                                    style={{ border: 'none' }}
                                 >
                                     Delete
                                 </Button>

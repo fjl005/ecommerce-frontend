@@ -16,18 +16,16 @@ import {
 import NavbarSearch from './NavbarSearch';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
-import { useLoginContext } from '../login/LoginContext';
-import { useCartContext } from '../cart/CartContext';
-import { useSavedItemContext } from '../cart/SavedItemContext';
+import { useLoginContext } from '../../contexts/LoginContext';
+import { useCartContext } from '../../contexts/CartContext';
+import { useSavedItemContext } from '../../contexts/SavedItemContext';
 import fetsyNavbarBrand from '../../img/fetsyNavbarBrand.png';
-import fetsyBagLogo from '../../img/fetsyBagLogo.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCartShopping } from '@fortawesome/free-solid-svg-icons';
 
 
 const NavbarApp = ({ isCheckout, currentPage, }) => {
 
-    // CONTEXTS
     const { cartLength, setCartLength, } = useCartContext();
     const { setSavedLength } = useSavedItemContext();
     const {
@@ -42,9 +40,7 @@ const NavbarApp = ({ isCheckout, currentPage, }) => {
         setIsOpen(!isOpen);
     };
 
-    // Nav Items that appear once signed in (to the left of the search bar)
     const signedInNavItems = ['Orders', 'Favorites', 'Reviews'];
-
 
     return (
         <Navbar color="light" light expand="lg">
@@ -59,7 +55,6 @@ const NavbarApp = ({ isCheckout, currentPage, }) => {
 
                 <NavbarToggler onClick={toggleNavbar} className='mr-3' />
 
-
                 {isCheckout ? (
                     <Nav navbar>
                         <NavItem>
@@ -71,8 +66,8 @@ const NavbarApp = ({ isCheckout, currentPage, }) => {
                 ) : (
                     <>
                         <Collapse isOpen={isOpen} navbar>
-                            <Nav navbar>
-                                {loggedIn &&
+                            <Nav navbar className='ml-3 mr-3'>
+                                {loggedIn ?
                                     signedInNavItems.map((navText, idx) => (
                                         <NavItem
                                             key={idx}
@@ -90,27 +85,25 @@ const NavbarApp = ({ isCheckout, currentPage, }) => {
                                                 {navText}
                                             </NavLink>
                                         </NavItem>
-                                    ))
-                                }
-
-                                {!loggedIn && (
-                                    <NavItem
-                                        className={
-                                            currentPage === 'Signup'
-                                                ? 'selected-navbar-background'
-                                                : 'navbar-hover'
-                                        }
-                                    >
-                                        <NavLink tag={Link} to="/signup"
-                                            style={{
-                                                whiteSpace: 'nowrap',
-                                                color: currentPage === 'Signup' ? 'white' : 'black'
-                                            }}
+                                    )) : (
+                                        <NavItem
+                                            className={
+                                                currentPage === 'Signup'
+                                                    ? 'selected-navbar-background'
+                                                    : 'navbar-hover'
+                                            }
                                         >
-                                            Sign Up
-                                        </NavLink>
-                                    </NavItem>
-                                )}
+                                            <NavLink tag={Link} to="/signup"
+                                                style={{
+                                                    whiteSpace: 'nowrap',
+                                                    color: currentPage === 'Signup' ? 'white' : 'black'
+                                                }}
+                                            >
+                                                Sign Up
+                                            </NavLink>
+                                        </NavItem>
+                                    )
+                                }
 
                                 <NavItem
                                     className={
@@ -132,7 +125,7 @@ const NavbarApp = ({ isCheckout, currentPage, }) => {
                         </Collapse>
 
                         {!isOpen && (
-                            <div style={{ width: '100%', margin: '0px 2rem' }}>
+                            <div className='w-100' style={{ margin: '0 2rem' }}>
                                 <NavbarSearch />
                             </div>
                         )}
@@ -165,36 +158,12 @@ const NavbarApp = ({ isCheckout, currentPage, }) => {
                                             style={{ position: 'relative' }}
                                         >
                                             <FontAwesomeIcon icon={faCartShopping}
-                                                style={{
-                                                    fontSize: '2rem',
-                                                    padding: '0.5rem',
-                                                }}
+                                                style={{ fontSize: '2rem', padding: '0.5rem', }}
                                             />
 
                                             {cartLength > 0 && (
-                                                <div
-                                                    style={{
-                                                        position: 'absolute',
-                                                        top: 0,
-                                                        right: 0,
-                                                        width: '1.5rem',
-                                                        height: '1.5rem',
-                                                        backgroundColor: 'red',
-                                                        borderRadius: '50%',
-                                                    }}
-                                                >
-                                                    <span
-                                                        style={{
-                                                            display: 'flex',
-                                                            alignItems: 'center',
-                                                            justifyContent: 'center',
-                                                            fontSize: '1rem',
-                                                            fontWeight: 'bold',
-                                                            color: 'white',
-                                                            width: '100%',
-                                                            height: '100%',
-                                                        }}
-                                                    >
+                                                <div className='navbar-cart-red-circle'>
+                                                    <span className='navbar-cart-white-num w-100 h-100'>
                                                         {cartLength}
                                                     </span>
                                                 </div>
@@ -206,10 +175,7 @@ const NavbarApp = ({ isCheckout, currentPage, }) => {
                                         {admin && (
                                             <NavItem style={{ marginRight: '2rem' }}>
                                                 <NavLink tag={Link} to="/admin">
-                                                    <Button
-                                                        className='bg-dark'
-                                                        style={{ border: 'none' }}
-                                                    >
+                                                    <Button className='bg-dark btn-border-none'>
                                                         Admin
                                                     </Button>
                                                 </NavLink>
@@ -219,7 +185,7 @@ const NavbarApp = ({ isCheckout, currentPage, }) => {
                                         <NavItem>
                                             {showLoginButton && (
                                                 <UncontrolledDropdown>
-                                                    <DropdownToggle color='primary' caret>
+                                                    <DropdownToggle color='primary' className='btn-border-none' caret>
                                                         Profile
                                                     </DropdownToggle>
 
