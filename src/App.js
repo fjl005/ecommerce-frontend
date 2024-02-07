@@ -32,10 +32,42 @@ function App() {
         checkUser();
     }, []);
 
+
+    const routes = [
+        { path: '/', element: <HomePage /> },
+        { path: '/search/:searchTerm', element: <HomePage /> },
+        { path: '/login', element: <LoginPage /> },
+        { path: '/signup', element: <SignUpPage /> },
+        { path: '/about', element: <AboutPage /> },
+        { path: '/products/:productId', element: <SingleProductPage /> },
+        { path: '/cart', element: <CartPage /> },
+        { path: '/cart/checkout', element: <CheckoutPage /> },
+        { path: '/orders', element: <OrdersPage /> },
+        { path: '/ordercompleted/:orderId', element: <OrderCompletedRedirectPage /> },
+        { path: '/favorites', element: <FavoritesPage /> },
+        { path: '/review/:purchasedItemId', element: <LeaveReviewPage /> },
+        { path: '/review/edit/:purchasedItemId', element: <LeaveReviewPage /> },
+        { path: '/reviews', element: <ReviewsPage /> },
+        { path: '/profilesettings', element: <ProfileSettingsPage /> },
+        { path: '/admin', element: <AdminPage /> },
+        { path: '/admin/addnewproduct', element: <PostProductPage /> },
+        { path: '/admin/addnewproduct/submitted', element: <ProductSubmittedPage /> },
+        { path: '/admin/updateproduct', element: <PostProductPage /> },
+        { path: '/admin/updateproduct/:productId', element: <PostProductPage /> },
+        { path: '/admin/editproductspage', element: <EditProductsPage /> },
+        { path: '/admin/allreviews', element: <AllReviewsPage /> },
+        { path: '/admin/allorders', element: <AllOrdersPage /> },
+        { path: '/admin/billing', element: <BillingPage /> }
+    ];
+
+
     return (
         <BrowserRouter>
             <Routes>
-                <Route path='/' element={<HomePage />} />
+                {routes && routes.map(route => (
+                    <Route key={route.path} path={route.path} element={route.element} />
+                ))}
+                {/* <Route path='/' element={<HomePage />} />
                 <Route path='/search/:searchTerm' element={<HomePage />} />
                 <Route path='/login' element={<LoginPage />} />
                 <Route path='/signup' element={<SignUpPage />} />
@@ -58,7 +90,7 @@ function App() {
                 <Route path='/admin/editproductspage' element={<EditProductsPage />} />
                 <Route path='/admin/allreviews' element={<AllReviewsPage />} />
                 <Route path='/admin/allorders' element={<AllOrdersPage />} />
-                <Route path='/admin/billing' element={<BillingPage />} />
+                <Route path='/admin/billing' element={<BillingPage />} /> */}
             </Routes>
         </BrowserRouter>
     );

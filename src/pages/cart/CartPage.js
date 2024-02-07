@@ -116,6 +116,29 @@ const CartPage = () => {
         }
     };
 
+    const buttonConfigs = [
+        {
+            onClick: moveAllToSaved,
+            text1: "Cart",
+            text2: "Saved",
+            icon: faArrowRight,
+            className: "bg-primary cart-top-button"
+        },
+        {
+            onClick: moveAllToFavorites,
+            text1: "Cart",
+            text2: "Favorites",
+            icon: faArrowRight,
+            className: "bg-primary cart-top-button"
+        },
+        {
+            onClick: deleteAllCart,
+            text1: "Cart",
+            icon: faTrash,
+            className: "bg-danger cart-top-button"
+        }
+    ];
+
 
     return (
         <>
@@ -138,40 +161,18 @@ const CartPage = () => {
                                         : `${cartLength} Items in your Cart`}
                                 </h1>
 
-                                <div className='outer-buttons-div'>
-                                    <Button
-                                        onClick={() => moveAllToSaved()}
-                                        className='cart-top-button bg-primary'
-                                    >
-                                        Cart
-                                        <FontAwesomeIcon
-                                            icon={faArrowRight}
-                                            className='cart-font-awesome'
-                                        />
-                                        Saved
-                                    </Button>
-
-                                    <Button
-                                        onClick={() => moveAllToFavorites()}
-                                        className='cart-top-button bg-primary'
-                                    >
-                                        Cart
-                                        <FontAwesomeIcon
-                                            icon={faArrowRight}
-                                            className='cart-font-awesome'
-                                        />
-                                        Favorites
-                                    </Button>
-
-                                    <Button
-                                        onClick={() => deleteAllCart()}
-                                        className='bg-danger cart-top-button'
-                                    >
-                                        <FontAwesomeIcon icon={faTrash}
-                                            className='cart-font-awesome'
-                                        />
-                                        Cart
-                                    </Button>
+                                <div className='top-buttons-div-outer'>
+                                    {buttonConfigs.map((button, idx) => (
+                                        <Button
+                                            key={idx}
+                                            onClick={button.onClick}
+                                            className={`top-buttons-mt ${button.className}`}
+                                        >
+                                            {button.text1}
+                                            <FontAwesomeIcon icon={button.icon} className='cart-font-awesome' />
+                                            {button.text2}
+                                        </Button>
+                                    ))}
 
                                     <Link
                                         to={{ pathname: `/cart/checkout` }}
@@ -192,7 +193,7 @@ const CartPage = () => {
                         )}
                     </Col>
                 </Row>
-            </Container>
+            </Container >
 
             {cartLength > 0 && cartItemsArrayId && cartItemsArrayId.map((productId, idx) => (
                 <CartItem
@@ -201,7 +202,8 @@ const CartPage = () => {
                     isSaved={false}
                     inCartJs={true}
                 />
-            ))}
+            ))
+            }
 
             <Container>
                 <Row>
@@ -237,7 +239,7 @@ const CartPage = () => {
                                             ? `${savedLength} Item Saved for Later`
                                             : `${savedLength} Items Saved for Later`}
                                     </h1>
-                                    <div className='outer-buttons-div'>
+                                    <div className='top-buttons-div-outer'>
                                         <Button
                                             onClick={() => deleteAllSaved()}
                                             className='bg-danger cart-top-button'

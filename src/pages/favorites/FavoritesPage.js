@@ -67,6 +67,22 @@ const FavoritesPage = () => {
         }
     };
 
+    const buttonConfigs = [
+        {
+            onClick: moveFavToCart,
+            text1: 'Favorites',
+            text2: 'Cart',
+            icon: faArrowRight,
+            className: 'cart-top-button bg-primary',
+        },
+        {
+            onClick: deleteAllFavs,
+            text2: "Trash",
+            icon: faTrash,
+            className: 'bg-danger cart-top-button'
+        },
+    ];
+
     return (
         <>
             {favoritesLoadingOverlay && <LoadingOverlay />}
@@ -87,28 +103,18 @@ const FavoritesPage = () => {
                                             : `${favoritesLength} Items in your Favorites`}
                                     </h1>
 
-                                    <div className='outer-buttons-div'>
-                                        <Button
-                                            onClick={() => moveFavToCart()}
-                                            className='cart-top-button bg-primary'
-                                        >
-                                            Favorites
-                                            <FontAwesomeIcon
-                                                icon={faArrowRight}
-                                                className='cart-font-awesome'
-                                            />
-                                            Cart
-                                        </Button>
-
-                                        <Button
-                                            onClick={() => deleteAllFavs()}
-                                            className='bg-danger cart-top-button'
-                                        >
-                                            <FontAwesomeIcon icon={faTrash}
-                                                className='cart-font-awesome'
-                                            />
-                                            Favorites
-                                        </Button>
+                                    <div className='top-buttons-div-outer'>
+                                        {buttonConfigs.map((button, idx) => (
+                                            <Button
+                                                key={idx}
+                                                onClick={button.onClick}
+                                                className={`top-buttons-mt ${button.className}`}
+                                            >
+                                                {button.text1}
+                                                <FontAwesomeIcon icon={button.icon} className='cart-font-awesome' />
+                                                {button.text2}
+                                            </Button>
+                                        ))}
                                     </div>
                                 </div>
 

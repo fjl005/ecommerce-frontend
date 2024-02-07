@@ -129,6 +129,10 @@ const NavbarApp = ({ isCheckout, currentPage, }) => {
                                 <NavbarSearch />
                             </div>
                         )}
+                        {/* </Collapse> */}
+
+
+                        {/* <Collapse isOpen={isOpen} navbar> */}
 
                         <Nav navbar className='d-flex align-items-center justify-content-between'>
                             {!loggedIn ? (
@@ -152,13 +156,13 @@ const NavbarApp = ({ isCheckout, currentPage, }) => {
                                                 ? 'selected-navbar-background-cart'
                                                 : 'navbar-hover'
                                         }
-                                        style={{ marginRight: '2rem' }}
+                                    // style={{ marginRight: '2rem' }}
                                     >
                                         <NavLink tag={Link} to="/cart"
                                             style={{ position: 'relative' }}
                                         >
                                             <FontAwesomeIcon icon={faCartShopping}
-                                                style={{ fontSize: '2rem', padding: '0.5rem', }}
+                                                style={{ fontSize: '2rem', padding: '0.25rem', marginRight: '0' }}
                                             />
 
                                             {cartLength > 0 && (
@@ -173,7 +177,7 @@ const NavbarApp = ({ isCheckout, currentPage, }) => {
 
                                     <Collapse isOpen={isOpen} navbar>
                                         {admin && (
-                                            <NavItem style={{ marginRight: '2rem' }}>
+                                            <NavItem style={{ marginLeft: '2rem' }}>
                                                 <NavLink tag={Link} to="/admin">
                                                     <Button className='bg-dark btn-border-none'>
                                                         Admin
@@ -184,7 +188,7 @@ const NavbarApp = ({ isCheckout, currentPage, }) => {
 
                                         <NavItem>
                                             {showLoginButton && (
-                                                <UncontrolledDropdown>
+                                                <UncontrolledDropdown style={{ marginLeft: '2rem' }}>
                                                     <DropdownToggle color='primary' className='btn-border-none' caret>
                                                         Profile
                                                     </DropdownToggle>
@@ -215,6 +219,7 @@ const NavbarApp = ({ isCheckout, currentPage, }) => {
                                 </>
                             )}
                         </Nav>
+                        {/* </Collapse> */}
                     </>
                 )}
             </Container>

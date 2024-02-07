@@ -29,13 +29,16 @@ const ProfileSettingsPage = () => {
         try {
             const test = await axiosWithAuth.get('/users');
             const currUsername = test.data.username;
+
+            const newUsernameLowerCase = newUsername.toLowerCase();
+
             await axiosWithAuth.put('/reviews', {
                 currUsername,
-                newUsername
+                newUsername: newUsernameLowerCase
             });
 
             await axiosWithAuth.post('/users/updateUsername', {
-                newUsername
+                newUsername: newUsernameLowerCase
             });
 
             alert('Your username has been updated');
@@ -120,13 +123,15 @@ const ProfileSettingsPage = () => {
                         <h3 style={{ textAlign: 'center' }}>Change Username</h3>
                         <h5>Current username: {username}</h5>
                         <Form onSubmit={newUsernameSubmit}>
-                            <Label for='newUsername'>New Username:</Label>
-                            <Input
-                                type='text'
-                                id='newUsername'
-                                value={newUsername}
-                                onChange={(event) => setNewUsername(event.target.value)}
-                            />
+                            <FormGroup>
+                                <Label for='newUsername'>New Username:</Label>
+                                <Input
+                                    type='text'
+                                    id='newUsername'
+                                    value={newUsername}
+                                    onChange={(event) => setNewUsername(event.target.value)}
+                                />
+                            </FormGroup>
                             <Button type='submit' color='primary'>Save New Username</Button>
                         </Form>
                     </Col>
@@ -134,7 +139,7 @@ const ProfileSettingsPage = () => {
 
                 <Row>
                     <Col>
-                        <h3 style={{ textAlign: 'center' }}>Change Password</h3>
+                        <h3 className='text-center'>Change Password</h3>
                         <Form onSubmit={newPasswordSubmit}>
                             <FormGroup>
                                 <Label for='currentPW'>Enter Current Password:</Label>
@@ -165,7 +170,7 @@ const ProfileSettingsPage = () => {
                             </FormGroup>
                             <Button
                                 onClick={() => updatePasswordType()}
-                                style={{ marginRight: '10px' }}
+                                className='mr-3'
                             >{buttonPWName}</Button>
                             <Button type='submit' color='primary'>Save New Password</Button>
                         </Form>
@@ -174,9 +179,9 @@ const ProfileSettingsPage = () => {
 
                 {!admin && (
                     <Row>
-                        <Col style={{ textAlign: 'center' }}>
+                        <Col className='text-center'>
                             <Button
-                                className='bg-danger btn-border-none'
+                                className='bg-danger btn-border-none mt-3'
                                 onClick={() => deleteAccount()}
                             >Delete Account</Button>
                         </Col>

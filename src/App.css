@@ -4,8 +4,7 @@ html {
 }
 
 body {
-    font-size: 1rem;
-    margin: 1rem;
+    padding-bottom: 1rem;
 }
 
 .loading-page-overlay {
@@ -226,7 +225,7 @@ body {
 }
 
 .no-carousel-nav {
-    width: 1.5rem;
+    width: 10rem;
 }
 
 @media (max-width: 786px) {
@@ -405,7 +404,7 @@ body {
     align-items: center;
 }
 
-.outer-buttons-div .cart-top-button {
+.top-buttons-div-outer .cart-top-button {
     border: none;
     margin-right: 2rem;
 }
@@ -442,6 +441,19 @@ body {
     background-color: lightgray;
     cursor: pointer;
 }
+
+@media (max-width: 495px) {
+    .top-buttons-div-outer {
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .top-buttons-mt {
+        margin-bottom: 1rem;
+    }
+}
+
 
 @media (max-width: 576px) {
     .product-price-margin-top {

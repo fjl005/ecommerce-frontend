@@ -64,9 +64,9 @@ const ProductImgCarousel = ({ selectedProduct }) => {
                         <div key={idx} style={{ width: '90%' }} className='text-center'>
                             <img
                                 key={idx}
+                                className='w-100'
                                 src={image === null ? fetsyEcommerceLogo : image}
                                 alt={selectedProduct.name}
-                                style={{ width: '100%', }}
                             />
                         </div>
                     )
