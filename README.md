@@ -2,7 +2,7 @@
 
 Explore the various facets of online commerce: as a seller (admin), consumer (user), and a random person lurking waiting to sign up and join in on the fun!
 
-This MERN (MongoDB - Express - React - Node.JS) Application incorporates backend techniques (admin authorization, user authentication, password hashing, session) along with a seamless, clean React frontend. My project closely models [my actual Etsy shop] (https://www.etsy.com/shop/DigiWitz).
+This MERN (MongoDB - Express - React - Node.JS) Application incorporates backend techniques (admin authorization, user authentication, password hashing, session) along with a seamless, clean React frontend. My project closely models [my actual Etsy shop](https://www.etsy.com/shop/DigiWitz).
 
 ## Purpose for the Project
 
