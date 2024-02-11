@@ -215,8 +215,8 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 3rem;
-    height: 3rem;
+    width: 2.5rem;
+    height: 2.5rem;
     border-radius: 50%;
     background-color: white;
     cursor: pointer;
@@ -231,6 +231,10 @@ body {
 @media (max-width: 786px) {
     .product-img-carousel-container {
         display: none;
+    }
+
+    .circle-product-carousel-nav {
+        margin: 0 0.5rem;
     }
 }
 
@@ -404,9 +408,12 @@ body {
     align-items: center;
 }
 
+.cart-top-button {
+    margin-right: 2rem;
+}
+
 .top-buttons-div-outer .cart-top-button {
     border: none;
-    margin-right: 2rem;
 }
 
 .cart-top-button .cart-font-awesome {
@@ -449,8 +456,8 @@ body {
         text-align: center;
     }
 
-    .top-buttons-mt {
-        margin-bottom: 1rem;
+    .cart-top-button {
+        margin: 0 0 1rem 0;
     }
 }
 

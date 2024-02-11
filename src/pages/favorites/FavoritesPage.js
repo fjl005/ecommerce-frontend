@@ -108,7 +108,7 @@ const FavoritesPage = () => {
                                             <Button
                                                 key={idx}
                                                 onClick={button.onClick}
-                                                className={`top-buttons-mt ${button.className}`}
+                                                className={`cart-top-button ${button.className}`}
                                             >
                                                 {button.text1}
                                                 <FontAwesomeIcon icon={button.icon} className='cart-font-awesome' />

@@ -139,8 +139,9 @@ const CheckoutPage = () => {
 
                     <Row>
                         <Col style={{ marginBottom: '2rem' }}>
-                            <h5>If this becomes a legitimate site, then I would implement actual payment verification. However, because I am not running this with a secure connection, I do not want ANY payment or identification information to be sent.</h5>
-                            <h6 className='mt-3'>With that said, for the checkout to work, please click the autofill button here:</h6>
+                            <h5>
+                                Please do NOT enter actual payment information. For the checkout to work, please click the autofill button here:
+                            </h5>
                             <Button onClick={(event) => autofill(event)} className='bg-primary'>
                                 Auto-fill
                             </Button>
@@ -234,7 +235,7 @@ const CheckoutPage = () => {
                                 </Input>
 
                             </Col>
-                            <Col xs='3' md='2' className='mb-3'>
+                            <Col xs='3' md='2' className='mb-3 d-flex flex-column justify-content-between'>
                                 <Label for="cardCVC">CVC</Label>
                                 <Input
                                     type="text"

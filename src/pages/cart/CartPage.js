@@ -122,20 +122,20 @@ const CartPage = () => {
             text1: "Cart",
             text2: "Saved",
             icon: faArrowRight,
-            className: "bg-primary cart-top-button"
+            className: "bg-primary"
         },
         {
             onClick: moveAllToFavorites,
             text1: "Cart",
             text2: "Favorites",
             icon: faArrowRight,
-            className: "bg-primary cart-top-button"
+            className: "bg-primary"
         },
         {
             onClick: deleteAllCart,
             text1: "Cart",
             icon: faTrash,
-            className: "bg-danger cart-top-button"
+            className: "bg-danger"
         }
     ];
 
@@ -166,7 +166,7 @@ const CartPage = () => {
                                         <Button
                                             key={idx}
                                             onClick={button.onClick}
-                                            className={`top-buttons-mt ${button.className}`}
+                                            className={`cart-top-button ${button.className}`}
                                         >
                                             {button.text1}
                                             <FontAwesomeIcon icon={button.icon} className='cart-font-awesome' />

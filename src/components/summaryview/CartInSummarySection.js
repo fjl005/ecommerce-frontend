@@ -35,7 +35,7 @@ const CartInSummarySection = ({ isSaved, productItem }) => {
 
 
     return (
-        <>
+        <div className='d-flex'>
             <span
                 className='product-summary-fxn-btn'
                 onClick={() => {
@@ -49,8 +49,7 @@ const CartInSummarySection = ({ isSaved, productItem }) => {
             </span>
 
             <span
-                className='product-summary-fxn-btn'
-                style={{ marginLeft: '10px' }}
+                className='product-summary-fxn-btn ml-3'
                 onClick={() => {
                     isSaved
                         ? moveBackToCart(productItem._id)
@@ -68,8 +67,7 @@ const CartInSummarySection = ({ isSaved, productItem }) => {
             </span>
 
             <span
-                className='product-summary-fxn-btn'
-                style={{ marginLeft: '10px' }}
+                className='product-summary-fxn-btn ml-3'
                 onClick={() => {
                     isSaved
                         ? moveItemToFav(productItem._id, 'saved')
@@ -78,7 +76,7 @@ const CartInSummarySection = ({ isSaved, productItem }) => {
             >
                 Move to Favorites
             </span>
-        </>
+        </div>
     )
 }
 

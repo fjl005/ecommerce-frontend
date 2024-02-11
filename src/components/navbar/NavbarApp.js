@@ -52,7 +52,9 @@ const NavbarApp = ({ isCheckout, currentPage, }) => {
                     />
                 </NavbarBrand>
 
-                <NavbarToggler onClick={toggleNavbar} className='mr-3' />
+                {!isCheckout && (
+                    <NavbarToggler onClick={toggleNavbar} className='mr-3' />
+                )}
 
                 {isCheckout ? (
                     <Nav navbar>
@@ -124,14 +126,10 @@ const NavbarApp = ({ isCheckout, currentPage, }) => {
                         </Collapse>
 
                         {!isOpen && (
-                            <div className='w-100' style={{ margin: '0 2rem' }}>
+                            <div className='w-100 mr-3'>
                                 <NavbarSearch />
                             </div>
                         )}
-                        {/* </Collapse> */}
-
-
-                        {/* <Collapse isOpen={isOpen} navbar> */}
 
                         <Nav navbar className='d-flex align-items-center justify-content-between'>
                             {!loggedIn ? (
@@ -155,7 +153,6 @@ const NavbarApp = ({ isCheckout, currentPage, }) => {
                                                 ? 'selected-navbar-background-cart'
                                                 : 'navbar-hover'
                                         }
-                                    // style={{ marginRight: '2rem' }}
                                     >
                                         <NavLink tag={Link} to="/cart"
                                             style={{ position: 'relative' }}
