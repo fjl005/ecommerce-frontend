@@ -23,7 +23,6 @@ import adminNavbarBrand from '../../img/adminNavbarBrand.png';
 const NavbarAdmin = () => {
     const {
         loggedIn,
-        showLoginButton,
         triggerLogout,
         admin
     } = useLoginContext();
@@ -92,7 +91,7 @@ const NavbarAdmin = () => {
                                     </NavItem>
                                 )}
                                 <NavItem>
-                                    {showLoginButton && loggedIn && (
+                                    {loggedIn && (
                                         <UncontrolledDropdown>
                                             <DropdownToggle color='primary' caret>
                                                 Profile

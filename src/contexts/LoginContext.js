@@ -8,11 +8,10 @@ const LoginContext = createContext();
 export const LoginProvider = ({ children }) => {
 
     const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
     const [admin, setAdmin] = useState(false);
     const [loggedIn, setLoggedIn] = useState(false);
-    const [showLoginButton, setShowLoginButton] = useState(false);
     const [loginMsg, setLoginMsg] = useState('');
-    const [waitingCheckUser, setWaitingCheckUser] = useState(true);
 
     // Check if user is logged in. If so, set the username, admin, loggedIn
     const checkUser = async () => {
@@ -21,18 +20,13 @@ export const LoginProvider = ({ children }) => {
             setLoggedIn(true);
             setUsername(response.data.username);
             setAdmin(response.data.admin);
-            setWaitingCheckUser(false);
         } catch (error) {
             console.log('Error: ', error);
             setLoggedIn(false);
             setUsername('');
             setAdmin(false);
-            setWaitingCheckUser(false);
-        } finally {
-            setShowLoginButton(true);
         }
     };
-
 
     const triggerLogout = async () => {
         try {
@@ -51,11 +45,6 @@ export const LoginProvider = ({ children }) => {
         }
     };
 
-    useEffect(() => {
-        checkUser();
-    }, []);
-
-
     return (
         <LoginContext.Provider value={{
             loggedIn,
@@ -63,14 +52,13 @@ export const LoginProvider = ({ children }) => {
             checkUser,
             username,
             setUsername,
+            password,
+            setPassword,
             admin,
             setAdmin,
-            showLoginButton,
-            setShowLoginButton,
             loginMsg,
             setLoginMsg,
             triggerLogout,
-            waitingCheckUser
         }}>
             {children}
         </LoginContext.Provider>

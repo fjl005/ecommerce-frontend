@@ -10,10 +10,10 @@ import {
     Input,
     Button
 } from 'reactstrap';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useLoginContext } from '../../contexts/LoginContext';
-import { axiosWithAuth } from '../../components/miscellaneous/axios';
+import { axiosNoAuth, axiosWithAuth } from '../../components/miscellaneous/axios';
 import LoginInstructions from '../../components/login/LoginInstructions';
 
 
@@ -25,11 +25,25 @@ const LoginPage = () => {
         setLoggedIn,
         loginMsg,
         setLoginMsg,
-        setUsername,
         username,
+        setUsername,
+        password,
+        setPassword,
         setAdmin } = useLoginContext();
 
-    const [password, setPassword] = useState('');
+    const [errorMsg, setErrorMsg] = useState('');
+
+    useEffect(() => {
+        const serverCheck = async () => {
+            try {
+                await axiosNoAuth.get('/');
+                console.log('server is live');
+            } catch (error) {
+                setErrorMsg('Sorry, our server is currently down. Please try again at a later time.');
+            }
+        }
+        serverCheck();
+    }, []);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -41,6 +55,7 @@ const LoginPage = () => {
             const data = response.data.user;
             setCartLength(data.cart.length);
             setLoggedIn(true);
+            setPassword('');
             setAdmin(response.data.user.admin);
             setUsername(response.data.user.username);
         } catch (error) {
@@ -83,7 +98,7 @@ const LoginPage = () => {
                             <>
                                 <Form onSubmit={handleSubmit}>
                                     <FormGroup>
-                                        <Label for='username'>Username:</Label>
+                                        <Label htmlFor='username'>Username:</Label>
                                         <Input
                                             type='text'
                                             id='username'
@@ -92,7 +107,7 @@ const LoginPage = () => {
                                         />
                                     </FormGroup>
                                     <FormGroup>
-                                        <Label for='password'>Password:</Label>
+                                        <Label htmlFor='password'>Password:</Label>
                                         <Input
                                             type='password'
                                             id='password'
@@ -100,17 +115,30 @@ const LoginPage = () => {
                                             onChange={(event) => setPassword(event.target.value)}
                                         />
                                     </FormGroup>
-                                    <Button type='submit' color='primary'>Login</Button>
+                                    <div className='d-flex'>
+                                        <Button type='submit' color='primary'>Login</Button>
+                                        <Button
+                                            color='danger'
+                                            className='ml-3'
+                                            onClick={() => {
+                                                setUsername('');
+                                                setPassword('');
+                                            }}
+                                        >Clear</Button>
+                                    </div>
                                 </Form>
                                 <p>{loginMsg}</p>
                             </>
                         )}
+                        <p style={{ color: 'red' }}>{errorMsg}</p>
                     </Col>
                 </Row>
 
                 <Row>
                     <Col>
-                        <LoginInstructions />
+                        <LoginInstructions
+                            loginPage={true}
+                        />
                     </Col>
                 </Row>
             </Container>

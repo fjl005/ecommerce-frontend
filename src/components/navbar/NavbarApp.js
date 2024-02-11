@@ -30,7 +30,6 @@ const NavbarApp = ({ isCheckout, currentPage, }) => {
     const { setSavedLength } = useSavedItemContext();
     const {
         loggedIn,
-        showLoginButton,
         triggerLogout,
         admin
     } = useLoginContext();
@@ -187,7 +186,7 @@ const NavbarApp = ({ isCheckout, currentPage, }) => {
                                         )}
 
                                         <NavItem>
-                                            {showLoginButton && (
+                                            {loggedIn && (
                                                 <UncontrolledDropdown style={{ marginLeft: '2rem' }}>
                                                     <DropdownToggle color='primary' className='btn-border-none' caret>
                                                         Profile
