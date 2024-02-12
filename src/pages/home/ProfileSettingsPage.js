@@ -32,12 +32,17 @@ const ProfileSettingsPage = () => {
 
             const newUsernameLowerCase = newUsername.toLowerCase();
 
+            await axiosWithAuth.post('/users/updateUsername', {
+                newUsername: newUsernameLowerCase
+            });
+
             await axiosWithAuth.put('/reviews', {
                 currUsername,
                 newUsername: newUsernameLowerCase
             });
 
-            await axiosWithAuth.post('/users/updateUsername', {
+            await axiosWithAuth.put('/orders/user', {
+                currUsername,
                 newUsername: newUsernameLowerCase
             });
 
@@ -120,7 +125,7 @@ const ProfileSettingsPage = () => {
                 </Row>
                 <Row>
                     <Col>
-                        <h3 style={{ textAlign: 'center' }}>Change Username</h3>
+                        <h3 className='text-center mt-3'>Change Username</h3>
                         <h5>Current username: {username}</h5>
                         <Form onSubmit={newUsernameSubmit}>
                             <FormGroup>
@@ -139,7 +144,7 @@ const ProfileSettingsPage = () => {
 
                 <Row>
                     <Col>
-                        <h3 className='text-center'>Change Password</h3>
+                        <h3 className='text-center mt-3'>Change Password</h3>
                         <Form onSubmit={newPasswordSubmit}>
                             <FormGroup>
                                 <Label for='currentPW'>Enter Current Password:</Label>
@@ -179,9 +184,11 @@ const ProfileSettingsPage = () => {
 
                 {!admin && (
                     <Row>
-                        <Col className='text-center'>
+                        <Col>
+                            <h3 className='text-center mt-3'>Delete Account</h3>
+                            <p>I would hate to see you go, but I understand if you don't want any part of this anymore. I won't take it personal. Please note that this action cannot be reversed! All information associated with the user will be erased.</p>
                             <Button
-                                className='bg-danger btn-border-none mt-3'
+                                className='bg-danger btn-border-none'
                                 onClick={() => deleteAccount()}
                             >Delete Account</Button>
                         </Col>

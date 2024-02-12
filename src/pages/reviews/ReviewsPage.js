@@ -20,6 +20,7 @@ const ReviewsPage = () => {
         try {
             const response = await axiosWithAuth.get(`/reviews/user/${username}`);
             const data = response.data;
+            console.log('data: ', data);
             setReviewsData(data);
             setLoadingReviewsPage(false);
         } catch (error) {
