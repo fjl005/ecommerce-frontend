@@ -259,9 +259,7 @@ body {
     background-color: #d8d8d8;
 }
 
-.navbar-hover:hover {
-    background-color: #d8d8d8;
-}
+
 
 .navbar-search-form {
     display: flex;
@@ -292,6 +290,34 @@ body {
     font-size: 1rem;
     font-weight: bold;
     color: white;
+}
+
+.navbar-hover:hover {
+    background-color: #d8d8d8;
+}
+
+.navbar-hover .black-text {
+    color: black;
+}
+
+.selected-navbar-background .white-text {
+    color: white;
+}
+
+.navbar-hover-admin:hover {
+    background-color: white;
+}
+
+.navbar-hover-admin .white-text {
+    color: white;
+}
+
+.selected-navbar-background-admin {
+    background-color: white;
+}
+
+.selected-navbar-background-admin .black-text {
+    color: black;
 }
 
 @media (max-width: 576px) {

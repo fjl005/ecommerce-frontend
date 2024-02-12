@@ -3,9 +3,9 @@ import { useEffect, useState } from "react";
 import NavbarAdmin from "../../components/navbar/NavbarAdmin";
 import { axiosWithAuth } from "../../components/miscellaneous/axios";
 import SingleReview from "../../components/reviews/SingleReview";
+import { NAV_TITLE_MATCH } from "../../components/navbar/navbarPageTitles";
 
 const AllReviewsPage = () => {
-    const [loadingReviewsPage, setLoadingReviewsPage] = useState(true);
     const [reviewsData, setReviewsData] = useState([]);
 
     useEffect(() => {
@@ -17,16 +17,14 @@ const AllReviewsPage = () => {
             const response = await axiosWithAuth.get(`/reviews`);
             const data = response.data;
             setReviewsData(data);
-            setLoadingReviewsPage(false);
         } catch (error) {
             console.log('error with fetching reviews in AllReviewsPage.js: ', error);
-            setLoadingReviewsPage(false);
         }
     };
 
     return (
         <>
-            <NavbarAdmin />
+            <NavbarAdmin currentPage={NAV_TITLE_MATCH.allreviews} />
             <Container>
                 <Row>
                     <Col>

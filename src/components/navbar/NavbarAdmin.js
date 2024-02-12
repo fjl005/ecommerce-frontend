@@ -6,32 +6,32 @@ import {
     NavLink,
     Container,
     Button,
-    UncontrolledDropdown,
-    DropdownToggle,
-    DropdownMenu,
-    DropdownItem,
     NavbarToggler,
     Collapse
 } from 'reactstrap';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useLoginContext } from '../../contexts/LoginContext';
-import { useCartContext } from '../../contexts/CartContext';
 import adminNavbarBrand from '../../img/adminNavbarBrand.png';
+import ProfileButtonToggle from './ProfileButtonToggle';
+import { NAV_TITLE } from './navbarPageTitles';
 
 
-const NavbarAdmin = () => {
-    const {
-        loggedIn,
-        triggerLogout,
-        admin
-    } = useLoginContext();
-    const { setCartLength, setSavedLength } = useCartContext();
+const NavbarAdmin = ({ currentPage }) => {
+    const { admin } = useLoginContext();
     const [isOpen, setIsOpen] = useState(false);
 
     const toggleNavbar = () => {
         setIsOpen(!isOpen);
     };
+
+    const pageSelectedBackground = (navText) => {
+        return currentPage === navText ? 'selected-navbar-background-admin' : 'navbar-hover-admin';
+    }
+
+    const pageSelectedText = (navText) => {
+        return currentPage === navText ? 'black-text' : 'white-text';
+    }
 
     return (
         <>
@@ -46,76 +46,36 @@ const NavbarAdmin = () => {
                                     className='navbar-brand-width'
                                 />
                             </NavbarBrand>
-
-                            <NavbarToggler onClick={toggleNavbar} style={{ marginRight: '2rem', backgroundColor: 'white' }} />
-
+                            <NavbarToggler onClick={toggleNavbar} style={{ backgroundColor: 'white' }} />
                             <Collapse isOpen={isOpen} navbar>
-
                                 <Nav className='ml-auto'>
-                                    <NavItem>
-                                        <NavLink tag={Link} to="/admin/addnewproduct" className='navbar-admin-text'>
-                                            Add Product
-                                        </NavLink>
-                                    </NavItem>
-                                    <NavItem>
-                                        <NavLink tag={Link} to="/admin/editproductspage" className='navbar-admin-text'>
-                                            Edit Products
-                                        </NavLink>
-                                    </NavItem>
-                                    <NavItem>
-                                        <NavLink tag={Link} to="/admin/allorders" className='navbar-admin-text'>
-                                            All Orders
-                                        </NavLink>
-                                    </NavItem>
-                                    <NavItem>
-                                        <NavLink tag={Link} to="/admin/allreviews" className='navbar-admin-text'>
-                                            All Reviews
-                                        </NavLink>
-                                    </NavItem>
-                                    <NavItem>
-                                        <NavLink tag={Link} to="/admin/billing" className='navbar-admin-text'>
-                                            Billing
-                                        </NavLink>
-                                    </NavItem>
+                                    {NAV_TITLE.adminPages.map((navText, idx) => (
+                                        <NavItem
+                                            key={idx}
+                                            className={pageSelectedBackground(navText.title)}
+                                        >
+                                            <NavLink
+                                                tag={Link}
+                                                to={navText.link}
+                                                className={pageSelectedText(navText.title)}
+                                            >
+                                                {navText.title}
+                                            </NavLink>
+                                        </NavItem>
+                                    ))}
                                 </Nav>
                             </Collapse>
                         </div>
 
                         <Nav>
                             <div className='d-flex align-items-center'>
-                                {admin && (
-                                    <NavItem>
-                                        <NavLink tag={Link} to="/">
-                                            <Button className='bg-light' style={{ color: 'black' }}>User</Button>
-                                        </NavLink>
-                                    </NavItem>
-                                )}
                                 <NavItem>
-                                    {loggedIn && (
-                                        <UncontrolledDropdown>
-                                            <DropdownToggle color='primary' caret>
-                                                Profile
-                                            </DropdownToggle>
-                                            <DropdownMenu>
-                                                <DropdownItem
-                                                    tag={Link}
-                                                    to='/profilesettings'
-                                                >
-                                                    Settings
-                                                </DropdownItem>
-                                                <DropdownItem tag={Link} to='/login'
-                                                    onClick={() => {
-                                                        triggerLogout();
-                                                        setCartLength(0);
-                                                        setSavedLength(0);
-                                                    }}
-                                                >
-                                                    Logout
-                                                </DropdownItem>
-                                            </DropdownMenu>
-                                        </UncontrolledDropdown>
-                                    )}
+                                    <NavLink tag={Link} to="/">
+                                        <Button className='bg-light' style={{ color: 'black' }}>User</Button>
+                                    </NavLink>
                                 </NavItem>
+
+                                <ProfileButtonToggle />
                             </div>
                         </Nav>
                     </Container>
@@ -123,6 +83,6 @@ const NavbarAdmin = () => {
             )}
         </>
     )
-}
+};
 
-export default NavbarAdmin
+export default NavbarAdmin;

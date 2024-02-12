@@ -21,6 +21,7 @@ import axios from "axios";
 import SpinningIcon from "../../components/miscellaneous/SpinningIcon";
 import ImageUpload from "../../components/admin/ImageUpload";
 import NavbarAdmin from "../../components/navbar/NavbarAdmin";
+import { NAV_TITLE_MATCH } from "../../components/navbar/navbarPageTitles";
 
 
 const PostProductPage = () => {
@@ -275,7 +276,7 @@ const PostProductPage = () => {
         <>
             {admin ? (
                 <>
-                    <NavbarAdmin />
+                    <NavbarAdmin currentPage={NAV_TITLE_MATCH.addproduct} />
                     <Container>
                         <Row>
                             <Col>

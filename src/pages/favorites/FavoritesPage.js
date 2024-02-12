@@ -9,6 +9,7 @@ import SpinningIcon from "../../components/miscellaneous/SpinningIcon";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useCartContext } from "../../contexts/CartContext";
+import { NAV_TITLE_MATCH } from "../../components/navbar/navbarPageTitles";
 
 const FavoritesPage = () => {
     const { loggedIn } = useLoginContext();
@@ -86,7 +87,7 @@ const FavoritesPage = () => {
     return (
         <>
             {favoritesLoadingOverlay && <LoadingOverlay />}
-            <NavbarApp currentPage='Favorites' />
+            <NavbarApp currentPage={NAV_TITLE_MATCH.favorites} />
             <Container>
                 <Row>
                     <Col>

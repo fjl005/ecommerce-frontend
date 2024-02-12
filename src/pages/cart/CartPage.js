@@ -11,6 +11,7 @@ import { axiosWithAuth } from "../../components/miscellaneous/axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight, faTrash, faMoneyCheckDollar } from "@fortawesome/free-solid-svg-icons";
 import { useSavedItemContext } from "../../contexts/SavedItemContext";
+import { NAV_TITLE_MATCH } from "../../components/navbar/navbarPageTitles";
 
 const CartPage = () => {
 
@@ -143,7 +144,7 @@ const CartPage = () => {
     return (
         <>
             {loadingCartAndSaved && <LoadingOverlay />}
-            <NavbarApp currentPage='Cart' />
+            <NavbarApp currentPage={NAV_TITLE_MATCH.cart} />
             <Container>
                 <Row>
                     <Col>
@@ -193,7 +194,7 @@ const CartPage = () => {
                         )}
                     </Col>
                 </Row>
-            </Container >
+            </Container>
 
             {cartLength > 0 && cartItemsArrayId && cartItemsArrayId.map((productId, idx) => (
                 <CartItem

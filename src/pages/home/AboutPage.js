@@ -4,11 +4,12 @@ import GeneralFAQ from "../../components/about/GeneralFAQ";
 import Technologies from "../../components/about/Technologies";
 import { frontendTechnologies } from "../../components/about/frontendTech";
 import { backendTechnologies } from "../../components/about/backendTech";
+import { NAV_TITLE_MATCH } from "../../components/navbar/navbarPageTitles";
 
 const AboutPage = () => {
     return (
         <>
-            <NavbarApp currentPage='About' />
+            <NavbarApp currentPage={NAV_TITLE_MATCH.about} />
             <Container>
                 <Row>
                     <Col>

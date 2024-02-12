@@ -26,10 +26,11 @@ const LeaveReviewPage = () => {
 
 
     useEffect(() => {
-        findPicURL();
+        fetchProduct();
+        setRatingDescription(ratingDescriptionPrev);
     }, []);
 
-    const findPicURL = async () => {
+    const fetchProduct = async () => {
         try {
             const response = await axiosWithAuth.get(`/products/${productId}`);
             const imgData = response.data.pictures;
@@ -52,7 +53,7 @@ const LeaveReviewPage = () => {
         event.preventDefault();
         if (isEditRoute) {
             try {
-                const response = await axiosWithAuth.post('/reviews', {
+                await axiosWithAuth.post('/reviews', {
                     productName,
                     productId,
                     starRating,
@@ -71,7 +72,7 @@ const LeaveReviewPage = () => {
 
         } else {
             try {
-                const response = await axiosWithAuth.post('/reviews', {
+                await axiosWithAuth.post('/reviews', {
                     productName,
                     productId,
                     starRating,
@@ -193,7 +194,7 @@ const LeaveReviewPage = () => {
                                 />
                             </FormGroup>
                             <FormGroup>
-                                <Label for='ratingDescription'>
+                                <Label htmlFor='ratingDescription'>
                                     <h5>Description (optional)</h5>
                                 </Label>
                                 <Input

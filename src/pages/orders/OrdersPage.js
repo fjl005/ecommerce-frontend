@@ -5,7 +5,7 @@ import { useLoginContext } from "../../contexts/LoginContext";
 import ItemsInOrder from "../../components/orders/ItemsInOrder";
 import { axiosWithAuth } from "../../components/miscellaneous/axios";
 import SpinningIcon from "../../components/miscellaneous/SpinningIcon";
-
+import { NAV_TITLE_MATCH } from "../../components/navbar/navbarPageTitles";
 
 const OrdersPage = () => {
 
@@ -33,12 +33,12 @@ const OrdersPage = () => {
             }
             console.log('error: ', error);
         }
-    }
+    };
 
 
     return (
         <>
-            <NavbarApp currentPage='Orders' />
+            <NavbarApp currentPage={NAV_TITLE_MATCH.orders} />
             <Container>
                 <Row>
                     <Col>

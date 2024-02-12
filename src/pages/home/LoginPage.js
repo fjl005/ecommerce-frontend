@@ -15,7 +15,7 @@ import { Link } from 'react-router-dom';
 import { useLoginContext } from '../../contexts/LoginContext';
 import { axiosNoAuth, axiosWithAuth } from '../../components/miscellaneous/axios';
 import LoginInstructions from '../../components/login/LoginInstructions';
-
+import { NAV_TITLE_MATCH } from '../../components/navbar/navbarPageTitles';
 
 const LoginPage = () => {
     const { setCartLength } = useCartContext();
@@ -72,7 +72,7 @@ const LoginPage = () => {
 
     return (
         <>
-            <NavbarApp currentPage='Login' />
+            <NavbarApp currentPage={NAV_TITLE_MATCH.login} />
             <Container>
                 <Row>
                     <Col>

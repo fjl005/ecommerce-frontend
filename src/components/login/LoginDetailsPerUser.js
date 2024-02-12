@@ -2,7 +2,8 @@ import { Button } from "reactstrap";
 import { useLoginContext } from "../../contexts/LoginContext";
 
 const LoginDetailsPerUser = ({ details, loginPage }) => {
-    const { username, setUsername, password, setPassword } = useLoginContext();
+    const { setUsername, setPassword } = useLoginContext();
+
     return (
         <div style={{ marginBottom: '3rem' }}>
             <div className='d-flex align-items-center'>

@@ -11,6 +11,7 @@ import {
 import { useState } from "react";
 import NavbarApp from "../../components/navbar/NavbarApp";
 import { axiosWithAuth } from "../../components/miscellaneous/axios";
+import { NAV_TITLE_MATCH } from "../../components/navbar/navbarPageTitles";
 
 const SignUpPage = () => {
 
@@ -53,7 +54,7 @@ const SignUpPage = () => {
 
     return (
         <>
-            <NavbarApp currentPage='Signup' />
+            <NavbarApp currentPage={NAV_TITLE_MATCH.signup} />
             <Container>
                 <Row>
                     <Col>

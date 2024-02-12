@@ -67,30 +67,6 @@ function App() {
                 {routes && routes.map(route => (
                     <Route key={route.path} path={route.path} element={route.element} />
                 ))}
-                {/* <Route path='/' element={<HomePage />} />
-                <Route path='/search/:searchTerm' element={<HomePage />} />
-                <Route path='/login' element={<LoginPage />} />
-                <Route path='/signup' element={<SignUpPage />} />
-                <Route path='/about' element={<AboutPage />} />
-                <Route path='/products/:productId' element={<SingleProductPage />} />
-                <Route path='/cart' element={<CartPage />} />
-                <Route path='/cart/checkout' element={<CheckoutPage />} />
-                <Route path='/orders' element={<OrdersPage />} />
-                <Route path='/ordercompleted/:orderId' element={<OrderCompletedRedirectPage />} />
-                <Route path='/favorites' element={<FavoritesPage />} />
-                <Route path='/review/:purchasedItemId' element={<LeaveReviewPage />} />
-                <Route path='/review/edit/:purchasedItemId' element={<LeaveReviewPage />} />
-                <Route path='/reviews' element={<ReviewsPage />} />
-                <Route path='/profilesettings' element={<ProfileSettingsPage />} />
-                <Route path='/admin' element={<AdminPage />} />
-                <Route path='/admin/addnewproduct' element={<PostProductPage />} />
-                <Route path='/admin/addnewproduct/submitted' element={<ProductSubmittedPage />} />
-                <Route path='/admin/updateproduct' element={<PostProductPage />} />
-                <Route path='/admin/updateproduct/:productId' element={<PostProductPage />} />
-                <Route path='/admin/editproductspage' element={<EditProductsPage />} />
-                <Route path='/admin/allreviews' element={<AllReviewsPage />} />
-                <Route path='/admin/allorders' element={<AllOrdersPage />} />
-                <Route path='/admin/billing' element={<BillingPage />} /> */}
             </Routes>
         </BrowserRouter>
     );

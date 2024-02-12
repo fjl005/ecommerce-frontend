@@ -5,6 +5,7 @@ import { axiosWithAuth } from "../../components/miscellaneous/axios";
 import { useEffect, useState } from "react";
 import { useLoginContext } from "../../contexts/LoginContext";
 import SpinningIcon from "../../components/miscellaneous/SpinningIcon";
+import { NAV_TITLE_MATCH } from "../../components/navbar/navbarPageTitles";
 
 const ReviewsPage = () => {
 
@@ -20,7 +21,6 @@ const ReviewsPage = () => {
         try {
             const response = await axiosWithAuth.get(`/reviews/user/${username}`);
             const data = response.data;
-            console.log('data: ', data);
             setReviewsData(data);
             setLoadingReviewsPage(false);
         } catch (error) {
@@ -31,7 +31,7 @@ const ReviewsPage = () => {
 
     return (
         <>
-            <NavbarApp currentPage='Reviews' />
+            <NavbarApp currentPage={NAV_TITLE_MATCH.reviews} />
             <Container>
                 <Row>
                     <Col>

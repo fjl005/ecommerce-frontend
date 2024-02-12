@@ -4,10 +4,6 @@ import { formatDate } from "../miscellaneous/formatDate";
 
 const ItemsInOrder = ({ order, orderId, adminPage, buyer }) => {
 
-    console.log('order: ', order);
-    console.log('order ID: ', orderId);
-    console.log('order items: ', order.items);
-
     return (
         <Container className='cart-container'>
             <Row>

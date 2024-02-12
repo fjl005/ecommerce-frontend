@@ -5,6 +5,7 @@ import { useState, } from 'react'
 import { useLoginContext } from "../../contexts/LoginContext";
 import { Link } from "react-router-dom";
 import ProductsHomePage from "../../components/products/ProductsHomePage";
+import { NAV_TITLE_MATCH } from "../../components/navbar/navbarPageTitles";
 
 const EditProductsPage = () => {
 
@@ -37,7 +38,7 @@ const EditProductsPage = () => {
 
     return (
         <>
-            <NavbarAdmin />
+            <NavbarAdmin currentPage={NAV_TITLE_MATCH.editproducts} />
             {admin ? (
                 <>
                     <Container>
