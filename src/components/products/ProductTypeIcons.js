@@ -2,7 +2,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCloudArrowDown, faGift, faPaperclip, faTruck } from '@fortawesome/free-solid-svg-icons';
 import { useState, useEffect } from 'react';
 
-const ProductTypeIcons = ({ productType }) => {
+const ProductTypeIcons = ({ props }) => {
+    const productType = props;
+
     const productTypeIcon = new Map();
     productTypeIcon.set('Digital Download', faCloudArrowDown);
     productTypeIcon.set('Physical Item', faGift);

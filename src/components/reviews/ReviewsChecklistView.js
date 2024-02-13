@@ -48,14 +48,12 @@ const ReviewsChecklistView = ({ starRating, ratingDescription, productId, userna
                 />
                 <h4 className='ml-3'>{productData.name}</h4>
             </div>
-
             <h5 style={{ margin: '1.5rem auto 0 auto' }}>
                 By {username}, {' '}
                 {formatDate(new Date(dateOfReview))}
             </h5>
             <FiveStarGenerator starRating={starRating} />
             <p>{ratingDescription}</p>
-
             <div className='line-between-reviews mb-4'></div>
         </>
     )

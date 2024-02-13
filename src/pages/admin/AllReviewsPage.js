@@ -50,6 +50,6 @@ const AllReviewsPage = () => {
             </Container>
         </>
     )
-}
+};
 
 export default AllReviewsPage;

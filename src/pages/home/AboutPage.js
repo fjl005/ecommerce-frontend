@@ -17,7 +17,6 @@ const AboutPage = () => {
                         <GeneralFAQ />
                         <Technologies techType='Frontend' details={frontendTechnologies} />
                         <Technologies techType='Backend' details={backendTechnologies} />
-
                     </Col>
                 </Row>
             </Container>

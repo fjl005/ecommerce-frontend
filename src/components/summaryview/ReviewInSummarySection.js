@@ -14,7 +14,6 @@ const ReviewInSummarySection = ({ productItem, orderId, }) => {
     const [reviewDate, setReviewDate] = useState('');
     const [loadingReview, setLoadingReview] = useState(true);
 
-
     useEffect(() => {
         if (hasReview) {
             fetchReview(productItem._id.toString());
@@ -22,7 +21,6 @@ const ReviewInSummarySection = ({ productItem, orderId, }) => {
             setLoadingReview(false);
         }
     }, []);
-
 
     const fetchReview = async (purchasedItemId) => {
         try {
@@ -45,7 +43,6 @@ const ReviewInSummarySection = ({ productItem, orderId, }) => {
         }
     };
 
-
     return (
         <>
             {loadingReview ? (
@@ -63,7 +60,7 @@ const ReviewInSummarySection = ({ productItem, orderId, }) => {
                     )}
 
                     <Link
-                        className='black-normal-text'
+                        className='black-text'
                         to={{ pathname: `/review/${hasReview ? 'edit/' : ''}${productItem._id}` }}
                         state={{
                             name: productItem.name,

@@ -177,7 +177,7 @@ const CartPage = () => {
 
                                     <Link
                                         to={{ pathname: `/cart/checkout` }}
-                                        className='black-normal-text'
+                                        className='black-text'
                                     >
                                         <Button
                                             className='bg-success cart-top-button'

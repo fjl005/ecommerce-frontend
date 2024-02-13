@@ -307,7 +307,7 @@ const PostProductPage = () => {
                                     <Form className='post-product-form'>
                                         <Col>
                                             <Label
-                                                for='product-title'
+                                                htmlFor='product-title'
                                                 className='post-product-admin-label'
                                             >
                                                 <h4>Product Title</h4>
@@ -329,7 +329,7 @@ const PostProductPage = () => {
                                         <Row>
                                             <Col xs='6'>
                                                 <Label
-                                                    for='product-price'
+                                                    htmlFor='product-price'
                                                     className='post-product-admin-label'
                                                 >
                                                     <h4>Price</h4>
@@ -353,7 +353,7 @@ const PostProductPage = () => {
 
                                             <Col xs='6'>
                                                 <Label
-                                                    for='product-type'
+                                                    htmlFor='product-type'
                                                     className='post-product-admin-label'
                                                 >
                                                     <h4>Product Type</h4>
@@ -379,7 +379,7 @@ const PostProductPage = () => {
 
                                         <Col>
                                             <Label
-                                                for='product-description'
+                                                htmlFor='product-description'
                                                 className='post-product-admin-label'
                                             >
                                                 <h4>Product Description</h4>

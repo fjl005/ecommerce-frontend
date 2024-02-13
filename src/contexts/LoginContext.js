@@ -1,10 +1,7 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import { axiosWithAuth } from '../components/miscellaneous/axios';
 
-// First, create the context
 const LoginContext = createContext();
-
-// Then, create the Provider which will wrap the App.js file
 export const LoginProvider = ({ children }) => {
 
     const [username, setUsername] = useState('');

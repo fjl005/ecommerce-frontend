@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import ProductSummaryView from "../products/ProductSummaryView";
 import { useProductSearchContext } from "../../contexts/ProductSearchContext";
 
-
 const CartItem = ({ productId, isSaved, inCartJs }) => {
 
     const [productData, setProductData] = useState({});

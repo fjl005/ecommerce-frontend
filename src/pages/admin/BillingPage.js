@@ -33,7 +33,7 @@ const BillingPage = () => {
         <>
             <NavbarAdmin currentPage={NAV_TITLE_MATCH.billing} />
             <Container>
-                <Row style={{ marginBottom: '20px' }}>
+                <Row className='mb-3'>
                     <Col>
                         <h1 className='h1-admin'>Billing</h1>
                         <h4>Net Balance: ${totalBalance.toFixed(2)}</h4>

@@ -30,8 +30,12 @@ const SignUpPage = () => {
             setMessageTimeout('');
         }
 
+        if (!newUserPassword || !newUserUsername) {
+            return setMessageOnScreen('Please fill out all fields.');
+        }
+
         if (newUserPassword !== repeatPassword) {
-            return setMessageOnScreen('The passwords do not match');
+            return setMessageOnScreen('The passwords do not match.');
         }
 
         try {
@@ -49,7 +53,7 @@ const SignUpPage = () => {
             const timeoutId = setTimeout(() => setMessageOnScreen(''), 3000);
             setMessageTimeout(timeoutId);
         }
-    }
+    };
 
 
     return (
@@ -72,7 +76,7 @@ const SignUpPage = () => {
                             ) : (
                                 <Form onSubmit={handleSubmit}>
                                     <FormGroup>
-                                        <Label for='username'>Username:</Label>
+                                        <Label htmlFor='username'>Username:</Label>
                                         <Input
                                             type='text'
                                             id='username'
@@ -81,7 +85,7 @@ const SignUpPage = () => {
                                         />
                                     </FormGroup>
                                     <FormGroup>
-                                        <Label for='password'>Password:</Label>
+                                        <Label htmlFor='password'>Password:</Label>
                                         <Input
                                             type='password'
                                             id='password'
@@ -90,7 +94,7 @@ const SignUpPage = () => {
                                         />
                                     </FormGroup>
                                     <FormGroup>
-                                        <Label for='passwordRepeat'>Enter Password Again:</Label>
+                                        <Label htmlFor='passwordRepeat'>Enter Password Again:</Label>
                                         <Input
                                             type='password'
                                             id='passwordRepeat'

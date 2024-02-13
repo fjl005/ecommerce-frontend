@@ -1,4 +1,5 @@
-const DeliveryDetails = ({ productType }) => {
+const DeliveryDetails = ({ props }) => {
+    const productType = props;
 
     return (
         <>
@@ -14,7 +15,6 @@ const DeliveryDetails = ({ productType }) => {
                 </>
             )}
         </>
-
     )
 }
 

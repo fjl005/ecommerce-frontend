@@ -25,7 +25,6 @@ const ProductSummaryView = ({
 
     const { fetchCart } = useCartContext();
 
-
     const removeFavoritesItem = async (productId) => {
         try {
             setFavoritesLoadingOverlay(true);
@@ -71,13 +70,13 @@ const ProductSummaryView = ({
 
                 <Col xs='12' sm='7'>
                     <div className='d-flex flex-column'>
-                        <Link to={`/products/${inOrderJs ? productItem.productId : productItem._id}`} className='black-normal-text'>
+                        <Link to={`/products/${inOrderJs ? productItem.productId : productItem._id}`} className='black-text'>
                             <h3 className='product-title'>
                                 {productItem.name}
                             </h3>
                         </Link>
                         <div className='product-gray-background'>
-                            <ProductTypeIcons productType={productItem.productType} />
+                            <ProductTypeIcons props={productItem.productType} />
 
                             {inOrderJs && (
                                 <DownloadLinkInSummary

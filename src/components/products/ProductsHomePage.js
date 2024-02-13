@@ -14,11 +14,9 @@ const ProductsHomePage = ({ adminPage, itemsSelectedIdArr, setItemsSelectedIdArr
     const [loading, setLoading] = useState(true);
     const [isDeleting, setIsDeleting] = useState(false);
 
-
     useEffect(() => {
         fetchProducts();
     }, [reloadProducts, searchQuery]);
-
 
     const fetchProducts = async () => {
         try {
@@ -29,28 +27,23 @@ const ProductsHomePage = ({ adminPage, itemsSelectedIdArr, setItemsSelectedIdArr
 
             const response = await axiosNoAuth.get(`/products${endTerm}`);
             setProductsDB(response.data);
-            setLoading(false);
         } catch (error) {
             console.log('Error in fetchProducts() in Products.js', error);
+        } finally {
             setLoading(false);
         }
     };
 
     const handleCheckbox = (productId) => {
         if (itemsSelectedIdArr) {
+            // Unselect an item if you're clicking an already selected item.
             if (itemsSelectedIdArr.includes(productId)) {
                 const updatedArr = itemsSelectedIdArr.filter((id) => id !== productId);
                 setItemsSelectedIdArr(updatedArr);
             } else {
+                // Otherwise, add the item to the curren selection array.
                 setItemsSelectedIdArr([...itemsSelectedIdArr, productId]);
             }
-        }
-    };
-
-    const handleDelete = (product) => {
-        const confirmed = window.confirm("Are you sure you want to delete this item?");
-        if (confirmed) {
-            deleteProduct(product);
         }
     };
 
@@ -73,6 +66,12 @@ const ProductsHomePage = ({ adminPage, itemsSelectedIdArr, setItemsSelectedIdArr
         }
     };
 
+    const handleDelete = (product) => {
+        const confirmed = window.confirm("Are you sure you want to delete this item?");
+        if (confirmed) {
+            deleteProduct(product);
+        }
+    };
 
     return (
         <Container>
@@ -104,7 +103,7 @@ const ProductsHomePage = ({ adminPage, itemsSelectedIdArr, setItemsSelectedIdArr
                             to={adminPage
                                 ? `/admin/updateproduct/${product._id}`
                                 : `/products/${product._id}`}
-                            className='black-normal-text'
+                            className='black-text'
                         >
                             <div className='w-100' style={{ padding: '1rem', }}>
                                 <div className='w-100' style={{ position: 'relative', paddingBottom: '100%' }}>

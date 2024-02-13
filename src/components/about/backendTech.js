@@ -66,7 +66,9 @@ export const backendTechnologies = [
         heading: 'Hashing and Salting (+ bcrypt)',
         content: [
             "Hashing is a one-way function that converts input data (the password) into a fixed-length string of characters - a hash code. Salting adds a unique random value to each password before hashing, which makes it more secure. Salting is performed before hashing.",
+
             "For example, If a user has the password 'password123' and a random salt 's1a2l3t4', the actual password passed to the hashing function would be 'password123s1a2l3t4'.",
+
             "Bcrypt is a widely used password-hashing function designed to securely store passwords. It employs salting, and overall helps resist attacks."
         ]
     },

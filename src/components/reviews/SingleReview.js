@@ -84,7 +84,7 @@ const SingleReview = ({
                             <div className='text-center' style={{ margin: '1.5rem 0 0.5rem 0' }}>
                                 {!adminPage && (
                                     <Link
-                                        className='black-normal-text'
+                                        className='black-text'
                                         to={{ pathname: `/review/edit/${purchasedItemId}` }}
                                         state={{
                                             name: productData.name,

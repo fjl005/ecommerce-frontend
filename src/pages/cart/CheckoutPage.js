@@ -406,8 +406,6 @@ const CheckoutPage = () => {
                     <Button color="primary" type="submit">
                         Submit
                     </Button>
-
-
                 </Form>
             </Container>
         </>

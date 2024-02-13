@@ -32,9 +32,13 @@ body {
     cursor: pointer;
 }
 
-.black-normal-text {
+.black-text {
     color: black;
     text-decoration: none;
+}
+
+.red-text {
+    color: red;
 }
 
 .btn-border-none {

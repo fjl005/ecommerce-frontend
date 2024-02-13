@@ -15,6 +15,7 @@ export const frontendTechnologies = [
         heading: 'Fetch API / Promises / Async + Await',
         content: [
             "The fetch API is the interface used to fetch resources from a server. The fetch method returns a Promise that resolves with a Response Object that contains information about the data, headers, status, etc. The Response Object needs to be converted to JSON format with json(). If the Promise is rejected, then the error is handled in a 'catch' block.",
+
             "In summary, given the asynchronous nature of fetch calls, the fetch method returns a Promise either resolved with a Response Object or rejected and handled in the 'catch' statement."
         ]
     },

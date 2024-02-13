@@ -1,19 +1,52 @@
 import NavbarApp from "../../components/navbar/NavbarApp";
 import { Container, Row, Col, Tooltip, } from "reactstrap";
 import { useParams } from "react-router-dom";
-import ProductImgCarousel from "../../components/products/ProductImgCarousel";
+import ProductImgCarousel from "../../components/singleproductpage/ProductImgCarousel";
 import ReviewsInSingleProductPage from "../../components/reviews/ReviewsInSingleProductPage";
-import ProductDescription from "../../components/products/ProductDescription";
+import ProductDescription from "../../components/singleproductpage/ProductDescription";
 import { useState, useEffect } from "react";
-import RightColToggle from "../../components/products/RightColToggle";
+import RightColToggle from "../../components/singleproductpage/RightColToggle";
 import { useCartContext } from "../../contexts/CartContext";
 import { axiosWithAuth } from "../../components/miscellaneous/axios";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import SpinningIcon from "../../components/miscellaneous/SpinningIcon";
 import ProductTypeIcons from "../../components/products/ProductTypeIcons";
-import DeliveryDetails from "../../components/products/DeliveryDetails";
-import MeetTheSeller from "../../components/products/MeetTheSeller";
+import DeliveryDetails from "../../components/singleproductpage/DeliveryDetails";
+import MeetTheSeller from "../../components/singleproductpage/MeetTheSeller";
+
+const ERROR_CODES = {
+    mustLogin: 'You must log in before accessing this page',
+};
+
+const RIGHT_COL_TOGGLE = {
+    details: {
+        title: 'Details',
+        stateKey: 'showDetails',
+    },
+
+
+    description: {
+        title: 'Description',
+        stateKey: 'showDescription',
+    },
+
+    delivery: {
+        title: 'Delivery',
+        stateKey: 'showDelivery',
+    },
+
+    seller: {
+        title: 'Seller',
+        stateKey: 'showSeller',
+    },
+};
+
+const ADD_CLICK_CATEGORY = {
+    cart: 'cart',
+    favorites: 'favorites',
+}
+
 
 const SingleProductPage = () => {
 
@@ -22,124 +55,130 @@ const SingleProductPage = () => {
     const [selectedProduct, setSelectedProduct] = useState({});
     const [loadingPage, setLoadingPage] = useState(true);
 
-    useEffect(() => {
-        fetchProductData();
-    }, []);
-
     const fetchProductData = async () => {
         try {
             const response = await axiosWithAuth.get(`/products/${productId}`);
             const data = response.data;
             setSelectedProduct(data);
-            setLoadingPage(false);
         } catch (error) {
             console.log('error: ', error);
-            setLoadingPage(false);
             setSelectedProduct(null);
+        } finally {
+            setLoadingPage(false);
         }
     };
 
+    useEffect(() => {
+        fetchProductData();
+    }, []);
 
-    // Right Col Toggle States
-    const [showDetails, setShowDetails] = useState(true);
-    const [showDescription, setShowDescription] = useState(true);
-    const [showDelivery, setShowDelivery] = useState(true);
-    const [showSeller, setShowSeller] = useState(true);
+    const [rightColToggle, setRightColToggle] = useState({
+        [RIGHT_COL_TOGGLE.details.stateKey]: true,
+        [RIGHT_COL_TOGGLE.description.stateKey]: true,
+        [RIGHT_COL_TOGGLE.delivery.stateKey]: true,
+        [RIGHT_COL_TOGGLE.seller.stateKey]: true,
+    });
 
+    const [tooltipCart, setTooltipCart] = useState({
+        success: false,
+        signin: false,
+        timeout: null,
+    });
 
-    // Add to Cart Click
-    const [tooltipAddCartSuccess, setTooltipAddCartSuccess] = useState(false);
-    const [tooltipAddCartSignin, setTooltipAddCartSignin] = useState(false);
-    const [tooltipCartTimeout, setTooltipCartTimeout] = useState(null);
+    const [tooltipFavorites, setTooltipFavorites] = useState({
+        success: false,
+        signin: false,
+        timeout: null,
+    });
 
-    const addToCartClick = async (productId) => {
-        if (tooltipCartTimeout) {
-            clearTimeout(tooltipCartTimeout);
+    const addClickCartOrFav = async (category, tooltip, setTooltip,) => {
+        if (tooltip.timeout) {
+            clearTimeout(tooltip.timeout);
         }
 
         try {
-            await axiosWithAuth.post(`/cart/${productId}`);
-            fetchCart();
-            setTooltipAddCartSuccess(true);
-
-            const newTimeout = setTimeout(() => {
-                setTooltipAddCartSuccess(false);
-            }, 3000);
-
-            setTooltipCartTimeout(newTimeout);
-        } catch (error) {
-            console.log('error: ', error);
-            if (error.response.data === 'You must log in before accessing this page') {
-                setTooltipAddCartSignin(true);
-
-                const newTimeout = setTimeout(() => {
-                    setTooltipAddCartSignin(false);
-                }, 3000);
-
-                setTooltipCartTimeout(newTimeout);
+            if (category === ADD_CLICK_CATEGORY.cart) {
+                await axiosWithAuth.post(`/cart/${productId}`);
+                fetchCart();
+            } else if (category === ADD_CLICK_CATEGORY.favorites) {
+                await axiosWithAuth.post(`/favorites`, { productId });
             }
-        }
-    };
 
-    // Add to Favorites Click
-    const [tooltipAddFavoriteSuccess, setTooltipAddFavoriteSuccess] = useState(false);
-    const [tooltipAddFavoriteSignin, setTooltipAddFavoriteSignin] = useState(false);
-    const [tooltipFavoriteTimeout, setTooltipFavoriteTimeout] = useState(null);
-
-    const addToFavoritesClick = async (productId) => {
-        if (tooltipFavoriteTimeout) {
-            clearTimeout(tooltipFavoriteTimeout);
-        }
-
-        try {
-            await axiosWithAuth.post(`/favorites`, { productId });
-            setTooltipAddFavoriteSuccess(true);
+            setTooltip(prevState => ({ ...prevState, success: true }));
 
             const newTimeout = setTimeout(() => {
-                setTooltipAddFavoriteSuccess(false);
+                setTooltip(prevState => ({ ...prevState, success: false }));
             }, 3000);
 
-            setTooltipFavoriteTimeout(newTimeout);
+            setTooltip(prevState => ({ ...prevState, timeout: newTimeout }));
+
         } catch (error) {
             console.log('error: ', error);
-            if (error.response.data === 'You must log in before accessing this page') {
-                setTooltipAddFavoriteSignin(true);
+            if (error.response.data === ERROR_CODES.mustLogin) {
+                setTooltip(prevState => ({ ...prevState, signin: true }));
 
                 const newTimeout = setTimeout(() => {
-                    setTooltipAddFavoriteSignin(false);
+                    setTooltip(prevState => ({ ...prevState, signin: false }));
                 }, 3000);
 
-                setTooltipFavoriteTimeout(newTimeout);
+                setTooltip(prevState => ({ ...prevState, timeout: newTimeout }));
             }
         }
     };
 
     const tooltipArr = [
         {
-            tooltip: tooltipAddCartSignin,
+            tooltip: tooltipCart.signin,
             target: 'addCart',
             message: 'You must sign in to add items to your cart.',
             placement: 'top',
         },
         {
-            tooltip: tooltipAddCartSuccess,
+            tooltip: tooltipCart.success,
             target: 'addCart',
             message: 'Item added to Cart!',
             placement: 'top',
         },
         {
-            tooltip: tooltipAddFavoriteSignin,
+            tooltip: tooltipFavorites.signin,
             target: 'addFavorite',
             message: 'You must sign in to add items to your Favorite.',
             placement: 'bottom'
         },
         {
-            tooltip: tooltipAddFavoriteSuccess,
+            tooltip: tooltipFavorites.success,
             target: 'addFavorite',
             message: 'Item added to Favorites!',
             placement: 'bottom'
         },
     ];
+
+    const rightCols = [
+        {
+            stateKey: RIGHT_COL_TOGGLE.details.stateKey,
+            title: RIGHT_COL_TOGGLE.details.title,
+            render: ProductTypeIcons,
+            props: selectedProduct.productType,
+        },
+        {
+            stateKey: RIGHT_COL_TOGGLE.description.stateKey,
+            title: RIGHT_COL_TOGGLE.description.title,
+            render: ProductDescription,
+            props: selectedProduct.description,
+        },
+        {
+            stateKey: RIGHT_COL_TOGGLE.delivery.stateKey,
+            title: RIGHT_COL_TOGGLE.delivery.title,
+            render: DeliveryDetails,
+            props: selectedProduct.productType,
+        },
+        {
+            stateKey: RIGHT_COL_TOGGLE.seller.stateKey,
+            title: RIGHT_COL_TOGGLE.seller.title,
+            render: MeetTheSeller,
+            props: null,
+        },
+    ]
 
 
     return (
@@ -171,7 +210,7 @@ const SingleProductPage = () => {
                                         <div
                                             id='addCart'
                                             className='product-page-add-button product-page-add-to-cart'
-                                            onClick={() => addToCartClick(selectedProduct._id)}
+                                            onClick={() => addClickCartOrFav(ADD_CLICK_CATEGORY.cart, tooltipCart, setTooltipCart)}
                                         >
                                             Add to cart
                                         </div>
@@ -179,7 +218,7 @@ const SingleProductPage = () => {
                                         <div
                                             className='product-page-add-button product-page-add-to-collection'
                                             id='addFavorite'
-                                            onClick={() => addToFavoritesClick(selectedProduct._id)}
+                                            onClick={() => addClickCartOrFav(ADD_CLICK_CATEGORY.favorites, tooltipFavorites, setTooltipFavorites)}
                                         >
                                             <FontAwesomeIcon
                                                 icon={faHeart}
@@ -199,59 +238,22 @@ const SingleProductPage = () => {
                                             </Tooltip>
                                         ))}
 
-                                        <div>
-                                            <RightColToggle
-                                                section='Details'
-                                                toggleState={showDetails}
-                                                toggleStateFxn={setShowDetails}
-                                            />
+                                        {rightCols.map((section, idx) => (
+                                            <div key={idx}>
+                                                <RightColToggle
+                                                    stateKey={section.stateKey}
+                                                    title={section.title}
+                                                    state={rightColToggle}
+                                                    setState={setRightColToggle}
+                                                />
+                                                {rightColToggle[section.stateKey] && (
+                                                    <div className='ml-3'>
+                                                        {section.render && <section.render props={section.props} />}
+                                                    </div>
+                                                )}
+                                            </div>
+                                        ))}
 
-                                            {showDetails && (
-                                                <div className='ml-3'>
-                                                    <ProductTypeIcons productType={selectedProduct.productType} />
-                                                </div>
-                                            )}
-                                        </div>
-
-                                        <div>
-                                            <RightColToggle
-                                                section='Description'
-                                                toggleState={showDescription}
-                                                toggleStateFxn={setShowDescription}
-                                            />
-                                            {showDescription && (
-                                                <div className='ml-3'>
-                                                    <ProductDescription description={selectedProduct.description} />
-                                                </div>
-                                            )}
-                                        </div>
-
-                                        <div>
-                                            <RightColToggle
-                                                section='Delivery'
-                                                toggleState={showDelivery}
-                                                toggleStateFxn={setShowDelivery}
-                                            />
-
-                                            {showDelivery && (
-                                                <div className='ml-3'>
-                                                    <DeliveryDetails productType={selectedProduct.productType} />
-                                                </div>
-                                            )}
-                                        </div>
-
-                                        <div>
-                                            <RightColToggle
-                                                section='Meet Your Seller'
-                                                toggleState={showSeller}
-                                                toggleStateFxn={setShowSeller}
-                                            />
-                                            {showSeller && (
-                                                <div className='ml-3'>
-                                                    <MeetTheSeller />
-                                                </div>
-                                            )}
-                                        </div>
                                     </div>
                                 </Col>
 
@@ -270,7 +272,6 @@ const SingleProductPage = () => {
                 )}
             </Container>
         </>
-
     );
 };
 

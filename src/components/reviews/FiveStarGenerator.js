@@ -1,9 +1,6 @@
 
 
 const FiveStarGenerator = ({ starRating, editRating, setStarRating }) => {
-    const starRatingValues = [1, 2, 3, 4, 5];
-    // console.log('star rating: ', starRating);
-
     const starArray = Array(5).fill(null);
 
     for (let i = 1; i < 6; i++) {
@@ -20,32 +17,6 @@ const FiveStarGenerator = ({ starRating, editRating, setStarRating }) => {
 
     return (
         <div style={{ fontSize: '24px' }}>
-            {/* {starRatingValues.map((value) => (
-                value <= starRating ? (
-                    <i
-                        key={value}
-                        className="fa-solid fa-star"
-                        onClick={() => {
-                            if (editRating) {
-                                setStarRating(value);
-                            }
-                        }}
-                        style={{ cursor: editRating ? 'pointer' : 'auto' }}
-                    ></i>
-                ) : (
-                    <i
-                        key={value}
-                        className="fa-regular fa-star"
-                        onClick={() => {
-                            if (editRating) {
-                                setStarRating(value);
-                            }
-                        }}
-                        style={{ cursor: editRating ? 'pointer' : 'auto' }}
-                    ></i>
-                )
-            ))} */}
-
             {starArray.map((star, idx) => (
                 <div key={idx} style={{ display: 'inline-block' }}>
                     {star === 1 ? (
@@ -78,9 +49,6 @@ const FiveStarGenerator = ({ starRating, editRating, setStarRating }) => {
                     )}
                 </div>
             ))}
-
-
-
         </div>
     )
 };

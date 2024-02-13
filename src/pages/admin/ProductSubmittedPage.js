@@ -63,7 +63,8 @@ const ProductSubmitted = () => {
                         <div style={{
                             backgroundColor: 'rgb(240, 240, 240)',
                             width: '60%',
-                            margin: '20px auto 0px auto'
+                            margin: '2rem auto 0 auto',
+                            padding: '1.5rem'
                         }}
                         >
                             <h4>{productType}</h4>

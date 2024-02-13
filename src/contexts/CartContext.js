@@ -2,10 +2,7 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 import { axiosWithAuth } from '../components/miscellaneous/axios';
 import { useLoginContext } from './LoginContext';
 
-// Create a new context named CartContext using the createContext, which will store and share cart-related data and functions.
 const CartContext = createContext();
-
-// The {children} is deconstructed here, which means that all descendants in CartProvider (defined in index.js) will be able to access the CartContext.
 export const CartProvider = ({ children }) => {
 
     const { loggedIn } = useLoginContext();
@@ -21,7 +18,6 @@ export const CartProvider = ({ children }) => {
     const [loadingCartAndSaved, setLoadingCartAndSaved] = useState(false);
     const [loadingCost, setLoadingCost] = useState(true);
 
-
     const fetchCart = async () => {
         try {
             const response = await axiosWithAuth.get('/cart');
@@ -34,7 +30,6 @@ export const CartProvider = ({ children }) => {
             setCartItemsArrayId(null);
         }
     }
-
 
     const determineTotalCost = async () => {
         try {
@@ -70,7 +65,6 @@ export const CartProvider = ({ children }) => {
         determineTotalCost();
     }, [cartItemsArrayId]);
 
-
     const removeCartItem = async (cartItemId) => {
         try {
             setLoadingCartAndSaved(true);
@@ -84,7 +78,6 @@ export const CartProvider = ({ children }) => {
 
 
     return (
-        // CartContext.Provider is a special component provided by React's Context API. Its primary purpose is to "provide" the context values to its descendant components (defined in index.js).
         <CartContext.Provider value={{
             // Fetch
             fetchCart,
@@ -95,7 +88,6 @@ export const CartProvider = ({ children }) => {
             setCartLength,
 
             // Cart Item Actions
-            // addItemToCart,
             removeCartItem,
 
             // Total Cost

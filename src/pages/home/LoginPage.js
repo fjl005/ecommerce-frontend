@@ -17,6 +17,11 @@ import { axiosNoAuth, axiosWithAuth } from '../../components/miscellaneous/axios
 import LoginInstructions from '../../components/login/LoginInstructions';
 import { NAV_TITLE_MATCH } from '../../components/navbar/navbarPageTitles';
 
+const ERROR_CODES = {
+    network: 'ERR_NETWORK',
+    usernamePW: 'Invalid username or password',
+}
+
 const LoginPage = () => {
     const { setCartLength } = useCartContext();
 
@@ -31,7 +36,7 @@ const LoginPage = () => {
         setPassword,
         setAdmin } = useLoginContext();
 
-    const [errorMsg, setErrorMsg] = useState('');
+    const [serverError, setServerError] = useState('');
 
     useEffect(() => {
         const serverCheck = async () => {
@@ -39,9 +44,10 @@ const LoginPage = () => {
                 await axiosNoAuth.get('/');
                 console.log('server is live');
             } catch (error) {
-                setErrorMsg('Sorry, our server is currently down. Please try again at a later time.');
+                setServerError('Sorry, our server is currently down. Please try again at a later time.');
             }
         }
+
         serverCheck();
     }, []);
 
@@ -56,16 +62,16 @@ const LoginPage = () => {
             setCartLength(data.cart.length);
             setLoggedIn(true);
             setPassword('');
-            setAdmin(response.data.user.admin);
-            setUsername(response.data.user.username);
+            setAdmin(data.admin);
+            setUsername(data.username);
         } catch (error) {
             setLoggedIn(false);
             console.log(error);
-            if (error.code === 'ERR_NETWORK') {
+            if (error.code === ERROR_CODES.network) {
                 return setLoginMsg('Sorry, there is a problem with our server.');
             }
-            if (error.response && error.response.data === "Invalid username or password") {
-                return setLoginMsg('Your username or password is incorrect');
+            if (error.response && error.response.data === ERROR_CODES.usernamePW) {
+                return setLoginMsg('Your username or password is incorrect.');
             }
         }
     };
@@ -76,11 +82,7 @@ const LoginPage = () => {
             <Container>
                 <Row>
                     <Col>
-                        <Col>
-                            <div className='d-flex justify-content-between align-items-center'>
-                                <h1>Login Page</h1>
-                            </div>
-                        </Col>
+                        <h1>Login Page</h1>
                     </Col>
                 </Row>
 
@@ -127,10 +129,10 @@ const LoginPage = () => {
                                         >Clear</Button>
                                     </div>
                                 </Form>
-                                <p>{loginMsg}</p>
+                                <p className='red-text'>{loginMsg}</p>
                             </>
                         )}
-                        <p style={{ color: 'red' }}>{errorMsg}</p>
+                        <p className='red-text'>{serverError}</p>
                     </Col>
                 </Row>
 

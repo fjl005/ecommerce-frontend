@@ -1,6 +1,8 @@
 import { useState, useRef, useEffect } from 'react';
 
-const ProductDescription = ({ description }) => {
+const ProductDescription = ({ props }) => {
+    const description = props;
+
     const [expanded, setExpanded] = useState(false);
     const [showSeeMoreButton, setShowSeeMoreButton] = useState(false);
     const [viewportWidth, setViewportWidth] = useState(window.innerWidth);

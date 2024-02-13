@@ -13,9 +13,9 @@ const MeetTheSeller = () => {
                     objectFit: 'cover',
                 }}
             />
-            <div className='d-flex flex-column' style={{ marginLeft: '1rem' }}>
+            <div className='d-flex flex-column ml-3'>
                 <h5>Frank Lee</h5>
-                <h6 style={{ marginBottom: '0px' }}>Owner of Fetsy</h6>
+                <h6 className='mb-0'>Owner of Fetsy</h6>
             </div>
         </div>
     )
