@@ -1,30 +1,25 @@
 import { Container, Row, Col, Button } from "reactstrap";
 import NavbarApp from "../../components/navbar/NavbarApp";
 import { axiosWithAuth } from "../../components/miscellaneous/axios";
-import { useLoginContext } from "../../contexts/LoginContext";
 import FavoriteItem from "../../components/favorites/FavoriteItem";
 import { useState, useEffect } from "react";
 import LoadingOverlay from "../../components/miscellaneous/LoadingOverlay";
 import SpinningIcon from "../../components/miscellaneous/SpinningIcon";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight, faTrash } from "@fortawesome/free-solid-svg-icons";
-import { useCartContext } from "../../contexts/CartContext";
 import { NAV_TITLE_MATCH } from "../../components/navbar/navbarPageTitles";
+import { useLoginContext } from "../../contexts/LoginContext";
+import { useCartContext } from "../../contexts/CartContext";
+import { useSavedItemContext } from "../../contexts/SavedItemContext";
 
 const FavoritesPage = () => {
     const { loggedIn } = useLoginContext();
     const { fetchCart } = useCartContext();
+    const { favoritesLoadingOverlay } = useSavedItemContext();
+
     const [allFavoritesID, setAllFavoritesID] = useState({});
     const [favoritesLength, setFavoritesLength] = useState(0);
     const [loadingFavoritesPage, setLoadingFavoritesPage] = useState(true);
-    const [favoritesLoadingOverlay, setFavoritesLoadingOverlay] = useState(false);
-
-    useEffect(() => {
-        if (!favoritesLoadingOverlay) {
-            fetchFavorites();
-        }
-    }, [favoritesLoadingOverlay]);
-
 
     const fetchFavorites = async () => {
         try {
@@ -32,9 +27,9 @@ const FavoritesPage = () => {
             const data = response.data;
             setAllFavoritesID(data.favorites);
             setFavoritesLength(data.favorites.length);
-            setLoadingFavoritesPage(false);
         } catch (error) {
             console.log('error: ', error);
+        } finally {
             setLoadingFavoritesPage(false);
         }
     };
@@ -44,7 +39,6 @@ const FavoritesPage = () => {
 
         if (userConfirmed) {
             try {
-                console.log('moving all items in favorites to cart');
                 await axiosWithAuth.put(`/favorites/allToCart`);
                 fetchFavorites();
                 fetchCart();
@@ -78,11 +72,17 @@ const FavoritesPage = () => {
         },
         {
             onClick: deleteAllFavs,
-            text2: "Trash",
+            text1: "Trash",
             icon: faTrash,
             className: 'bg-danger cart-top-button'
         },
     ];
+
+    useEffect(() => {
+        if (!favoritesLoadingOverlay) {
+            fetchFavorites();
+        }
+    }, [favoritesLoadingOverlay]);
 
     return (
         <>
@@ -113,7 +113,7 @@ const FavoritesPage = () => {
                                             >
                                                 {button.text1}
                                                 <FontAwesomeIcon icon={button.icon} className='cart-font-awesome' />
-                                                {button.text2}
+                                                <span className='cart-font-awesome'>{button.text2}</span>
                                             </Button>
                                         ))}
                                     </div>
@@ -124,7 +124,6 @@ const FavoritesPage = () => {
                                     <FavoriteItem
                                         key={idx}
                                         productId={productId}
-                                        setFavoritesLoadingOverlay={setFavoritesLoadingOverlay}
                                     />
                                 ))}
                             </>

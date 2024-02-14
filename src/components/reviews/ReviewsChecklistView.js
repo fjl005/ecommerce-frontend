@@ -2,6 +2,7 @@ import FiveStarGenerator from "./FiveStarGenerator";
 import { useEffect, useState } from "react";
 import fetsyEcommerceLogo from '../../img/fetsyEcommerceLogo.png';
 import { useProductSearchContext } from "../../contexts/ProductSearchContext";
+import { formatDate } from "../miscellaneous/formatDate";
 
 
 const ReviewsChecklistView = ({ starRating, ratingDescription, productId, username, dateOfReview }) => {
@@ -10,24 +11,9 @@ const ReviewsChecklistView = ({ starRating, ratingDescription, productId, userna
     const [dataExists, setDataExists] = useState(false);
     const { fetchProduct } = useProductSearchContext();
 
-
     useEffect(() => {
         fetchProduct(productId, setProductData, setDataExists);
     }, []);
-
-    const formatDate = (date) => {
-        const options = {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-            hour: 'numeric',
-            minute: 'numeric',
-            hour12: true
-        };
-
-        return new Intl.DateTimeFormat('en-US', options).format(date);
-    };
-
 
     return (
         <>
@@ -48,6 +34,7 @@ const ReviewsChecklistView = ({ starRating, ratingDescription, productId, userna
                 />
                 <h4 className='ml-3'>{productData.name}</h4>
             </div>
+
             <h5 style={{ margin: '1.5rem auto 0 auto' }}>
                 By {username}, {' '}
                 {formatDate(new Date(dateOfReview))}

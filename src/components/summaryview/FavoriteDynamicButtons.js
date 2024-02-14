@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faX, faCartPlus } from '@fortawesome/free-solid-svg-icons';
 
-const FavoriteInSummarySection = ({ productItem, removeFavoritesItem, addCartFromFavorites, }) => {
+const FavoriteDynamicButtons = ({ productItem, removeFavoritesItem, addCartFromFavorites, }) => {
 
     return (
         <>
@@ -24,4 +24,4 @@ const FavoriteInSummarySection = ({ productItem, removeFavoritesItem, addCartFro
     )
 }
 
-export default FavoriteInSummarySection
+export default FavoriteDynamicButtons

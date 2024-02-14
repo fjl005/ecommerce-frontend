@@ -16,6 +16,7 @@ export const SavedItemProvider = ({ children }) => {
 
     const [savedItemsArrayId, setSavedItemsArrayId] = useState([]);
     const [savedLength, setSavedLength] = useState(0);
+    const [favoritesLoadingOverlay, setFavoritesLoadingOverlay] = useState(false);
 
     const fetchSaved = async () => {
         try {
@@ -77,6 +78,8 @@ export const SavedItemProvider = ({ children }) => {
             removeSavedItem,
             saveLaterCartItem,
             moveBackToCart,
+            favoritesLoadingOverlay,
+            setFavoritesLoadingOverlay,
         }}
         >
             {children}

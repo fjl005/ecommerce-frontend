@@ -42,9 +42,7 @@ const ProductImgCarousel = ({ selectedProduct }) => {
                         ))}
                     </div>
                 </>
-
             )}
-
 
             <div className='d-flex align-items-center justify-content-between' style={{ flex: '1' }}>
                 {imgURLArray.length > 1 ? (
@@ -88,4 +86,3 @@ const ProductImgCarousel = ({ selectedProduct }) => {
 };
 
 export default ProductImgCarousel;
-

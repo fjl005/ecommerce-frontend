@@ -3,7 +3,7 @@ import ProductSummaryView from "../products/ProductSummaryView";
 import { Container, Row, Col } from "reactstrap";
 import { useProductSearchContext } from "../../contexts/ProductSearchContext";
 
-const FavoriteItem = ({ productId, setFavoritesLoadingOverlay }) => {
+const FavoriteItem = ({ productId }) => {
 
     const [favoriteItem, setFavoriteItem] = useState({});
     const { fetchProduct } = useProductSearchContext();
@@ -24,7 +24,6 @@ const FavoriteItem = ({ productId, setFavoritesLoadingOverlay }) => {
                 <ProductSummaryView
                     productItem={favoriteItem}
                     inFavoritesJs={true}
-                    setFavoritesLoadingOverlay={setFavoritesLoadingOverlay}
                 />
             )}
         </Container>

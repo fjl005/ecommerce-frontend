@@ -224,7 +224,7 @@ body {
     border-radius: 50%;
     background-color: white;
     cursor: pointer;
-    margin: 0 1rem;
+    margin: 1rem;
     box-shadow: 0 0 1rem rgba(0, 0, 0, 0.2);
 }
 
@@ -394,6 +394,9 @@ body {
     pointer-events: none;
 }
 
+.circle-review-current {
+    border: 2px solid black;
+}
 
 
 /* ---------------------------- */
@@ -447,7 +450,7 @@ body {
 }
 
 .cart-top-button .cart-font-awesome {
-    margin: 0 0.5rem;
+    margin-left: 0.5rem;
 }
 
 .gray-line-break {

@@ -25,7 +25,6 @@ const RIGHT_COL_TOGGLE = {
         stateKey: 'showDetails',
     },
 
-
     description: {
         title: 'Description',
         stateKey: 'showDescription',
@@ -45,8 +44,12 @@ const RIGHT_COL_TOGGLE = {
 const ADD_CLICK_CATEGORY = {
     cart: 'cart',
     favorites: 'favorites',
-}
+    success: 'success',
+    signin: 'signin',
+    addToCart: 'addToCart',
+    addToFavorites: 'addToFavorites',
 
+}
 
 const SingleProductPage = () => {
 
@@ -55,20 +58,20 @@ const SingleProductPage = () => {
     const [selectedProduct, setSelectedProduct] = useState({});
     const [loadingPage, setLoadingPage] = useState(true);
 
-    const fetchProductData = async () => {
-        try {
-            const response = await axiosWithAuth.get(`/products/${productId}`);
-            const data = response.data;
-            setSelectedProduct(data);
-        } catch (error) {
-            console.log('error: ', error);
-            setSelectedProduct(null);
-        } finally {
-            setLoadingPage(false);
-        }
-    };
-
     useEffect(() => {
+        const fetchProductData = async () => {
+            try {
+                const response = await axiosWithAuth.get(`/products/${productId}`);
+                const data = response.data;
+                setSelectedProduct(data);
+            } catch (error) {
+                console.log('error: ', error);
+                setSelectedProduct(null);
+            } finally {
+                setLoadingPage(false);
+            }
+        };
+
         fetchProductData();
     }, []);
 
@@ -104,50 +107,47 @@ const SingleProductPage = () => {
                 await axiosWithAuth.post(`/favorites`, { productId });
             }
 
-            setTooltip(prevState => ({ ...prevState, success: true }));
-
-            const newTimeout = setTimeout(() => {
-                setTooltip(prevState => ({ ...prevState, success: false }));
-            }, 3000);
-
-            setTooltip(prevState => ({ ...prevState, timeout: newTimeout }));
-
+            tooltipReset(setTooltip, ADD_CLICK_CATEGORY.success);
         } catch (error) {
             console.log('error: ', error);
             if (error.response.data === ERROR_CODES.mustLogin) {
-                setTooltip(prevState => ({ ...prevState, signin: true }));
-
-                const newTimeout = setTimeout(() => {
-                    setTooltip(prevState => ({ ...prevState, signin: false }));
-                }, 3000);
-
-                setTooltip(prevState => ({ ...prevState, timeout: newTimeout }));
+                tooltipReset(setTooltip, ADD_CLICK_CATEGORY.signin);
             }
         }
     };
 
+    function tooltipReset(setTooltipFxn, type) {
+        setTooltipFxn(prevState => ({ ...prevState, [type]: true }));
+
+        const newTimeout = setTimeout(() => {
+            setTooltipFxn(prevState => ({ ...prevState, [type]: false }));
+        }, 3000);
+
+        setTooltipFxn(prevState => ({ ...prevState, timeout: newTimeout }));
+    }
+
     const tooltipArr = [
         {
             tooltip: tooltipCart.signin,
-            target: 'addCart',
+            target: ADD_CLICK_CATEGORY.addToCart,
             message: 'You must sign in to add items to your cart.',
             placement: 'top',
         },
         {
             tooltip: tooltipCart.success,
-            target: 'addCart',
+            target: ADD_CLICK_CATEGORY.addToCart,
             message: 'Item added to Cart!',
             placement: 'top',
         },
         {
             tooltip: tooltipFavorites.signin,
-            target: 'addFavorite',
+            target: ADD_CLICK_CATEGORY.addToFavorites,
             message: 'You must sign in to add items to your Favorite.',
             placement: 'bottom'
         },
         {
             tooltip: tooltipFavorites.success,
-            target: 'addFavorite',
+            target: ADD_CLICK_CATEGORY.addToFavorites,
             message: 'Item added to Favorites!',
             placement: 'bottom'
         },
@@ -189,7 +189,6 @@ const SingleProductPage = () => {
                     <Row>
                         <Col>
                             <SpinningIcon size='2x' />
-
                         </Col>
                     </Row>
                 ) : (
@@ -208,7 +207,7 @@ const SingleProductPage = () => {
                                         <h1 className='bold-text'>${selectedProduct.price.toFixed(2)}</h1>
                                         <h5 className='product-title'>{selectedProduct.name}</h5>
                                         <div
-                                            id='addCart'
+                                            id={ADD_CLICK_CATEGORY.addToCart}
                                             className='product-page-add-button product-page-add-to-cart'
                                             onClick={() => addClickCartOrFav(ADD_CLICK_CATEGORY.cart, tooltipCart, setTooltipCart)}
                                         >
@@ -217,7 +216,7 @@ const SingleProductPage = () => {
 
                                         <div
                                             className='product-page-add-button product-page-add-to-collection'
-                                            id='addFavorite'
+                                            id={ADD_CLICK_CATEGORY.addToFavorites}
                                             onClick={() => addClickCartOrFav(ADD_CLICK_CATEGORY.favorites, tooltipFavorites, setTooltipFavorites)}
                                         >
                                             <FontAwesomeIcon
@@ -253,7 +252,6 @@ const SingleProductPage = () => {
                                                 )}
                                             </div>
                                         ))}
-
                                     </div>
                                 </Col>
 

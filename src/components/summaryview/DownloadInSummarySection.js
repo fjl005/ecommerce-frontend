@@ -11,12 +11,6 @@ const DownloadLinkInSummary = ({ productItem, order, orderId }) => {
         }));
     };
 
-    const downloadClick = (orderIdClick) => {
-        console.log('order ID: ', orderIdClick);
-        console.log('order: ', order);
-    };
-
-
     return (
         <>
             <span
@@ -24,7 +18,6 @@ const DownloadLinkInSummary = ({ productItem, order, orderId }) => {
                 onMouseEnter={() => downloadToolTipToggle(productItem._id)}
                 onMouseLeave={() => downloadToolTipToggle(productItem._id)}
                 id={`downloadToolTip-${productItem._id}`}
-                onClick={() => downloadClick(orderId)}
             >
                 Click to Download
             </span>

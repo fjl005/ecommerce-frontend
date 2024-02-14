@@ -7,7 +7,7 @@ const ItemsInOrder = ({ order, orderId, adminPage, buyer }) => {
     return (
         <Container className='cart-container'>
             <Row>
-                <Col className='mt-3' xs='12' md='10'>
+                <Col>
                     <h4 className='mt-3'>
                         Order placed on: {formatDate(new Date(order.orderDate))}
                     </h4>
@@ -19,7 +19,6 @@ const ItemsInOrder = ({ order, orderId, adminPage, buyer }) => {
                         <h5>Purchased by: {buyer}</h5>
                     )}
                 </Col>
-
             </Row>
 
             {order.items.map((purchasedItem, idx) => (

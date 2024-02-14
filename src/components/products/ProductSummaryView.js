@@ -1,11 +1,12 @@
 import { Row, Col } from 'reactstrap';
 import fetsyEcommerceLogo from '../../img/fetsyEcommerceLogo.png';
 import { useCartContext } from '../../contexts/CartContext';
+import { useSavedItemContext } from '../../contexts/SavedItemContext';
 import { axiosWithAuth } from '../miscellaneous/axios';
 import DownloadLinkInSummary from '../summaryview/DownloadInSummarySection';
 import ReviewInSummarySection from '../summaryview/ReviewInSummarySection';
-import CartInSummarySection from '../summaryview/CartInSummarySection';
-import FavoriteInSummarySection from '../summaryview/FavoriteInSummarySection';
+import CartDynamicButtons from '../summaryview/CartDynamicButtons';
+import FavoriteDynamicButtons from '../summaryview/FavoriteDynamicButtons';
 import ProductTypeIcons from './ProductTypeIcons';
 import { Link } from 'react-router-dom';
 
@@ -20,10 +21,10 @@ const ProductSummaryView = ({
     order,
     orderId,
     idx,
-    setFavoritesLoadingOverlay,
 }) => {
 
     const { fetchCart } = useCartContext();
+    const { setFavoritesLoadingOverlay } = useSavedItemContext();
 
     const removeFavoritesItem = async (productId) => {
         try {
@@ -35,7 +36,6 @@ const ProductSummaryView = ({
             setFavoritesLoadingOverlay(false);
         }
     };
-
 
     const addCartFromFavorites = async (productId) => {
         try {
@@ -54,7 +54,7 @@ const ProductSummaryView = ({
             {idx > 0 && (
                 <div className='gray-line-break mb-3'></div>
             )}
-            <Row className='mb-3' style={{ paddingTop: '10px' }}>
+            <Row className='mb-3 pt-3'>
                 <Col xs='12' sm='3'>
                     {productItem.pictures && (
                         <div className='d-flex'>
@@ -103,7 +103,6 @@ const ProductSummaryView = ({
                         {productItem.price && (
                             <h3 className='product-price-margin-top'>${productItem.price.toFixed(2)}</h3>
                         )}
-
                         {inOrderJs && !adminPage && (
                             <div className='review-summary-xl'>
                                 <ReviewInSummarySection
@@ -111,34 +110,29 @@ const ProductSummaryView = ({
                                     orderId={orderId}
                                 />
                             </div>
-
                         )}
                     </div>
                 </Col>
             </Row>
 
-            {inCartJs && (
-                <Row>
-                    <Col className='mb-3'>
-                        <CartInSummarySection
+            <Row>
+                <Col className='mb-3'>
+                    {inCartJs && (
+                        <CartDynamicButtons
                             isSaved={isSaved}
                             productItem={productItem}
                         />
-                    </Col>
-                </Row>
-            )}
+                    )}
 
-            {inFavoritesJs && (
-                <Row>
-                    <Col className='mb-3'>
-                        <FavoriteInSummarySection
+                    {inFavoritesJs && (
+                        <FavoriteDynamicButtons
                             productItem={productItem}
                             removeFavoritesItem={removeFavoritesItem}
                             addCartFromFavorites={addCartFromFavorites}
                         />
-                    </Col>
-                </Row>
-            )}
+                    )}
+                </Col>
+            </Row>
         </>
     )
 };

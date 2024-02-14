@@ -37,11 +37,8 @@ const CartPage = () => {
         checkUser();
         fetchCart();
         fetchSaved();
+        setLoadingPage(false);
     }, []);
-
-    useEffect(() => {
-        setTimeout(() => setLoadingPage(false), 1000);
-    }, [loggedIn]);
 
     // Just not using arrow function for funsies.
     async function deleteAllCart() {
@@ -137,7 +134,20 @@ const CartPage = () => {
             text1: "Cart",
             icon: faTrash,
             className: "bg-danger"
-        }
+        },
+        {
+            onClick: deleteAllSaved,
+            text1: 'Saved',
+            icon: faTrash,
+            className: 'bg-danger',
+        },
+        {
+            onclick: moveAllToCart,
+            text1: 'Saved',
+            text2: 'Cart',
+            icon: faArrowRight,
+            className: 'bg-primary',
+        },
     ];
 
 
@@ -163,7 +173,7 @@ const CartPage = () => {
                                 </h1>
 
                                 <div className='top-buttons-div-outer'>
-                                    {buttonConfigs.map((button, idx) => (
+                                    {buttonConfigs.slice(0, 3).map((button, idx) => (
                                         <Button
                                             key={idx}
                                             onClick={button.onClick}
@@ -171,7 +181,7 @@ const CartPage = () => {
                                         >
                                             {button.text1}
                                             <FontAwesomeIcon icon={button.icon} className='cart-font-awesome' />
-                                            {button.text2}
+                                            <span className='cart-font-awesome'>{button.text2}</span>
                                         </Button>
                                     ))}
 
@@ -182,11 +192,11 @@ const CartPage = () => {
                                         <Button
                                             className='bg-success cart-top-button'
                                         >
+                                            Checkout
                                             <FontAwesomeIcon
                                                 icon={faMoneyCheckDollar}
                                                 className='cart-font-awesome'
                                             />
-                                            Checkout
                                         </Button>
                                     </Link>
                                 </div>
@@ -203,8 +213,7 @@ const CartPage = () => {
                     isSaved={false}
                     inCartJs={true}
                 />
-            ))
-            }
+            ))}
 
             <Container>
                 <Row>
@@ -225,7 +234,7 @@ const CartPage = () => {
                 </Row>
             </Container>
 
-            <Container style={{ marginTop: '150px' }}>
+            <Container style={{ marginTop: '10rem' }}>
                 <Row>
                     <Col>
                         {loadingPage ? (
@@ -241,27 +250,17 @@ const CartPage = () => {
                                             : `${savedLength} Items Saved for Later`}
                                     </h1>
                                     <div className='top-buttons-div-outer'>
-                                        <Button
-                                            onClick={() => deleteAllSaved()}
-                                            className='bg-danger cart-top-button'
-                                        >
-                                            <FontAwesomeIcon
-                                                icon={faTrash}
-                                                className='cart-font-awesome'
-                                            />
-                                            Saved
-                                        </Button>
-                                        <Button
-                                            className='cart-top-button'
-                                            onClick={() => moveAllToCart()}
-                                        >
-                                            Saved
-                                            <FontAwesomeIcon
-                                                icon={faArrowRight}
-                                                className='cart-font-awesome'
-                                            />
-                                            Cart
-                                        </Button>
+                                        {buttonConfigs.slice(3).map((button, idx) => (
+                                            <Button
+                                                key={idx}
+                                                onClick={button.onClick}
+                                                className={`cart-top-button ${button.className}`}
+                                            >
+                                                {button.text1}
+                                                <FontAwesomeIcon icon={button.icon} className='cart-font-awesome' />
+                                                <span className='cart-font-awesome'>{button.text2}</span>
+                                            </Button>
+                                        ))}
                                     </div>
 
                                 </div>

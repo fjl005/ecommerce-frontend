@@ -6,7 +6,7 @@ import { faX, faCartPlus } from '@fortawesome/free-solid-svg-icons';
 import { axiosWithAuth } from '../miscellaneous/axios';
 
 
-const CartInSummarySection = ({ isSaved, productItem }) => {
+const CartDynamicButtons = ({ isSaved, productItem }) => {
     const {
         removeCartItem,
         fetchCart,
@@ -80,4 +80,4 @@ const CartInSummarySection = ({ isSaved, productItem }) => {
     )
 }
 
-export default CartInSummarySection
+export default CartDynamicButtons

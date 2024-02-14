@@ -24,14 +24,14 @@ const OrdersPage = () => {
             const data = response.data;
             if (data) {
                 setOrdersData(data);
-                setLoadingPage(false);
             }
         } catch (error) {
+            console.log('error: ', error);
             if (error.response.data === "You must log in before accessing this page") {
-                setLoadingPage(false);
                 setLoggedIn(false);
             }
-            console.log('error: ', error);
+        } finally {
+            setLoadingPage(false);
         }
     };
 

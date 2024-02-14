@@ -65,7 +65,7 @@ const ReviewInSummarySection = ({ productItem, orderId, }) => {
                         state={{
                             name: productItem.name,
                             productId: productItem.productId,
-                            orderId: orderId,
+                            orderId,
                             ...(hasReview && {
                                 starRatingPrev: starRating,
                                 ratingDescriptionPrev: ratingDescription,

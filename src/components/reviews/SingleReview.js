@@ -49,7 +49,7 @@ const SingleReview = ({
             ) : (
                 <>
                     <Row>
-                        <Col className='text-center'>
+                        <Col className='text-center mt-3'>
                             <h2>{productData.name}</h2>
                         </Col>
                     </Row>
@@ -67,7 +67,6 @@ const SingleReview = ({
                                     style={{ width: '70%' }}
                                 />
                             </div>
-
                         </Col>
 
                         <Col sm='12' md='6'>
@@ -79,7 +78,7 @@ const SingleReview = ({
                         <Col sm='12' md='3'>
                             <div className='product-gray-background'>
                                 <h4>Product Details</h4>
-                                <ProductTypeIcons productType={productData.productType} />
+                                <ProductTypeIcons props={productData.productType} />
                             </div>
                             <div className='text-center' style={{ margin: '1.5rem 0 0.5rem 0' }}>
                                 {!adminPage && (
