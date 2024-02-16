@@ -2,6 +2,7 @@ import { Container, Row, Col } from "reactstrap";
 import ProductSummaryView from "../products/ProductSummaryView";
 import { formatDate } from "../miscellaneous/formatDate";
 
+
 const ItemsInOrder = ({ order, orderId, adminPage, buyer }) => {
 
     return (
@@ -15,9 +16,7 @@ const ItemsInOrder = ({ order, orderId, adminPage, buyer }) => {
             </Row>
             <Row>
                 <Col>
-                    {buyer && (
-                        <h5>Purchased by: {buyer}</h5>
-                    )}
+                    {buyer && (<h5>Purchased by: {buyer}</h5>)}
                 </Col>
             </Row>
 
@@ -25,14 +24,12 @@ const ItemsInOrder = ({ order, orderId, adminPage, buyer }) => {
                 <ProductSummaryView
                     key={idx}
                     idx={idx}
-                    productItem={purchasedItem}
+                    purchasedItem={purchasedItem}
                     inOrderJs={true}
                     orderId={orderId}
-                    order={order}
                     adminPage={adminPage}
                 />
-            ))
-            }
+            ))}
 
             <Row>
                 <Col>

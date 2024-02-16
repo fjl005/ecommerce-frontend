@@ -1,6 +1,6 @@
 import { Container, Row, Col } from "reactstrap";
 import NavbarApp from "../../components/navbar/NavbarApp";
-import SingleReview from "../../components/reviews/SingleReview";
+import SingleReviewInReviewsPage from "../../components/reviews/SingleReviewInReviewsPage";
 import { axiosWithAuth } from "../../components/miscellaneous/axios";
 import { useEffect, useState } from "react";
 import { useLoginContext } from "../../contexts/LoginContext";
@@ -22,9 +22,9 @@ const ReviewsPage = () => {
             const response = await axiosWithAuth.get(`/reviews/user/${username}`);
             const data = response.data;
             setReviewsData(data);
-            setLoadingReviewsPage(false);
         } catch (error) {
             console.log('error with fetching reviews in ReviewsPage.js: ', error);
+        } finally {
             setLoadingReviewsPage(false);
         }
     };
@@ -43,9 +43,12 @@ const ReviewsPage = () => {
                             <>
                                 <h1>Your Reviews</h1>
                                 {reviewsData.map((review, idx) => (
-                                    <SingleReview
+                                    <SingleReviewInReviewsPage
                                         key={idx}
                                         productId={review.productId}
+                                        productName={review.productName}
+                                        imageURL={review.imageURL}
+                                        productType={review.productType}
                                         purchasedItemId={review.purchasedItemId}
                                         starRating={review.starRating}
                                         ratingDescription={review.ratingDescription}

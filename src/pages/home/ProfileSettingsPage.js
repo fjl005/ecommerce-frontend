@@ -13,6 +13,16 @@ import { useState } from 'react';
 import { useLoginContext } from '../../contexts/LoginContext';
 import { axiosWithAuth } from '../../components/miscellaneous/axios';
 
+const PASSWORD_TYPE = {
+    show: 'text',
+    hide: 'password',
+};
+
+const PASSWORD_BTN_TEXT = {
+    show: 'Show Passwords',
+    hide: 'Hide Passwords',
+}
+
 const ProfileSettingsPage = () => {
     const { username, checkUser, admin } = useLoginContext();
 
@@ -20,8 +30,8 @@ const ProfileSettingsPage = () => {
     const [currentPW, setCurrentPW] = useState('');
     const [newPW, setNewPW] = useState('');
     const [reEnterPW, setReEnterPW] = useState('');
-    const [passwordType, setPasswordType] = useState('password');
-    const [buttonPWName, setButtonPWName] = useState('Show Passwords');
+    const [passwordType, setPasswordType] = useState(PASSWORD_TYPE.hide);
+    const [buttonPWName, setButtonPWName] = useState(PASSWORD_BTN_TEXT.show);
 
 
     const newUsernameSubmit = async (event) => {
@@ -65,7 +75,7 @@ const ProfileSettingsPage = () => {
         event.preventDefault();
 
         try {
-            const response = await axiosWithAuth.post('/users/updatePassword', {
+            await axiosWithAuth.post('/users/updatePassword', {
                 username,
                 password: currentPW,
                 newPW,
@@ -85,12 +95,12 @@ const ProfileSettingsPage = () => {
     };
 
     const updatePasswordType = () => {
-        if (passwordType === 'password') {
-            setPasswordType('text');
-            setButtonPWName('Hide Passwords');
+        if (passwordType === PASSWORD_TYPE.hide) {
+            setPasswordType(PASSWORD_TYPE.show);
+            setButtonPWName(PASSWORD_BTN_TEXT.hide);
         } else {
-            setPasswordType('password');
-            setButtonPWName('Show Passwords');
+            setPasswordType(PASSWORD_TYPE.hide);
+            setButtonPWName(PASSWORD_BTN_TEXT.show);
         }
     };
 
@@ -126,7 +136,7 @@ const ProfileSettingsPage = () => {
                 <Row>
                     <Col>
                         <h3 className='text-center mt-3'>Change Username</h3>
-                        <h5>Current username: {username}</h5>
+                        <h5 className='fetsy-brand-color'>Current username: {username}</h5>
                         <Form onSubmit={newUsernameSubmit}>
                             <FormGroup>
                                 <Label for='newUsername'>New Username:</Label>
@@ -186,7 +196,7 @@ const ProfileSettingsPage = () => {
                     <Row>
                         <Col>
                             <h3 className='text-center mt-3'>Delete Account</h3>
-                            <p>I would hate to see you go, but I understand if you don't want any part of this anymore. I won't take it personal. Please note that this action cannot be reversed! All information associated with the user will be erased.</p>
+                            <p>I would hate to see you go, but I understand if you don't want a part of this anymore. I won't take it personally. Please note that this action cannot be reversed! All information associated with the user will be erased.</p>
                             <Button
                                 className='bg-danger btn-border-none'
                                 onClick={() => deleteAccount()}

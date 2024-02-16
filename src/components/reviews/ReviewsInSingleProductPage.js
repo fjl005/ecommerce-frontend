@@ -19,6 +19,7 @@ const ReviewsInSingleProductPage = () => {
             try {
                 const response = await axiosWithAuth.get(`/reviews/`);
                 const data = response.data;
+                console.log('data: ', data);
                 setReviewsData(data);
             } catch (error) {
                 console.log('error fetching reviews in ReviewsInSingleProduct.js: ', error);
@@ -175,11 +176,7 @@ const ReviewsInSingleProductPage = () => {
                     {reviewsData.length > 0 && reviewsData.slice(startReviewIdx, endReviewIdx).map((review, idx) => (
                         <ReviewsChecklistView
                             key={idx}
-                            starRating={review.starRating}
-                            ratingDescription={review.ratingDescription}
-                            productId={review.productId}
-                            dateOfReview={review.reviewDate}
-                            username={review.username}
+                            reviewInfo={review}
                         />
                     ))}
 

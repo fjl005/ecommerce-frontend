@@ -113,12 +113,12 @@ const ProductsHomePage = ({ adminPage, itemsSelectedIdArr, setItemsSelectedIdArr
                                                 ? product.pictures[0].url
                                                 : fetsyEcommerceLogo
                                         }
-                                        alt={product.name}
+                                        alt={product.productName}
                                         className='product-img-abs'
                                     />
                                 </div>
 
-                                <h6 className='no-overflow-text mt-3'>{product.name}</h6>
+                                <h6 className='no-overflow-text mt-3'>{product.productName}</h6>
                                 <h4>${product.price.toFixed(2)}</h4>
                             </div>
                         </Link>

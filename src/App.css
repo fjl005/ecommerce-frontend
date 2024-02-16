@@ -41,6 +41,10 @@ body {
     color: red;
 }
 
+.fetsy-brand-color {
+    color: #8C52FF;
+}
+
 .btn-border-none {
     border: none !important;
 }
@@ -73,6 +77,10 @@ body {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+.w-70 {
+    width: 70%
 }
 
 /* ---------------------------- */

@@ -16,7 +16,7 @@ const FiveStarGenerator = ({ starRating, editRating, setStarRating }) => {
         // Otherwise, we leave the spot as null. A 1 star rating will have 4 empty white stars. 
     }
 
-    function editing(index) {
+    const editing = (index) => {
         if (editRating) setStarRating(index + 1);
     }
 
@@ -27,7 +27,7 @@ const FiveStarGenerator = ({ starRating, editRating, setStarRating }) => {
                     {star > 0.75 ? (
                         <FontAwesomeIcon
                             icon={faStar}
-                            onClick={editing(idx)}
+                            onClick={() => editing(idx)}
                             style={{ cursor: editRating ? 'pointer' : 'auto' }} />
                     ) : star > 0.25 ? (
                         <i className="fa-regular fa-star" style={{ position: 'relative', }}>
@@ -41,7 +41,7 @@ const FiveStarGenerator = ({ starRating, editRating, setStarRating }) => {
                     ) : (
                         <FontAwesomeIcon
                             icon={faStarEmpty}
-                            onClick={editing(idx)}
+                            onClick={() => editing(idx)}
                             style={{ cursor: editRating ? 'pointer' : 'auto' }} />
                     )}
                 </div>

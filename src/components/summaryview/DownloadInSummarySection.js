@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Tooltip } from "reactstrap";
 
-const DownloadLinkInSummary = ({ productItem, order, orderId }) => {
+const DownloadLinkInSummary = ({ productItem }) => {
     const [downloadToolTipOpen, setDownloadToolTipOpen] = useState({});
 
     const downloadToolTipToggle = (productId) => {

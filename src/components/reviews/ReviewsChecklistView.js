@@ -5,14 +5,22 @@ import { useProductSearchContext } from "../../contexts/ProductSearchContext";
 import { formatDate } from "../miscellaneous/formatDate";
 
 
-const ReviewsChecklistView = ({ starRating, ratingDescription, productId, username, dateOfReview }) => {
+const ReviewsChecklistView = ({ reviewInfo, }) => {
+    const {
+        starRating,
+        ratingDescription,
+        productId,
+        username,
+        reviewDate,
+        imageURL,
+        productName,
+    } = reviewInfo;
 
-    const [productData, setProductData] = useState({});
     const [dataExists, setDataExists] = useState(false);
     const { fetchProduct } = useProductSearchContext();
 
     useEffect(() => {
-        fetchProduct(productId, setProductData, setDataExists);
+        fetchProduct(productId, () => null, setDataExists);
     }, []);
 
     return (
@@ -23,21 +31,24 @@ const ReviewsChecklistView = ({ starRating, ratingDescription, productId, userna
                     alignItems: 'center',
                     marginBottom: '1.5rem',
                     color: 'black',
-                    cursor: 'pointer',
+                    cursor: dataExists && 'pointer',
                 }}
-                onClick={dataExists ? (() => window.location.href = `/products/${productData._id}`) : undefined}
+                onClick={dataExists ? () => window.location.href = `/products/${productId}` : null}
             >
                 <img
-                    src={productData.pictures && productData.pictures.length > 0 ? productData.pictures[0].url : fetsyEcommerceLogo}
-                    alt={productData.name}
+                    src={imageURL ? imageURL : fetsyEcommerceLogo}
+                    alt={productName}
                     style={{ width: '9rem' }}
                 />
-                <h4 className='ml-3'>{productData.name}</h4>
+                <div className='d-flex flex-column'>
+                    <h4 className='ml-3'>{productName}</h4>
+                    <h6 className='red-text ml-3'>{!dataExists && 'Product has been deleted, but the review still exists!'}</h6>
+                </div>
             </div>
 
             <h5 style={{ margin: '1.5rem auto 0 auto' }}>
                 By {username}, {' '}
-                {formatDate(new Date(dateOfReview))}
+                {formatDate(new Date(reviewDate))}
             </h5>
             <FiveStarGenerator starRating={starRating} />
             <p>{ratingDescription}</p>
@@ -46,4 +57,4 @@ const ReviewsChecklistView = ({ starRating, ratingDescription, productId, userna
     )
 }
 
-export default ReviewsChecklistView
+export default ReviewsChecklistView;

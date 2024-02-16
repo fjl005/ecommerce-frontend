@@ -3,11 +3,11 @@ import LoginDetailsPerUser from './LoginDetailsPerUser';
 const LOGIN = {
     admin: {
         username: 'frank',
-        password: 'password',
+        password: 'pASSworD!!..$',
     },
     existingUser: {
         username: 'marshall',
-        password: 'mathers',
+        password: 'MATHersEmin3M()!',
     }
 };
 

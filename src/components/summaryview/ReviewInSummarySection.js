@@ -5,9 +5,9 @@ import { axiosWithAuth } from "../miscellaneous/axios";
 import { Button } from "reactstrap";
 import SpinningIcon from "../miscellaneous/SpinningIcon";
 
-const ReviewInSummarySection = ({ productItem, orderId, }) => {
+const ReviewInSummarySection = ({ purchasedItem, orderId, }) => {
 
-    const hasReview = productItem.hasReview;
+    const hasReview = purchasedItem.hasReview;
 
     const [starRating, setStarRating] = useState(null);
     const [ratingDescription, setRatingDescription] = useState('');
@@ -16,7 +16,7 @@ const ReviewInSummarySection = ({ productItem, orderId, }) => {
 
     useEffect(() => {
         if (hasReview) {
-            fetchReview(productItem._id.toString());
+            fetchReview(purchasedItem._id.toString());
         } else {
             setLoadingReview(false);
         }
@@ -36,9 +36,9 @@ const ReviewInSummarySection = ({ productItem, orderId, }) => {
             const formattedDate = `${month}/${day}/${year}`;
 
             setReviewDate(formattedDate);
-            setLoadingReview(false);
         } catch (error) {
             console.log('error: ', error);
+        } finally {
             setLoadingReview(false);
         }
     };
@@ -61,10 +61,12 @@ const ReviewInSummarySection = ({ productItem, orderId, }) => {
 
                     <Link
                         className='black-text'
-                        to={{ pathname: `/review/${hasReview ? 'edit/' : ''}${productItem._id}` }}
+                        to={{ pathname: `/review/${hasReview ? 'edit/' : ''}${purchasedItem._id}` }}
                         state={{
-                            name: productItem.name,
-                            productId: productItem.productId,
+                            productName: purchasedItem.productName,
+                            productId: purchasedItem.productId,
+                            imageURL: purchasedItem.pictures.length > 0 && purchasedItem.pictures[0].url,
+                            productType: purchasedItem.productType,
                             orderId,
                             ...(hasReview && {
                                 starRatingPrev: starRating,

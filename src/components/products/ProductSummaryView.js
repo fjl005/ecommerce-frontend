@@ -9,7 +9,8 @@ import CartDynamicButtons from '../summaryview/CartDynamicButtons';
 import FavoriteDynamicButtons from '../summaryview/FavoriteDynamicButtons';
 import ProductTypeIcons from './ProductTypeIcons';
 import { Link } from 'react-router-dom';
-
+import { useProductSearchContext } from '../../contexts/ProductSearchContext';
+import { useState, useEffect } from 'react';
 
 const ProductSummaryView = ({
     adminPage,
@@ -18,10 +19,24 @@ const ProductSummaryView = ({
     inCartJs,
     isSaved,
     productItem,
-    order,
+    purchasedItem,
     orderId,
     idx,
 }) => {
+
+    if (inOrderJs) {
+        productItem = purchasedItem;
+    }
+
+    const { fetchProduct } = useProductSearchContext();
+    const [dataExists, setDataExists] = useState(true);
+
+    // Check if product Exists.
+    useEffect(() => {
+        if (inOrderJs) {
+            fetchProduct(purchasedItem.productId, () => null, setDataExists);
+        }
+    }, []);
 
     const { fetchCart } = useCartContext();
     const { setFavoritesLoadingOverlay } = useSavedItemContext();
@@ -60,9 +75,8 @@ const ProductSummaryView = ({
                         <div className='d-flex'>
                             <img
                                 src={(productItem.pictures.length > 0) ? productItem.pictures[0].url : fetsyEcommerceLogo}
-                                alt={`${productItem.name}`}
-                                style={{ width: '70%' }}
-                                className='mx-auto mb-3'
+                                alt={`${productItem.productName}`}
+                                className='mx-auto mb-3 w-70'
                             />
                         </div>
                     )}
@@ -70,27 +84,30 @@ const ProductSummaryView = ({
 
                 <Col xs='12' sm='7'>
                     <div className='d-flex flex-column'>
-                        <Link to={`/products/${inOrderJs ? productItem.productId : productItem._id}`} className='black-text'>
-                            <h3 className='product-title'>
-                                {productItem.name}
-                            </h3>
-                        </Link>
+                        {dataExists ? (
+                            <Link to={`/products/${inOrderJs ? purchasedItem.productId : productItem._id}`} className='black-text'>
+                                <h3 className='product-title'>
+                                    {productItem.productName}
+                                </h3>
+                            </Link>
+                        ) : (
+                            <>
+                                <h2>{productItem.productName}</h2>
+                                <h6 className='red-text'>Product has been deleted, but you can still update the review!</h6>
+                            </>
+                        )}
+
                         <div className='product-gray-background'>
                             <ProductTypeIcons props={productItem.productType} />
-
                             {inOrderJs && (
-                                <DownloadLinkInSummary
-                                    productItem={productItem}
-                                    order={order}
-                                    orderId={orderId}
-                                />
+                                <DownloadLinkInSummary productItem={productItem} />
                             )}
                         </div>
 
                         {inOrderJs && !adminPage && (
                             <div className='review-summary-lg'>
                                 <ReviewInSummarySection
-                                    productItem={productItem}
+                                    purchasedItem={purchasedItem}
                                     orderId={orderId}
                                 />
                             </div>
@@ -101,12 +118,12 @@ const ProductSummaryView = ({
                 <Col xs='12' sm='2' className='product-summary-price-align'>
                     <div className='d-flex flex-column'>
                         {productItem.price && (
-                            <h3 className='product-price-margin-top'>${productItem.price.toFixed(2)}</h3>
+                            <h3 className='product-price-margin-top fetsy-brand-color'>${productItem.price.toFixed(2)}</h3>
                         )}
                         {inOrderJs && !adminPage && (
                             <div className='review-summary-xl'>
                                 <ReviewInSummarySection
-                                    productItem={productItem}
+                                    purchasedItem={purchasedItem}
                                     orderId={orderId}
                                 />
                             </div>

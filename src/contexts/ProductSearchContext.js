@@ -15,6 +15,7 @@ export const ProductSearchProvider = ({ children }) => {
             if (setDataExists) {
                 setDataExists(true);
             }
+
             return response.data;
         } catch (error) {
             if (setDataExists) {

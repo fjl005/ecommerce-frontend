@@ -158,19 +158,19 @@ const SingleProductPage = () => {
             stateKey: RIGHT_COL_TOGGLE.details.stateKey,
             title: RIGHT_COL_TOGGLE.details.title,
             render: ProductTypeIcons,
-            props: selectedProduct.productType,
+            props: selectedProduct && selectedProduct.productType,
         },
         {
             stateKey: RIGHT_COL_TOGGLE.description.stateKey,
             title: RIGHT_COL_TOGGLE.description.title,
             render: ProductDescription,
-            props: selectedProduct.description,
+            props: selectedProduct && selectedProduct.description,
         },
         {
             stateKey: RIGHT_COL_TOGGLE.delivery.stateKey,
             title: RIGHT_COL_TOGGLE.delivery.title,
             render: DeliveryDetails,
-            props: selectedProduct.productType,
+            props: selectedProduct && selectedProduct.delivery,
         },
         {
             stateKey: RIGHT_COL_TOGGLE.seller.stateKey,
@@ -205,7 +205,7 @@ const SingleProductPage = () => {
                                 <Col sm='12' lg='4'>
                                     <div className='d-flex flex-column'>
                                         <h1 className='bold-text'>${selectedProduct.price.toFixed(2)}</h1>
-                                        <h5 className='product-title'>{selectedProduct.name}</h5>
+                                        <h5 className='product-title'>{selectedProduct.productName}</h5>
                                         <div
                                             id={ADD_CLICK_CATEGORY.addToCart}
                                             className='product-page-add-button product-page-add-to-cart'
