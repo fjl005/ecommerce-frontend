@@ -32,8 +32,19 @@ body {
     cursor: pointer;
 }
 
+.blue-bolded-text {
+    color: blue;
+    font-weight: bold;
+    margin: 0 1rem;
+}
+
 .black-text {
     color: black;
+    text-decoration: none;
+}
+
+.white-text {
+    color: white;
     text-decoration: none;
 }
 
@@ -317,7 +328,7 @@ body {
 }
 
 .navbar-hover-admin:hover {
-    background-color: white;
+    background-color: #959595;
 }
 
 .navbar-hover-admin .white-text {
@@ -325,7 +336,7 @@ body {
 }
 
 .selected-navbar-background-admin {
-    background-color: white;
+    background-color: #8C52FF;
 }
 
 .selected-navbar-background-admin .black-text {
@@ -578,7 +589,7 @@ body {
     margin-top: 2rem;
 }
 
-.image-upload-border-admin {
+.image-upload-container-admin {
     display: inline-block;
     width: 15rem;
     height: 15rem;

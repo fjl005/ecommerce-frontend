@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import ProductSummaryView from "../products/ProductSummaryView";
+import ProductSummaryView from "../summaryview/ProductSummaryView";
 import { Container, Row, Col } from "reactstrap";
 import { useProductSearchContext } from "../../contexts/ProductSearchContext";
 

@@ -1,7 +1,7 @@
 import NavbarApp from "../../components/navbar/NavbarApp";
 import { Container, Row, Col } from "reactstrap";
 import { useLoginContext } from "../../contexts/LoginContext";
-import ItemsInOrder from '../../components/orders/ItemsInOrder';
+import OrderItems from '../../components/orders/OrderItems';
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { axiosWithAuth } from "../../components/miscellaneous/axios";
@@ -44,7 +44,7 @@ const OrderCompletedRedirectPage = () => {
 
                 <Row>
                     {recentOrder && recentOrder._id && (
-                        <ItemsInOrder
+                        <OrderItems
                             order={recentOrder}
                             orderId={recentOrder._id}
                         />

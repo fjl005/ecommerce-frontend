@@ -7,7 +7,7 @@ import ProductTypeIcons from "../products/ProductTypeIcons";
 import { useProductSearchContext } from "../../contexts/ProductSearchContext";
 import { useEffect, useState } from "react";
 
-const SingleReviewInReviewsPage = ({
+const ReviewSummaryView = ({
     productId,
     purchasedItemId,
     starRating,
@@ -39,7 +39,7 @@ const SingleReviewInReviewsPage = ({
                     ) : (
                         <>
                             <h2>{productName}</h2>
-                            <h6 className='red-text'>Product has been deleted, but you can still update the review!</h6>
+                            <h6 className='red-text'>Product has been deleted, but the review can still be updated!</h6>
                         </>
                     )}
                 </Col>
@@ -97,4 +97,4 @@ const SingleReviewInReviewsPage = ({
     )
 }
 
-export default SingleReviewInReviewsPage;
+export default ReviewSummaryView;

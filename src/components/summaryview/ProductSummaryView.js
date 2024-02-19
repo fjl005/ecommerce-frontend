@@ -3,11 +3,11 @@ import fetsyEcommerceLogo from '../../img/fetsyEcommerceLogo.png';
 import { useCartContext } from '../../contexts/CartContext';
 import { useSavedItemContext } from '../../contexts/SavedItemContext';
 import { axiosWithAuth } from '../miscellaneous/axios';
-import DownloadLinkInSummary from '../summaryview/DownloadInSummarySection';
-import ReviewInSummarySection from '../summaryview/ReviewInSummarySection';
-import CartDynamicButtons from '../summaryview/CartDynamicButtons';
-import FavoriteDynamicButtons from '../summaryview/FavoriteDynamicButtons';
-import ProductTypeIcons from './ProductTypeIcons';
+import DownloadLinkInSummary from './DownloadInSummarySection';
+import ReviewInSummarySection from './ReviewInSummarySection';
+import CartDynamicButtons from './CartDynamicButtons';
+import FavoriteDynamicButtons from './FavoriteDynamicButtons';
+import ProductTypeIcons from '../products/ProductTypeIcons';
 import { Link } from 'react-router-dom';
 import { useProductSearchContext } from '../../contexts/ProductSearchContext';
 import { useState, useEffect } from 'react';
@@ -21,6 +21,7 @@ const ProductSummaryView = ({
     productItem,
     purchasedItem,
     orderId,
+    buyer,
     idx,
 }) => {
 
@@ -93,7 +94,7 @@ const ProductSummaryView = ({
                         ) : (
                             <>
                                 <h2>{productItem.productName}</h2>
-                                <h6 className='red-text'>Product has been deleted, but you can still update the review!</h6>
+                                <h6 className='red-text'>Product has been deleted, the review can still be updated.</h6>
                             </>
                         )}
 
@@ -120,13 +121,15 @@ const ProductSummaryView = ({
                         {productItem.price && (
                             <h3 className='product-price-margin-top fetsy-brand-color'>${productItem.price.toFixed(2)}</h3>
                         )}
-                        {inOrderJs && !adminPage && (
+                        {inOrderJs && !adminPage ? (
                             <div className='review-summary-xl'>
                                 <ReviewInSummarySection
                                     purchasedItem={purchasedItem}
                                     orderId={orderId}
                                 />
                             </div>
+                        ) : (
+                            <h5>Purchased by: {buyer}</h5>
                         )}
                     </div>
                 </Col>

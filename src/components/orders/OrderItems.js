@@ -1,9 +1,9 @@
 import { Container, Row, Col } from "reactstrap";
-import ProductSummaryView from "../products/ProductSummaryView";
+import ProductSummaryView from "../summaryview/ProductSummaryView";
 import { formatDate } from "../miscellaneous/formatDate";
 
 
-const ItemsInOrder = ({ order, orderId, adminPage, buyer }) => {
+const OrderItems = ({ order, orderId, adminPage, buyer }) => {
 
     return (
         <Container className='cart-container'>
@@ -12,11 +12,6 @@ const ItemsInOrder = ({ order, orderId, adminPage, buyer }) => {
                     <h4 className='mt-3'>
                         Order placed on: {formatDate(new Date(order.orderDate))}
                     </h4>
-                </Col>
-            </Row>
-            <Row>
-                <Col>
-                    {buyer && (<h5>Purchased by: {buyer}</h5>)}
                 </Col>
             </Row>
 
@@ -28,6 +23,7 @@ const ItemsInOrder = ({ order, orderId, adminPage, buyer }) => {
                     inOrderJs={true}
                     orderId={orderId}
                     adminPage={adminPage}
+                    buyer={buyer}
                 />
             ))}
 
@@ -40,4 +36,4 @@ const ItemsInOrder = ({ order, orderId, adminPage, buyer }) => {
     )
 }
 
-export default ItemsInOrder;
+export default OrderItems;

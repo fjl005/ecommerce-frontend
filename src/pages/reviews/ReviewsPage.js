@@ -1,6 +1,6 @@
 import { Container, Row, Col } from "reactstrap";
 import NavbarApp from "../../components/navbar/NavbarApp";
-import SingleReviewInReviewsPage from "../../components/reviews/SingleReviewInReviewsPage";
+import ReviewSummaryView from "../../components/reviews/ReviewSummaryView";
 import { axiosWithAuth } from "../../components/miscellaneous/axios";
 import { useEffect, useState } from "react";
 import { useLoginContext } from "../../contexts/LoginContext";
@@ -43,7 +43,7 @@ const ReviewsPage = () => {
                             <>
                                 <h1>Your Reviews</h1>
                                 {reviewsData.map((review, idx) => (
-                                    <SingleReviewInReviewsPage
+                                    <ReviewSummaryView
                                         key={idx}
                                         productId={review.productId}
                                         productName={review.productName}

@@ -2,7 +2,7 @@ import NavbarApp from "../../components/navbar/NavbarApp";
 import { Container, Row, Col } from "reactstrap";
 import { useState, useEffect } from "react";
 import { useLoginContext } from "../../contexts/LoginContext";
-import ItemsInOrder from "../../components/orders/ItemsInOrder";
+import OrderItems from "../../components/orders/OrderItems";
 import { axiosWithAuth } from "../../components/miscellaneous/axios";
 import SpinningIcon from "../../components/miscellaneous/SpinningIcon";
 import { NAV_TITLE_MATCH } from "../../components/navbar/navbarPageTitles";
@@ -52,7 +52,7 @@ const OrdersPage = () => {
                                     <h1>View Your Orders</h1>
                                     {ordersData.length > 0 &&
                                         ordersData.map((order, idx) => (
-                                            <ItemsInOrder
+                                            <OrderItems
                                                 key={idx}
                                                 order={order}
                                                 orderId={order._id}

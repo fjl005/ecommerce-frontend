@@ -2,7 +2,7 @@ import { Col, Container, Row } from "reactstrap";
 import { useEffect, useState } from "react";
 import NavbarAdmin from "../../components/navbar/NavbarAdmin";
 import { axiosWithAuth } from "../../components/miscellaneous/axios";
-import SingleReviewInReviewsPage from "../../components/reviews/SingleReviewInReviewsPage";
+import ReviewSummaryView from "../../components/reviews/ReviewSummaryView";
 import { NAV_TITLE_MATCH } from "../../components/navbar/navbarPageTitles";
 
 const AllReviewsPage = () => {
@@ -34,9 +34,12 @@ const AllReviewsPage = () => {
                 <Row>
                     <Col>
                         {reviewsData.length > 0 && reviewsData.map((review, idx) => (
-                            <SingleReviewInReviewsPage
+                            <ReviewSummaryView
                                 key={idx}
                                 productId={review.productId}
+                                productName={review.productName}
+                                imageURL={review.imageURL}
+                                productType={review.productType}
                                 purchasedItemId={review.purchasedItemId}
                                 starRating={review.starRating}
                                 ratingDescription={review.ratingDescription}

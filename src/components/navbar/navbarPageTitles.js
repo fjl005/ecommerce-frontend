@@ -98,7 +98,7 @@ export const NAV_TITLE = {
         },
         {
             title: EDIT_PRODUCTS,
-            link: '/admin/editproductspage',
+            link: '/admin/editproductsselection',
         },
         {
             title: ALL_ORDERS,

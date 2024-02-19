@@ -1,6 +1,6 @@
 import { Container, Row, Col } from "reactstrap";
 import { useEffect, useState } from 'react';
-import ProductSummaryView from "../products/ProductSummaryView";
+import ProductSummaryView from "../summaryview/ProductSummaryView";
 import { useProductSearchContext } from "../../contexts/ProductSearchContext";
 
 const CartItem = ({ productId, isSaved, inCartJs }) => {

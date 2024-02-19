@@ -1,7 +1,7 @@
 import { Col, Container, Row } from "reactstrap";
 import { useEffect, useState } from "react";
 import { axiosWithAuth } from "../../components/miscellaneous/axios";
-import ItemsInOrder from '../../components/orders/ItemsInOrder';
+import OrderItems from '../../components/orders/OrderItems';
 import NavbarAdmin from "../../components/navbar/NavbarAdmin";
 import { NAV_TITLE_MATCH } from "../../components/navbar/navbarPageTitles";
 import SpinningIcon from "../../components/miscellaneous/SpinningIcon";
@@ -40,7 +40,7 @@ const AllOrdersPage = () => {
                         {loading ? (
                             <SpinningIcon size='2x' />
                         ) : ordersData.length > 0 && ordersData.map((order, idx) => (
-                            <ItemsInOrder
+                            <OrderItems
                                 key={idx}
                                 order={order}
                                 orderId={order._id}

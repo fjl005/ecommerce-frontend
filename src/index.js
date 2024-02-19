@@ -7,6 +7,7 @@ import { CartProvider } from './contexts/CartContext';
 import { LoginProvider } from './contexts/LoginContext';
 import { SavedItemProvider } from './contexts/SavedItemContext';
 import { ProductSearchProvider } from './contexts/ProductSearchContext';
+import { PostProductProvider } from './contexts/PostProductContext';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
@@ -14,13 +15,15 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <React.StrictMode>
         <LoginProvider>
-            <CartProvider>
-                <SavedItemProvider>
-                    <ProductSearchProvider>
-                        <App />
-                    </ProductSearchProvider>
-                </SavedItemProvider>
-            </CartProvider>
+            <PostProductProvider>
+                <CartProvider>
+                    <SavedItemProvider>
+                        <ProductSearchProvider>
+                            <App />
+                        </ProductSearchProvider>
+                    </SavedItemProvider>
+                </CartProvider>
+            </PostProductProvider>
         </LoginProvider>
     </React.StrictMode>
 );

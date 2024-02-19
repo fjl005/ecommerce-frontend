@@ -14,13 +14,15 @@ import ProfileSettingsPage from './pages/home/ProfileSettingsPage';
 import AdminPage from './pages/admin/AdminPage';
 import PostProductPage from './pages/admin/PostProductPage';
 import ProductSubmittedPage from './pages/admin/ProductSubmittedPage';
+import EditProductsSelection from './pages/admin/EditProductsSelection';
 import EditProductsPage from './pages/admin/EditProductsPage';
 import AllReviewsPage from './pages/admin/AllReviewsPage';
 import AllOrdersPage from './pages/admin/AllOrdersPage';
 import BillingPage from './pages/admin/BillingPage';
 import AboutPage from './pages/home/AboutPage';
-import { useLoginContext } from './contexts/LoginContext';
 
+
+import { useLoginContext } from './contexts/LoginContext';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { useEffect } from 'react';
 
@@ -50,14 +52,16 @@ function App() {
         { path: '/reviews', element: <ReviewsPage /> },
         { path: '/profilesettings', element: <ProfileSettingsPage /> },
         { path: '/admin', element: <AdminPage /> },
+        // { path: '/admin/addnewproduct', element: <PostProductPage /> },
         { path: '/admin/addnewproduct', element: <PostProductPage /> },
         { path: '/admin/addnewproduct/submitted', element: <ProductSubmittedPage /> },
-        { path: '/admin/updateproduct', element: <PostProductPage /> },
-        { path: '/admin/updateproduct/:productId', element: <PostProductPage /> },
-        { path: '/admin/editproductspage', element: <EditProductsPage /> },
+        { path: '/admin/updateproduct', element: <EditProductsPage /> },
+        { path: '/admin/updateproduct/:productId', element: <EditProductsPage /> },
+        { path: '/admin/editproductsselection', element: <EditProductsSelection /> },
         { path: '/admin/allreviews', element: <AllReviewsPage /> },
         { path: '/admin/allorders', element: <AllOrdersPage /> },
-        { path: '/admin/billing', element: <BillingPage /> }
+        { path: '/admin/billing', element: <BillingPage /> },
+        { path: '/admin/postproducttesting', element: <PostProductPage /> }
     ];
 
 

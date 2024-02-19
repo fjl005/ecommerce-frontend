@@ -20,6 +20,7 @@ const BillingPage = () => {
             const response = await axiosWithAuth('/orders');
             setAllOrders(response.data.orders);
             setTotalBalance(response.data.totalBalance);
+            console.log(response.data.orders);
         } catch (error) {
             console.log('error in fetchAllOrders() in BillingPage.js. ', error);
         } finally {
@@ -28,6 +29,8 @@ const BillingPage = () => {
     };
 
     let total = totalBalance;
+    let balance = totalBalance;
+    let prevPrice = null;
 
     return (
         <>
@@ -50,7 +53,7 @@ const BillingPage = () => {
                                         <th style={{ width: '8%' }}></th>
                                         <th style={{ width: '12%' }}>Date</th>
                                         <th style={{ width: '20%' }}>Type</th>
-                                        <th style={{ width: '40%' }}>Description</th>
+                                        <th style={{ width: '40%' }}>Product Name</th>
                                         <th style={{ width: '10%' }}>Amount</th>
                                         <th style={{ width: '10%' }}>Balance</th>
                                     </tr>
@@ -62,19 +65,12 @@ const BillingPage = () => {
                                             month: 'short',
                                             day: 'numeric',
                                         }).split(' ');
-
                                         const formattedDate = `${dateParts[0]} ${dateParts[1]} ${dateParts[2]}`;
-
-                                        return order.items.map((item, itemIdx) => {
-
-                                            let netBalance = total - item.price;
-                                            total = total - item.price;
-
-                                            {/* Only for the first item and order: reset the balance and total to the totalBalance */ }
-                                            if (itemIdx === 0 && orderIdx === 0) {
-                                                netBalance += item.price;
-                                                total += item.price;
+                                        return order.items.map((item) => {
+                                            if (prevPrice) {
+                                                balance -= prevPrice;
                                             }
+                                            prevPrice = item.price;
 
                                             return (
                                                 <tr key={item._id}>
@@ -88,11 +84,11 @@ const BillingPage = () => {
                                                     <td style={{ verticalAlign: 'middle' }}>{formattedDate}</td>
                                                     <td style={{ verticalAlign: 'middle' }}>{item.productType}</td>
                                                     <td style={{ verticalAlign: 'middle' }}>
-                                                        {item.name}
+                                                        {item.productName}
                                                     </td>
                                                     <td style={{ verticalAlign: 'middle' }}>${item.price.toFixed(2)}</td>
                                                     <td style={{ verticalAlign: 'middle' }}>
-                                                        ${netBalance.toFixed(2)}
+                                                        ${balance.toFixed(2)}
                                                     </td>
                                                 </tr>
                                             )

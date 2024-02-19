@@ -42,6 +42,7 @@ const NavbarApp = ({ isCheckout, currentPage, }) => {
     return (
         <Navbar color="light" light expand="lg">
             <Container className='d-flex align-items-center'>
+                {/* tag={Link} is used because the following components (NavbarBrand, NavItem, etc.) render as HTML elements like <a>, <button>, etc. But to incorporate client-side routing without full page reloads, we need these to behave as Links. */}
                 <NavbarBrand tag={Link} to="/" >
                     <img
                         src={fetsyNavbarBrand}

@@ -16,9 +16,7 @@ const AdminPage = () => {
                     <>
                         <Row>
                             <Col>
-                                <h1 className='h1-admin'>
-                                    Admin Page
-                                </h1>
+                                <h1 className='h1-admin'>Admin Page</h1>
                             </Col>
                         </Row>
 
@@ -31,7 +29,7 @@ const AdminPage = () => {
                                     </Link>
                                 </p>
                                 <p>
-                                    <Link to='/admin/editproductspage'>
+                                    <Link to='/admin/EditProductsSelection'>
                                         Edit / Delete Existing Product(s)
                                     </Link>
                                 </p>

@@ -1,85 +1,94 @@
-import NavbarAdmin from "../../components/navbar/NavbarAdmin";
-import { Container, Row, Col, Button } from 'reactstrap';
-import { axiosWithAuth } from "../../components/miscellaneous/axios";
-import { useState, } from 'react'
-import { useLoginContext } from "../../contexts/LoginContext";
-import { Link } from "react-router-dom";
-import ProductsHomePage from "../../components/products/ProductsHomePage";
-import { NAV_TITLE_MATCH } from "../../components/navbar/navbarPageTitles";
+import { useLocation, useParams } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useLoginContext } from '../../contexts/LoginContext';
+import { PRODUCT_ASPECT } from '../../components/admin/productAspectFormat';
+import { NAV_TITLE_MATCH } from '../../components/navbar/navbarPageTitles';
+import { Container, Row, Col } from 'reactstrap';
+import { axiosWithAuth } from '../../components/miscellaneous/axios';
+import PostProductForm from '../../components/admin/PostProductForm';
+import NavbarAdmin from '../../components/navbar/NavbarAdmin';
+import { usePostProductContext } from '../../contexts/PostProductContext';
 
 const EditProductsPage = () => {
-
     const { admin } = useLoginContext();
+    const { setExistingImagesURLs, setNewlyUploadedImagesFiles, setNewlyUploadedImagesURLs } = usePostProductContext();
+    const { productId } = useParams();
 
-    // States
-    const [itemsSelectedIdArr, setItemsSelectedIdArr] = useState([]);
-    const [reloadProducts, setReloadProducts] = useState(false);
+    const location = useLocation();
+    const searchParams = new URLSearchParams(location.search);
+    const itemsStr = searchParams.get('items');
+    const itemsSelectedIdArr = JSON.parse(itemsStr);
 
-    const handleDeleteClick = () => {
-        const confirmed = window.confirm("Are you sure you want to delete the selected items?");
-        if (confirmed) {
-            deleteProducts();
+    const [formikInitial, setFormikInitial] = useState({
+        [PRODUCT_ASPECT.productName.short]: '',
+        [PRODUCT_ASPECT.productPrice.short]: '',
+        [PRODUCT_ASPECT.productType.short]: '',
+        [PRODUCT_ASPECT.productDescription.short]: '',
+    });
+
+
+
+    useEffect(() => {
+        setNewlyUploadedImagesFiles([]);
+        setNewlyUploadedImagesURLs([]);
+
+        const fetchProduct = async (id) => {
+            try {
+                const response = await axiosWithAuth.get(`/products/${id}`);
+                const data = response.data;
+
+                setFormikInitial({
+                    [PRODUCT_ASPECT.productName.short]: data.productName,
+                    [PRODUCT_ASPECT.productPrice.short]: data.price,
+                    [PRODUCT_ASPECT.productType.short]: data.productType,
+                    [PRODUCT_ASPECT.productDescription.short]: data.description,
+                });
+
+                const fetchedImgURLs = [];
+                if (data.pictures && data.pictures.length > 0) {
+                    for (let imgObj of data.pictures) {
+                        fetchedImgURLs.push(imgObj.url);
+                    }
+                }
+
+                setExistingImagesURLs(fetchedImgURLs);
+
+            } catch (error) { console.log('error in fetch product in PostProduct.js: ', error); }
+        };
+
+        if (productId) {
+            fetchProduct(productId);
+        } else if (itemsSelectedIdArr) {
+            fetchProduct(itemsSelectedIdArr[0]);
         }
-    };
-
-    const deleteProducts = async () => {
-        try {
-            setReloadProducts(true);
-            await axiosWithAuth.delete(`/products/multiple/items`, {
-                data: itemsSelectedIdArr
-            });
-            alert('Products have been deleted');
-        } catch (error) {
-            console.log('Error in deleteProduct() in Products.js', error);
-        } finally {
-            setReloadProducts(false);
-        }
-    }
+    }, []);
 
     return (
         <>
-            <NavbarAdmin currentPage={NAV_TITLE_MATCH.editproducts} />
             {admin ? (
                 <>
+                    <NavbarAdmin currentPage={NAV_TITLE_MATCH.editproducts} />
                     <Container>
                         <Row>
                             <Col>
-                                <h1 className='h1-admin'>Edit Products</h1>
-                                <h4>Click on an individual item to edit the listing. To edit or delete multiple listings at once, then click on the corresponding checkboxes.</h4>
+                                {itemsSelectedIdArr ? (
+                                    <h1 className='h1-admin'>Update {itemsSelectedIdArr.length} listings</h1>
+                                ) :
+                                    productId ? (
+                                        <h1 className='h1-admin'>Update Existing Product</h1>
+                                    ) : (
+                                        <h1 className='h1-admin'>Product not found</h1>
+                                    )}
                             </Col>
                         </Row>
-                        <Row>
-                            <Col>
-                                {itemsSelectedIdArr.length > 0 && (
-                                    <>
-                                        <Link
-                                            to={itemsSelectedIdArr.length === 1
-                                                ? `/admin/updateproduct/${itemsSelectedIdArr[0]}`
-                                                : `/admin/updateproduct?items=${JSON.stringify(itemsSelectedIdArr)}`
-                                            }
-                                        >
-                                            <Button className='btn-border-none'> Edit {itemsSelectedIdArr.length} Listings</Button>
-                                        </Link>
 
-
-                                        <Button
-                                            onClick={() => handleDeleteClick()}
-                                            className='bg-danger btn-border-none'
-                                            style={{ marginLeft: '2rem', }}
-                                        >
-                                            Delete {itemsSelectedIdArr.length} Listings
-                                        </Button>
-                                    </>
-                                )}
-                            </Col>
-                        </Row>
+                        <PostProductForm
+                            preExistingProduct={true}
+                            formikInitial={formikInitial}
+                            productId={productId}
+                            itemsSelectedIdArr={itemsSelectedIdArr}
+                        />
                     </Container>
-                    <ProductsHomePage
-                        adminPage={true}
-                        itemsSelectedIdArr={itemsSelectedIdArr}
-                        setItemsSelectedIdArr={setItemsSelectedIdArr}
-                        reloadProducts={reloadProducts}
-                    />
                 </>
             ) : (
                 <Container>
@@ -90,10 +99,8 @@ const EditProductsPage = () => {
                     </Row>
                 </Container>
             )}
-
-
         </>
-    )
-}
+    );
+};
 
 export default EditProductsPage;

@@ -39,10 +39,10 @@ const ProductSubmitted = () => {
                     <Col>
                         {itemsLength > 0 ? (
                             <h1>{itemsLength} products have been updated!</h1>
-                        ) : productId && productId !== "undefined" ? (
-                            <h1>Your product has been updated!</h1>
-                        ) : (
+                        ) : productId && productId === "undefined" ? (
                             <h1>Your product has been submitted!</h1>
+                        ) : (
+                            <h1>Your product has been updated!</h1>
                         )}
                     </Col>
                 </Row>

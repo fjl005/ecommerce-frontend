@@ -22,15 +22,11 @@ const NavbarAdmin = ({ currentPage }) => {
     const [isOpen, setIsOpen] = useState(false);
 
     const toggleNavbar = () => {
-        setIsOpen(!isOpen);
+        setIsOpen(prev => !prev);
     };
 
     const pageSelectedBackground = (navText) => {
         return currentPage === navText ? 'selected-navbar-background-admin' : 'navbar-hover-admin';
-    }
-
-    const pageSelectedText = (navText) => {
-        return currentPage === navText ? 'black-text' : 'white-text';
     }
 
     return (
@@ -57,7 +53,7 @@ const NavbarAdmin = ({ currentPage }) => {
                                             <NavLink
                                                 tag={Link}
                                                 to={navText.link}
-                                                className={pageSelectedText(navText.title)}
+                                                className='white-text'
                                             >
                                                 {navText.title}
                                             </NavLink>
