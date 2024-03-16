@@ -1,4 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
 const ProductDescription = ({ props }) => {
     const description = props;
@@ -13,7 +16,7 @@ const ProductDescription = ({ props }) => {
     };
 
     const doesTextOverflow = () => {
-        return descriptionRef.current.clientHeight > 100;
+        return descriptionRef.current.clientHeight > 55;
     };
 
     useEffect(() => {
@@ -28,6 +31,7 @@ const ProductDescription = ({ props }) => {
         };
     }, []);
 
+
     useEffect(() => {
         setShowSeeMoreButton(doesTextOverflow());
     }, [viewportWidth]);
@@ -37,34 +41,28 @@ const ProductDescription = ({ props }) => {
         <>
             <div
                 style={{
-                    height: expanded ? 'auto' : '100px',
+                    height: expanded ? 'auto' : '55px',
                     overflow: 'hidden',
                     transition: 'height 0.3s, overflow 0.3s',
                     maxWidth: '100%',
                     wordWrap: 'break-word',
-                }}>
-
+                }}
+            >
                 <p ref={descriptionRef}>{description}</p>
             </div>
 
-            {showSeeMoreButton && !expanded &&
-                <div className='d-flex justify-content-center'>
+            {showSeeMoreButton &&
+                <div className='mt-2 d-flex justify-content-center'>
                     <span
                         className='see-more-less-button'
                         onClick={toggleExpanded}
                     >
-                        {'<-- See More -->'}
-                    </span>
-                </div>
-            }
-
-            {expanded &&
-                <div className='d-flex justify-content-center'>
-                    <span
-                        className='see-more-less-button'
-                        onClick={toggleExpanded}
-                    >
-                        {'<-- See Less -->'}
+                        <FontAwesomeIcon icon={faArrowLeft} />
+                        {expanded ?
+                            `  See Less  `
+                            : `  See More  `
+                        }
+                        <FontAwesomeIcon icon={faArrowRight} />
                     </span>
                 </div>
             }

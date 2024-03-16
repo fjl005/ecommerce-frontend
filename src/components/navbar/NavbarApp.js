@@ -14,7 +14,8 @@ import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { useLoginContext } from '../../contexts/LoginContext';
 import { useCartContext } from '../../contexts/CartContext';
-import fetsyNavbarBrand from '../../img/fetsyNavbarBrand.png';
+// import fetsyNavbarBrand from '../../img/fetsyNavbarBrand.png';
+import fetsyIcon from '../../img/fetsyIcon.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCartShopping } from '@fortawesome/free-solid-svg-icons';
 import { NAV_TITLE } from './navbarPageTitles';
@@ -43,9 +44,9 @@ const NavbarApp = ({ isCheckout, currentPage, }) => {
         <Navbar color="light" light expand="lg">
             <Container className='d-flex align-items-center'>
                 {/* tag={Link} is used because the following components (NavbarBrand, NavItem, etc.) render as HTML elements like <a>, <button>, etc. But to incorporate client-side routing without full page reloads, we need these to behave as Links. */}
-                <NavbarBrand tag={Link} to="/" >
+                <NavbarBrand tag={Link} to="/" className='navbar-mr-0'>
                     <img
-                        src={fetsyNavbarBrand}
+                        src={fetsyIcon}
                         alt="Fetsy Navbar Logo"
                         className='navbar-brand-width'
                     />

@@ -7,13 +7,14 @@ import ProductDescription from "../../components/singleproductpage/ProductDescri
 import { useState, useEffect } from "react";
 import RightColToggle from "../../components/singleproductpage/RightColToggle";
 import { useCartContext } from "../../contexts/CartContext";
-import { axiosWithAuth } from "../../components/miscellaneous/axios";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import SpinningIcon from "../../components/miscellaneous/SpinningIcon";
 import ProductTypeIcons from "../../components/products/ProductTypeIcons";
 import DeliveryDetails from "../../components/singleproductpage/DeliveryDetails";
 import MeetTheSeller from "../../components/singleproductpage/MeetTheSeller";
+import { axiosWithAuth } from "../../components/miscellaneous/axios";
+
 
 const ERROR_CODES = {
     mustLogin: 'You must log in before accessing this page',

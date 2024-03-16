@@ -191,6 +191,15 @@ body {
     margin: 1rem 0;
 }
 
+.meet-seller-image {
+    width: 8rem;
+    height: 8rem;
+    object-fit: cover;
+    border: 1px solid black;
+    box-shadow: 0px 0px 10px rgb(120, 120, 120);
+}
+
+
 
 
 /* ---------------------------- */
@@ -271,18 +280,21 @@ body {
 }
 
 .navbar-brand-width {
-    width: 4rem;
+    width: 3rem;
 }
 
-.selected-navbar-background {
+.d-flex .navbar-mr-0 {
+    margin-right: 0;
+}
+
+.selected-navbar-background,
+.selected-navbar-background-admin {
     background-color: #8C52FF;
 }
 
 .selected-navbar-background-cart {
     background-color: #d8d8d8;
 }
-
-
 
 .navbar-search-form {
     display: flex;
@@ -315,33 +327,39 @@ body {
     color: white;
 }
 
-.navbar-hover:hover {
-    background-color: #d8d8d8;
-}
-
+/* Texts */
 .navbar-hover .black-text {
     color: black;
 }
 
-.selected-navbar-background .white-text {
+.selected-navbar-background .white-text,
+.navbar-hover-admin .white-text,
+.selected-navbar-background-admin .white-text {
     color: white;
 }
+
+/* Hovers */
+.navbar-hover:hover {
+    background-color: #d8d8d8;
+}
+
+.selected-navbar-background .white-text:hover {
+    color: white;
+}
+
 
 .navbar-hover-admin:hover {
     background-color: #959595;
 }
 
-.navbar-hover-admin .white-text {
+.navbar-hover-admin .white-text:hover,
+.selected-navbar-background-admin .white-text:hover {
     color: white;
 }
 
-.selected-navbar-background-admin {
-    background-color: #8C52FF;
-}
 
-.selected-navbar-background-admin .black-text {
-    color: black;
-}
+
+
 
 @media (max-width: 576px) {
     .navbar-fetsy-logo {

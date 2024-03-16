@@ -7,15 +7,11 @@ const MeetTheSeller = () => {
             <img
                 src={frankPhoto}
                 alt='Frank the Seller'
-                style={{
-                    width: '5rem',
-                    height: '5rem',
-                    objectFit: 'cover',
-                }}
+                className='meet-seller-image'
             />
             <div className='d-flex flex-column ml-3'>
-                <h5>Frank Lee</h5>
-                <h6 className='mb-0'>Owner of Fetsy</h6>
+                <h4>Frank Lee</h4>
+                <h5 className='mb-0'>Owner of Fetsy</h5>
             </div>
         </div>
     )

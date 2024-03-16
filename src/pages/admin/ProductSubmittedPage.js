@@ -68,7 +68,7 @@ const ProductSubmitted = () => {
                         }}
                         >
                             <h4>{productType}</h4>
-                            <p>{description}</p>
+                            <p className='mb-0'>{description}</p>
                         </div>
                     </Col>
                 </Row>
