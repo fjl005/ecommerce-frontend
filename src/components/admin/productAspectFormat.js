@@ -5,7 +5,7 @@ export const PRODUCT_ASPECT = {
     },
     productPrice: {
         short: 'productPrice',
-        full: 'Price',
+        full: 'Price ($)',
     },
     productType: {
         short: 'productType',

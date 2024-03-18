@@ -168,11 +168,11 @@ const PostProductForm = ({
                 productAspect: PRODUCT_ASPECT.productDescription,
                 fieldType: 'textarea',
                 productPrice: false,
+                rows: 5,
                 productType: [],
             }
         ],
     ];
-
 
     return (
         <Formik
@@ -191,19 +191,32 @@ const PostProductForm = ({
                                         <h3 className='mb-0'>{formField.productAspect.full}</h3>
                                     </Label>
 
-                                    {formField.productPrice ? (
-                                        <div className='d-flex align-items-center'>
-                                            <span style={{ fontSize: '1.5rem' }}>$</span>
-                                            <Field type={formField.fieldType} name={formField.productAspect.short} id={formField.productAspect.short} as={Input} />
-                                        </div>
-                                    ) : formField.productType.length > 0 ? (
-                                        <Field type={formField.fieldType} name={formField.productAspect.short} id={formField.productAspect.short} as={Input}>
-                                            {formField.productType.map((selection) => (
-                                                <option key={selection.value} value={selection.value} disabled={selection.disabled}>{selection.text}</option>
+                                    {formField.productType.length > 0 ? (
+                                        <Field
+                                            type={formField.fieldType}
+                                            name={formField.productAspect.short}
+                                            id={formField.productAspect.short}
+                                            as={Input}
+                                            rows={formField.rows}
+                                        >
+                                            {formField.productType.length > 0 && formField.productType.map((selection) => (
+                                                <option
+                                                    key={selection.value}
+                                                    value={selection.value}
+                                                    disabled={selection.disabled}
+                                                >
+                                                    {selection.text}
+                                                </option>
                                             ))}
                                         </Field>
                                     ) : (
-                                        <Field type={formField.fieldType} name={formField.productAspect.short} id={formField.productAspect.short} as={Input} />
+                                        <Field
+                                            type={formField.fieldType}
+                                            name={formField.productAspect.short}
+                                            id={formField.productAspect.short}
+                                            as={Input}
+                                            rows={formField.rows}
+                                        />
                                     )}
                                     <ErrorMessage name={formField.productAspect.short} component='div' className='text-danger' />
                                 </Col>
