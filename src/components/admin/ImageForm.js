@@ -23,8 +23,6 @@ const ImageForm = ({ preExistingProduct }) => {
                 (max. 10 allowed).
             </h3>
 
-
-
             <Label className='post-product-admin-label d-flex align-items-center'>
                 {totalImagesNum < 10 && (
                     <>
@@ -65,7 +63,7 @@ const ImageForm = ({ preExistingProduct }) => {
                 ))
             )}
 
-            {preExistingProduct && existingImagesURLs && (
+            {preExistingProduct && existingImagesURLs.length > 0 && (
                 <>
                     <h4 className='mt-5'>
                         Previously Uploaded

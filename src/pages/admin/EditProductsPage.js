@@ -26,7 +26,7 @@ const EditProductsPage = () => {
         [PRODUCT_ASPECT.productDescription.short]: '',
     });
 
-
+    const [originalImagesData, setOriginalImagesData] = useState([]);
 
     useEffect(() => {
         setNewlyUploadedImagesFiles([]);
@@ -36,6 +36,7 @@ const EditProductsPage = () => {
             try {
                 const response = await axiosWithAuth.get(`/products/${id}`);
                 const data = response.data;
+                setOriginalImagesData(data.pictures);
 
                 setFormikInitial({
                     [PRODUCT_ASPECT.productName.short]: data.productName,
@@ -87,6 +88,7 @@ const EditProductsPage = () => {
                             formikInitial={formikInitial}
                             productId={productId}
                             itemsSelectedIdArr={itemsSelectedIdArr}
+                            originalImagesData={originalImagesData}
                         />
                     </Container>
                 </>

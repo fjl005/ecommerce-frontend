@@ -8,14 +8,15 @@ import { axiosWithAuth } from '../miscellaneous/axios';
 import { usePostProductContext } from '../../contexts/PostProductContext';
 import SpinningIcon from '../miscellaneous/SpinningIcon';
 import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 
 const PostProductForm = ({
     preExistingProduct,
     formikInitial,
     productId,
     itemsSelectedIdArr,
+    originalImagesData
 }) => {
-
     const { newlyUploadedImagesFiles, imageUploadNum, setImageUploadNum, existingImagesURLs } = usePostProductContext();
 
     const validationSchema = Yup.object({
@@ -63,20 +64,21 @@ const PostProductForm = ({
                 const response = await axiosWithAuth.post('/products', { uploadInfo });
                 switchPage(response.data.product);
             } else { // Otherwise, we're dealing with an existing product. We may have to delete existing photos, and we may also have to upload new photos.
-                if (existingImagesURLs.length > 0) {
-                    console.log('existing images url: ', existingImagesURLs);
-                    const deleteImagesObj = existingImagesURLs.filter(image => !existingImagesURLs.includes(image.url));
-                    if (deleteImagesObj.length > 0) { // Find images missing in existing imageURLs from original fetchedImgData; they will be deleted.
-                        try {
-                            const deletePublicIdArray = [];
-                            const deletePromises = deleteImagesObj.map(async (image) => {
-                                deletePublicIdArray.push(image.publicId);
-                                await axiosWithAuth.delete(`/cloudinary/${image.publicId}`);
-                            });
-                            await Promise.all(deletePromises);
-                            uploadInfo.deletePublicIdArr = deletePublicIdArray;
-                        } catch (error) { console.log('Error deleting images:', error); }
-                    }
+                console.log('existing images url: ', existingImagesURLs);
+                const imagesToDelete = originalImagesData.filter(imgData => !existingImagesURLs.includes(imgData.url));
+                console.log('delete images object: ', imagesToDelete);
+                if (imagesToDelete.length > 0) { // Find images missing in existing imageURLs from original fetchedImgData; they will be deleted.
+                    try {
+                        const deletePublicIdArray = [];
+                        const deletePromises = imagesToDelete.map(async (image) => {
+                            deletePublicIdArray.push(image.publicId);
+                            await axiosWithAuth.delete(`/cloudinary/${image.publicId}`);
+                        });
+                        await Promise.all(deletePromises);
+                        console.log('delete public ID array: ', deletePublicIdArray);
+                        debugger;
+                        uploadInfo.deletePublicIdArr = deletePublicIdArray;
+                    } catch (error) { console.log('Error deleting images:', error); }
                 }
 
                 if (newlyUploadedImagesFiles.length > 0) { // After existing images are deleted, upload any new images to Cloudinary.
