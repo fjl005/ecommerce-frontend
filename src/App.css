@@ -100,6 +100,11 @@ body {
     transition: box-shadow 0.3s ease;
 }
 
+.welcome-banner {
+    width: 100%;
+    max-width: 2000px;
+}
+
 .h3-about-page {
     color: #8C52FF;
     margin-top: 2rem;

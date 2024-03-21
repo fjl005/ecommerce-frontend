@@ -12,11 +12,14 @@ const HomePage = () => {
     return (
         <>
             <NavbarApp />
-            <img
-                src={welcomeBanner}
-                alt='Fetsy page banner'
-                className='w-100'
-            />
+            <div className='d-flex justify-content-center'>
+                <img
+                    src={welcomeBanner}
+                    alt='Fetsy page banner'
+                    className='welcome-banner'
+                />
+            </div>
+
 
             {searchQuery && (
                 <Container className='text-center'>

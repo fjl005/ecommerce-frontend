@@ -8,7 +8,6 @@ import { axiosWithAuth } from '../miscellaneous/axios';
 import { usePostProductContext } from '../../contexts/PostProductContext';
 import SpinningIcon from '../miscellaneous/SpinningIcon';
 import { Link } from 'react-router-dom';
-import { useState, useEffect } from 'react';
 
 const PostProductForm = ({
     preExistingProduct,
@@ -17,6 +16,7 @@ const PostProductForm = ({
     itemsSelectedIdArr,
     originalImagesData
 }) => {
+
     const { newlyUploadedImagesFiles, imageUploadNum, setImageUploadNum, existingImagesURLs } = usePostProductContext();
 
     const validationSchema = Yup.object({
