@@ -139,7 +139,7 @@ const ProductsHomePage = ({ adminPage, itemsSelectedIdArr, setItemsSelectedIdArr
                                     onChange={() => handleCheckbox(product._id)}
                                 />
                                 <Button
-                                    className='bg-danger btn-border-none'
+                                    className='bg-danger border-0'
                                     onClick={() => handleDelete(product)}
                                 >
                                     Delete

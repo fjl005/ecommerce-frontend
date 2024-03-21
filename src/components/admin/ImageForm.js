@@ -29,7 +29,7 @@ const ImageForm = ({ preExistingProduct }) => {
                 {totalImagesNum < 10 && (
                     <>
                         <div className='d-flex align-items-center'>
-                            <Button type='button' className='btn-warning btn-border-none'>
+                            <Button type='button' className='btn-warning border-0'>
                                 <Label htmlFor="img" style={{ cursor: 'pointer', margin: '0' }}>
                                     Upload Images
                                 </Label>

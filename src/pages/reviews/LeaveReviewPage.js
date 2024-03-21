@@ -229,13 +229,13 @@ const LeaveReviewPage = () => {
 
                                             <Button
                                                 onClick={() => deleteReview()}
-                                                className='bg-danger ml-3 btn-border-none'
+                                                className='bg-danger ml-3 border-0'
                                             >
                                                 <FontAwesomeIcon icon={faTrash} /> Review
                                             </Button>
                                         </>
                                     ) : (
-                                        <Button type='submit' color='primary' className='btn-border-none'>
+                                        <Button type='submit' color='primary' className='border-0'>
                                             Submit Review
                                         </Button>
                                     )}

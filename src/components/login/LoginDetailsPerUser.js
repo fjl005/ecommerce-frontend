@@ -10,7 +10,7 @@ const LoginDetailsPerUser = ({ details, loginPage }) => {
                 <h3 className='h3-about-page-top mb-0'>{details.h3Heading}</h3>
                 {loginPage && details.autofill.exists && (
                     <Button
-                        className='ml-3 btn-border-none'
+                        className='ml-3 border-0'
                         onClick={() => {
                             setUsername(details.autofill.username);
                             setPassword(details.autofill.password);

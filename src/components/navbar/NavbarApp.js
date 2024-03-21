@@ -158,7 +158,7 @@ const NavbarApp = ({ isCheckout, currentPage, }) => {
                                                     tag={Link}
                                                     to={NAV_TITLE.admin.link}
                                                 >
-                                                    <Button className='bg-dark btn-border-none'>
+                                                    <Button className='bg-dark border-0'>
                                                         {NAV_TITLE.admin.title}
                                                     </Button>
                                                 </NavLink>

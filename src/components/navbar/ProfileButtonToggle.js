@@ -15,7 +15,7 @@ const ProfileButtonToggle = () => {
             {loggedIn && (
                 <UncontrolledDropdown className='ml-3'>
 
-                    <DropdownToggle color='primary' className='btn-border-none' caret>
+                    <DropdownToggle color='primary' className='border-0' caret>
                         Profile
                     </DropdownToggle>
 

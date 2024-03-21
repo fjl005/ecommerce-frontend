@@ -236,11 +236,11 @@ const PostProductForm = ({
 
                     <Row>
                         <Col className='mt-5'>
-                            <Button type='submit' className='bg-primary mr-3 btn-border-none' disabled={isSubmitting}>
+                            <Button type='submit' className='bg-primary mr-3 border-0' disabled={isSubmitting}>
                                 {isSubmitting ? 'Submitting...' : 'Submit'}
                             </Button>
 
-                            <Button className='mr-3 btn-border-none'>
+                            <Button type='button' className='mr-3 border-0'>
                                 <Link
                                     to={preExistingProduct ? '/admin/editproductsselection' : '/admin'}
                                     className='white-text'

@@ -198,7 +198,7 @@ const ProfileSettingsPage = () => {
                             <h3 className='text-center mt-3'>Delete Account</h3>
                             <p>I would hate to see you go, but I understand if you don't want a part of this anymore. I won't take it personally. Please note that this action cannot be reversed! All information associated with the user will be erased.</p>
                             <Button
-                                className='bg-danger btn-border-none'
+                                className='bg-danger border-0'
                                 onClick={() => deleteAccount()}
                             >Delete Account</Button>
                         </Col>

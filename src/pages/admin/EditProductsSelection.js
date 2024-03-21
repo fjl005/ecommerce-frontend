@@ -58,12 +58,12 @@ const EditProductsSelection = () => {
                                                 : `/admin/updateproduct?items=${JSON.stringify(itemsSelectedIdArr)}`
                                             }
                                         >
-                                            <Button className='btn-border-none'> Edit {itemsSelectedIdArr.length} Listings</Button>
+                                            <Button className='border-0'> Edit {itemsSelectedIdArr.length} Listings</Button>
                                         </Link>
 
                                         <Button
                                             onClick={() => handleDeleteClick()}
-                                            className='bg-danger btn-border-none ml-3'
+                                            className='bg-danger border-0 ml-3'
                                         >
                                             Delete {itemsSelectedIdArr.length} Listings
                                         </Button>
