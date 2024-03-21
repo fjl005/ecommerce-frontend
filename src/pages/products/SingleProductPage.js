@@ -171,7 +171,7 @@ const SingleProductPage = () => {
             stateKey: RIGHT_COL_TOGGLE.delivery.stateKey,
             title: RIGHT_COL_TOGGLE.delivery.title,
             render: DeliveryDetails,
-            props: selectedProduct && selectedProduct.delivery,
+            props: selectedProduct && selectedProduct.productType,
         },
         {
             stateKey: RIGHT_COL_TOGGLE.seller.stateKey,
@@ -179,7 +179,7 @@ const SingleProductPage = () => {
             render: MeetTheSeller,
             props: null,
         },
-    ]
+    ];
 
 
     return (
