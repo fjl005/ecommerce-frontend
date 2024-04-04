@@ -234,7 +234,7 @@ const CartPage = () => {
                 </Row>
             </Container>
 
-            <Container style={{ marginTop: '10rem' }}>
+            <Container style={{ marginTop: '5rem' }}>
                 <Row>
                     <Col>
                         {loadingPage ? (

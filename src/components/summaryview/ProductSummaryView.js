@@ -121,7 +121,7 @@ const ProductSummaryView = ({
                         {productItem.price && (
                             <h3 className='product-price-margin-top fetsy-brand-color'>${productItem.price.toFixed(2)}</h3>
                         )}
-                        {inOrderJs && !adminPage ? (
+                        {inOrderJs && (!adminPage ? (
                             <div className='review-summary-xl'>
                                 <ReviewInSummarySection
                                     purchasedItem={purchasedItem}
@@ -130,7 +130,7 @@ const ProductSummaryView = ({
                             </div>
                         ) : (
                             <h5>Purchased by: {buyer}</h5>
-                        )}
+                        ))}
                     </div>
                 </Col>
             </Row>
